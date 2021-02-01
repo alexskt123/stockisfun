@@ -44,11 +44,12 @@ export default function Home() {
         data.push(
           {
             'Statement Date': item.date,
-            'Revenue(%)': ((item.revenue - compareData.revenue) / compareData.revenue* 100).toFixed(2) ,
-            'Net Income(%)': ((item.netIncome - compareData.netIncome) / compareData.netIncome * 100).toFixed(2),
+            'Revenue(%)': ((item.revenue - compareData.revenue) / Math.abs(compareData.revenue) * 100).toFixed(2) ,
+            'Net Income(%)': ((item.netIncome - compareData.netIncome) / Math.abs(compareData.netIncome) * 100).toFixed(2),
             'R&D Expenses(%)': ((item.researchAndDevelopmentExpenses - compareData.researchAndDevelopmentExpenses) / compareData.researchAndDevelopmentExpenses * 100).toFixed(2),
             'G&A Expenses(%)': ((item.generalAndAdministrativeExpenses - compareData.generalAndAdministrativeExpenses) / compareData.generalAndAdministrativeExpenses * 100).toFixed(2),
             'S&M Expenses(%)': ((item.sellingAndMarketingExpenses - compareData.sellingAndMarketingExpenses) / compareData.sellingAndMarketingExpenses * 100).toFixed(2),
+            'Net Income': item.netIncome,
             'Gross Margin(%)': (item.grossProfitRatio * 100).toFixed(2),            
             'Earning/Share': item.eps.toFixed(2)
           }
