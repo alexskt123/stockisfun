@@ -5,10 +5,8 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
-import { getYahooHistoryPrice } from '../lib/getYahooHistoryPrice'
 import {chartResponse} from '../config/yahooChart'
 import Table from 'react-bootstrap/Table'
-import { CarouselItem } from 'react-bootstrap'
 import { BsFillXCircleFill } from "react-icons/bs";
 import {Line} from 'react-chartjs-2';
 const axios = require('axios').default
@@ -112,91 +110,104 @@ export default function Home() {
     )
   }
 
-  const handleTickers = async (ticker) => {
-    if(!tickers.find(x=>x==ticker.toUpperCase())) {
-      setTickers([
-        ...tickers,
-        ticker.toUpperCase()
-      ]) 
-
-      setTableHeader(
-        [
-          'Ticker',
-          ...dateRange.map(item=>item.fromDate.substring(0,4) )
-        ]
-      )
-    }
-
-
-    // if(!tickers.find(x=>x==ticker.toUpperCase())) {
-    //   tickers.push(ticker.toUpperCase())
-    //   setTickers(tickers)      
-    // }
+  async function  handleTickers (inputTickers) {
 
     let inputItems = []
     
     dateRange.forEach(item => {
       inputItems.push (
-        {
-          'ticker': ticker.toUpperCase(),
-          ...item
-        }
+        inputTickers.map(tickerItem => {
+          const newItem = {
+            'ticker': tickerItem.toUpperCase(),
+            ...item
+          }
+
+          return newItem
+        })
       )
     })
+    
 
     let outputItem = {...chartResponse}
-    let temp = []
+    let temp = inputTickers.map(tickerItem => {
+      return {
+        'ticker': tickerItem.toUpperCase(),
+        'data': []
+      }
+    })
     let query = ''
 
-    for(const item of inputItems) {
+    for(const tickerItems of inputItems) {
 
-      query = `ticker=${item.ticker}&fromdate=${item.fromDate}&todate=${item.toDate}`
-      outputItem = await axios(`/api/getYahoo?${query}`)
+      for(const item of tickerItems) {
+        query = `ticker=${item.ticker}&fromdate=${item.fromDate}&todate=${item.toDate}`
+        outputItem = await axios(`/api/getYahoo?${query}`)
 
-      // outputItem = await getYahooHistoryPrice(item.ticker, item.fromDate, item.toDate)
-      if (outputItem.data.indicators && outputItem.data.indicators.quote[0].close.length > 0) {
-        const opening = outputItem.data.indicators.quote[0].close[0]
-        const closing = outputItem.data.indicators.quote[0].close[outputItem.data.indicators.quote[0].close.length - 1]
-        temp.push(((closing - opening) / opening * 100).toFixed(2))
-      }
-      else temp.push("N/A")
-    }
-
-    if(!tickers.find(x=>x==ticker.toUpperCase())) {
-      setYearlyPcnt(
-        [
-          ...yearlyPcnt,
-          [
-            ticker.toUpperCase(),
-            ...temp
-          ]
-        ]
-      )
-
-      const r = Math.floor(Math.random() * 255) + 1
-      const g = Math.floor(Math.random() * 255) + 1
-      const b = Math.floor(Math.random() * 255) + 1
-
-      let backgroundColor = (`rgba(${r}, ${g}, ${b}, 0.4)`)
-      let borderColor = (`rgba(${r}, ${g}, ${b}, 1)`)
-
-      setChartData(
-        {
-          label: [...dateRange.map(item=>item.fromDate.substring(0,4) )].reverse(),
-          datasets: [...chartData.datasets,
-            {
-              ...chartDataSet,
-              'label': ticker.toUpperCase(),
-              'data': temp.reverse(),
-              backgroundColor,
-              borderColor,
-              'pointBorderColor': borderColor,
-              'pointHoverBackgroundColor': borderColor
-            }
-          ]
+        // outputItem = await getYahooHistoryPrice(item.ticker, item.fromDate, item.toDate)
+        if (outputItem.data.indicators && outputItem.data.indicators.quote[0].close.length > 0) {
+          const opening = outputItem.data.indicators.quote[0].close[0]
+          const closing = outputItem.data.indicators.quote[0].close[outputItem.data.indicators.quote[0].close.length - 1]
+          temp.filter(x=>x.ticker==item.ticker)[0].data.push(((closing - opening) / opening * 100).toFixed(2))
         }
-      )      
+        else temp.filter(x=>x.ticker==item.ticker)[0].data.push("N/A")
+      }
     }
+
+    temp = temp.filter(x=> !tickers.includes(x.ticker))
+
+    setTickers([
+      ...tickers,
+      ...temp.map(item=> item.ticker)
+    ]) 
+
+    setTableHeader(
+      [
+        'Ticker',
+        ...dateRange.map(ii => ii.fromDate.substring(0, 4))
+      ]
+    )
+
+    setYearlyPcnt(
+      [
+        ...yearlyPcnt,
+        ...temp.map(item=> {
+          const newItem = [
+            item.ticker,
+            ...item.data
+          ]
+          return newItem
+        })
+      ]
+    )
+
+    setChartData(
+      {
+        label: [...dateRange.map(ii => ii.fromDate.substring(0, 4))].reverse(),
+        datasets: [...chartData.datasets,
+        ...temp.map(item=> {
+          const r = Math.floor(Math.random() * 255) + 1
+          const g = Math.floor(Math.random() * 255) + 1
+          const b = Math.floor(Math.random() * 255) + 1
+    
+          let backgroundColor = (`rgba(${r}, ${g}, ${b}, 0.4)`)
+          let borderColor = (`rgba(${r}, ${g}, ${b}, 1)`)
+
+          const newItem = {
+            ...chartDataSet,
+            'label': item.ticker,
+            'data': item.data.reverse(),
+            backgroundColor,
+            borderColor,
+            'pointBorderColor': borderColor,
+            'pointHoverBackgroundColor': borderColor
+          }
+          return newItem
+        })
+        ]
+      }
+    )      
+
+    
   }
 
   const handleSubmit = async (event) => {
@@ -213,26 +224,12 @@ export default function Home() {
 
       const inputTickers = formTicker.split(',')
 
-      for(const ticker of inputTickers) {
-
-        await handleTickers(ticker)
-  
-      }
+      await handleTickers(inputTickers)
 
     }
     setValidated(true)
     setClicked(false)
   }
-
-
-  useEffect(() => {
-    (async () => {
-
-    })()
-
-  }, [])
-
-
 
   return (
     <Fragment>
@@ -240,8 +237,7 @@ export default function Home() {
         <Fragment>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label>{'Ticker'}</Form.Label>
-              <Form.Control required type="formTicker" name="formTicker" onKeyUp={(e) => handleChange(e)} />
+              <Form.Control required type="formTicker" name="formTicker" placeholder="Single:  aapl /  Mulitple:  tsm,0700.hk,voo" onKeyUp={(e) => handleChange(e)} />
             </Form.Group>
             <Button variant="primary" type="submit" disabled={clicked}>
               {'Go'}
