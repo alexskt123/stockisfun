@@ -84,6 +84,7 @@ export default function Home() {
   const [chartData, setChartData] = useState({'labels': [...dateRange.map(item=>item.fromDate.substring(0,4) )].reverse(), 'datasets': []})
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
+  const [clicked, setClicked] = useState(false)
 
   const handleChange = (e) => {
     setFormValue({
@@ -197,6 +198,8 @@ export default function Home() {
     event.preventDefault()
     const form = event.currentTarget
 
+    setClicked(true)
+
     if (form.checkValidity() === false) {
       event.stopPropagation()
     } else {
@@ -213,6 +216,7 @@ export default function Home() {
 
     }
     setValidated(true)
+    setClicked(false)
   }
 
 
@@ -234,7 +238,7 @@ export default function Home() {
               <Form.Label>{'Ticker'}</Form.Label>
               <Form.Control required type="formTicker" name="formTicker" onKeyUp={(e) => handleChange(e)} />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" disabled={clicked}>
               {'Go'}
             </Button>
           </Form>
