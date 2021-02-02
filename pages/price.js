@@ -31,6 +31,10 @@ export default function Home() {
 
   const dateRange = [
     {
+      'fromDate': '2021-01-01',
+      'toDate': '2021-12-31'
+    },
+    {
       'fromDate': '2020-01-01',
       'toDate': '2020-12-31'
     },
@@ -89,6 +93,18 @@ export default function Home() {
       ...formValue,
       [e.target.name]: e.target.value
     })
+  }
+
+  const clearItems = async () => {
+    setTickers(
+      []
+    )
+    setYearlyPcnt(
+      []
+    )
+    setChartData(
+      {'labels': [...dateRange.map(item=>item.fromDate.substring(0,4) )].reverse(), 'datasets': []}
+    )
   }
 
   const removeItem = async (value) => {
@@ -241,6 +257,9 @@ export default function Home() {
             </Form.Group>
             <Button variant="primary" type="submit" disabled={clicked}>
               {'Go'}
+            </Button>
+            <Button className="ml-3" variant="danger" onClick={() => { clearItems() }} disabled={clicked}>
+              {'Clear All'}
             </Button>
           </Form>
         </Fragment>
