@@ -148,6 +148,9 @@ export default function Home() {
     let temp = inputTickers.map(tickerItem => {
       return {
         'ticker': tickerItem.toUpperCase(),
+        'startPrice': null,
+        'endPrice': null,
+        'yearCnt': 0,
         'data': []
       }
     })
@@ -164,12 +167,28 @@ export default function Home() {
           const opening = outputItem.data.indicators.quote[0].close[0]
           const closing = outputItem.data.indicators.quote[0].close[outputItem.data.indicators.quote[0].close.length - 1]
           temp.filter(x=>x.ticker==item.ticker)[0].data.push(((closing - opening) / opening * 100).toFixed(2))
+
+          if (!temp.filter(x=>x.ticker==item.ticker)[0].startPrice) temp.filter(x=>x.ticker==item.ticker)[0].startPrice = opening
+          temp.filter(x=>x.ticker==item.ticker)[0].endPrice = closing
+          temp.filter(x=>x.ticker==item.ticker)[0].yearCnt += 1
         }
         else temp.filter(x=>x.ticker==item.ticker)[0].data.push("N/A")
       }
     }
 
     temp = temp.filter(x=> !tickers.includes(x.ticker))
+
+    temp = temp.map(item=> {
+      let low = 0
+      let high = 0
+      let haveValueCnt = 0
+      let diffPcnt
+      const newTemp = {
+        'annualized': getAnnualizedPcnt(item),
+        ...item
+      }
+      return newTemp
+    })
 
     setTickers([
       ...tickers,
@@ -179,6 +198,7 @@ export default function Home() {
     setTableHeader(
       [
         'Ticker',
+        'Annualized',
         ...dateRange.map(ii => ii.fromDate.substring(0, 4))
       ]
     )
@@ -189,6 +209,7 @@ export default function Home() {
         ...temp.map(item=> {
           const newItem = [
             item.ticker,
+            item.annualized,
             ...item.data
           ]
           return newItem
@@ -224,6 +245,27 @@ export default function Home() {
     )      
 
     
+  }
+
+  const getAnnualizedPcnt = (item) => {
+
+    let totalPcnt = 1
+
+    //exclude 2021
+    item.data.slice(1).forEach (data => {
+      if (data != 'N/A') {
+        totalPcnt = totalPcnt * (parseFloat(data)/100 + 1)
+      }
+    })
+
+    const diffPcnt = ((Math.pow(totalPcnt, 1/(item.yearCnt - 1))  - 1) * 100).toFixed(2)
+
+    return diffPcnt
+  }
+
+  const getCellColor = (cellValue) => {
+    if (cellValue < 0) return {color: 'red'}
+    else return {color: 'black'}
   }
 
   const handleSubmit = async (event) => {
@@ -287,7 +329,7 @@ export default function Home() {
 
                 {yearlyPcnt.map((item, index) => (
                   <tr key={index}>
-                    {item.map((xx,yy) => <td key={`${index}${yy}`}>{item[yy]}</td>)}             
+                    {item.map((xx,yy) => <td key={`${index}${yy}`}><span style={getCellColor(item[yy])}>{item[yy]}</span></td>)}                
                   </tr>                  
                 ))}
 
