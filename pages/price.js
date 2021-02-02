@@ -94,6 +94,8 @@ export default function Home() {
   }
 
   const removeItem = async (value) => {
+    if (clicked) return
+
     setTickers(
       [...tickers.filter(x=>x!==value)]
     )
@@ -103,7 +105,10 @@ export default function Home() {
       ]
     )
     setChartData(
-      {'labels': [...dateRange.map(item=>item.fromDate.substring(0,4) )].reverse(), 'datasets': []}
+      {
+        'labels': [...dateRange.map(item=>item.fromDate.substring(0,4) )].reverse(),
+        'datasets': [...chartData.datasets.filter(x=>x.label!==value)]
+      }
     )
   }
 
