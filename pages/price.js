@@ -10,9 +10,27 @@ import {chartResponse} from '../config/yahooChart'
 import Table from 'react-bootstrap/Table'
 import { CarouselItem } from 'react-bootstrap'
 import { BsFillXCircleFill } from "react-icons/bs";
+import {Line} from 'react-chartjs-2';
 const axios = require('axios').default
 
 export default function Home() {
+
+  const chartDataSet = {
+    fill: false,
+    lineTension: 0.1,
+    borderCapStyle: 'butt',
+    borderDash: [],
+    borderDashOffset: 0.0,
+    borderJoinStyle: 'miter',
+    pointBackgroundColor: '#fff',
+    pointBorderWidth: 1,
+    pointHoverRadius: 5,
+    pointHoverBorderColor: 'rgba(220,220,220,1)',
+    pointHoverBorderWidth: 2,
+    pointRadius: 1,
+    pointHitRadius: 10,
+  }
+
   const dateRange = [
     {
       'fromDate': '2020-01-01',
@@ -63,6 +81,7 @@ export default function Home() {
   const [tickers, setTickers] = useState([])
   const [tableHeader, setTableHeader] = useState([])
   const [yearlyPcnt, setYearlyPcnt] = useState([])
+  const [chartData, setChartData] = useState({'labels': [...dateRange.map(item=>item.fromDate.substring(0,4) )].reverse(), 'datasets': []})
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
 
@@ -81,6 +100,9 @@ export default function Home() {
       [
         ...yearlyPcnt.filter(x=>x[0]!==value)
       ]
+    )
+    setChartData(
+      {'labels': [...dateRange.map(item=>item.fromDate.substring(0,4) )].reverse(), 'datasets': []}
     )
   }
 
@@ -144,6 +166,30 @@ export default function Home() {
           ]
         ]
       )
+
+      const r = Math.floor(Math.random() * 255) + 1
+      const g = Math.floor(Math.random() * 255) + 1
+      const b = Math.floor(Math.random() * 255) + 1
+
+      let backgroundColor = (`rgba(${r}, ${g}, ${b}, 0.4)`)
+      let borderColor = (`rgba(${r}, ${g}, ${b}, 1)`)
+
+      setChartData(
+        {
+          label: [...dateRange.map(item=>item.fromDate.substring(0,4) )].reverse(),
+          datasets: [...chartData.datasets,
+            {
+              ...chartDataSet,
+              'label': ticker.toUpperCase(),
+              'data': temp.reverse(),
+              backgroundColor,
+              borderColor,
+              'pointBorderColor': borderColor,
+              'pointHoverBackgroundColor': borderColor
+            }
+          ]
+        }
+      )      
     }
   }
 
@@ -222,7 +268,8 @@ export default function Home() {
                 ))}
 
             </tbody>
-          </Table>        
+          </Table>      
+          <Line data={chartData} />  
       </Container>
     </Fragment>
   )
