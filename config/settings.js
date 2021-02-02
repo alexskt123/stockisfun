@@ -9,5 +9,9 @@ export const NavItems = [
   {
     href: '/stock',
     label: 'Stock'
+  },
+  {
+    href: '/price',
+    label: 'Price'
   }
 ]

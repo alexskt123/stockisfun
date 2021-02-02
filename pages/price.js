@@ -1,0 +1,197 @@
+
+import { Fragment, useEffect, useState } from 'react'
+import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
+import Badge from 'react-bootstrap/Badge'
+import { getYahooHistoryPrice } from '../lib/getYahooHistoryPrice'
+import {chartResponse} from '../config/yahooChart'
+import Table from 'react-bootstrap/Table'
+import { CarouselItem } from 'react-bootstrap'
+const axios = require('axios').default
+
+export default function Home() {
+  const dateRange = [
+    {
+      'fromDate': '2013-01-01',
+      'toDate': '2013-12-31'
+    },
+    {
+      'fromDate': '2014-01-01',
+      'toDate': '2014-12-31'
+    },
+    {
+      'fromDate': '2015-01-01',
+      'toDate': '2015-12-31'
+    },
+    {
+      'fromDate': '2016-01-01',
+      'toDate': '2016-12-31'
+    },
+    {
+      'fromDate': '2017-01-01',
+      'toDate': '2017-12-31'
+    },
+    {
+      'fromDate': '2018-01-01',
+      'toDate': '2018-12-31'
+    },
+    {
+      'fromDate': '2019-01-01',
+      'toDate': '2019-12-31'
+    },
+    {
+      'fromDate': '2020-01-01',
+      'toDate': '2020-12-31'
+    }
+  ]
+
+  const [tickers, setTickers] = useState([])
+  const [tableHeader, setTableHeader] = useState([])
+  const [yearlyPcnt, setYearlyPcnt] = useState([])
+  const [validated, setValidated] = useState(false)
+  const [formValue, setFormValue] = useState({})
+
+  const handleChange = (e) => {
+    setFormValue({
+      ...formValue,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    const form = event.currentTarget
+
+    if (form.checkValidity() === false) {
+      event.stopPropagation()
+    } else {
+
+      const { ticker } = formValue
+
+      if(!tickers.find(x=>x==ticker.toUpperCase())) {
+        setTickers([
+          ...tickers,
+          ticker.toUpperCase()
+        ]) 
+
+        setTableHeader(
+          [
+            'Ticker',
+            ...dateRange.map(item=>item.fromDate.substring(0,4) )
+          ]
+        )
+      }
+
+
+      // if(!tickers.find(x=>x==ticker.toUpperCase())) {
+      //   tickers.push(ticker.toUpperCase())
+      //   setTickers(tickers)      
+      // }
+
+      let inputItems = []
+      
+      dateRange.forEach(item => {
+        inputItems.push (
+          {
+            'ticker': ticker.toUpperCase(),
+            ...item
+          }
+        )
+      })
+      let outputItems = []
+      let outputItem = {...chartResponse}
+      let temp = []
+      let query = ''
+
+      for(const item of inputItems) {
+
+        query = `ticker=${item.ticker}&fromdate=${item.fromDate}&todate=${item.toDate}`
+        outputItem = await axios(`/api/getYahoo?${query}`)
+
+        // outputItem = await getYahooHistoryPrice(item.ticker, item.fromDate, item.toDate)
+        if (outputItem.data.indicators && outputItem.data.indicators.quote[0].close.length > 0) {
+          const opening = outputItem.data.indicators.quote[0].close[0]
+          const closing = outputItem.data.indicators.quote[0].close[outputItem.data.indicators.quote[0].close.length - 1]
+          temp.push(((closing - opening) / opening * 100).toFixed(2))
+        }
+        else temp.push("N/A")
+      }
+
+      if(!tickers.find(x=>x==ticker.toUpperCase())) {
+        setYearlyPcnt(
+          [
+            ...yearlyPcnt,
+            [
+              ticker.toUpperCase(),
+              ...temp
+            ]
+          ]
+        )
+      }
+
+      outputItems[ticker.toUpperCase()] = temp
+
+      console.log(tableHeader)
+      console.log(yearlyPcnt)
+
+    }
+    setValidated(true)
+  }
+
+
+  useEffect(() => {
+    (async () => {
+
+    })()
+
+  }, [])
+
+
+
+  return (
+    <Fragment>
+      <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 bg-white rounded">
+        <Fragment>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>{'Ticker'}</Form.Label>
+              <Form.Control required type="ticker" name="ticker" onKeyUp={(e) => handleChange(e)} />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              {'Go'}
+            </Button>
+          </Form>
+        </Fragment>
+        <Row className="pl-3 pt-3">
+          {
+            tickers.map((item, index)=>(
+              <Badge pill variant="success" key={index} className="ml-1">{item}</Badge>
+            ))
+          }
+        </Row>
+        <Table className="pl-3 mt-3" responsive>
+            <thead>
+              <tr>
+                {tableHeader.map((item, index)=> (
+                  <th key={index}>{item}</th>
+                ))
+                }
+
+              </tr>
+            </thead>
+            <tbody>
+
+                {yearlyPcnt.map((item, index) => (
+                  <tr key={index}>
+                    {item.map((xx,yy) => <td key={`${index}${yy}`}>{item[yy]}</td>)}             
+                  </tr>                  
+                ))}
+
+            </tbody>
+          </Table>        
+      </Container>
+    </Fragment>
+  )
+}
