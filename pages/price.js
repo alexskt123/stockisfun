@@ -168,8 +168,8 @@ export default function Home() {
           const closing = outputItem.data.indicators.quote[0].close[outputItem.data.indicators.quote[0].close.length - 1]
           temp.filter(x=>x.ticker==item.ticker)[0].data.push(((closing - opening) / opening * 100).toFixed(2))
 
-          if (!temp.filter(x=>x.ticker==item.ticker)[0].startPrice) temp.filter(x=>x.ticker==item.ticker)[0].startPrice = opening
-          temp.filter(x=>x.ticker==item.ticker)[0].endPrice = closing
+          if (!temp.filter(x=>x.ticker==item.ticker)[0].endPrice) temp.filter(x=>x.ticker==item.ticker)[0].endPrice = opening
+          temp.filter(x=>x.ticker==item.ticker)[0].startPrice = closing
           temp.filter(x=>x.ticker==item.ticker)[0].yearCnt += 1
         }
         else temp.filter(x=>x.ticker==item.ticker)[0].data.push("N/A")
@@ -179,12 +179,9 @@ export default function Home() {
     temp = temp.filter(x=> !tickers.includes(x.ticker))
 
     temp = temp.map(item=> {
-      let low = 0
-      let high = 0
-      let haveValueCnt = 0
-      let diffPcnt
       const newTemp = {
         'annualized': getAnnualizedPcnt(item),
+        'total': getTotalPcnt(item),
         ...item
       }
       return newTemp
@@ -199,6 +196,7 @@ export default function Home() {
       [
         'Ticker',
         'Annualized',
+        'Total',
         ...dateRange.map(ii => ii.fromDate.substring(0, 4))
       ]
     )
@@ -210,6 +208,7 @@ export default function Home() {
           const newItem = [
             item.ticker,
             item.annualized,
+            item.total,
             ...item.data
           ]
           return newItem
@@ -245,6 +244,10 @@ export default function Home() {
     )      
 
     
+  }
+
+  const getTotalPcnt = (item) => {
+    return ((item.endPrice - item.startPrice) / item.startPrice * 100).toFixed(2)
   }
 
   const getAnnualizedPcnt = (item) => {
