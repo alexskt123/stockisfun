@@ -16,3 +16,14 @@ export const chartResponse = {
         }
     }
 }
+
+export const quoteResponse = {
+    'data': {
+        "quoteResponse": {
+            "result": [
+            ],
+            "error": null
+        }
+    }
+
+}

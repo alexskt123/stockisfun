@@ -5,7 +5,10 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
-import { chartResponse } from '../config/yahooChart'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+
+import { chartResponse, quoteResponse } from '../config/yahooChart'
 import { chartDataSet, dateRange } from '../config/price'
 import Table from 'react-bootstrap/Table'
 import { BsFillXCircleFill } from "react-icons/bs";
@@ -18,9 +21,35 @@ export default function Home() {
   const [tableHeader, setTableHeader] = useState([])
   const [yearlyPcnt, setYearlyPcnt] = useState([])
   const [chartData, setChartData] = useState({ 'labels': [...dateRange.map(item => item.fromDate.substring(0, 4))].reverse(), 'datasets': [] })
+  const [quote, setQuote] = useState([])
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
+
+  const quoteFilterList = [
+    {
+      'column': 'longName',
+      'label': 'Name'
+    },
+    {
+      'column': 'regularMarketPrice',
+      'label': 'Current Price'
+    },
+    {
+      'column': 'trailingPE',
+      'label': 'Trailing PE'
+    },
+    {
+      'column': 'priceToBook',
+      'label': 'Price to book'
+    },
+    {
+      'column': 'forwardPE',
+      'label': 'Forward PE'
+    }
+  ]
+
+  'longName,trailingPE,priceToBook,forwardPE'
 
   const handleChange = (e) => {
     setFormValue({
@@ -62,11 +91,13 @@ export default function Home() {
 
   async function handleTickers(inputTickers) {
 
+    let newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
+
     let inputItems = []
 
     dateRange.forEach(item => {
       inputItems.push(
-        inputTickers.map(tickerItem => {
+        newTickers.map(tickerItem => {
           const newItem = {
             'ticker': tickerItem.toUpperCase(),
             ...item
@@ -79,7 +110,8 @@ export default function Home() {
 
 
     let outputItem = { ...chartResponse }
-    let temp = inputTickers.map(tickerItem => {
+    let outputQuote = { ...quoteResponse }
+    let temp = newTickers.map(tickerItem => {
       return {
         'ticker': tickerItem.toUpperCase(),
         'startPrice': null,
@@ -89,15 +121,19 @@ export default function Home() {
       }
     })
     let query = ''
+    let tempQuote = []
+
+    inputItems = inputItems.filter(x => !tickers.includes(x.ticker))
 
     for (const tickerItems of inputItems) {
 
       for (const item of tickerItems) {
         query = `ticker=${item.ticker}&fromdate=${item.fromDate}&todate=${item.toDate}`
-        outputItem = await axios(`/api/getYahoo?${query}`)
+        outputItem = await axios(`/api/getYahooHistoryPrice?${query}`)
 
         // outputItem = await getYahooHistoryPrice(item.ticker, item.fromDate, item.toDate)
         const allData = outputItem.data.indicators.quote[0].close
+
         if (allData && allData.length > 0) {
           const opening = allData[0]
           const closing = allData[allData.length - 1]
@@ -109,6 +145,21 @@ export default function Home() {
         }
         else temp.filter(x => x.ticker == item.ticker)[0].data.push("N/A")
       }
+    }
+
+
+    for (const ticker of newTickers) {
+      outputQuote = await axios(`/api/getYahooQuote?ticker=${ticker}`)
+      let newQuote = {}
+      newQuote['ticker'] = ticker.toUpperCase()
+
+      quoteFilterList.forEach(item => {
+        newQuote[item.label] = outputQuote.data[item.column]
+      })
+
+      tempQuote.push(
+        newQuote
+      )
     }
 
     temp = temp.filter(x => !tickers.includes(x.ticker))
@@ -125,6 +176,11 @@ export default function Home() {
     setTickers([
       ...tickers,
       ...temp.map(item => item.ticker)
+    ])
+
+    setQuote([
+      ...quote,
+      ...tempQuote
     ])
 
     setTableHeader(
@@ -227,6 +283,23 @@ export default function Home() {
     setClicked(false)
   }
 
+  const getQuote = (ticker) => {
+    const currentQuote = quote.filter(x => x.ticker == ticker)[0] || {}
+    return (
+      <Fragment key={ticker}>
+        <div>
+          {Object.keys(currentQuote).map((item, index) => {
+            return (
+              <p key={index}>
+                {item} : {currentQuote[item]}
+              </p>
+            )
+          })}
+        </div>
+      </Fragment>
+    )
+  }
+
   return (
     <Fragment>
       <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 bg-white rounded">
@@ -246,10 +319,22 @@ export default function Home() {
         <Row className="pl-3 pt-3">
           {
             tickers.map((item, index) => (
-              <Badge pill variant="success" key={index} className="ml-1">
-                {item}
-                <BsFillXCircleFill onClick={() => { removeItem(item) }} className="ml-1 mb-1" />
-              </Badge>
+              <Fragment>
+                <OverlayTrigger
+                  placement="bottom"
+                  key={index}
+                  overlay={<Tooltip key={`button-tooltip-${item}`}>{getQuote(item)}</Tooltip>}
+                >
+                  <h5 key={index}>
+                    <Badge pill variant="success" key={index} className="ml-1">
+
+                      {item}
+
+                      <BsFillXCircleFill onClick={() => { removeItem(item) }} className="ml-1 mb-1" />
+                    </Badge>
+                  </h5>
+                </OverlayTrigger>
+              </Fragment>
             ))
           }
         </Row>
@@ -275,6 +360,6 @@ export default function Home() {
         </Table>
         <Line data={chartData} />
       </Container>
-    </Fragment>
+    </Fragment >
   )
 }
