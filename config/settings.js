@@ -13,5 +13,9 @@ export const NavItems = [
   {
     href: '/price',
     label: 'Price'
+  },
+  {
+    href: '/etf',
+    label: 'etf'
   }
 ]

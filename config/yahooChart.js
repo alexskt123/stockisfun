@@ -27,3 +27,17 @@ export const quoteResponse = {
     }
 
 }
+
+export const keyStatResponse = {
+    'data': {
+        "quoteSummary": {
+            "result": [
+                {
+                    "defaultKeyStatistics": {}
+                }
+            ],
+            "error": null
+        }
+    }
+
+}
