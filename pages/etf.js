@@ -5,14 +5,9 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
 
-import { chartResponse, quoteResponse } from '../config/yahooChart'
-import { chartDataSet, dateRange } from '../config/price'
 import Table from 'react-bootstrap/Table'
 import { BsFillXCircleFill } from "react-icons/bs";
-import { Line } from 'react-chartjs-2';
 const axios = require('axios').default
 
 export default function Home() {

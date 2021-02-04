@@ -5,14 +5,9 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
 
-import { chartResponse, quoteResponse } from '../config/yahooChart'
-import { chartDataSet, dateRange } from '../config/price'
 import Table from 'react-bootstrap/Table'
 import { BsFillXCircleFill } from "react-icons/bs";
-import { Line } from 'react-chartjs-2';
 const axios = require('axios').default
 
 export default function Home() {
@@ -59,7 +54,7 @@ export default function Home() {
 
     let newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
 
-    const selectedHeaders = "Median,High,Low,Median Increase(%),Last Price,ETF Count"
+    const selectedHeaders = "Median,High,Low,Average %,Last Price,ETF Count"
     const selectedHeadersArr = selectedHeaders.split(',')
 
     let etfCount
@@ -139,7 +134,7 @@ export default function Home() {
         <Fragment>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Control required type="formTicker" name="formTicker" placeholder="Single:  voo /  Mulitple:  voo,arkk,smh" onKeyUp={(e) => handleChange(e)} />
+              <Form.Control required type="formTicker" name="formTicker" placeholder="Single:  aapl /  Mulitple:  aapl,tdoc,fb,gh" onKeyUp={(e) => handleChange(e)} />
             </Form.Group>
             <Button variant="primary" type="submit" disabled={clicked}>
               {'Go'}
