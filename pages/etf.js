@@ -8,6 +8,7 @@ import Badge from 'react-bootstrap/Badge'
 
 import Table from 'react-bootstrap/Table'
 import { BsFillXCircleFill } from "react-icons/bs";
+import { selectedHeadersArr } from '../config/etf'
 const axios = require('axios').default
 
 export default function Home() {
@@ -45,7 +46,7 @@ export default function Home() {
     )
     setEtfInfo(
       [
-        ...etfInfo.filter(x => x[0] !== value)
+        ...etfInfo.filter(x => x.find(x => x) !== value)
       ]
     )
   }
@@ -53,8 +54,6 @@ export default function Home() {
   async function handleTickers(inputTickers) {
 
     let newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
-    const selectedHeaders = "Issuer,Structure,Expense Ratio,Inception,Index Tracked,Category,Asset Class,52 Week Lo,52 Week Hi,AUM,1 Month Avg. Volume,3 Month Avg. Volume"
-    const selectedHeadersArr = selectedHeaders.split(',')
 
     let outputItem
     let temp = []

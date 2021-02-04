@@ -9,7 +9,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 
 import { chartResponse, quoteResponse } from '../config/yahooChart'
-import { chartDataSet, dateRange } from '../config/price'
+import { chartDataSet, dateRange, quoteFilterList } from '../config/price'
 import Table from 'react-bootstrap/Table'
 import { BsFillXCircleFill } from "react-icons/bs";
 import { Line } from 'react-chartjs-2';
@@ -26,30 +26,6 @@ export default function Home() {
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
 
-  const quoteFilterList = [
-    {
-      'column': 'longName',
-      'label': 'Name'
-    },
-    {
-      'column': 'regularMarketPrice',
-      'label': 'Current Price'
-    },
-    {
-      'column': 'trailingPE',
-      'label': 'Trailing PE'
-    },
-    {
-      'column': 'priceToBook',
-      'label': 'Price to book'
-    },
-    {
-      'column': 'forwardPE',
-      'label': 'Forward PE'
-    }
-  ]
-
-  'longName,trailingPE,priceToBook,forwardPE'
 
   const handleChange = (e) => {
     setFormValue({
@@ -78,7 +54,7 @@ export default function Home() {
     )
     setYearlyPcnt(
       [
-        ...yearlyPcnt.filter(x => x[0] !== value)
+        ...yearlyPcnt.filter(x => x.finx(x => x) !== value)
       ]
     )
     setChartData(
@@ -132,18 +108,18 @@ export default function Home() {
         outputItem = await axios(`/api/getYahooHistoryPrice?${query}`)
 
         // outputItem = await getYahooHistoryPrice(item.ticker, item.fromDate, item.toDate)
-        const allData = outputItem.data.indicators.quote[0].close
+        const allData = outputItem.data.indicators.quote.find(x => x).close
 
         if (allData && allData.length > 0) {
-          const opening = allData[0]
+          const opening = allData.find(x => x)
           const closing = allData[allData.length - 1]
-          temp.filter(x => x.ticker == item.ticker)[0].data.push(((closing - opening) / opening * 100).toFixed(2))
+          temp.filter(x => x.ticker == item.ticker).find(x => x).data.push(((closing - opening) / opening * 100).toFixed(2))
 
-          if (!temp.filter(x => x.ticker == item.ticker)[0].endPrice) temp.filter(x => x.ticker == item.ticker)[0].endPrice = opening
-          temp.filter(x => x.ticker == item.ticker)[0].startPrice = closing
-          temp.filter(x => x.ticker == item.ticker)[0].yearCnt += 1
+          if (!temp.filter(x => x.ticker == item.ticker).find(x => x).endPrice) temp.filter(x => x.ticker == item.ticker).find(x => x).endPrice = opening
+          temp.filter(x => x.ticker == item.ticker).find(x => x).startPrice = closing
+          temp.filter(x => x.ticker == item.ticker).find(x => x).yearCnt += 1
         }
-        else temp.filter(x => x.ticker == item.ticker)[0].data.push("N/A")
+        else temp.filter(x => x.ticker == item.ticker).find(x => x).data.push("N/A")
       }
     }
 
@@ -284,7 +260,7 @@ export default function Home() {
   }
 
   const getQuote = (ticker) => {
-    const currentQuote = quote.filter(x => x.ticker == ticker)[0] || {}
+    const currentQuote = quote.filter(x => x.ticker == ticker).find(x => x) || {}
     return (
       <Fragment key={ticker}>
         <div>

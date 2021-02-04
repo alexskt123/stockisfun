@@ -64,3 +64,35 @@ export const dateRange = [
         'toDate': '2010-12-31'
     },
 ]
+
+export const quoteFilterList = [
+    {
+      'column': 'longName',
+      'label': 'Name'
+    },
+    {
+      'column': 'regularMarketPrice',
+      'label': 'Current Price'
+    },
+    {
+      'column': 'trailingPE',
+      'label': 'Trailing PE'
+    },
+    {
+      'column': 'priceToBook',
+      'label': 'Price to book'
+    },
+    {
+      'column': 'forwardPE',
+      'label': 'Forward PE'
+    },
+    {
+      'column': 'fiftyDayAverage',
+      'label': '50 Day Avg'
+    }
+    ,
+    {
+      'column': 'twoHundredDayAverage',
+      'label': '200 Day Avg'
+    }
+  ]

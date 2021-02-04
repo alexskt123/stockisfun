@@ -45,7 +45,7 @@ export default function Home() {
     )
     setEtfInfo(
       [
-        ...etfInfo.filter(x => x[0] !== value)
+        ...etfInfo.filter(x => x.find(x => x) !== value)
       ]
     )
   }
