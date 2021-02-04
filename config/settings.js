@@ -17,5 +17,9 @@ export const NavItems = [
   {
     href: '/etf',
     label: 'etf'
+  },
+  {
+    href: '/forecast',
+    label: 'forecast'
   }
 ]
