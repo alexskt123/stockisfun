@@ -63,6 +63,22 @@ export const dateRange = [
         'fromDate': '2010-01-01',
         'toDate': '2010-12-31'
     },
+    {
+        'fromDate': '2009-01-01',
+        'toDate': '2009-12-31'
+    },
+    {
+        'fromDate': '2008-01-01',
+        'toDate': '2008-12-31'
+    },
+    {
+        'fromDate': '2007-01-01',
+        'toDate': '2007-12-31'
+    },
+    {
+        'fromDate': '2006-01-01',
+        'toDate': '2006-12-31'
+    }
 ]
 
 export const quoteFilterList = [
