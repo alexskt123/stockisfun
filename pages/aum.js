@@ -2,7 +2,6 @@
 import { Fragment, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 
-import { selectedHeadersArr } from '../config/etf'
 import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
 import TickerBullet from '../components/TickerBullet'
@@ -53,15 +52,18 @@ export default function Home() {
     let newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
 
     let outputItem
-    let outputPerformance
     let temp = []
+    let etfCount
+    let forecast
 
     for (const ticker of newTickers) {
-      outputItem = await axios(`/api/getETFDB?ticker=${ticker}`)
-      outputPerformance = await axios(`/api/getETFPerformance?ticker=${ticker}`)
+      outputItem = await axios(`/api/getETFAUMSum?ticker=${ticker}`)
+      etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
+      forecast = await axios(`/api/getStockFairValue?ticker=${ticker}`)
+
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = {...outputItem.data, ...outputPerformance.data}
+      etf['info'] = [...outputItem.data,forecast.data[4],etfCount.data]
       temp.push(
         etf
       )
@@ -76,12 +78,19 @@ export default function Home() {
     setTableHeader(
       [
         'Ticker',
+        'ETF 1',
+        'ETF 2',
+        'ETF 3',
+        'ETF 4',
+        'ETF 5',
+        'ETF 6',
+        'ETF 7',
+        'ETF 8',
+        'ETF 9',
+        'ETF 10',  
+        'AUM Sum',
         'Price',
-        ...selectedHeadersArr,
-        '4 Week Return',
-        'Year to Date Return',
-        '1 Year Return',
-        '3 Year Return'
+        'No. of ETF'
       ]
     )
 
@@ -91,7 +100,7 @@ export default function Home() {
         ...temp.map(item => {
           const newItem = [
             item.ticker,
-            ...Object.values(item.info)
+            ...item.info
           ]
           return newItem
         })
@@ -127,13 +136,13 @@ export default function Home() {
         <TickerInput
           validated={validated}
           handleSubmit={handleSubmit}
-          placeholderText={"Single:  voo /  Mulitple:  voo,arkk,smh"}
+          placeholderText={"Single:  aapl /  Mulitple:  tsm,gh"}
           handleChange={handleChange}
           clicked={clicked}
           clearItems={clearItems}
           tableHeader={tableHeader}
           tableData={etfInfo}
-          exportFileName={'Stock_etf.csv'}          
+          exportFileName={'Stock_aum_sum.csv'}          
         />
         <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
         <StockInfoTable tableHeader={tableHeader} tableData={etfInfo} />

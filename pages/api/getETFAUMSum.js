@@ -11,12 +11,23 @@ const axios = require('axios').default
 export default async (req, res) => {
   const { ticker } = req.query
 
-  const data = await getETFAUMSum(ticker)
+  const etfList = await getETFAUMSum(ticker)
+  let data = []
+  let aumSum = 0
+  let i = 0
 
-  for (const a of data) {
-    const b = await getETFDB(a.ticker)
-    console.log(b)
+  for (const etf of etfList) {
+    if (i > 9) break
+
+    const etfInfo = await getETFDB(etf.ticker)
+    const etfSummary = `${etf.ticker}: ${etf.weight}% AUM: ${etfInfo.AUM}`
+    aumSum += parseFloat(etfInfo.AUM.replace(/\$|M|,| /gi, ''))
+    data.push(etfSummary)
+
+    i += 1
   }
+
+  data.push(`$${aumSum.toFixed(2)} M`)
   
   res.statusCode = 200
   res.json(data)
