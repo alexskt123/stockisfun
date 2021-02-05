@@ -53,13 +53,15 @@ export default function Home() {
     let newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
 
     let outputItem
+    let outputPerformance
     let temp = []
 
     for (const ticker of newTickers) {
       outputItem = await axios(`/api/getETFDB?ticker=${ticker}`)
+      outputPerformance = await axios(`/api/getETFPerformance?ticker=${ticker}`)
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = outputItem.data
+      etf['info'] = {...outputItem.data, ...outputPerformance.data}
       temp.push(
         etf
       )
@@ -74,7 +76,11 @@ export default function Home() {
     setTableHeader(
       [
         'Ticker',
-        ...selectedHeadersArr
+        ...selectedHeadersArr,
+        '4 Week Return',
+        'Year to Date Return',
+        '1 Year Return',
+        '3 Year Return'
       ]
     )
 
