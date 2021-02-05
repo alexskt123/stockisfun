@@ -1,18 +1,13 @@
 
 import { Fragment, useState } from 'react'
 import Container from 'react-bootstrap/Container'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
-import Badge from 'react-bootstrap/Badge'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
 
 import { chartResponse, quoteResponse } from '../config/yahooChart'
 import { chartDataSet, dateRange, quoteFilterList } from '../config/price'
-import Table from 'react-bootstrap/Table'
-import { BsFillXCircleFill } from "react-icons/bs";
+import StockInfoTable from '../components/StockInfoTable'
 import { Line } from 'react-chartjs-2';
+import TickerInput from '../components/TickerInput'
+import TickerBullet from '../components/TickerBullet'
 const axios = require('axios').default
 
 export default function Home() {
@@ -54,7 +49,7 @@ export default function Home() {
     )
     setYearlyPcnt(
       [
-        ...yearlyPcnt.filter(x => x.finx(x => x) !== value)
+        ...yearlyPcnt.filter(x => x.find(x => x) !== value)
       ]
     )
     setChartData(
@@ -233,11 +228,6 @@ export default function Home() {
     return diffPcnt
   }
 
-  const getCellColor = (cellValue) => {
-    if (cellValue < 0) return { color: 'red' }
-    else return { color: 'black' }
-  }
-
   const handleSubmit = async (event) => {
     event.preventDefault()
     const form = event.currentTarget
@@ -279,61 +269,16 @@ export default function Home() {
   return (
     <Fragment>
       <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 bg-white rounded">
-        <Fragment>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Control required type="formTicker" name="formTicker" placeholder="Single:  aapl /  Mulitple:  tsm,0700.hk,voo" onKeyUp={(e) => handleChange(e)} />
-            </Form.Group>
-            <Button variant="primary" type="submit" disabled={clicked}>
-              {'Go'}
-            </Button>
-            <Button className="ml-3" variant="danger" onClick={() => { clearItems() }} disabled={clicked}>
-              {'Clear All'}
-            </Button>
-          </Form>
-        </Fragment>
-        <Row className="pl-3 pt-3">
-          {
-            tickers.map((item, index) => (
-              <Fragment>
-                <OverlayTrigger
-                  placement="bottom"
-                  key={index}
-                  overlay={<Tooltip key={`button-tooltip-${item}`}>{getQuote(item)}</Tooltip>}
-                >
-                  <h5 key={index}>
-                    <Badge pill variant="success" key={index} className="ml-1">
-
-                      {item}
-
-                      <BsFillXCircleFill onClick={() => { removeItem(item) }} className="ml-1 mb-1" />
-                    </Badge>
-                  </h5>
-                </OverlayTrigger>
-              </Fragment>
-            ))
-          }
-        </Row>
-        <Table className="pl-3 mt-3" responsive>
-          <thead>
-            <tr>
-              {tableHeader.map((item, index) => (
-                <th key={index}>{item}</th>
-              ))
-              }
-
-            </tr>
-          </thead>
-          <tbody>
-
-            {yearlyPcnt.map((item, index) => (
-              <tr key={index}>
-                {item.map((xx, yy) => <td key={`${index}${yy}`}><span style={getCellColor(item[yy])}>{item[yy]}</span></td>)}
-              </tr>
-            ))}
-
-          </tbody>
-        </Table>
+        <TickerInput
+          validated={validated}
+          handleSubmit={handleSubmit}
+          placeholderText={"Single:  aapl /  Mulitple:  tsm,0700.hk,voo"}
+          handleChange={handleChange}
+          clicked={clicked}
+          clearItems={clearItems}
+        />
+        <TickerBullet tickers={tickers} overlayItem={quote} removeItem={removeItem} />
+        <StockInfoTable tableHeader={tableHeader} tableData={yearlyPcnt} />
         <Line data={chartData} />
       </Container>
     </Fragment >
