@@ -12,6 +12,7 @@
     "bootstrap": "^4.5.3",
     "chart.js": "^2.9.4",
     "file-saver": "^2.0.5",
+    "html-entities": "^2.1.0",
     "jssoup": "0.0.12",
     "next": "10.0.1",
     "papaparse": "^5.3.0",
