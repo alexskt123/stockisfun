@@ -104,17 +104,20 @@ export default function Home() {
 
         // outputItem = await getYahooHistoryPrice(item.ticker, item.fromDate, item.toDate)
         const allData = outputItem.data.indicators.quote.find(x => x).close
+        const curTemp = temp.find(x => x.ticker == item.ticker) || {}
 
         if (allData && allData.length > 0) {
           const opening = allData.find(x => x)
           const closing = allData[allData.length - 1]
-          temp.filter(x => x.ticker == item.ticker).find(x => x).data.push(((closing - opening) / opening * 100).toFixed(2))
+          curTemp.data.push(((closing - opening) / opening * 100).toFixed(2))
 
-          if (!temp.filter(x => x.ticker == item.ticker).find(x => x).endPrice) temp.filter(x => x.ticker == item.ticker).find(x => x).endPrice = opening
-          temp.filter(x => x.ticker == item.ticker).find(x => x).startPrice = closing
-          temp.filter(x => x.ticker == item.ticker).find(x => x).yearCnt += 1
+          if (!curTemp?.endPrice) {
+            curTemp.endPrice = opening
+          }
+          curTemp.startPrice = closing
+          curTemp.yearCnt += 1
         }
-        else temp.filter(x => x.ticker == item.ticker).find(x => x).data.push("N/A")
+        else curTemp.data.push("N/A")
       }
     }
 
@@ -276,6 +279,9 @@ export default function Home() {
           handleChange={handleChange}
           clicked={clicked}
           clearItems={clearItems}
+          tableHeader={tableHeader}
+          tableData={yearlyPcnt}
+          exportFileName={'Stock_price.csv'}
         />
         <TickerBullet tickers={tickers} overlayItem={quote} removeItem={removeItem} />
         <StockInfoTable tableHeader={tableHeader} tableData={yearlyPcnt} />

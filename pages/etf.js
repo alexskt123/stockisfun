@@ -124,6 +124,9 @@ export default function Home() {
           handleChange={handleChange}
           clicked={clicked}
           clearItems={clearItems}
+          tableHeader={tableHeader}
+          tableData={etfInfo}
+          exportFileName={'Stock_etf.csv'}          
         />
         <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
         <StockInfoTable tableHeader={tableHeader} tableData={etfInfo} />

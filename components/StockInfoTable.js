@@ -2,7 +2,6 @@
 import { Fragment } from 'react'
 import Table from 'react-bootstrap/Table'
 
-
 const getCellColor = (cellValue) => {
     if (cellValue < 0) return { color: 'red' }
     else return { color: 'black' }
@@ -10,7 +9,7 @@ const getCellColor = (cellValue) => {
 
 function StockInfoTable({ tableHeader, tableData }) {
   return (
-    <Fragment>
+    <Fragment>     
         <Table className="pl-3 mt-3" responsive>
           <thead>
             <tr>
