@@ -55,15 +55,17 @@ export default function Home() {
     let temp = []
     let etfCount
     let forecast
+    let quote
 
     for (const ticker of newTickers) {
       outputItem = await axios(`/api/getETFAUMSum?ticker=${ticker}`)
       etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
       forecast = await axios(`/api/getStockFairValue?ticker=${ticker}`)
+      quote = await axios(`/api/getYahooQuote?ticker=${ticker}`)
 
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = [...outputItem.data,forecast.data[4],etfCount.data]
+      etf['info'] = [...outputItem.data,forecast.data[4],quote.data.marketCap,etfCount.data]
       temp.push(
         etf
       )
@@ -78,18 +80,10 @@ export default function Home() {
     setTableHeader(
       [
         'Ticker',
-        'ETF 1',
-        'ETF 2',
-        'ETF 3',
-        'ETF 4',
-        'ETF 5',
-        'ETF 6',
-        'ETF 7',
-        'ETF 8',
-        'ETF 9',
-        'ETF 10',  
+        ...Array.from({length: 15}, (x, i)=> `ETF ${i+1}`),
         'AUM Sum',
         'Price',
+        'Market Cap.',
         'No. of ETF'
       ]
     )

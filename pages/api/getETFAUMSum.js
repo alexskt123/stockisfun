@@ -17,7 +17,7 @@ export default async (req, res) => {
   let i = 0
 
   for (const etf of etfList) {
-    if (i > 9) break
+    if (i > 14) break
 
     const etfInfo = await getETFDB(etf.ticker)
     const etfSummary = `${etf.ticker}: ${etf.weight}% AUM: ${etfInfo.AUM}`
