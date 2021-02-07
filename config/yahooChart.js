@@ -56,3 +56,49 @@ export const recommendResponse = {
         }
     }
 }
+
+export const earningsResponse = {
+    'data': {
+        "quoteSummary": {
+            "result": [
+                {
+                    "earnings": {
+                        "financialsChart": {
+                            "yearly": []
+                        }
+                    }
+                }
+            ]
+
+        }
+    }
+}
+export const incomeResponse = {
+    'data': {
+        "quoteSummary": {
+            "result": [
+                {
+                    "incomeStatementHistory": {
+                        "incomeStatementHistory": []
+                    }
+                }
+            ]
+
+        }
+    }
+}
+
+export const financialDataResponse = {
+    'data': {
+        "quoteSummary": {
+            "result": [
+                {
+                    "financialData": {
+                    }
+                }
+            ]
+
+        }
+    }
+}
+

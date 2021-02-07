@@ -7,10 +7,6 @@ export default Settings
 
 export const NavItems = [
   {
-    href: '/stock',
-    label: 'Stock'
-  },
-  {
     href: '/price',
     label: 'Price'
   },
@@ -25,5 +21,9 @@ export const NavItems = [
   {
     href: '/aum',
     label: 'AUM'
+  },
+  {
+    href: '/financials',
+    label: 'Financials'
   }
 ]
