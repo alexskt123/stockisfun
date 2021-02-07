@@ -54,18 +54,18 @@ export default function Home() {
     let outputItem
     let temp = []
     let etfCount
-    let forecast
+    //let forecast
     let quote
 
     for (const ticker of newTickers) {
       outputItem = await axios(`/api/getETFAUMSum?ticker=${ticker}`)
       etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
-      forecast = await axios(`/api/getStockFairValue?ticker=${ticker}`)
+      //forecast = await axios(`/api/getStockFairValue?ticker=${ticker}`)
       quote = await axios(`/api/getYahooQuote?ticker=${ticker}`)
 
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = [...outputItem.data,forecast.data[4],quote.data.marketCap,etfCount.data]
+      etf['info'] = [...outputItem.data,quote.data.regularMarketPrice,quote.data.marketCap,etfCount.data]
       temp.push(
         etf
       )

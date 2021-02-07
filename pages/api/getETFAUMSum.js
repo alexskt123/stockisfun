@@ -27,6 +27,10 @@ export default async (req, res) => {
     i += 1
   }
 
+  if (i < 15) {
+    data = [...data, ...Array.from({length: 15 - etfList.length}, (_, i)=> 'N/A')]
+  }
+
   data.push(`$${aumSum.toFixed(2)} M`)
   
   res.statusCode = 200
