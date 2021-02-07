@@ -41,3 +41,18 @@ export const keyStatResponse = {
     }
 
 }
+
+export const recommendResponse = {
+    'data': {
+        "quoteSummary": {
+            "result": [
+                {
+                    "recommendationTrend": {
+                        "trend": []
+                    }
+                }
+            ]
+
+        }
+    }
+}

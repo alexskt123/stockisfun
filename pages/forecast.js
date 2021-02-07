@@ -46,21 +46,25 @@ export default function Home() {
   async function handleTickers(inputTickers) {
 
     let newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
-
-    const selectedHeaders = "Median,High,Low,Average %,Last Price,ETF Count"
+    const selectedHeaders = "Median,High,Low,Average %,Last Price,Strong Buy,Buy,Hold,Sell,Strong Sell,ETF Count"
     const selectedHeadersArr = selectedHeaders.split(',')
 
     let etfCount
     let forecast
+    let recommend
     let temp = []
 
     for (const ticker of newTickers) {      
       etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
       forecast = await axios(`/api/getStockFairValue?ticker=${ticker}`)
-
+      recommend = await axios(`/api/getYahooRecommendTrend?ticker=${ticker}`)
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = [...forecast.data,etfCount.data]
+      etf['info'] = [...forecast.data,
+        ...Object.values(recommend.data.find(x => x)).slice(1),
+        etfCount.data
+      ]
+
       temp.push(
         etf
       )
