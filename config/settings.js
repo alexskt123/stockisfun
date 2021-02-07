@@ -16,14 +16,14 @@ export const NavItems = [
   },
   {
     href: '/etf',
-    label: 'etf'
+    label: 'ETF'
   },
   {
     href: '/forecast',
-    label: 'forecast'
+    label: 'Forecast'
   },
   {
     href: '/aum',
-    label: 'aum'
+    label: 'AUM'
   }
 ]

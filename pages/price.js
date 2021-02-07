@@ -160,6 +160,7 @@ export default function Home() {
     setTableHeader(
       [
         'Ticker',
+        'Price',
         'Annualized',
         'Total',
         ...dateRange.map(ii => ii.fromDate.substring(0, 4))
@@ -172,6 +173,7 @@ export default function Home() {
         ...temp.map(item => {
           const newItem = [
             item.ticker,
+            tempQuote.find(x=>x.ticker == item.ticker)['Current Price'],
             item.annualized,
             item.total,
             ...item.data
