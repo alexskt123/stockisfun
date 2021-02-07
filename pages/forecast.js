@@ -61,7 +61,7 @@ export default function Home() {
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
       etf['info'] = [...forecast.data,
-        ...Object.values(recommend.data.find(x => x)).slice(1),
+        ...Object.values(recommend.data.find(x => x) || {}).slice(1),
         etfCount.data
       ]
 
