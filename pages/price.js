@@ -2,8 +2,8 @@
 import { Fragment, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 
-import { chartResponse, quoteResponse } from '../config/yahooChart'
-import { chartDataSet, dateRange, quoteFilterList } from '../config/price'
+import { chartResponse } from '../config/yahooChart'
+import { chartDataSet, dateRange } from '../config/price'
 import StockInfoTable from '../components/StockInfoTable'
 import { Line } from 'react-chartjs-2';
 import TickerInput from '../components/TickerInput'
@@ -81,62 +81,20 @@ export default function Home() {
 
 
     let outputItem = { ...chartResponse }
-    let outputQuote = { ...quoteResponse }
-    let temp = newTickers.map(tickerItem => {
-      return {
-        'ticker': tickerItem.toUpperCase(),
-        'startPrice': null,
-        'endPrice': null,
-        'yearCnt': 0,
-        'data': []
-      }
-    })
-    let query = ''
+    let temp = []
     let tempQuote = []
 
-    inputItems = inputItems.filter(x => !tickers.includes(x.ticker))
-
-    for (const tickerItems of inputItems) {
-
-      for (const item of tickerItems) {
-        query = `ticker=${item.ticker}&fromdate=${item.fromDate}&todate=${item.toDate}`
-        outputItem = await axios(`/api/getYahooHistoryPrice?${query}`)
-
-        // outputItem = await getYahooHistoryPrice(item.ticker, item.fromDate, item.toDate)
-        const allData = outputItem.data.indicators.quote.find(x => x).close
-        const curTemp = temp.find(x => x.ticker == item.ticker) || {}
-
-        if (allData && allData.length > 0) {
-          const opening = allData.find(x => x)
-          const closing = allData[allData.length - 1]
-          curTemp.data.push(((closing - opening) / opening * 100).toFixed(2))
-
-          if (!curTemp?.endPrice) {
-            curTemp.endPrice = opening
-          }
-          curTemp.startPrice = closing
-          curTemp.yearCnt += 1
-        }
-        else curTemp.data.push("N/A")
-      }
-    }
-
-
     for (const ticker of newTickers) {
-      outputQuote = await axios(`/api/getYahooQuote?ticker=${ticker}`)
-      let newQuote = {}
-      newQuote['ticker'] = ticker.toUpperCase()
 
-      quoteFilterList.forEach(item => {
-        newQuote[item.label] = outputQuote.data[item.column]
-      })
+      outputItem = await axios(`/api/getYahooHistoryPrice?ticker=${ticker}`)
+
+      temp.push(outputItem.data)
 
       tempQuote.push(
-        newQuote
+        outputItem.data.quote
       )
     }
 
-    temp = temp.filter(x => !tickers.includes(x.ticker))
 
     temp = temp.map(item => {
       const newTemp = {
