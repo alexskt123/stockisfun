@@ -14,72 +14,19 @@ export const chartDataSet = {
     pointHitRadius: 10,
 }
 
-export const dateRange = [
-    {
-        'fromDate': '2021-01-01',
-        'toDate': '2021-12-31'
-    },
-    {
-        'fromDate': '2020-01-01',
-        'toDate': '2020-12-31'
-    },
-    {
-        'fromDate': '2019-01-01',
-        'toDate': '2019-12-31'
-    },
-    {
-        'fromDate': '2018-01-01',
-        'toDate': '2018-12-31'
-    },
-    {
-        'fromDate': '2017-01-01',
-        'toDate': '2017-12-31'
-    },
-    {
-        'fromDate': '2016-01-01',
-        'toDate': '2016-12-31'
-    },
-    {
-        'fromDate': '2015-01-01',
-        'toDate': '2015-12-31'
-    },
-    {
-        'fromDate': '2014-01-01',
-        'toDate': '2014-12-31'
-    },
-    {
-        'fromDate': '2013-01-01',
-        'toDate': '2013-12-31'
-    },
-    {
-        'fromDate': '2012-01-01',
-        'toDate': '2012-12-31'
-    },
-    {
-        'fromDate': '2011-01-01',
-        'toDate': '2011-12-31'
-    },
-    {
-        'fromDate': '2010-01-01',
-        'toDate': '2010-12-31'
-    },
-    {
-        'fromDate': '2009-01-01',
-        'toDate': '2009-12-31'
-    },
-    {
-        'fromDate': '2008-01-01',
-        'toDate': '2008-12-31'
-    },
-    {
-        'fromDate': '2007-01-01',
-        'toDate': '2007-12-31'
-    },
-    {
-        'fromDate': '2006-01-01',
-        'toDate': '2006-12-31'
-    }
-]
+const year = new Date().getFullYear()
+export const dateRange = [...Array(16)].map((x,i)=>[`${year-i}-01-01`,`${year-i}-12-31`]).map(x=>({"fromDate":x[0],"toDate":x[1]}))
+
+// [
+//     {
+//         'fromDate': '2021-01-01',
+//         'toDate': '2021-12-31'
+//     },
+//     {
+//         'fromDate': '2020-01-01',
+//         'toDate': '2020-12-31'
+//     }
+// ]
 
 export const quoteFilterList = [
     {

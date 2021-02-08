@@ -135,7 +135,7 @@ export default function Home() {
 
                 {incomeStatementData.map((item, index) => (
                   <tr key={index}>
-                    {item.map((xx,yy) => <td key={`${index}${yy}`}>{item[yy]}</td>)}             
+                    {item.map((xx,yy) => <td key={`${index}${yy}`}>{xx}</td>)}             
                   </tr>                  
                 ))}
 
