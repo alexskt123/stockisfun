@@ -102,3 +102,16 @@ export const financialDataResponse = {
     }
 }
 
+export const assetProfileResponse = {
+    'data': {
+        "quoteSummary": {
+            "result": [
+                {
+                    "assetProfile": {
+                    }
+                }
+            ]
+
+        }
+    }
+}

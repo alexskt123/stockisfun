@@ -7,6 +7,12 @@ const getCellColor = (cellValue) => {
     else return { color: 'black' }
   }
 
+const getCellItem = (item) => {
+  if ((item||'').toString().match(/http:/gi))
+    return <a href={item} target='_blank'>{item}</a>
+  else return item
+}
+
 function StockInfoTable({ tableHeader, tableData }) {
   return (
     <Fragment>     
@@ -24,7 +30,7 @@ function StockInfoTable({ tableHeader, tableData }) {
 
             {tableData.map((item, index) => (
               <tr key={index}>
-                {item.map((xx, yy) => <td key={`${index}${yy}`}><span style={getCellColor(xx)}>{xx}</span></td>)}
+                {item.map((xx, yy) => <td key={`${index}${yy}`}><span style={getCellColor(xx)}>{getCellItem(xx)}</span></td>)}
               </tr>
             ))}
 

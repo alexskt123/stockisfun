@@ -25,5 +25,9 @@ export const NavItems = [
   {
     href: '/financials',
     label: 'Financials'
+  },
+  {
+    href: '/basics',
+    label: 'Basics'
   }
 ]
