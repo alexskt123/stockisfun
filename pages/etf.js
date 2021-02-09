@@ -6,6 +6,7 @@ import { selectedHeadersArr } from '../config/etf'
 import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
 import TickerBullet from '../components/TickerBullet'
+import { sortTableItem } from '../lib/commonFunction'
 const axios = require('axios').default
 
 export default function Home() {
@@ -18,12 +19,22 @@ export default function Home() {
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
+  const [ascSort, setAscSort] = useState(false)
+
 
   const handleChange = (e) => {
     setFormValue({
       ...formValue,
       [e.target.name]: e.target.value
     })
+  }
+
+
+  const sortItem = async (index) => {
+    setAscSort(!ascSort)
+    setEtfInfo(
+      await sortTableItem(etfInfo, index, ascSort)
+    )
   }
 
   const clearItems = async () => {
@@ -136,7 +147,7 @@ export default function Home() {
           exportFileName={'Stock_etf.csv'}          
         />
         <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
-        <StockInfoTable tableHeader={tableHeader} tableData={etfInfo} />
+        <StockInfoTable tableHeader={tableHeader} tableData={etfInfo} sortItem={sortItem} />
       </Container>
     </Fragment >
   )

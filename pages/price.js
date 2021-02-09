@@ -8,6 +8,7 @@ import StockInfoTable from '../components/StockInfoTable'
 import { Line } from 'react-chartjs-2';
 import TickerInput from '../components/TickerInput'
 import TickerBullet from '../components/TickerBullet'
+import { sortTableItem } from '../lib/commonFunction'
 const axios = require('axios').default
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
+  const [ascSort, setAscSort] = useState(false)
 
 
   const handleChange = (e) => {
@@ -28,6 +30,14 @@ export default function Home() {
       [e.target.name]: e.target.value
     })
   }
+
+
+  const sortItem = async (index) => {
+    setAscSort(!ascSort)
+    setYearlyPcnt(
+      await sortTableItem(yearlyPcnt, index, ascSort)
+    )
+  }  
 
   const clearItems = async () => {
     setTickers(
@@ -244,7 +254,7 @@ export default function Home() {
           exportFileName={'Stock_price.csv'}
         />
         <TickerBullet tickers={tickers} overlayItem={quote} removeItem={removeItem} />
-        <StockInfoTable tableHeader={tableHeader} tableData={yearlyPcnt} />
+        <StockInfoTable tableHeader={tableHeader} tableData={yearlyPcnt} sortItem={sortItem} />
         <Line data={chartData} />
       </Container>
     </Fragment >

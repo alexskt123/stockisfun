@@ -13,14 +13,15 @@ const getCellItem = (item) => {
   else return item
 }
 
-function StockInfoTable({ tableHeader, tableData }) {
+function StockInfoTable({ tableHeader, tableData, sortItem }) {
+  
   return (
     <Fragment>     
         <Table className="pl-3 mt-3" responsive>
           <thead>
             <tr>
               {tableHeader.map((item, index) => (
-                <th key={index}>{item}</th>
+                <th onClick={() => { sortItem(index) }} key={index}>{item}</th>
               ))
               }
 

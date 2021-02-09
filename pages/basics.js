@@ -25,6 +25,10 @@ export default function Home() {
     })
   }
 
+  const sortItem = async (index) => {
+    
+  }
+
   const clearItems = async () => {
     setstockInfo([])
     setOfficersInfo([])
@@ -115,8 +119,8 @@ export default function Home() {
           tableData={stockInfo}
           exportFileName={'Stock_basics.csv'}
         />
-        <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} />
-        <StockInfoTable tableHeader={officersHeader} tableData={officersInfo} />
+        <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
+        <StockInfoTable tableHeader={officersHeader} tableData={officersInfo} sortItem={sortItem} />
       </Container>
     </Fragment >
   )
