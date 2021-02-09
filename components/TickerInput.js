@@ -8,7 +8,8 @@ import Papa from 'papaparse'
 
 const exportToFile = (tableHeader, tableData, exportFileName) => {
     if (tableHeader && tableData) {
-        const tableArr = Papa.unparse([tableHeader, ...tableData])
+        const nowDate = new Date()        
+        const tableArr = Papa.unparse([['Date',`${nowDate.getDate()}-${nowDate.getMonth() + 1}-${nowDate.getFullYear()}`],[''],tableHeader, ...tableData])
         const blob = new Blob([tableArr], { type: "application/json" });
         FileSaver.saveAs(blob, exportFileName);
     }
