@@ -61,9 +61,6 @@ export default function Home() {
       }
     })
 
-    console.log(officers)
-
-
     setTableHeader(
       ["Basics", ""]
     )

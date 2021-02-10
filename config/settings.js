@@ -1,6 +1,7 @@
 
 const Settings = {
-  Copyright: '© 2021 StockIsFun Limited'
+  Copyright: '© 2021 StockIsFun Limited',
+  LogoImgSrc: '/favicon.ico'
 }
 
 export default Settings
@@ -8,15 +9,15 @@ export default Settings
 export const NavItems = [
   {
     href: '/price',
-    label: 'Price'
-  },
-  {
-    href: '/etf',
-    label: 'ETF'
+    label: 'Price%'
   },
   {
     href: '/forecast',
     label: 'Forecast'
+  },
+  {
+    href: '/etf',
+    label: 'ETF'
   },
   {
     href: '/aum',

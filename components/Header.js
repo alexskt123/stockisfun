@@ -8,9 +8,18 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 // config
 import { NavItems } from '../config/settings'
+import Settings from '../config/settings'
 
 
 function Header() {
+
+  const imgConfig = {
+    alt: '',
+    src: Settings.LogoImgSrc,
+    width: '35',
+    height: '35',
+    className: 'd-inline-block align-top'
+  }
 
   const router = useRouter()
   return (
@@ -21,7 +30,9 @@ function Header() {
 
       <Navbar collapseOnSelect fixed="top" bg="dark" variant="dark" expand="md" style={{ zIndex: '998!important' }}>
         <Navbar.Brand>
-          {'StockIsFun'}
+          <img
+            {...imgConfig}
+          />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
