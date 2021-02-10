@@ -57,7 +57,7 @@ export default function Home() {
   async function handleTickers(inputTickers) {
 
     let newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
-    const selectedHeaders = "Price,1 Yr Forecast,5 Yr Forecast,Median,High,Low,Average %,Strong Buy,Buy,Hold,Sell,Strong Sell"
+    const selectedHeaders = "Price,1 Yr Forecast,5 Yr Forecast,Score(>50 Buy <50 Sell),1 Yr Median,1 Yr High,1 Yr Low,Average %,Strong Buy,Buy,Hold,Sell,Strong Sell"
     const selectedHeadersArr = selectedHeaders.split(',')
 
     let etfCount
@@ -142,7 +142,7 @@ export default function Home() {
           exportFileName={'Stock_forecast.csv'}
         />
         <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
-        <StockInfoTable tableFirstHeader = {['','Walletinvestor','','','MoneyCnn','','','','Yahoo']} tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
+        <StockInfoTable tableFirstHeader = {['','WalletInvestor','','','Financhill','MoneyCnn','','','','Yahoo']} tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
       </Container>
     </Fragment >
   )
