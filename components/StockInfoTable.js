@@ -15,12 +15,19 @@ const getCellItem = (item) => {
 
 const sticky = { backgroundColor: '#ddd', left: 0, position: 'sticky', zIndex: '997' }
 
-function StockInfoTable({ tableHeader, tableData, sortItem }) {
+function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem }) {
 
   return (
     <Fragment>
       <Table className="pl-3 mt-3" responsive>
         <thead>
+          <tr>
+            {tableFirstHeader ?
+              tableFirstHeader.map((item, index) => (
+                <th style={(index == 0 ? sticky : {})} key={index} >{item}</th>
+              ))
+              : ''}
+          </tr>
           <tr>
             {tableHeader.map((item, index) => (
               <th style={(index == 0 ? sticky : {})} onClick={() => { sortItem(index) }} key={index} >{item}</th>

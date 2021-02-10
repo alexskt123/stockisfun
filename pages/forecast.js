@@ -57,7 +57,7 @@ export default function Home() {
   async function handleTickers(inputTickers) {
 
     let newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
-    const selectedHeaders = "Median,High,Low,Average %,Last Price,Strong Buy,Buy,Hold,Sell,Strong Sell,ETF Count"
+    const selectedHeaders = "Price,1 Yr Forecast,5 Yr Forecast,Median,High,Low,Average %,Strong Buy,Buy,Hold,Sell,Strong Sell"
     const selectedHeadersArr = selectedHeaders.split(',')
 
     let etfCount
@@ -66,15 +66,12 @@ export default function Home() {
     let temp = []
 
     for (const ticker of newTickers) {
-      etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
+      //etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
       forecast = await axios(`/api/getStockFairValue?ticker=${ticker}`)
-      recommend = await axios(`/api/getYahooRecommendTrend?ticker=${ticker}`)
+      //recommend = await axios(`/api/getYahooRecommendTrend?ticker=${ticker}`)
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = [...forecast.data,
-      ...Object.values(recommend.data.find(x => x) || {}).slice(1),
-      etfCount.data
-      ]
+      etf['info'] = forecast.data
 
       temp.push(
         etf
@@ -145,7 +142,7 @@ export default function Home() {
           exportFileName={'Stock_forecast.csv'}
         />
         <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
-        <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
+        <StockInfoTable tableFirstHeader = {['','','Walletinvestor','','MoneyCnn','','','','Yahoo']} tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
       </Container>
     </Fragment >
   )
