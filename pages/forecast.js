@@ -142,7 +142,7 @@ export default function Home() {
           exportFileName={'Stock_forecast.csv'}
         />
         <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
-        <StockInfoTable tableFirstHeader = {['','','Walletinvestor','','MoneyCnn','','','','Yahoo']} tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
+        <StockInfoTable tableFirstHeader = {['','Walletinvestor','','','MoneyCnn','','','','Yahoo']} tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
       </Container>
     </Fragment >
   )
