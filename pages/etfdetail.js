@@ -73,7 +73,7 @@ export default function Home() {
     })
 
     const pieData = {
-      labels: [...holdingInfo.map(item => item[1])],
+      labels: [...holdingInfo.map(item => item.find(x => x))],
       datasets: [
         {
           label: '# of Holdings',
