@@ -1,6 +1,9 @@
 
 import { Fragment, useState } from 'react'
 import Container from 'react-bootstrap/Container'
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
+import { Doughnut } from 'react-chartjs-2';
 
 import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
@@ -12,6 +15,7 @@ export default function Home() {
   const [stockInfo, setstockInfo] = useState([])
   const [holdingInfoHeader, setholdingInfoHeader] = useState([])
   const [holdingInfoInfo, setholdingInfoInfo] = useState([])
+  const [pieData, setPieData] = useState({})
 
 
   const [validated, setValidated] = useState(false)
@@ -26,7 +30,7 @@ export default function Home() {
   }
 
   const sortItem = async (index) => {
-    
+
   }
 
   const clearItems = async () => {
@@ -46,13 +50,48 @@ export default function Home() {
     etf = await axios(`/api/getETFDB?ticker=${ticker}`)
 
     Object.keys(etf.data.basicInfo).forEach(item => {
-      etfInfo.push([item, etf.data.basicInfo[item]])      
+      etfInfo.push([item, etf.data.basicInfo[item]])
     })
+
+    etfInfo.push(['Analyst Report', etf.data.analystReport])
 
     holdingInfo = [...etf.data.holdingInfo]
 
+
+    const pieColors = holdingInfo.map(_item => {
+      const r = Math.floor(Math.random() * 255) + 1
+      const g = Math.floor(Math.random() * 255) + 1
+      const b = Math.floor(Math.random() * 255) + 1
+
+      const backgroundColor = (`rgba(${r}, ${g}, ${b}, 0.2)`)
+      const borderColor = (`rgba(${r}, ${g}, ${b}, 1)`)
+      return {
+        backgroundColor,
+        borderColor
+      }
+    })
+
+    const pieData = {
+      labels: [...holdingInfo.map(item => item.find(x => x))],
+      datasets: [
+        {
+          label: '# of Holdings',
+          data: [...holdingInfo.map(item => parseFloat(item[2].replace(/%/gi, '')))],
+          backgroundColor: [...pieColors.map(item => {
+            return item['backgroundColor']
+          })],
+          borderColor: [...pieColors.map(item => {
+            return item['borderColor']
+          })],
+          borderWidth: 1
+        },
+      ],
+    }
+
+    setPieData(pieData)
+
     setTableHeader(
-      ["ETF Info", ""]
+      ["Basics", ""]
     )
 
     setstockInfo(
@@ -106,8 +145,15 @@ export default function Home() {
           tableData={stockInfo}
           exportFileName={'Stock_etfdetail.csv'}
         />
-        <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
-        <StockInfoTable tableHeader={holdingInfoHeader} tableData={holdingInfoInfo} sortItem={sortItem} />
+        <Tabs className="mt-4" defaultActiveKey="Basics" id="uncontrolled-tab-example">
+          <Tab eventKey="Basics" title="Basics">
+            <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
+          </Tab>
+          <Tab eventKey="Holdings" title="Holdings">
+            <StockInfoTable tableHeader={holdingInfoHeader} tableData={holdingInfoInfo} sortItem={sortItem} />
+            <Doughnut data={pieData} />
+          </Tab>
+        </Tabs>
       </Container>
     </Fragment >
   )
