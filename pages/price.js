@@ -1,6 +1,5 @@
 
 import { Fragment, useState } from 'react'
-import Container from 'react-bootstrap/Container'
 
 import { chartResponse } from '../config/yahooChart'
 import { chartDataSet, dateRange } from '../config/price'
@@ -9,6 +8,8 @@ import { Line } from 'react-chartjs-2';
 import TickerInput from '../components/TickerInput'
 import TickerBullet from '../components/TickerBullet'
 import { sortTableItem } from '../lib/commonFunction'
+import CustomContainer from '../components/CustomContainer'
+import LoadingSpinner from '../components/Loading/LoadingSpinner';
 const axios = require('axios').default
 
 export default function Home() {
@@ -37,7 +38,7 @@ export default function Home() {
     setYearlyPcnt(
       await sortTableItem(yearlyPcnt, index, ascSort)
     )
-  }  
+  }
 
   const clearItems = async () => {
     setTickers(
@@ -141,7 +142,7 @@ export default function Home() {
         ...temp.map(item => {
           const newItem = [
             item.ticker,
-            tempQuote.find(x=>x.ticker == item.ticker)['Current Price'],
+            tempQuote.find(x => x.ticker == item.ticker)['Current Price'],
             item.annualized,
             item.total,
             ...item.data
@@ -222,41 +223,29 @@ export default function Home() {
     setClicked(false)
   }
 
-  const getQuote = (ticker) => {
-    const currentQuote = quote.filter(x => x.ticker == ticker).find(x => x) || {}
-    return (
-      <Fragment key={ticker}>
-        <div>
-          {Object.keys(currentQuote).map((item, index) => {
-            return (
-              <p key={index}>
-                {item} : {currentQuote[item]}
-              </p>
-            )
-          })}
-        </div>
-      </Fragment>
-    )
-  }
-
   return (
     <Fragment>
-      <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 bg-white rounded">
-        <TickerInput
-          validated={validated}
-          handleSubmit={handleSubmit}
-          placeholderText={"Single:  aapl /  Mulitple:  tsm,0700.hk,voo"}
-          handleChange={handleChange}
-          clicked={clicked}
-          clearItems={clearItems}
-          tableHeader={tableHeader}
-          tableData={yearlyPcnt}
-          exportFileName={'Stock_price.csv'}
-        />
-        <TickerBullet tickers={tickers} overlayItem={quote} removeItem={removeItem} />
-        <StockInfoTable tableHeader={tableHeader} tableData={yearlyPcnt} sortItem={sortItem} />
-        <Line data={chartData} />
-      </Container>
+      <CustomContainer style={{ minHeight: '100vh' }}>
+        <Fragment>
+          <TickerInput
+            validated={validated}
+            handleSubmit={handleSubmit}
+            placeholderText={"Single:  aapl /  Mulitple:  tsm,0700.hk,voo"}
+            handleChange={handleChange}
+            clicked={clicked}
+            clearItems={clearItems}
+            tableHeader={tableHeader}
+            tableData={yearlyPcnt}
+            exportFileName={'Stock_price.csv'}
+          />
+          <TickerBullet tickers={tickers} overlayItem={quote} removeItem={removeItem} />
+          {clicked ?
+            <LoadingSpinner /> : ''
+          }
+          <StockInfoTable tableHeader={tableHeader} tableData={yearlyPcnt} sortItem={sortItem} />
+          <Line data={chartData} />
+        </Fragment>
+      </CustomContainer>
     </Fragment >
   )
 }

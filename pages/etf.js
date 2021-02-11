@@ -1,12 +1,14 @@
 
 import { Fragment, useState } from 'react'
-import Container from 'react-bootstrap/Container'
+import CustomContainer from '../components/CustomContainer'
 
 import { selectedHeadersArr } from '../config/etf'
 import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
 import TickerBullet from '../components/TickerBullet'
 import { sortTableItem } from '../lib/commonFunction'
+import LoadingSpinner from '../components/Loading/LoadingSpinner'
+
 const axios = require('axios').default
 
 export default function Home() {
@@ -72,7 +74,7 @@ export default function Home() {
       outputPerformance = await axios(`/api/getETFPerformance?ticker=${ticker}`)
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = {...outputItem.data.basicInfo, ...outputPerformance.data}
+      etf['info'] = { ...outputItem.data.basicInfo, ...outputPerformance.data }
       temp.push(
         etf
       )
@@ -134,21 +136,26 @@ export default function Home() {
 
   return (
     <Fragment>
-      <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 bg-white rounded">
-        <TickerInput
-          validated={validated}
-          handleSubmit={handleSubmit}
-          placeholderText={"Single:  voo /  Mulitple:  voo,arkk,smh"}
-          handleChange={handleChange}
-          clicked={clicked}
-          clearItems={clearItems}
-          tableHeader={tableHeader}
-          tableData={etfInfo}
-          exportFileName={'Stock_etf.csv'}          
-        />
-        <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
-        <StockInfoTable tableHeader={tableHeader} tableData={etfInfo} sortItem={sortItem} />
-      </Container>
+      <CustomContainer style={{ minHeight: '100vh' }}>
+        <Fragment>
+          <TickerInput
+            validated={validated}
+            handleSubmit={handleSubmit}
+            placeholderText={"Single:  voo /  Mulitple:  voo,arkk,smh"}
+            handleChange={handleChange}
+            clicked={clicked}
+            clearItems={clearItems}
+            tableHeader={tableHeader}
+            tableData={etfInfo}
+            exportFileName={'Stock_etf.csv'}
+          />
+          <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
+          {clicked ?
+            <LoadingSpinner /> : ''
+          }
+          <StockInfoTable tableHeader={tableHeader} tableData={etfInfo} sortItem={sortItem} />
+        </Fragment>
+      </CustomContainer>
     </Fragment >
   )
 }

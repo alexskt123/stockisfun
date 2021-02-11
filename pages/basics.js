@@ -1,6 +1,7 @@
 
 import { Fragment, useState } from 'react'
-import Container from 'react-bootstrap/Container'
+import CustomContainer from '../components/CustomContainer'
+import LoadingSpinner from '../components/Loading/LoadingSpinner'
 
 import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
@@ -26,12 +27,14 @@ export default function Home() {
   }
 
   const sortItem = async (index) => {
-    
+
   }
 
   const clearItems = async () => {
     setstockInfo([])
     setOfficersInfo([])
+    setTableHeader([])
+    setOfficersHeader([])
   }
 
   async function handleTicker(inputTicker) {
@@ -54,7 +57,7 @@ export default function Home() {
             item.name,
             item.title,
             item.age || 'N/A',
-            (item.totalPay || {'longFmt': 'N/A'}).longFmt
+            (item.totalPay || { 'longFmt': 'N/A' }).longFmt
           ]
           return itemArr
         })
@@ -104,21 +107,26 @@ export default function Home() {
 
   return (
     <Fragment>
-      <Container style={{ minHeight: '100vh', fontSize: '14px' }} className="mt-5 shadow-lg p-3 mb-5 bg-white rounded">
-        <TickerInput
-          validated={validated}
-          handleSubmit={handleSubmit}
-          placeholderText={"i.e. appl"}
-          handleChange={handleChange}
-          clicked={clicked}
-          clearItems={clearItems}
-          tableHeader={tableHeader}
-          tableData={stockInfo}
-          exportFileName={'Stock_basics.csv'}
-        />
-        <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
-        <StockInfoTable tableHeader={officersHeader} tableData={officersInfo} sortItem={sortItem} />
-      </Container>
+      <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
+        <Fragment>
+          <TickerInput
+            validated={validated}
+            handleSubmit={handleSubmit}
+            placeholderText={"i.e. appl"}
+            handleChange={handleChange}
+            clicked={clicked}
+            clearItems={clearItems}
+            tableHeader={tableHeader}
+            tableData={stockInfo}
+            exportFileName={'Stock_basics.csv'}
+          />
+          {clicked ?
+            <LoadingSpinner /> : ''
+          }
+          <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
+          <StockInfoTable tableHeader={officersHeader} tableData={officersInfo} sortItem={sortItem} />
+        </Fragment>
+      </CustomContainer>
     </Fragment >
   )
 }

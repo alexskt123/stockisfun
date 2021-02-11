@@ -6,6 +6,8 @@ import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
 import TickerBullet from '../components/TickerBullet'
 import { sortTableItem } from '../lib/commonFunction'
+import LoadingSpinner from '../components/Loading/LoadingSpinner'
+import CustomContainer from '../components/CustomContainer'
 const axios = require('axios').default
 
 export default function Home() {
@@ -76,7 +78,7 @@ export default function Home() {
 
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = [...outputItem.data,quote.data.regularMarketPrice,quote.data.marketCap,etfCount.data]
+      etf['info'] = [...outputItem.data, quote.data.regularMarketPrice, quote.data.marketCap, etfCount.data]
       temp.push(
         etf
       )
@@ -91,7 +93,7 @@ export default function Home() {
     setTableHeader(
       [
         'Ticker',
-        ...Array.from({length: 15}, (x, i)=> `ETF ${i+1}`),
+        ...Array.from({ length: 15 }, (x, i) => `ETF ${i + 1}`),
         'AUM Sum',
         'Price',
         'Market Cap.',
@@ -137,21 +139,26 @@ export default function Home() {
 
   return (
     <Fragment>
-      <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 bg-white rounded">
-        <TickerInput
-          validated={validated}
-          handleSubmit={handleSubmit}
-          placeholderText={"Single:  aapl /  Mulitple:  tsm,gh"}
-          handleChange={handleChange}
-          clicked={clicked}
-          clearItems={clearItems}
-          tableHeader={tableHeader}
-          tableData={etfInfo}
-          exportFileName={'Stock_aum_sum.csv'}          
-        />
-        <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
-        <StockInfoTable tableHeader={tableHeader} tableData={etfInfo} sortItem={sortItem} />
-      </Container>
+      <CustomContainer style={{ minHeight: '100vh' }}>
+        <Fragment>
+          <TickerInput
+            validated={validated}
+            handleSubmit={handleSubmit}
+            placeholderText={"Single:  aapl /  Mulitple:  tsm,gh"}
+            handleChange={handleChange}
+            clicked={clicked}
+            clearItems={clearItems}
+            tableHeader={tableHeader}
+            tableData={etfInfo}
+            exportFileName={'Stock_aum_sum.csv'}
+          />
+          <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
+          {clicked ?
+            <LoadingSpinner /> : ''
+          }
+          <StockInfoTable tableHeader={tableHeader} tableData={etfInfo} sortItem={sortItem} />
+        </Fragment>
+      </CustomContainer>
     </Fragment >
   )
 }
