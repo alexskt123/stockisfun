@@ -72,7 +72,7 @@ export default function Home() {
       outputPerformance = await axios(`/api/getETFPerformance?ticker=${ticker}`)
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = {...outputItem.data, ...outputPerformance.data}
+      etf['info'] = {...outputItem.data.basicInfo, ...outputPerformance.data}
       temp.push(
         etf
       )

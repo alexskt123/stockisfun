@@ -20,8 +20,8 @@ export default async (req, res) => {
     if (i > 14) break
 
     const etfInfo = await getETFDB(etf.ticker)
-    const etfSummary = `${etf.ticker}: ${etf.weight}% AUM: ${etfInfo.AUM}`
-    aumSum += parseFloat(etfInfo.AUM.replace(/\$|M|,| /gi, ''))
+    const etfSummary = `${etf.ticker}: ${etf.weight}% AUM: ${etfInfo.basicInfo.AUM}`
+    aumSum += parseFloat(etfInfo.basicInfo.AUM.replace(/\$|M|,| /gi, ''))
     data.push(etfSummary)
 
     i += 1
