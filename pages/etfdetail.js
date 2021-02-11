@@ -36,6 +36,7 @@ export default function Home() {
   const clearItems = async () => {
     setstockInfo([])
     setholdingInfoInfo([])
+    setPieData({})
   }
 
   async function handleTicker(inputTicker) {
@@ -72,7 +73,7 @@ export default function Home() {
     })
 
     const pieData = {
-      labels: [...holdingInfo.map(item => item.find(x => x))],
+      labels: [...holdingInfo.map(item => item[1])],
       datasets: [
         {
           label: '# of Holdings',
