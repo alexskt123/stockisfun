@@ -15,7 +15,6 @@ const exportToFile = (tableHeader, tableData, exportFileName) => {
     }
 }
 
-
 function TickerInput({ validated, handleSubmit, placeholderText, handleChange, clicked, clearItems, tableHeader, tableData, exportFileName }) {
     return (
         <Fragment>

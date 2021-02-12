@@ -2,9 +2,12 @@
 import { Fragment, useState } from 'react'
 import CustomContainer from '../components/CustomContainer'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
 
 import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
+import PriceInfo from '../components/PriceInfo'
 const axios = require('axios').default
 
 export default function Home() {
@@ -13,6 +16,7 @@ export default function Home() {
   const [stockInfo, setstockInfo] = useState([])
   const [officersHeader, setOfficersHeader] = useState([])
   const [officersInfo, setOfficersInfo] = useState([])
+  const [inputTickers, setInputTickers] = useState([])
 
 
   const [validated, setValidated] = useState(false)
@@ -64,8 +68,10 @@ export default function Home() {
       }
     })
 
+    setInputTickers([...inputTickers, ticker])
+
     setTableHeader(
-      ["Basics", ""]
+      []
     )
 
     setstockInfo(
@@ -120,11 +126,26 @@ export default function Home() {
             tableData={stockInfo}
             exportFileName={'Stock_basics.csv'}
           />
-          {clicked ?
-            <LoadingSpinner /> : ''
-          }
-          <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
-          <StockInfoTable tableHeader={officersHeader} tableData={officersInfo} sortItem={sortItem} />
+          <Tabs className="mt-4" defaultActiveKey="Basics" id="uncontrolled-tab-example">
+            <Tab eventKey="Basics" title="Basics">
+              {clicked ?
+                <LoadingSpinner /> : ''
+              }
+              <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
+            </Tab>
+            <Tab eventKey="Officers" title="Officers">
+              {clicked ?
+                <LoadingSpinner /> : ''
+              }
+              <StockInfoTable tableHeader={officersHeader} tableData={officersInfo} sortItem={sortItem} />
+            </Tab>
+            <Tab eventKey="Price%" title="Price%">
+              {clicked ?
+                <LoadingSpinner /> : ''
+              }
+              <PriceInfo inputTickers={inputTickers} />
+            </Tab>
+          </Tabs>
         </Fragment>
       </CustomContainer>
     </Fragment >
