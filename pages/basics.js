@@ -8,6 +8,7 @@ import Tab from 'react-bootstrap/Tab'
 import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
 import PriceInfo from '../components/PriceInfo'
+import ForecastInfo from '../components/ForecastInfo'
 const axios = require('axios').default
 
 export default function Home() {
@@ -144,6 +145,12 @@ export default function Home() {
                 <LoadingSpinner /> : ''
               }
               <PriceInfo inputTickers={inputTickers} />
+            </Tab>
+            <Tab eventKey="Forecast" title="Forecast">
+              {clicked ?
+                <LoadingSpinner /> : ''
+              }
+              <ForecastInfo inputTickers={inputTickers} />
             </Tab>
           </Tabs>
         </Fragment>

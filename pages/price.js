@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect } from 'react'
 import { dateRange } from '../config/price'
 import TickerInput from '../components/TickerInput'
 import TickerBullet from '../components/TickerBullet'
-import { getPriceInfo, sortTableItem, priceSettingSchema } from '../lib/commonFunction'
+import { getPriceInfo, priceSettingSchema } from '../lib/commonFunction'
 import CustomContainer from '../components/CustomContainer'
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
 
