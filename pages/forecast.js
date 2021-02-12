@@ -1,5 +1,5 @@
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import CustomContainer from '../components/CustomContainer'
 
 import StockInfoTable from '../components/StockInfoTable'
@@ -7,6 +7,9 @@ import TickerInput from '../components/TickerInput'
 import TickerBullet from '../components/TickerBullet'
 import { sortTableItem } from '../lib/commonFunction'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
+
+import { useRouter } from 'next/router'
+
 const axios = require('axios').default
 
 export default function Home() {
@@ -57,6 +60,8 @@ export default function Home() {
 
   async function handleTickers(inputTickers) {
 
+    setClicked(true)
+
     let newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
     const selectedHeaders = "Price,1 Yr Forecast,5 Yr Forecast,1 Yr %,5 Yr %,Score(>50 Buy <50 Sell),1 Yr Median,1 Yr High,1 Yr Low,Average %,Strong Buy,Buy,Hold,Sell,Strong Sell"
     const selectedHeadersArr = selectedHeaders.split(',')
@@ -105,13 +110,13 @@ export default function Home() {
       ]
     )
 
+    setClicked(false)
+
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     const form = event.currentTarget
-
-    setClicked(true)
 
     if (form.checkValidity() === false) {
       event.stopPropagation()
@@ -125,8 +130,16 @@ export default function Home() {
 
     }
     setValidated(true)
-    setClicked(false)
   }
+
+  const router = useRouter()
+  const { query } = router.query
+
+  useEffect(() => {
+    if (query) {
+      handleTickers(query.split(','))
+    }
+  }, [query])
 
   return (
     <Fragment>

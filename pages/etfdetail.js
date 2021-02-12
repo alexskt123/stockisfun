@@ -8,6 +8,7 @@ import { Doughnut } from 'react-chartjs-2';
 import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
+import { Button, Col, Row } from 'react-bootstrap';
 const axios = require('axios').default
 
 export default function Home() {
@@ -22,6 +23,9 @@ export default function Home() {
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
+  const [priceHref, setPriceHref] = useState('/')
+  const [forecastHref, setForecastHref] = useState('/')
+  const [allowCheck, setAllowCheck] = useState(false)
 
   const handleChange = (e) => {
     setFormValue({
@@ -114,6 +118,17 @@ export default function Home() {
       ]
     )
 
+    const href = holdingInfo.reduce((acc, cur) => {
+      if (cur[0].length > 0 && cur[0] != 'Others')
+        acc = `${acc},${cur[0]}`
+      return acc
+    }, '').replace(/(^,)|(,$)/g, "")
+
+    if (href != '') setAllowCheck(true)
+
+    setPriceHref(`/price?query=${href}`)
+    setForecastHref(`/forecast?query=${href}`)
+
   }
 
   const handleSubmit = async (event) => {
@@ -121,6 +136,7 @@ export default function Home() {
     const form = event.currentTarget
 
     setClicked(true)
+    setAllowCheck(false)
 
     if (form.checkValidity() === false) {
       event.stopPropagation()
@@ -161,6 +177,10 @@ export default function Home() {
               {clicked ?
                 <LoadingSpinner /> : ''
               }
+              <Row className="mt-3 ml-1">
+                <Button disabled={!allowCheck} target="_blank" href={priceHref} variant="dark">{'Check All Price%'}</Button>
+                <Button disabled={!allowCheck} target="_blank" className="ml-2" href={forecastHref} variant="outline-dark">{'Check All Forecast'}</Button>
+              </Row>
               <StockInfoTable tableHeader={holdingInfoHeader} tableData={holdingInfoInfo} sortItem={sortItem} />
               <Doughnut data={pieData} />
             </Tab>
