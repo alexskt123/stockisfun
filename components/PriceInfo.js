@@ -16,7 +16,10 @@ function PriceInfo({ inputSettings, inputTickers }) {
 
         if (inputSettings) {
             setSettings(inputSettings)
-        } else if (inputTickers) {
+        } else if (inputTickers && inputTickers.length <= 0) {
+            await clearItems()
+        }
+        else if (inputTickers) {
             await clearItems()
             const priceInfo = await getPriceInfo(inputTickers, priceSettingSchema)
             setSettings(priceInfo)

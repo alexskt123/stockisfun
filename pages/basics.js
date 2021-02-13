@@ -40,6 +40,7 @@ export default function Home() {
     setOfficersInfo([])
     setTableHeader([])
     setOfficersHeader([])
+    setInputTickers([])
   }
 
   async function handleTicker(inputTicker) {
@@ -69,7 +70,7 @@ export default function Home() {
       }
     })
 
-    setInputTickers([...inputTickers, ticker])
+    setInputTickers([ticker])
 
     setTableHeader(
       []
