@@ -5,25 +5,28 @@ import { getPriceInfo, sortTableItem, priceSettingSchema } from '../lib/commonFu
 import StockInfoTable from '../components/StockInfoTable'
 import { Line } from 'react-chartjs-2';
 import { dateRange } from '../config/price'
+import LoadingSpinner from './Loading/LoadingSpinner';
 
 function PriceInfo({ inputSettings, inputTickers }) {
 
     const [settings, setSettings] = useState(priceSettingSchema)
+    const [loading, setLoading] = useState(false)
 
     async function handleTickers() {
 
         // console.log(inputSettings)
 
+        setLoading(true)
+        await clearItems()
+
         if (inputSettings) {
             setSettings(inputSettings)
-        } else if (inputTickers && inputTickers.length <= 0) {
-            await clearItems()
-        }
-        else if (inputTickers) {
-            await clearItems()
+        } else if (inputTickers) {
             const priceInfo = await getPriceInfo(inputTickers, priceSettingSchema)
             setSettings(priceInfo)
         }
+
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -50,6 +53,9 @@ function PriceInfo({ inputSettings, inputTickers }) {
 
     return (
         <Fragment>
+            {loading ?
+                <LoadingSpinner /> : ''
+            }            
             <StockInfoTable tableHeader={settings.tableHeader} tableData={settings.yearlyPcnt} sortItem={sortItem} />
             <Line data={settings.chartData} />
         </Fragment>

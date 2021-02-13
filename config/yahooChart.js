@@ -115,3 +115,19 @@ export const assetProfileResponse = {
         }
     }
 }
+
+export const balanceSheetRespsone = {
+    'data': {
+        "quoteSummary": {
+            "result": [
+                {
+                    "balanceSheetHistory": {
+                        "balanceSheetStatements" : []
+                    }
+                }
+            ]
+
+        }
+    }
+}
+

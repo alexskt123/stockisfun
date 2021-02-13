@@ -17,6 +17,8 @@ export default function Home() {
   const [stockInfo, setstockInfo] = useState([])
   const [officersHeader, setOfficersHeader] = useState([])
   const [officersInfo, setOfficersInfo] = useState([])
+  const [balanceHeader, setBalanceHeader] = useState([])
+  const [balanceInfo, setBalanceInfo] = useState([])
   const [inputTickers, setInputTickers] = useState([])
 
 
@@ -41,6 +43,8 @@ export default function Home() {
     setTableHeader([])
     setOfficersHeader([])
     setInputTickers([])
+    setBalanceInfo([])
+    setBalanceHeader([])
   }
 
   async function handleTicker(inputTicker) {
@@ -51,14 +55,18 @@ export default function Home() {
     let basics
     let officers = []
     let basicItem = []
+    let balanceSheetItem = []
+    let balanceSheetHeader = []
 
     basics = await axios(`/api/getYahooAssetProfile?ticker=${ticker}`)
+    const basicsData = basics.data.basics
+    const balanceSheetData = basics.data.balanceSheet
 
-    Object.keys(basics.data).forEach(item => {
+    Object.keys(basicsData).forEach(item => {
       if (item !== 'Company Officers') {
-        basicItem.push([item, basics.data[item]])
+        basicItem.push([item, basicsData[item]])
       } else {
-        officers = basics.data['Company Officers'].map(item => {
+        officers = basicsData['Company Officers'].map(item => {
           const itemArr = [
             item.name,
             item.title,
@@ -69,6 +77,23 @@ export default function Home() {
         })
       }
     })
+
+    Object.keys((balanceSheetData.find(x => x) || {})).forEach(item => {
+      if (item !== 'Date') {
+        const curItem = []
+        balanceSheetData.forEach(data => {
+          curItem.push(data[item])
+        })
+
+        balanceSheetItem.push([item, ...curItem])
+      }
+    })
+
+    balanceSheetHeader.push('')
+    balanceSheetData.forEach(item => {
+      balanceSheetHeader.push(item['Date'])
+    })
+
 
     setInputTickers([ticker])
 
@@ -81,6 +106,9 @@ export default function Home() {
         ...basicItem
       ]
     )
+
+    setBalanceInfo([...balanceSheetItem])
+    setBalanceHeader([...balanceSheetHeader])
 
     setOfficersHeader(
       ["Officers Name", "Title", "Age", "Pay"]
@@ -141,6 +169,12 @@ export default function Home() {
               }
               <StockInfoTable tableHeader={officersHeader} tableData={officersInfo} sortItem={sortItem} />
             </Tab>
+            <Tab eventKey="BalanceSheet" title="Balance Sheet">
+              {clicked ?
+                <LoadingSpinner /> : ''
+              }
+              <StockInfoTable tableHeader={balanceHeader} tableData={balanceInfo} sortItem={sortItem} />
+            </Tab>
             <Tab eventKey="Price%" title="Price%">
               {clicked ?
                 <LoadingSpinner /> : ''
@@ -148,9 +182,6 @@ export default function Home() {
               <PriceInfo inputTickers={inputTickers} />
             </Tab>
             <Tab eventKey="Forecast" title="Forecast">
-              {clicked ?
-                <LoadingSpinner /> : ''
-              }
               <ForecastInfo inputTickers={inputTickers} />
             </Tab>
           </Tabs>
