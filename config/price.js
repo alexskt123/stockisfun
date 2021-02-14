@@ -17,6 +17,14 @@ export const chartDataSet = {
 const year = new Date().getFullYear()
 export const dateRange = [...Array(16)].map((x,i)=>[`${year-i}-01-01`,`${year-i}-12-31`]).map(x=>({"fromDate":x[0],"toDate":x[1]}))
 
+export const dateRangeByNoOfYears = async (inputYears) => {
+  let noOfYears = 15
+  noOfYears = !inputYears ? noOfYears : inputYears
+  
+  //return Array.from({length: noOfYears + 1}, (x, i) => [`${year-i}-01-01`,`${year-i}-12-31`]).map(x=>({"fromDate":x[0],"toDate":x[1]}))
+  return [...Array(parseInt(noOfYears) + 1)].map((x,i)=>[`${year-i}-01-01`,`${year-i}-12-31`]).map(x=>({"fromDate":x[0],"toDate":x[1]}))
+}
+
 // [
 //     {
 //         'fromDate': '2021-01-01',

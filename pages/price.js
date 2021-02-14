@@ -1,7 +1,7 @@
 
 import { Fragment, useState, useEffect } from 'react'
 
-import { dateRange } from '../config/price'
+import { dateRange, dateRangeByNoOfYears } from '../config/price'
 import TickerInput from '../components/TickerInput'
 import TickerBullet from '../components/TickerBullet'
 import { getPriceInfo, priceSettingSchema } from '../lib/commonFunction'
@@ -11,18 +11,27 @@ import LoadingSpinner from '../components/Loading/LoadingSpinner';
 import { useRouter } from 'next/router'
 import PriceInfo from '../components/PriceInfo';
 
-const axios = require('axios').default
-
 export default function Home() {
 
   const [settings, setSettings] = useState(priceSettingSchema)
+  const [newDateRange, setNewDateRange] = useState(dateRange)
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
 
+  const handleChange = async (e) => {
+    if (e.target.name == 'formYear') {
 
-  const handleChange = (e) => {
+      const newDateArr = await dateRangeByNoOfYears(e.target.value)
+      setNewDateRange(newDateArr)
+
+      setSettings({
+        ...settings,
+        chartData: { 'labels': [...newDateArr.map(item => item.fromDate.substring(0, 4))].reverse(), 'datasets': [] }
+      })
+    }
+
     setFormValue({
       ...formValue,
       [e.target.name]: e.target.value
@@ -35,7 +44,7 @@ export default function Home() {
       tickers: [],
       yearlyPcnt: [],
       quote: [],
-      chartData: { 'labels': [...dateRange.map(item => item.fromDate.substring(0, 4))].reverse(), 'datasets': [] }
+      chartData: { 'labels': [...newDateRange.map(item => item.fromDate.substring(0, 4))].reverse(), 'datasets': [] }
     })
   }
 
@@ -48,18 +57,18 @@ export default function Home() {
         tickers: [...settings.tickers.filter(x => x !== value)],
         yearlyPcnt: [...settings.yearlyPcnt.filter(x => x.find(x => x) !== value)],
         chartData: {
-          'labels': [...dateRange.map(item => item.fromDate.substring(0, 4))].reverse(),
+          'labels': [...newDateRange.map(item => item.fromDate.substring(0, 4))].reverse(),
           'datasets': [...settings.chartData.datasets.filter(x => x.label !== value)]
         }
       }
     )
   }
 
-  async function handleTickers(inputTickers) {
+  async function handleTickers(inputTickers, inputYear) {
 
     setClicked(true)
 
-    const priceInfo = await getPriceInfo(inputTickers, settings)
+    const priceInfo = await getPriceInfo(inputTickers, inputYear ? inputYear : 15, settings)
     setSettings(priceInfo)
 
     setClicked(false)
@@ -73,10 +82,10 @@ export default function Home() {
       event.stopPropagation()
     } else {
 
-      const { formTicker } = formValue
+      const { formTicker, formYear} = formValue
       const inputTickers = formTicker.split(',')
 
-      await handleTickers(inputTickers)
+      await handleTickers(inputTickers, formYear)
 
     }
     setValidated(true)
@@ -106,12 +115,13 @@ export default function Home() {
             tableHeader={settings.tableHeader}
             tableData={settings.yearlyPcnt}
             exportFileName={'Stock_price.csv'}
+            yearControl={true}
           />
           <TickerBullet tickers={settings.tickers} overlayItem={settings.quote} removeItem={removeItem} />
           {clicked ?
             <LoadingSpinner /> : ''
           }
-          <PriceInfo inputSettings={settings} />
+          <PriceInfo inputSettings={settings} inputDateRange={formValue.formYear} />
         </Fragment>
       </CustomContainer>
     </Fragment >

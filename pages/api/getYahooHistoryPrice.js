@@ -4,18 +4,21 @@
 
 import { getYahooHistoryPrice } from '../../lib/getYahooHistoryPrice'
 import { getYahooQuote } from '../../lib/getYahooQuote'
-import { dateRange, quoteFilterList } from '../../config/price'
+import { dateRange, dateRangeByNoOfYears , quoteFilterList } from '../../config/price'
 
 
 const axios = require('axios').default
 
 
 export default async (req, res) => {
-  const { ticker } = req.query
+  const { ticker, year } = req.query
 
   let inputItems = []
 
-  dateRange.forEach(item => {
+  let newDateRange = dateRange
+  if (year) newDateRange = await dateRangeByNoOfYears(year)
+
+  newDateRange.forEach(item => {
     inputItems.push(
       {
         'ticker': ticker.toUpperCase(),
