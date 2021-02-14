@@ -71,6 +71,7 @@ export default function Home() {
     let quote
     let keyRatio
     let floatingShareRatio = 'N/A'
+    let marketCap = 'N/A'
 
     for (const ticker of newTickers) {
       outputItem = await axios(`/api/getETFAUMSum?ticker=${ticker}`)
@@ -83,10 +84,13 @@ export default function Home() {
         floatingShareRatio = `${((keyRatio.data.floatShares.raw / keyRatio.data.sharesOutstanding.raw) * 100).toFixed(2)}%`
       }
       
+      if (quote.data && quote.data.marketCap) {
+        marketCap = `${(quote.data.marketCap / 1000000000).toFixed(2)}B`
+      }
 
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = [...outputItem.data, quote.data.regularMarketPrice, quote.data.marketCap, etfCount.data, floatingShareRatio]
+      etf['info'] = [...outputItem.data, quote.data.regularMarketPrice, marketCap, etfCount.data, floatingShareRatio]
       temp.push(
         etf
       )
