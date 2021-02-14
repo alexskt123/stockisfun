@@ -1,13 +1,13 @@
 
 import { Fragment, useState, useEffect } from 'react'
 
-import { getForecastInfo, sortTableItem, forecastSettingSchema } from '../lib/commonFunction'
+import { getFinancialsInfo, sortTableItem, financialsSettingSchema } from '../lib/commonFunction'
 import LoadingSpinner from './Loading/LoadingSpinner'
 import StockInfoTable from './StockInfoTable'
 
-function ForecastInfo({ inputSettings, inputTickers }) {
+function FinancialsInfo({ inputSettings, inputTickers }) {
 
-    const [settings, setSettings] = useState(forecastSettingSchema)
+    const [settings, setSettings] = useState(financialsSettingSchema)
     const [loading, setLoading] = useState(false)
 
     async function handleTickers() {
@@ -18,8 +18,8 @@ function ForecastInfo({ inputSettings, inputTickers }) {
             setSettings(inputSettings)
         } else if (inputTickers) {
             await clearItems()
-            const forecastInfo = await getForecastInfo(inputTickers, forecastSettingSchema)
-            setSettings(forecastInfo)
+            const financialsInfo = await getFinancialsInfo(inputTickers, financialsSettingSchema)
+            setSettings(financialsInfo)
         }
 
         setLoading(false)
@@ -51,9 +51,9 @@ function ForecastInfo({ inputSettings, inputTickers }) {
             {loading ?
                 <LoadingSpinner /> : ''
             }
-            <StockInfoTable tableFirstHeader={['', 'WalletInvestor', '', '', '', '', 'Financhill', 'MoneyCnn', '', '', '', 'Yahoo']} tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
+            <StockInfoTable tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
         </Fragment>
     )
 }
 
-export default ForecastInfo
+export default FinancialsInfo

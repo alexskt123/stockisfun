@@ -2,24 +2,23 @@
 import { Fragment, useState } from 'react'
 import CustomContainer from '../components/CustomContainer'
 
-import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
 import TickerBullet from '../components/TickerBullet'
 import { sortTableItem } from '../lib/commonFunction'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
+import FinancialsInfo from '../components/FinancialsInfo'
+import { getFinancialsInfo, financialsSettingSchema } from '../lib/commonFunction'
+
 const axios = require('axios').default
 
 export default function Home() {
 
-  const [tickers, setTickers] = useState([])
-  const [tableHeader, setTableHeader] = useState([])
-  const [stockInfo, setstockInfo] = useState([])
-
+  const [settings, setSettings] = useState(financialsSettingSchema)
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
-  const [ascSort, setAscSort] = useState(false)
+
 
   const handleChange = (e) => {
     setFormValue({
@@ -36,69 +35,32 @@ export default function Home() {
   }
 
   const clearItems = async () => {
-    setTickers([])
-    setstockInfo([])
+    setSettings({
+      ...settings,
+      tickers: [],
+      stockInfo: []
+    })
   }
 
   const removeItem = async (value) => {
     if (clicked) return
 
-    setTickers(
-      [...tickers.filter(x => x !== value)]
-    )
-    setstockInfo(
-      [
-        ...stockInfo.filter(x => x.find(x => x) !== value)
-      ]
+    setSettings(
+      {
+        ...settings,
+        tickers: [...settings.tickers.filter(x => x !== value)],
+        stockInfo: [...settings.stockInfo.filter(x => x.find(x => x) !== value)]
+      }
     )
   }
 
   async function handleTickers(inputTickers) {
+    setClicked(true)
+    
+    const financials = await getFinancialsInfo(inputTickers, settings)
+    setSettings(financials)
 
-    let newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
-    const selectedHeaders = "Last Revenue,Past 2 Yrs Revenue,Past 3 Yrs Revenue,Last Income,Past 2 Yrs Income,Past 3 Yrs Income,Trailing PE,Return On Equity,Gross Margin,Return On Assets"
-    const selectedHeadersArr = selectedHeaders.split(',')
-
-    let financials
-    let temp = []
-
-    for (const ticker of newTickers) {
-      financials = await axios(`/api/getYahooEarnings?ticker=${ticker}`)
-
-      let etf = {}
-      etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = financials.data
-
-      temp.push(
-        etf
-      )
-
-    }
-
-    setTickers([
-      ...tickers,
-      ...temp.map(item => item.ticker)
-    ])
-
-    setTableHeader(
-      [
-        'Ticker',
-        ...selectedHeadersArr
-      ]
-    )
-
-    setstockInfo(
-      [
-        ...stockInfo,
-        ...temp.map(item => {
-          const newItem = [
-            item.ticker,
-            ...Object.values(item.info)
-          ]
-          return newItem
-        })
-      ]
-    )
+    setClicked(false)
 
   }
 
@@ -134,16 +96,16 @@ export default function Home() {
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}
-            tableHeader={tableHeader}
-            tableData={stockInfo}
+            tableHeader={settings.tableHeader}
+            tableData={settings.stockInfo}
             exportFileName={'Stock_financial.csv'}
           />
-          <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
+          <TickerBullet tickers={settings.tickers} overlayItem={[]} removeItem={removeItem} />
           {clicked ?
             <LoadingSpinner /> : ''
           }
-          <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
-          </Fragment>
+          <FinancialsInfo inputSettings={settings} />
+        </Fragment>
       </CustomContainer>
     </Fragment >
   )

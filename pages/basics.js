@@ -9,6 +9,7 @@ import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
 import PriceInfo from '../components/PriceInfo'
 import ForecastInfo from '../components/ForecastInfo'
+import FinancialsInfo from '../components/FinancialsInfo'
 const axios = require('axios').default
 
 export default function Home() {
@@ -183,6 +184,9 @@ export default function Home() {
             </Tab>
             <Tab eventKey="Forecast" title="Forecast">
               <ForecastInfo inputTickers={inputTickers} />
+            </Tab>
+            <Tab eventKey="Financials" title="Financials">
+              <FinancialsInfo inputTickers={inputTickers} />
             </Tab>
           </Tabs>
         </Fragment>
