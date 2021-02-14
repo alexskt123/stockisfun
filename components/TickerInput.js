@@ -56,14 +56,14 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
                         : ''
                 }
                 <Row className="ml-1 mt-3">
-                    <Button variant="primary" type="submit" disabled={clicked}>
+                    <Button variant="success" type="submit" disabled={clicked}>
                         {'Go'}
                     </Button>
                     <Button className="ml-3" variant="danger" onClick={() => { clearItems() }} disabled={clicked}>
                         {'Clear All'}
                     </Button>
                     <Button className="ml-3" variant="info" onClick={() => { exportToFile(tableHeader, tableData, exportFileName) }} disabled={clicked}>
-                        Export
+                        {'Export'}
                     </Button>
                 </Row>
             </Form>

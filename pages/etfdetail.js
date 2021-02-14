@@ -8,7 +8,8 @@ import { Doughnut } from 'react-chartjs-2';
 import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Row } from 'react-bootstrap';
+import StockDetails from '../components/StockDetails';
 const axios = require('axios').default
 
 export default function Home() {
@@ -26,6 +27,8 @@ export default function Home() {
   const [priceHref, setPriceHref] = useState('/')
   const [forecastHref, setForecastHref] = useState('/')
   const [allowCheck, setAllowCheck] = useState(false)
+  const [selectedTab, setSelectedTab] = useState('Basics')
+  const [selectedStockTicker, setSelectedStockTicker] = useState('')
 
   const handleChange = (e) => {
     setFormValue({
@@ -36,6 +39,11 @@ export default function Home() {
 
   const sortItem = async (index) => {
 
+  }
+
+  const cellClick = async (item) => {
+    setSelectedTab('StockDetails')
+    setSelectedStockTicker(item[0])
   }
 
   const clearItems = async () => {
@@ -151,6 +159,10 @@ export default function Home() {
     setClicked(false)
   }
 
+  const handleSelect = (key) => {
+    setSelectedTab(key);
+  }
+
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
@@ -166,7 +178,7 @@ export default function Home() {
             tableData={stockInfo}
             exportFileName={'Stock_etfdetail.csv'}
           />
-          <Tabs className="mt-4" defaultActiveKey="Basics" id="uncontrolled-tab-example">
+          <Tabs variant="pills" className="mt-4" activeKey={selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
             <Tab eventKey="Basics" title="Basics">
               {clicked ?
                 <LoadingSpinner /> : ''
@@ -181,8 +193,16 @@ export default function Home() {
                 <Button disabled={!allowCheck} target="_blank" href={priceHref} variant="dark">{'Check All Price%'}</Button>
                 <Button disabled={!allowCheck} target="_blank" className="ml-2" href={forecastHref} variant="outline-dark">{'Check All Forecast'}</Button>
               </Row>
-              <StockInfoTable tableHeader={holdingInfoHeader} tableData={holdingInfoInfo} sortItem={sortItem} />
+              <Row className="mt-3 ml-1">
+                <Alert variant="warning">
+                  {'Click the below row to get the stock details'}
+                </Alert>
+              </Row>
+              <StockInfoTable tableHeader={holdingInfoHeader} tableData={holdingInfoInfo} sortItem={sortItem} cellClick={cellClick} />
               <Doughnut data={pieData} />
+            </Tab>
+            <Tab eventKey="StockDetails" title="Stock Details">
+              <StockDetails inputTicker={selectedStockTicker} />
             </Tab>
           </Tabs>
         </Fragment>

@@ -13,9 +13,15 @@ const getCellItem = (item) => {
   else return item
 }
 
+const checkCanClick = (item, cellClick) => {
+  if (cellClick) {
+    cellClick(item)
+  }
+}
+
 const sticky = { backgroundColor: '#ddd', left: 0, position: 'sticky', zIndex: '997' }
 
-function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem }) {
+function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, cellClick }) {
 
   return (
     <Fragment>
@@ -40,7 +46,7 @@ function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem }) 
 
           {tableData.map((item, index) => (
             <tr key={index}>
-              {item.map((xx, yy) => <td style={(yy == 0 ? sticky : {})} key={`${index}${yy}`}><span style={getCellColor(xx)}>{getCellItem(xx)}</span></td>)}
+              {item.map((xx, yy) => <td onClick={() => { checkCanClick(item, cellClick) }} style={(yy == 0 ? sticky : {})} key={`${index}${yy}`}><span style={getCellColor(xx)}>{getCellItem(xx)}</span></td>)}
             </tr>
           ))}
 
