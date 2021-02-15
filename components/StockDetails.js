@@ -47,7 +47,7 @@ function StockDetails({ inputTicker }) {
         etfList = await axios(`/api/getETFListByTicker?ticker=${ticker}`)
 
         if (etfList.data) {
-            etfItemHeader = Object.keys(etfList.data.find(x => x))
+            etfItemHeader = Object.keys(etfList.data.find(x => x) || {})
 
             etfItem.push(...etfList.data.map(data => {
                 const newArr = []

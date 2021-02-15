@@ -180,9 +180,9 @@ export default function Home() {
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}
-            tableHeader={tableHeader}
-            tableData={stockInfo}
-            exportFileName={'Stock_etfdetail.csv'}
+            tableHeader={undefined}
+            tableData={undefined}
+            exportFileName={undefined}
           />
           <Tabs variant="pills" className="mt-4" activeKey={selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
             <Tab eventKey="Basics" title="Basics">
