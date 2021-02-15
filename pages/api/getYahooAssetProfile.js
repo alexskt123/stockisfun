@@ -5,11 +5,7 @@
 import { getYahooAssetProfile } from '../../lib/getYahooAssetProfile'
 import { getYahooQuote } from '../../lib/getYahooQuote'
 import { getYahooBalanceSheet } from '../../lib/getYahooBalanceSheet'
-
-import commaNumber from 'comma-number'
-
-const axios = require('axios').default
-
+import millify from 'millify'
 
 export default async (req, res) => {
   const { ticker } = req.query
@@ -24,8 +20,19 @@ export default async (req, res) => {
     //newItem['Cash'] = item.cash.fmt
     newItem['Total Current Assets'] = item.totalCurrentAssets.fmt
     newItem['Total Current Liability'] = item.totalCurrentLiabilities.fmt
+
+    newItem[' '] = ' '
+
+    newItem['Total Non-Current Assets'] = millify(item.totalAssets.raw - item.totalCurrentAssets.raw)
+    newItem['Total Non-Current Liability'] = millify(item.totalLiab.raw - item.totalCurrentLiabilities.raw)
+
+    newItem['  '] = '  '
+
     newItem['Total Assets'] = item.totalAssets.fmt
     newItem['Total Liability'] = item.totalLiab.fmt
+
+    newItem['   '] = '   '
+
     newItem['Total Stock Holder Equity'] = item.totalStockholderEquity.fmt
     return newItem
   })
@@ -36,12 +43,12 @@ export default async (req, res) => {
     'Website': data.website,
     'Industry': data.industry,
     'Sector': data.sector,
-    'Market Cap.': commaNumber(quote.marketCap),
+    'Market Cap.': millify(quote.marketCap),
     'Price To Book': quote.priceToBook,
     'Current EPS': quote.epsCurrentYear,
     'Trailing PE': quote.trailingPE,
     'Dividend': `${quote.trailingAnnualDividendRate || 'N/A'}%`,
-    'Full Time Employees': data.fullTimeEmployees,
+    'Full Time Employees': millify(data.fullTimeEmployees),
     'Address': `${data.address1 || ''}, ${data.address2 || ''}, ${data.city || ''}, ${data.state || ''}, ${data.zip || ''}, ${data.country || ''}`.replace(', ,', ''),
     'Business Summary': data.longBusinessSummary,
     'Company Officers': data.companyOfficers
