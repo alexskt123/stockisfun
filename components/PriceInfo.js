@@ -29,6 +29,8 @@ function PriceInfo({ inputSettings, inputTickers, inputYear }) {
             await clearItems()
             const priceInfo = await getPriceInfo(inputTickers, noOfYears, priceSettingSchema)
             setSettings(priceInfo)
+        } else if (inputTickers.length <= 0) {
+            await clearItems()
         }
 
         setLoading(false)

@@ -20,6 +20,8 @@ function ForecastInfo({ inputSettings, inputTickers }) {
             await clearItems()
             const forecastInfo = await getForecastInfo(inputTickers, forecastSettingSchema)
             setSettings(forecastInfo)
+        } else if (inputTickers.length <= 0) {
+            await clearItems()
         }
 
         setLoading(false)

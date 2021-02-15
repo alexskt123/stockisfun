@@ -52,6 +52,7 @@ export default function Home() {
     setholdingInfoInfo([])
     setholdingInfoHeader([])
     setPieData({})
+    setSelectedStockTicker('')
   }
 
   async function handleTicker(inputTicker) {

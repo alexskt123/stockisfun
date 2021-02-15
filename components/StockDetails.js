@@ -22,6 +22,8 @@ function StockDetails({ inputTicker }) {
     const [officersInfo, setOfficersInfo] = useState([])
     const [balanceHeader, setBalanceHeader] = useState([])
     const [balanceInfo, setBalanceInfo] = useState([])
+    const [etfHeader, setETFHeader] = useState([])
+    const [etfInfo, setETFInfo] = useState([])
     const [inputTickers, setInputTickers] = useState([])
     const [clicked, setClicked] = useState(false)
 
@@ -37,8 +39,25 @@ function StockDetails({ inputTicker }) {
         let basicItem = []
         let balanceSheetItem = []
         let balanceSheetHeader = []
+        let etfItem = []
+        let etfItemHeader = []
+        let etfList = []
 
         basics = await axios(`/api/getYahooAssetProfile?ticker=${ticker}`)
+        etfList = await axios(`/api/getETFListByTicker?ticker=${ticker}`)
+
+        if (etfList.data) {
+            etfItemHeader = Object.keys(etfList.data.find(x => x))
+
+            etfItem.push(...etfList.data.map(data => {
+                const newArr = []
+                etfItemHeader.forEach(item => {
+                    newArr.push(data[item])
+                })
+                return newArr
+            }))
+        }
+
         const basicsData = basics.data.basics
         const balanceSheetData = basics.data.balanceSheet
 
@@ -74,6 +93,11 @@ function StockDetails({ inputTicker }) {
             balanceSheetHeader.push(item['Date'])
         })
 
+        setETFHeader(etfItemHeader)
+        setETFInfo([
+            ...etfItem
+        ])
+
 
         setInputTickers([ticker])
 
@@ -104,7 +128,7 @@ function StockDetails({ inputTicker }) {
     }
 
     useEffect(() => {
-        handleTicker()
+        inputTicker != '' ? handleTicker() : clearItems()
     }, [inputTicker])
 
     const sortItem = async (index) => {
@@ -114,6 +138,18 @@ function StockDetails({ inputTicker }) {
             ascSort: !settings.ascSort
         })
     }
+
+    const clearItems = async () => {
+        setstockInfo([])
+        setOfficersInfo([])
+        setTableHeader([])
+        setOfficersHeader([])
+        setInputTickers([])
+        setBalanceInfo([])
+        setBalanceHeader([])
+        setETFInfo([])
+        setETFHeader([])
+      }
 
     return (
         <Fragment>
@@ -129,6 +165,12 @@ function StockDetails({ inputTicker }) {
                         <LoadingSpinner /> : ''
                     }
                     <StockInfoTable tableHeader={officersHeader} tableData={officersInfo} sortItem={sortItem} />
+                </Tab>
+                <Tab eventKey="ETFList" title="ETF List">
+                    {clicked ?
+                        <LoadingSpinner /> : ''
+                    }
+                    <StockInfoTable tableHeader={etfHeader} tableData={etfInfo} sortItem={sortItem} />
                 </Tab>
                 <Tab eventKey="BalanceSheet" title="Balance Sheet">
                     {clicked ?
