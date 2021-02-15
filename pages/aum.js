@@ -105,7 +105,7 @@ export default function Home() {
     setTableHeader(
       [
         'Ticker',
-        ...Array.from({ length: 15 }, (x, i) => `ETF ${i + 1}`),
+        ...Array.from({ length: 10 }, (x, i) => `ETF ${i + 1}`),
         'AUM Sum',
         'Price',
         'Market Cap.',

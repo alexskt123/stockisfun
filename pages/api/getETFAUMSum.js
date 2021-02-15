@@ -17,7 +17,7 @@ export default async (req, res) => {
   let i = 0
 
   for (const etf of etfList) {
-    if (i > 14) break
+    if (i > 9) break
 
     const etfInfo = await getETFDB(etf.ticker)
     const etfSummary = `${etf.ticker}: ${etf.weight.replace('%', '')}% AUM: ${etfInfo.basicInfo.AUM}`
@@ -27,8 +27,8 @@ export default async (req, res) => {
     i += 1
   }
 
-  if (i < 15) {
-    data = [...data, ...Array.from({length: 15 - etfList.length}, (_, i)=> 'N/A')]
+  if (i < 10) {
+    data = [...data, ...Array.from({length: 10 - etfList.length}, (_, i)=> 'N/A')]
   }
 
   data.push(`$${aumSum.toFixed(2)} M`)
