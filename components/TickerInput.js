@@ -50,6 +50,7 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
                                     <option value="10">10 years</option>
                                     <option value="5">5 years</option>
                                     <option value="3">3 years</option>
+                                    <option value="1">1 year</option>
                                 </Form.Control>
                             </div>
                         </Fragment>

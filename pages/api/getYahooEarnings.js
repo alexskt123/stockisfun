@@ -6,7 +6,7 @@ import { getYahooEarnings } from '../../lib/getYahooEarnings'
 import { getYahooIncomeStatement } from '../../lib/getYahooIncomeStatement'
 import { getYahooFinancialData } from '../../lib/getYahooFinancialData'
 import { getYahooQuote } from '../../lib/getYahooQuote'
-
+import percent from 'percent'
 
 const axios = require('axios').default
 
@@ -31,11 +31,10 @@ export default async (req, res) => {
 
   earningsExtract.forEach((item,index) => {
     if (index > 0) {
-      const revenuePcnt = (((item.revenue - earningsExtract[index - 1].revenue) / earningsExtract[index - 1].revenue) * 100).toFixed(2)
-      const netIncomePcnt = (((item.netIncome - earningsExtract[index - 1].netIncome) / earningsExtract[index - 1].netIncome) * 100).toFixed(2)
-      revenueArr.push(`${revenuePcnt}%`)
-      netIncomeArr.push(`${netIncomePcnt}%`)
-      
+      const revenuePcnt = percent.calc((item.revenue - earningsExtract[index - 1].revenue), earningsExtract[index - 1].revenue, 2, true)
+      const netIncomePcnt = percent.calc((item.netIncome - earningsExtract[index - 1].netIncome), earningsExtract[index - 1].netIncome, 2, true)
+      revenueArr.push(revenuePcnt)
+      netIncomeArr.push(netIncomePcnt)
     }
   })
 
@@ -47,7 +46,8 @@ export default async (req, res) => {
   let trailingPE = 'N/A'
 
   if (latestIncome)
-    grossMargin = `${((latestIncome.grossProfit.raw / latestIncome.totalRevenue.raw) * 100).toFixed(2)}%`
+    grossMargin = percent.calc(latestIncome.grossProfit.raw, latestIncome.totalRevenue.raw, 2, true)
+
 
   if (financialData.returnOnEquity)
     returnOnEquity = financialData.returnOnEquity.fmt

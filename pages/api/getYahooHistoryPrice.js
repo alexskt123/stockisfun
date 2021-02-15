@@ -5,7 +5,7 @@
 import { getYahooHistoryPrice } from '../../lib/getYahooHistoryPrice'
 import { getYahooQuote } from '../../lib/getYahooQuote'
 import { dateRange, dateRangeByNoOfYears , quoteFilterList } from '../../config/price'
-
+import percent from 'percent'
 
 const axios = require('axios').default
 
@@ -59,15 +59,17 @@ export default async (req, res) => {
     if (allData && allData.length > 0) {
       const opening = allData.find(x => x)
       const closing = allData[allData.length - 1]
-      temp.data.push(((closing - opening) / opening * 100).toFixed(2))
 
-      if (!temp?.endPrice) {
-        temp.endPrice = opening
+      temp.data.push(percent.calc((closing - opening), opening, 2, true))
+
+      if (!temp.endPrice) {
+        temp.endPrice = closing
       }
-      temp.startPrice = closing
+      temp.startPrice = opening
       temp.yearCnt += 1
     }
     else temp.data.push("N/A")
+
   }
 
   res.statusCode = 200

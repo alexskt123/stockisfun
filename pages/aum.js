@@ -1,6 +1,5 @@
 
 import { Fragment, useState } from 'react'
-import Container from 'react-bootstrap/Container'
 
 import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
@@ -8,6 +7,8 @@ import TickerBullet from '../components/TickerBullet'
 import { sortTableItem } from '../lib/commonFunction'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 import CustomContainer from '../components/CustomContainer'
+
+import percent from 'percent'
 const axios = require('axios').default
 
 export default function Home() {
@@ -81,7 +82,7 @@ export default function Home() {
       keyRatio = await axios(`/api/getYahooKeyStatistics?ticker=${ticker}`)
 
       if (keyRatio.data && keyRatio.data.floatShares) {
-        floatingShareRatio = `${((keyRatio.data.floatShares.raw / keyRatio.data.sharesOutstanding.raw) * 100).toFixed(2)}%`
+        floatingShareRatio = percent.calc(keyRatio.data.floatShares.raw, keyRatio.data.sharesOutstanding.raw, 2, true)
       }
       
       if (quote.data && quote.data.marketCap) {
