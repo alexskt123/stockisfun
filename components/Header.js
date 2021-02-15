@@ -7,8 +7,9 @@ import Link from 'next/link'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 // config
-import { NavItems } from '../config/settings'
+import { NavItems, NavDropDown } from '../config/settings'
 import Settings from '../config/settings'
+import { Badge, NavDropdown } from 'react-bootstrap'
 
 
 function Header() {
@@ -38,6 +39,42 @@ function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
+            <NavDropdown title="Comparison" id="nav-dropdown">
+              {NavDropDown
+                .map(item => item.category)
+                .filter((value, index, self) => self.indexOf(value) === index)
+                .map((cat, catIdx) => {
+                  return (
+                    <Fragment>
+                      <Badge variant="dark" className='ml-1' key={`category${catIdx}`}>{cat}</Badge>
+                      <NavDropdown.Divider key={`divider${catIdx}`} />
+                      {NavDropDown.filter(x => x.category == cat).map((item, idx) => {
+                        const href = `${item.href}`
+                        const active = router.asPath === href
+                        return (
+                          <Link key={`${cat}${idx}`} href={href} passHref>
+                            <NavDropdown.Item active={active} disabled={active}>
+                              {`${item.label}`}
+                            </NavDropdown.Item>
+                          </Link>
+                        )
+                      })}
+                    </Fragment>
+                  )
+                })
+              }
+              {/* {NavDropDown.map((item, idx) => {
+                const href = `${item.href}`
+                const active = router.asPath === href
+                return (
+                  <Link key={`${idx}`} href={href} passHref>
+                    <NavDropdown.Item active={active} disabled={active}>
+                      {`${item.label}`}
+                    </NavDropdown.Item>
+                  </Link>
+                )
+              })} */}
+            </NavDropdown>
             {NavItems.map((item, idx) => {
               const href = `${item.href}`
               const active = router.asPath === href

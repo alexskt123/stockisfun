@@ -10,6 +10,8 @@ import TickerInput from '../components/TickerInput'
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
 import StockDetails from '../components/StockDetails';
+import PriceInfo from '../components/PriceInfo';
+import ForecastInfo from '../components/ForecastInfo';
 const axios = require('axios').default
 
 export default function Home() {
@@ -29,6 +31,7 @@ export default function Home() {
   const [allowCheck, setAllowCheck] = useState(false)
   const [selectedTab, setSelectedTab] = useState('Basics')
   const [selectedStockTicker, setSelectedStockTicker] = useState('')
+  const [inputETFTicker, setInputETFTicker] = useState([])
 
   const handleChange = (e) => {
     setFormValue({
@@ -53,6 +56,7 @@ export default function Home() {
     setholdingInfoHeader([])
     setPieData({})
     setSelectedStockTicker('')
+    setInputETFTicker([])
   }
 
   async function handleTicker(inputTicker) {
@@ -104,6 +108,7 @@ export default function Home() {
         },
       ],
     }
+    setInputETFTicker([ticker])
 
     setPieData(pieData)
 
@@ -201,6 +206,18 @@ export default function Home() {
               </Row>
               <StockInfoTable tableHeader={holdingInfoHeader} tableData={holdingInfoInfo} sortItem={sortItem} cellClick={cellClick} />
               <Doughnut data={pieData} />
+            </Tab>
+            <Tab eventKey="Price%" title="Price%">
+              {clicked ?
+                <LoadingSpinner /> : ''
+              }
+              <PriceInfo inputTickers={inputETFTicker} />
+            </Tab>
+            <Tab eventKey="Forecast" title="Forecast">
+              {clicked ?
+                <LoadingSpinner /> : ''
+              }
+              <ForecastInfo inputTickers={inputETFTicker} />
             </Tab>
             <Tab eventKey="StockDetails" title="Stock Details">
               <StockDetails inputTicker={selectedStockTicker} />

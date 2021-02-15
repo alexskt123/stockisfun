@@ -6,27 +6,37 @@ const Settings = {
 
 export default Settings
 
-export const NavItems = [
+export const NavDropDown = [
   {
     href: '/price',
-    label: 'Price%'
+    label: 'Price%',
+    category: 'All'
   },
   {
     href: '/forecast',
-    label: 'Forecast'
+    label: 'Forecast',
+    category: 'All'
   },
   {
     href: '/etf',
-    label: 'ETF'
+    label: 'ETF',
+    category: 'ETF'
   },
   {
     href: '/aum',
-    label: 'AUM'
+    label: 'AUM',
+    category: 'Stock'
   },
   {
     href: '/financials',
-    label: 'Financials'
-  },
+    label: 'Financials',
+    category: 'Stock'
+  }
+]
+
+
+export const NavItems = [
+
   {
     href: '/etfdetail',
     label: 'ETF Detail'
