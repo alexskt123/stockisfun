@@ -20,10 +20,6 @@ export const NavItems = [
     label: 'ETF'
   },
   {
-    href: '/etfdetail',
-    label: 'ETF Detail'
-  },
-  {
     href: '/aum',
     label: 'AUM'
   },
@@ -32,7 +28,11 @@ export const NavItems = [
     label: 'Financials'
   },
   {
+    href: '/etfdetail',
+    label: 'ETF Detail'
+  },
+  {
     href: '/basics',
-    label: 'Basics'
+    label: 'Stock Detail'
   }
 ]

@@ -62,9 +62,16 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
                     <Button className="ml-3" variant="danger" onClick={() => { clearItems() }} disabled={clicked}>
                         {'Clear All'}
                     </Button>
-                    <Button className="ml-3" variant="info" onClick={() => { exportToFile(tableHeader, tableData, exportFileName) }} disabled={clicked}>
-                        {'Export'}
-                    </Button>
+                    {
+                        tableHeader && tableData ?
+                            <Fragment>
+                                <Button className="ml-3" variant="info" onClick={() => { exportToFile(tableHeader, tableData, exportFileName) }} disabled={clicked}>
+                                    {'Export'}
+                                </Button>
+                            </Fragment>
+                        : ''
+                    }
+
                 </Row>
             </Form>
         </Fragment>

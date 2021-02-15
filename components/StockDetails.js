@@ -149,7 +149,7 @@ function StockDetails({ inputTicker }) {
         setBalanceHeader([])
         setETFInfo([])
         setETFHeader([])
-      }
+    }
 
     return (
         <Fragment>
@@ -185,9 +185,15 @@ function StockDetails({ inputTicker }) {
                     <PriceInfo inputTickers={inputTickers} />
                 </Tab>
                 <Tab eventKey="Forecast" title="Forecast">
+                    {clicked ?
+                        <LoadingSpinner /> : ''
+                    }
                     <ForecastInfo inputTickers={inputTickers} />
                 </Tab>
                 <Tab eventKey="Financials" title="Financials">
+                    {clicked ?
+                        <LoadingSpinner /> : ''
+                    }
                     <FinancialsInfo inputTickers={inputTickers} />
                 </Tab>
             </Tabs>
