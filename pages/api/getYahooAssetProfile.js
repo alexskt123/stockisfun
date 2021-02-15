@@ -34,6 +34,11 @@ export default async (req, res) => {
     newItem['   '] = '   '
 
     newItem['Total Stock Holder Equity'] = item.totalStockholderEquity.fmt
+
+    newItem['    '] = '    '
+    newItem['Current Ratio'] = (item.totalCurrentAssets.raw / item.totalCurrentLiabilities.raw).toFixed(2)
+    newItem['Quick Ratio'] = ((item.cash.raw + item.shortTermInvestments.raw + item.netReceivables.raw) /item.totalCurrentLiabilities.raw).toFixed(2)
+    newItem['Total Debt/Equity'] = (item.totalLiab.raw / item.totalStockholderEquity.raw).toFixed(2)
     return newItem
   })
 
