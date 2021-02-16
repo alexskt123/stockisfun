@@ -42,7 +42,7 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
                                     className="my-1 mr-sm-2"
                                     name="formYear"
                                     custom
-                                    onMouseLeave={(e) => handleChange(e)}
+                                    onChange={(e) => handleChange(e)}
                                 >
                                     <option value="15">15 years</option>
                                     <option value="25">25 years</option>
