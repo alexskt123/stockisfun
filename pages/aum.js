@@ -67,31 +67,13 @@ export default function Home() {
 
     let outputItem
     let temp = []
-    let etfCount
-    //let forecast
-    let quote
-    let keyRatio
-    let floatingShareRatio = 'N/A'
-    let marketCap = 'N/A'
 
     for (const ticker of newTickers) {
       outputItem = await axios(`/api/getETFAUMSum?ticker=${ticker}`)
-      etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
-      //forecast = await axios(`/api/getStockFairValue?ticker=${ticker}`)
-      quote = await axios(`/api/getYahooQuote?ticker=${ticker}`)
-      keyRatio = await axios(`/api/getYahooKeyStatistics?ticker=${ticker}`)
-
-      if (keyRatio.data && keyRatio.data.floatShares) {
-        floatingShareRatio = percent.calc(keyRatio.data.floatShares.raw, keyRatio.data.sharesOutstanding.raw, 2, true)
-      }
-      
-      if (quote.data && quote.data.marketCap) {
-        marketCap = `${(quote.data.marketCap / 1000000000).toFixed(2)}B`
-      }
 
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = [...outputItem.data, quote.data.regularMarketPrice, marketCap, etfCount.data, floatingShareRatio]
+      etf['info'] = [...outputItem.data]
       temp.push(
         etf
       )
@@ -111,7 +93,12 @@ export default function Home() {
         'Price',
         'Market Cap.',
         'No. of ETF',
-        'Floating Shares Ratio'
+        'Floating Shares Ratio',
+        'No. of Analyst',
+        '1 Yr Median',
+        '1 Yr High',
+        '1 Yr Low',
+        'Average %'
       ]
     )
 

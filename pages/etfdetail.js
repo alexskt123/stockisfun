@@ -8,7 +8,7 @@ import { Doughnut } from 'react-chartjs-2';
 import StockInfoTable from '../components/StockInfoTable'
 import TickerInput from '../components/TickerInput'
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
-import { Alert, Button, Col, Row } from 'react-bootstrap';
+import { Alert, Badge, Button, Col, Row } from 'react-bootstrap';
 import StockDetails from '../components/StockDetails';
 import PriceInfo from '../components/PriceInfo';
 import ForecastInfo from '../components/ForecastInfo';
@@ -32,6 +32,7 @@ export default function Home() {
   const [selectedTab, setSelectedTab] = useState('Basics')
   const [selectedStockTicker, setSelectedStockTicker] = useState('')
   const [inputETFTicker, setInputETFTicker] = useState([])
+  const [showAlert, setShowAlert] = useState(false)
 
   const handleChange = (e) => {
     setFormValue({
@@ -112,24 +113,16 @@ export default function Home() {
 
     setPieData(pieData)
 
-    setTableHeader(
-      ["Basics", ""]
-    )
-
     setstockInfo(
-      [
-        ...etfInfo
-      ]
+      [...etfInfo]
     )
 
     setholdingInfoHeader(
-      ["Ticker", "Name", "% Holding"]
+      ["Ticker", "Name", "Holding"]
     )
 
     setholdingInfoInfo(
-      [
-        ...holdingInfo
-      ]
+      [...holdingInfo]
     )
 
     const href = holdingInfo.reduce((acc, cur) => {
@@ -196,28 +189,42 @@ export default function Home() {
                 <LoadingSpinner /> : ''
               }
               <Row className="mt-3 ml-1">
-                <Button disabled={!allowCheck} target="_blank" href={priceHref} variant="dark">{'Check All Price%'}</Button>
-                <Button disabled={!allowCheck} target="_blank" className="ml-2" href={forecastHref} variant="outline-dark">{'Check All Forecast'}</Button>
+              {!showAlert && <Button size="sm" variant="warning" onClick={() => setShowAlert(true)}>{'Details?'}</Button>}
+                <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={priceHref} variant="dark">{'All Price%'}</Button>
+                <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={forecastHref} variant="outline-dark">{'All Forecast'}</Button>
               </Row>
-              <Row className="mt-3 ml-1">
-                <Alert variant="warning">
-                  {'Click the below row to get the stock details'}
+              <Row className="mt-1 ml-1">
+                <Alert show={showAlert} variant="warning">
+                  <Alert.Heading>{'How to get Stock Details?'}</Alert.Heading>
+                  <p>
+                    {'Click the below table row to get!'}
+                  </p>
+                  <div className="d-flex justify-content-end">
+                    <Button onClick={() => setShowAlert(false)} variant="outline-success">
+                      {'Close!'}
+                    </Button>
+                  </div>
                 </Alert>
               </Row>
               <StockInfoTable tableHeader={holdingInfoHeader} tableData={holdingInfoInfo} sortItem={sortItem} cellClick={cellClick} />
               <Doughnut data={pieData} />
             </Tab>
-            <Tab eventKey="Price%" title="Price%">
+            <Tab eventKey="Statistics" title="Stat.">
               {clicked ?
                 <LoadingSpinner /> : ''
               }
-              <PriceInfo inputTickers={inputETFTicker} />
-            </Tab>
-            <Tab eventKey="Forecast" title="Forecast">
-              {clicked ?
-                <LoadingSpinner /> : ''
-              }
+              <Row className="ml-1">
+                <h5>
+                  <Badge variant="dark">{'Forecast'}</Badge>
+                </h5>
+              </Row>
               <ForecastInfo inputTickers={inputETFTicker} />
+              <Row className="ml-1">
+                <h5>
+                  <Badge variant="dark">{'Price%'}</Badge>
+                </h5>
+              </Row>
+              <PriceInfo inputTickers={inputETFTicker} />
             </Tab>
             <Tab eventKey="StockDetails" title="Stock Details">
               <StockDetails inputTicker={selectedStockTicker} />

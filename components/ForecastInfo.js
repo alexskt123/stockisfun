@@ -53,7 +53,7 @@ function ForecastInfo({ inputSettings, inputTickers }) {
             {loading ?
                 <LoadingSpinner /> : ''
             }
-            <StockInfoTable tableFirstHeader={['', 'WalletInvestor', '', '', '', '', 'Financhill', 'MoneyCnn', '', '', '', 'Yahoo']} tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
+            <StockInfoTable tableFirstHeader={['', 'WalletInvestor', '', '', '', '', 'Financhill', 'MoneyCnn', '', '', '', '', 'Yahoo']} tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
         </Fragment>
     )
 }

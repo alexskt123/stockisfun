@@ -24,12 +24,14 @@ export default function Home() {
     if (e.target.name == 'formYear') {
 
       const newDateArr = await dateRangeByNoOfYears(e.target.value)
+      
       setNewDateRange(newDateArr)
+      setSettings({...priceSettingSchema, chartData: { 'labels': [...newDateArr.map(item => item.fromDate.substring(0, 4))].reverse(), 'datasets': [] }})
 
-      setSettings({
-        ...settings,
-        chartData: { 'labels': [...newDateArr.map(item => item.fromDate.substring(0, 4))].reverse(), 'datasets': [] }
-      })
+      // setSettings({
+      //   ...settings,
+      //   chartData: { 'labels': [...newDateArr.map(item => item.fromDate.substring(0, 4))].reverse(), 'datasets': [...settings.chartData.datasets] }
+      // })
     }
 
     setFormValue({

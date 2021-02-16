@@ -11,6 +11,7 @@ import Tab from 'react-bootstrap/Tab'
 import PriceInfo from '../components/PriceInfo'
 import ForecastInfo from '../components/ForecastInfo'
 import FinancialsInfo from '../components/FinancialsInfo'
+import { Badge, Row } from 'react-bootstrap'
 
 const axios = require('axios').default
 
@@ -26,6 +27,7 @@ function StockDetails({ inputTicker }) {
     const [etfInfo, setETFInfo] = useState([])
     const [inputTickers, setInputTickers] = useState([])
     const [clicked, setClicked] = useState(false)
+    const [etfCount, setETFCount] = useState('')
 
     async function handleTicker() {
         if (!inputTicker) return
@@ -42,9 +44,11 @@ function StockDetails({ inputTicker }) {
         let etfItem = []
         let etfItemHeader = []
         let etfList = []
+        let etfCount = 0
 
         basics = await axios(`/api/getYahooAssetProfile?ticker=${ticker}`)
         etfList = await axios(`/api/getETFListByTicker?ticker=${ticker}`)
+        etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
 
         if (etfList.data) {
             etfItemHeader = Object.keys(etfList.data.find(x => x) || {})
@@ -93,6 +97,8 @@ function StockDetails({ inputTicker }) {
             balanceSheetHeader.push(item['Date'])
         })
 
+        setETFCount(etfCount.data)
+
         setETFHeader(etfItemHeader)
         setETFInfo([
             ...etfItem
@@ -132,11 +138,11 @@ function StockDetails({ inputTicker }) {
     }, [inputTicker])
 
     const sortItem = async (index) => {
-        setSettings({
-            ...settings,
-            stockInfo: await sortTableItem(settings.stockInfo, index, settings.ascSort),
-            ascSort: !settings.ascSort
-        })
+        // setSettings({
+        //     ...settings,
+        //     stockInfo: await sortTableItem(settings.stockInfo, index, settings.ascSort),
+        //     ascSort: !settings.ascSort
+        // })
     }
 
     const clearItems = async () => {
@@ -158,18 +164,31 @@ function StockDetails({ inputTicker }) {
                     {clicked ?
                         <LoadingSpinner /> : ''
                     }
+                    <Row className="ml-1 mt-3">
+                        <h5>
+                            <Badge variant="dark">{'Company Profile'}</Badge>
+                        </h5>
+                    </Row>
                     <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
-                </Tab>
-                <Tab eventKey="Officers" title="Officers">
-                    {clicked ?
-                        <LoadingSpinner /> : ''
-                    }
+                    <Row className="ml-1">
+                        <h5>
+                            <Badge variant="dark">{'Officers'}</Badge>
+                        </h5>
+                    </Row>
                     <StockInfoTable tableHeader={officersHeader} tableData={officersInfo} sortItem={sortItem} />
                 </Tab>
                 <Tab eventKey="ETFList" title="ETF List">
                     {clicked ?
                         <LoadingSpinner /> : ''
                     }
+                    <Row className="ml-1 mt-3">
+                        <h5>
+                            <Badge variant="dark">{'No. of ETF Count: '}</Badge>
+                        </h5>
+                        <h5>
+                            <Badge variant="light" className="ml-2">{etfCount}</Badge>
+                        </h5>
+                    </Row>
                     <StockInfoTable tableHeader={etfHeader} tableData={etfInfo} sortItem={sortItem} />
                 </Tab>
                 <Tab eventKey="BalanceSheet" title="Balance Sheet">

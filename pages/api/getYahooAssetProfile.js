@@ -16,38 +16,38 @@ export default async (req, res) => {
 
   const balanceSheetExtract = balanceSheet.map(item => {
     const newItem = {}
-    newItem['Date'] = item.endDate.fmt
+    newItem['Date'] = item.endDate?.fmt
     //newItem['Cash'] = item.cash.fmt
-    newItem['Total Current Assets'] = item.totalCurrentAssets.fmt
-    newItem['Total Current Liability'] = item.totalCurrentLiabilities.fmt
+    newItem['Total Current Assets'] = item.totalCurrentAssets?.fmt
+    newItem['Total Current Liability'] = item.totalCurrentLiabilities?.fmt
 
     newItem[' '] = ' '
 
-    newItem['Total Non-Current Assets'] = millify(item.totalAssets.raw - item.totalCurrentAssets.raw)
-    newItem['Total Non-Current Liability'] = millify(item.totalLiab.raw - item.totalCurrentLiabilities.raw)
+    newItem['Total Non-Current Assets'] = millify(item.totalAssets?.raw - item.totalCurrentAssets?.raw || 0)
+    newItem['Total Non-Current Liability'] = millify(item.totalLiab?.raw - item.totalCurrentLiabilities?.raw || 0)
 
     newItem['  '] = '  '
 
-    newItem['Total Assets'] = item.totalAssets.fmt
-    newItem['Total Liability'] = item.totalLiab.fmt
+    newItem['Total Assets'] = item.totalAssets?.fmt
+    newItem['Total Liability'] = item.totalLiab?.fmt
 
     newItem['   '] = '   '
 
-    newItem['Total Stock Holder Equity'] = item.totalStockholderEquity.fmt
+    newItem['Total Stock Holder Equity'] = item.totalStockholderEquity?.fmt
 
     newItem['    '] = '    '
 
     if (item.totalCurrentAssets && item.totalCurrentLiabilities)
-      newItem['Current Ratio'] = (item.totalCurrentAssets.raw / item.totalCurrentLiabilities.raw).toFixed(2)
+      newItem['Current Ratio'] = (item.totalCurrentAssets?.raw / item.totalCurrentLiabilities?.raw).toFixed(2)
 
     if (item.totalCurrentLiabilities)
       newItem['Quick Ratio'] = ((item.cash ? item.cash.raw : 0
-                                + item.shortTermInvestments ? item.shortTermInvestments.raw : 0
-                                + item.netReceivables ? item.netReceivables.raw : 0) 
-                                /item.totalCurrentLiabilities.raw).toFixed(2)
+                                + item.shortTermInvestments ? item.shortTermInvestments?.raw : 0
+                                + item.netReceivables ? item.netReceivables?.raw : 0) 
+                                /item.totalCurrentLiabilities?.raw).toFixed(2)
     
     if (item.totalLiab && item.totalStockholderEquity)
-      newItem['Total Debt/Equity'] = (item.totalLiab.raw / item.totalStockholderEquity.raw).toFixed(2)
+      newItem['Total Debt/Equity'] = (item.totalLiab?.raw / item.totalStockholderEquity?.raw).toFixed(2)
     return newItem
   })
 
