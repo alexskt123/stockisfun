@@ -4,6 +4,7 @@ import { Fragment, useState, useEffect } from 'react'
 import { sortTableItem } from '../lib/commonFunction'
 import LoadingSpinner from './Loading/LoadingSpinner'
 import StockInfoTable from '../components/Page/StockInfoTable'
+import { stockDetailsSettings, officersTableHeader } from '../config/stock'
 
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
@@ -17,17 +18,8 @@ const axios = require('axios').default
 
 function StockDetails({ inputTicker }) {
 
-    const [tableHeader, setTableHeader] = useState([])
-    const [stockInfo, setstockInfo] = useState([])
-    const [officersHeader, setOfficersHeader] = useState([])
-    const [officersInfo, setOfficersInfo] = useState([])
-    const [balanceHeader, setBalanceHeader] = useState([])
-    const [balanceInfo, setBalanceInfo] = useState([])
-    const [etfHeader, setETFHeader] = useState([])
-    const [etfInfo, setETFInfo] = useState([])
-    const [inputTickers, setInputTickers] = useState([])
+    const [settings, setSettings] = useState({...stockDetailsSettings})
     const [clicked, setClicked] = useState(false)
-    const [etfCount, setETFCount] = useState('')
 
     async function handleTicker() {
         if (!inputTicker) return
@@ -97,39 +89,29 @@ function StockDetails({ inputTicker }) {
             balanceSheetHeader.push(item['Date'])
         })
 
-        setETFCount(etfCount.data)
 
-        setETFHeader(etfItemHeader)
-        setETFInfo([
-            ...etfItem
-        ])
+        const newSettings= {
+            basics: {
+                tableHeader: [],
+                tableData: [...basicItem]
+            },
+            officers: {
+                tableHeader: [...officersTableHeader],
+                tableData: [...officers]
+            },
+            etfList: {
+                tableHeader: [...etfItemHeader],
+                tableData: [...etfItem]
+            },
+            balanceSheet: {
+                tableHeader: [...balanceSheetHeader],
+                tableData: [...balanceSheetItem]
+            },
+            etfCount: etfCount.data,
+            inputTickers: [ticker]
+        }
 
-
-        setInputTickers([ticker])
-
-        setTableHeader(
-            []
-        )
-
-        setstockInfo(
-            [
-                ...basicItem
-            ]
-        )
-
-        setBalanceInfo([...balanceSheetItem])
-        setBalanceHeader([...balanceSheetHeader])
-
-        setOfficersHeader(
-            ["Officers Name", "Title", "Age", "Pay"]
-        )
-
-        setOfficersInfo(
-            [
-                ...officers
-            ]
-        )
-
+        setSettings(newSettings)
         setClicked(false)
     }
 
@@ -146,15 +128,7 @@ function StockDetails({ inputTicker }) {
     }
 
     const clearItems = async () => {
-        setstockInfo([])
-        setOfficersInfo([])
-        setTableHeader([])
-        setOfficersHeader([])
-        setInputTickers([])
-        setBalanceInfo([])
-        setBalanceHeader([])
-        setETFInfo([])
-        setETFHeader([])
+        setSettings({...stockDetailsSettings})
     }
 
     return (
@@ -169,13 +143,13 @@ function StockDetails({ inputTicker }) {
                             <Badge variant="dark">{'Company Profile'}</Badge>
                         </h5>
                     </Row>
-                    <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
+                    <StockInfoTable tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
                     <Row className="ml-1">
                         <h5>
                             <Badge variant="dark">{'Officers'}</Badge>
                         </h5>
                     </Row>
-                    <StockInfoTable tableHeader={officersHeader} tableData={officersInfo} sortItem={sortItem} />
+                    <StockInfoTable tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} sortItem={sortItem} />
                 </Tab>
                 <Tab eventKey="ETFList" title="ETF List">
                     {clicked ?
@@ -186,34 +160,34 @@ function StockDetails({ inputTicker }) {
                             <Badge variant="dark">{'No. of ETF Count: '}</Badge>
                         </h5>
                         <h5>
-                            <Badge variant="light" className="ml-2">{etfCount}</Badge>
+                            <Badge variant="light" className="ml-2">{settings.etfCount}</Badge>
                         </h5>
                     </Row>
-                    <StockInfoTable tableHeader={etfHeader} tableData={etfInfo} sortItem={sortItem} />
+                    <StockInfoTable tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
                 </Tab>
                 <Tab eventKey="BalanceSheet" title="Balance Sheet">
                     {clicked ?
                         <LoadingSpinner /> : ''
                     }
-                    <StockInfoTable tableHeader={balanceHeader} tableData={balanceInfo} sortItem={sortItem} />
+                    <StockInfoTable tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} sortItem={sortItem} />
                 </Tab>
                 <Tab eventKey="Price%" title="Price%">
                     {clicked ?
                         <LoadingSpinner /> : ''
                     }
-                    <PriceInfo inputTickers={inputTickers} />
+                    <PriceInfo inputTickers={settings.inputTickers} />
                 </Tab>
                 <Tab eventKey="Forecast" title="Forecast">
                     {clicked ?
                         <LoadingSpinner /> : ''
                     }
-                    <ForecastInfo inputTickers={inputTickers} />
+                    <ForecastInfo inputTickers={settings.inputTickers} />
                 </Tab>
                 <Tab eventKey="Financials" title="Financials">
                     {clicked ?
                         <LoadingSpinner /> : ''
                     }
-                    <FinancialsInfo inputTickers={inputTickers} />
+                    <FinancialsInfo inputTickers={settings.inputTickers} />
                 </Tab>
             </Tabs>
         </Fragment>

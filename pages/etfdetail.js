@@ -12,27 +12,18 @@ import { Alert, Badge, Button, Col, Row } from 'react-bootstrap';
 import StockDetails from '../components/StockDetails';
 import PriceInfo from '../components/PriceInfo';
 import ForecastInfo from '../components/ForecastInfo';
+import { etfDetailsSettings, etfHoldingHeader } from '../config/etf'
 const axios = require('axios').default
 
 export default function Home() {
 
-  const [tableHeader, setTableHeader] = useState([])
-  const [stockInfo, setstockInfo] = useState([])
-  const [holdingInfoHeader, setholdingInfoHeader] = useState([])
-  const [holdingInfoInfo, setholdingInfoInfo] = useState([])
-  const [pieData, setPieData] = useState({})
-
-
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
-  const [priceHref, setPriceHref] = useState('/')
-  const [forecastHref, setForecastHref] = useState('/')
   const [allowCheck, setAllowCheck] = useState(false)
-  const [selectedTab, setSelectedTab] = useState('Basics')
-  const [selectedStockTicker, setSelectedStockTicker] = useState('')
-  const [inputETFTicker, setInputETFTicker] = useState([])
   const [showAlert, setShowAlert] = useState(false)
+
+  const [settings, setSettings] = useState({ ...etfDetailsSettings })
 
   const handleChange = (e) => {
     setFormValue({
@@ -46,18 +37,16 @@ export default function Home() {
   }
 
   const cellClick = async (item) => {
-    setSelectedTab('StockDetails')
-    setSelectedStockTicker(item[0])
+    setSettings({
+      ...settings,
+      selectedTab: 'StockDetails',
+      selectedStockTicker: item.find(x => x)
+    }
+    )
   }
 
   const clearItems = async () => {
-    setstockInfo([])
-    setTableHeader([])
-    setholdingInfoInfo([])
-    setholdingInfoHeader([])
-    setPieData({})
-    setSelectedStockTicker('')
-    setInputETFTicker([])
+    setSettings({ ...etfDetailsSettings })
   }
 
   async function handleTicker(inputTicker) {
@@ -109,21 +98,7 @@ export default function Home() {
         },
       ],
     }
-    setInputETFTicker([ticker])
 
-    setPieData(pieData)
-
-    setstockInfo(
-      [...etfInfo]
-    )
-
-    setholdingInfoHeader(
-      ["Ticker", "Name", "Holding"]
-    )
-
-    setholdingInfoInfo(
-      [...holdingInfo]
-    )
 
     const href = holdingInfo.reduce((acc, cur) => {
       if (cur[0].length > 0 && cur[0] != 'Others')
@@ -133,8 +108,25 @@ export default function Home() {
 
     if (href != '') setAllowCheck(true)
 
-    setPriceHref(`/price?query=${href}`)
-    setForecastHref(`/forecast?query=${href}`)
+
+    const newSettings = {
+      basics: {
+        tableHeader: [],
+        tableData: [...etfInfo]
+      },
+      holding: {
+        tableHeader: [...etfHoldingHeader],
+        tableData: [...holdingInfo]
+      },
+      pieData: pieData,
+      inputETFTicker: [ticker],
+      selectedStockTicker: '',
+      priceHref: `/price?query=${href}`,
+      forecastHref: `/forecast?query=${href}`
+    }
+
+    setSettings(newSettings)
+
 
   }
 
@@ -159,7 +151,10 @@ export default function Home() {
   }
 
   const handleSelect = (key) => {
-    setSelectedTab(key);
+    setSettings({
+      ...settings,
+      selectedTab: key
+    })
   }
 
   return (
@@ -177,21 +172,21 @@ export default function Home() {
             tableData={undefined}
             exportFileName={undefined}
           />
-          <Tabs variant="pills" className="mt-4" activeKey={selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
+          <Tabs variant="pills" className="mt-4" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
             <Tab eventKey="Basics" title="Basics">
               {clicked ?
                 <LoadingSpinner /> : ''
               }
-              <StockInfoTable tableHeader={tableHeader} tableData={stockInfo} sortItem={sortItem} />
+              <StockInfoTable tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
             </Tab>
             <Tab eventKey="Holdings" title="Holdings">
               {clicked ?
                 <LoadingSpinner /> : ''
               }
               <Row className="mt-3 ml-1">
-              {!showAlert && <Button size="sm" variant="warning" onClick={() => setShowAlert(true)}>{'Details?'}</Button>}
-                <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={priceHref} variant="dark">{'All Price%'}</Button>
-                <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={forecastHref} variant="outline-dark">{'All Forecast'}</Button>
+                {!showAlert && <Button size="sm" variant="warning" onClick={() => setShowAlert(true)}>{'Details?'}</Button>}
+                <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.priceHref} variant="dark">{'All Price%'}</Button>
+                <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.forecastHref} variant="outline-dark">{'All Forecast'}</Button>
               </Row>
               <Row className="mt-1 ml-1">
                 <Alert show={showAlert} variant="warning">
@@ -206,8 +201,8 @@ export default function Home() {
                   </div>
                 </Alert>
               </Row>
-              <StockInfoTable tableHeader={holdingInfoHeader} tableData={holdingInfoInfo} sortItem={sortItem} cellClick={cellClick} />
-              <Doughnut data={pieData} />
+              <StockInfoTable tableHeader={settings.holding.tableHeader} tableData={settings.holding.tableData} sortItem={sortItem} cellClick={cellClick} />
+              <Doughnut data={settings.pieData} />
             </Tab>
             <Tab eventKey="Statistics" title="Stat.">
               {clicked ?
@@ -218,16 +213,16 @@ export default function Home() {
                   <Badge variant="dark">{'Forecast'}</Badge>
                 </h5>
               </Row>
-              <ForecastInfo inputTickers={inputETFTicker} />
+              <ForecastInfo inputTickers={settings.inputETFTicker} />
               <Row className="ml-1">
                 <h5>
                   <Badge variant="dark">{'Price%'}</Badge>
                 </h5>
               </Row>
-              <PriceInfo inputTickers={inputETFTicker} />
+              <PriceInfo inputTickers={settings.inputETFTicker} />
             </Tab>
             <Tab eventKey="StockDetails" title="Stock Details">
-              <StockDetails inputTicker={selectedStockTicker} />
+              <StockDetails inputTicker={settings.selectedStockTicker} />
             </Tab>
           </Tabs>
         </Fragment>
