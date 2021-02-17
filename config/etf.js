@@ -15,9 +15,11 @@ export const etfDetailsSettings = {
     pieData: {},
     inputETFTicker: [],
     selectedStockTicker: '',
+    selectedStockTitle: '',
     selectedTab: 'Basics',
     priceHref: '/',
-    forecastHref: '/'
+    forecastHref: '/',
+    disableSelectedStockTab: true
 }
 
 export const etfHoldingHeader = ["Ticker", "Name", "Holding"]

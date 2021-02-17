@@ -40,9 +40,10 @@ export default function Home() {
     setSettings({
       ...settings,
       selectedTab: 'StockDetails',
-      selectedStockTicker: item.find(x => x)
-    }
-    )
+      selectedStockTicker: item.find(x => x),
+      disableSelectedStockTab: false,
+      selectedStockTitle: item.find(x=> x)
+    })
   }
 
   const clearItems = async () => {
@@ -221,7 +222,7 @@ export default function Home() {
               </Row>
               <PriceInfo inputTickers={settings.inputETFTicker} />
             </Tab>
-            <Tab eventKey="StockDetails" title="Stock Details">
+            <Tab eventKey="StockDetails" title={settings.selectedStockTitle} disabled={settings.disableSelectedStockTab}>
               <StockDetails inputTicker={settings.selectedStockTicker} />
             </Tab>
           </Tabs>
