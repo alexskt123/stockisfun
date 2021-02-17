@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Row from 'react-bootstrap/Row'
 import LoadingSpinner from './LoadingSpinner'
-import CustomContainer from '../../components/CustomContainer'
+import CustomContainer from '../../components/Layout/CustomContainer'
 
 export default function PageLoading() {
   return (

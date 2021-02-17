@@ -1,7 +1,7 @@
 
 import { Fragment, useState } from 'react'
-import CustomContainer from '../components/CustomContainer'
-import TickerInput from '../components/TickerInput'
+import CustomContainer from '../components/Layout/CustomContainer'
+import TickerInput from '../components/Page/TickerInput'
 import StockDetails from '../components/StockDetails';
 
 export default function Home() {

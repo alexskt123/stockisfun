@@ -1,9 +1,9 @@
 
 import { Fragment, useState } from 'react'
-import CustomContainer from '../components/CustomContainer'
+import CustomContainer from '../components/Layout/CustomContainer'
 
-import TickerInput from '../components/TickerInput'
-import TickerBullet from '../components/TickerBullet'
+import TickerInput from '../components/Page/TickerInput'
+import TickerBullet from '../components/Page/TickerBullet'
 import { sortTableItem } from '../lib/commonFunction'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 import FinancialsInfo from '../components/FinancialsInfo'

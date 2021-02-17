@@ -1,12 +1,12 @@
 
 import { Fragment, useState } from 'react'
-import CustomContainer from '../components/CustomContainer'
+import CustomContainer from '../components/Layout/CustomContainer'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { Doughnut } from 'react-chartjs-2';
 
-import StockInfoTable from '../components/StockInfoTable'
-import TickerInput from '../components/TickerInput'
+import StockInfoTable from '../components/Page/StockInfoTable'
+import TickerInput from '../components/Page/TickerInput'
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
 import { Alert, Badge, Button, Col, Row } from 'react-bootstrap';
 import StockDetails from '../components/StockDetails';

@@ -7,8 +7,8 @@ import Link from 'next/link'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 // config
-import { NavItems, NavDropDown } from '../config/settings'
-import Settings from '../config/settings'
+import { NavItems, NavDropDown } from '../../config/settings'
+import Settings from '../../config/settings'
 import { Badge, NavDropdown } from 'react-bootstrap'
 
 

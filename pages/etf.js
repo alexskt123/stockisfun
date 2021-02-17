@@ -1,11 +1,11 @@
 
 import { Fragment, useState } from 'react'
-import CustomContainer from '../components/CustomContainer'
+import CustomContainer from '../components/Layout/CustomContainer'
 
 import { selectedHeadersArr } from '../config/etf'
-import StockInfoTable from '../components/StockInfoTable'
-import TickerInput from '../components/TickerInput'
-import TickerBullet from '../components/TickerBullet'
+import StockInfoTable from '../components/Page/StockInfoTable'
+import TickerInput from '../components/Page/TickerInput'
+import TickerBullet from '../components/Page/TickerBullet'
 import { sortTableItem } from '../lib/commonFunction'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 

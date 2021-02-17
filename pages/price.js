@@ -2,10 +2,10 @@
 import { Fragment, useState, useEffect } from 'react'
 
 import { dateRange, dateRangeByNoOfYears } from '../config/price'
-import TickerInput from '../components/TickerInput'
-import TickerBullet from '../components/TickerBullet'
+import TickerInput from '../components/Page/TickerInput'
+import TickerBullet from '../components/Page/TickerBullet'
 import { getPriceInfo, priceSettingSchema } from '../lib/commonFunction'
-import CustomContainer from '../components/CustomContainer'
+import CustomContainer from '../components/Layout/CustomContainer'
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
 
 import { useRouter } from 'next/router'

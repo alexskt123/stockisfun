@@ -3,7 +3,7 @@ import { Fragment, useState, useEffect } from 'react'
 
 import { getForecastInfo, sortTableItem, forecastSettingSchema } from '../lib/commonFunction'
 import LoadingSpinner from './Loading/LoadingSpinner'
-import StockInfoTable from './StockInfoTable'
+import StockInfoTable from '../components/Page/StockInfoTable'
 
 function ForecastInfo({ inputSettings, inputTickers }) {
 

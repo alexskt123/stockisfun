@@ -1,10 +1,10 @@
 
 import { Fragment, useState, useEffect } from 'react'
-import CustomContainer from '../components/CustomContainer'
+import CustomContainer from '../components/Layout/CustomContainer'
 
 import ForecastInfo from '../components/ForecastInfo'
-import TickerInput from '../components/TickerInput'
-import TickerBullet from '../components/TickerBullet'
+import TickerInput from '../components/Page/TickerInput'
+import TickerBullet from '../components/Page/TickerBullet'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 import { getForecastInfo, forecastSettingSchema } from '../lib/commonFunction'
 

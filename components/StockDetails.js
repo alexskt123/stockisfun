@@ -3,7 +3,7 @@ import { Fragment, useState, useEffect } from 'react'
 
 import { sortTableItem } from '../lib/commonFunction'
 import LoadingSpinner from './Loading/LoadingSpinner'
-import StockInfoTable from './StockInfoTable'
+import StockInfoTable from '../components/Page/StockInfoTable'
 
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'

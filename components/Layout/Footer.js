@@ -1,6 +1,6 @@
 import Navbar from 'react-bootstrap/Navbar'
 import Alert from 'react-bootstrap/Alert'
-import Settings from '../config/settings'
+import Settings from '../../config/settings'
 
 export default function Footer() {
 
