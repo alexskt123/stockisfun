@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getETFDB } from '../../lib/getETFDB'
+import { getETFDB } from '../../lib/etfdb/getETFDB'
 
 
 const axios = require('axios').default

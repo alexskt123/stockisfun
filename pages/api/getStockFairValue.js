@@ -2,8 +2,8 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getStockFairValue } from '../../lib/getStockFairValue'
-import { getYahooRecommendTrend } from '../../lib/getYahooRecommendTrend'
+import { getStockFairValue } from '../../lib/forecast/getStockFairValue'
+import { getYahooRecommendTrend } from '../../lib/yahoo/getYahooRecommendTrend'
 
 const axios = require('axios').default
 

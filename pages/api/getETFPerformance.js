@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getETFPerformance } from '../../lib/getETFPerformance'
+import { getETFPerformance } from '../../lib/etfdb/getETFPerformance'
 
 
 const axios = require('axios').default

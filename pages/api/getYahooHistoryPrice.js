@@ -2,8 +2,8 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooHistoryPrice } from '../../lib/getYahooHistoryPrice'
-import { getYahooQuote } from '../../lib/getYahooQuote'
+import { getYahooHistoryPrice } from '../../lib/yahoo/getYahooHistoryPrice'
+import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
 import { dateRange, dateRangeByNoOfYears , quoteFilterList } from '../../config/price'
 import percent from 'percent'
 

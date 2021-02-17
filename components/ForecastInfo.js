@@ -4,6 +4,7 @@ import { Fragment, useState, useEffect } from 'react'
 import { getForecastInfo, sortTableItem, forecastSettingSchema } from '../lib/commonFunction'
 import LoadingSpinner from './Loading/LoadingSpinner'
 import StockInfoTable from '../components/Page/StockInfoTable'
+import {forecastTableFirstHeader} from '../config/forecast'
 
 function ForecastInfo({ inputSettings, inputTickers }) {
 
@@ -53,7 +54,7 @@ function ForecastInfo({ inputSettings, inputTickers }) {
             {loading ?
                 <LoadingSpinner /> : ''
             }
-            <StockInfoTable tableFirstHeader={['', 'WalletInvestor', '', '', '', '', 'Financhill', 'MoneyCnn', '', '', '', '', 'Yahoo']} tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
+            <StockInfoTable tableFirstHeader={[...forecastTableFirstHeader]} tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
         </Fragment>
     )
 }

@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getStockETFCount } from '../../lib/getStockETFCount'
+import { getStockETFCount } from '../../lib/etfdb/getStockETFCount'
 
 
 const axios = require('axios').default

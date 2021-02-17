@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getETFAUMSum } from '../../lib/getETFAUMSum'
+import { getETFAUMSum } from '../../lib/etfdb/getETFAUMSum'
 
 const axios = require('axios').default
 

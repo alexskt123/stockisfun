@@ -2,9 +2,9 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooAssetProfile } from '../../lib/getYahooAssetProfile'
-import { getYahooQuote } from '../../lib/getYahooQuote'
-import { getYahooBalanceSheet } from '../../lib/getYahooBalanceSheet'
+import { getYahooAssetProfile } from '../../lib/yahoo/getYahooAssetProfile'
+import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
+import { getYahooBalanceSheet } from '../../lib/yahoo/getYahooBalanceSheet'
 import millify from 'millify'
 
 export default async (req, res) => {

@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooKeyStatistics } from '../../lib/getYahooKeyStatistics'
+import { getYahooKeyStatistics } from '../../lib/yahoo/getYahooKeyStatistics'
 
 
 const axios = require('axios').default
