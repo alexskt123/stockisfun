@@ -57,8 +57,8 @@ function PriceInfo({ inputTicker }) {
                         label: inputTicker,
                         data: [...dateprice.data.price.slice(60)],
                         fill: false,
-                        backgroundColor: "rgba(75,192,192,0.2)",
-                        borderColor: "rgba(75,192,192,1)",
+                        backgroundColor: "rgba(30,230,230,0.2)",
+                        borderColor: "rgba(30,230,230,1)",
                         showLine: false
                     }, {
                         label: '5-MA',

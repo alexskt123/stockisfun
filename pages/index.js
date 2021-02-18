@@ -9,7 +9,7 @@ export default function CustomStep() {
   const router = useRouter()
 
   useEffect(() => {
-    router.push('/price')
+    router.push('/basics')
   }, [])
 
   //template
