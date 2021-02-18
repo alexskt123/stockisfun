@@ -59,7 +59,7 @@ function PriceInfo({ inputTicker }) {
                         fill: false,
                         backgroundColor: "rgba(75,192,192,0.2)",
                         borderColor: "rgba(75,192,192,1)",
-                        pointRadius: 0
+                        showLine: false
                     }, {
                         label: '5-MA',
                         data: [...ma5.slice(60)],
