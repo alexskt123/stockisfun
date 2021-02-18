@@ -134,7 +134,13 @@ function StockDetails({ inputTicker }) {
 
     return (
         <Fragment>
-            <Tabs className="mt-4" defaultActiveKey="Basics" id="uncontrolled-tab-example">
+            <Tabs className="mt-4" defaultActiveKey="Price" id="uncontrolled-tab-example">
+                <Tab eventKey="Price" title="Price">
+                    {clicked ?
+                        <LoadingSpinner /> : ''
+                    }
+                    <Price inputTicker={settings.inputTickers.find(x => x)} />
+                </Tab>
                 <Tab eventKey="Basics" title="Basics">
                     {clicked ?
                         <LoadingSpinner /> : ''
@@ -189,12 +195,6 @@ function StockDetails({ inputTicker }) {
                         <LoadingSpinner /> : ''
                     }
                     <FinancialsInfo inputTickers={settings.inputTickers} />
-                </Tab>
-                <Tab eventKey="Price" title="Price">
-                    {clicked ?
-                        <LoadingSpinner /> : ''
-                    }
-                    <Price inputTicker={settings.inputTickers.find(x => x)} />
                 </Tab>
             </Tabs>
         </Fragment>

@@ -22,8 +22,8 @@ const getAUMSum = async (ticker) => {
     if (i > 9) break
 
     const etfInfo = await getETFDB(etf.ticker)
-    const etfSummary = `${etf.ticker}: ${etf.weight.replace('%', '')}% AUM: ${etfInfo.basicInfo.AUM}`
-    aumSum += parseFloat(etfInfo.basicInfo.AUM.replace(/\$|M|,| /gi, ''))
+    const etfSummary = `${etf.ticker}: ${(etf.weight|| '').replace('%', '')}% AUM: ${etfInfo.basicInfo.AUM}`
+    aumSum += parseFloat((etfInfo.basicInfo.AUM|| '').replace(/\$|M|,| /gi, ''))
     etfData.push(etfSummary)
 
     i += 1

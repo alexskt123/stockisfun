@@ -148,6 +148,7 @@ function PriceInfo({ inputTicker }) {
                     value={settings.ma}
                     onChange={(e) => handleChange(e)}
                 >
+                    <option value="">N/A</option>
                     <option value="ma">MA</option>
                     <option value="ema">EMA</option>
                 </Form.Control>
