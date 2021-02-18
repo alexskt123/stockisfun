@@ -2,7 +2,7 @@
 import { Fragment, useState, useEffect } from 'react'
 
 import { getPriceInfo, sortTableItem, priceSettingSchema } from '../lib/commonFunction'
-import StockInfoTable from '../components/Page/StockInfoTable'
+import StockInfoTable from './Page/StockInfoTable'
 import { Line } from 'react-chartjs-2';
 import { dateRange, dateRangeByNoOfYears } from '../config/price'
 import LoadingSpinner from './Loading/LoadingSpinner';

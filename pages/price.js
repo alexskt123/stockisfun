@@ -9,7 +9,7 @@ import CustomContainer from '../components/Layout/CustomContainer'
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
 
 import { useRouter } from 'next/router'
-import PriceInfo from '../components/PriceInfo';
+import PriceChange from '../components/PriceChange';
 
 export default function Home() {
 
@@ -123,7 +123,7 @@ export default function Home() {
           {clicked ?
             <LoadingSpinner /> : ''
           }
-          <PriceInfo inputSettings={settings} inputDateRange={formValue.formYear} />
+          <PriceChange inputSettings={settings} inputDateRange={formValue.formYear} />
         </Fragment>
       </CustomContainer>
     </Fragment >

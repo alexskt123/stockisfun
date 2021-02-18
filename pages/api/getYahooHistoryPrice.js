@@ -4,14 +4,14 @@
 
 import { getYahooHistoryPrice } from '../../lib/yahoo/getYahooHistoryPrice'
 import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
-import { dateRange, dateRangeByNoOfYears , quoteFilterList } from '../../config/price'
+import { dateRange, dateRangeByNoOfYears, quoteFilterList } from '../../config/price'
 import percent from 'percent'
+import moment from 'moment-business-days'
+import fedHolidays from '@18f/us-federal-holidays'
 
 const axios = require('axios').default
 
-
-export default async (req, res) => {
-  const { ticker, year } = req.query
+const handleYearPcnt = async (ticker, year) => {
 
   let inputItems = []
 
@@ -25,22 +25,22 @@ export default async (req, res) => {
         ...item
       }
     )
-  })  
+  })
 
   let temp = {
-      'ticker': ticker.toUpperCase(),
-      'startPrice': null,
-      'endPrice': null,
-      'yearCnt': 0,
-      'data': [],
-      'quote': {}
-    }
+    'ticker': ticker.toUpperCase(),
+    'startPrice': null,
+    'endPrice': null,
+    'yearCnt': 0,
+    'data': [],
+    'quote': {}
+  }
 
   for (const item of inputItems) {
 
     let formattedFromDate = new Date(item.fromDate);
     formattedFromDate = formattedFromDate.getTime() / 1000;
-    
+
     let formattedToDate = new Date(item.toDate);
     formattedToDate = formattedToDate.getTime() / 1000;
 
@@ -71,6 +71,61 @@ export default async (req, res) => {
     else temp.data.push("N/A")
 
   }
+
+  return temp
+}
+
+const handleDays = async (ticker, days) => {
+  if ( ticker === "undefined" || days === "undefined") return {date: [], price: []}
+
+  moment.updateLocale('us', {
+    workingWeekdays: [1, 2, 3, 4, 5]
+  });
+
+  const options = { shiftSaturdayHolidays: true, shiftSundayHolidays: true };
+  const holidays = fedHolidays.allForYear(moment().year(), options);
+
+  let formattedToDate = moment();
+  let formattedFromDate
+  let cnt = 1
+  let trial = 1
+
+  while (cnt < days) {
+
+    formattedFromDate = moment().subtract(trial, 'days').startOf('day');
+
+    if (formattedFromDate.isBusinessDay()
+      && holidays.map(holidayItem => {
+        const holiday = holidayItem.date
+        return holiday.getFullYear() == formattedFromDate.year()
+          && holiday.getMonth() == formattedFromDate.month()
+          && holiday.getDate() == formattedFromDate.date()
+      }).filter(x => x == true).length <= 0)
+      cnt += 1
+    trial += 1
+
+  }
+
+  formattedFromDate = parseInt(formattedFromDate.valueOf() / 1000);
+  formattedToDate = parseInt(formattedToDate.valueOf() / 1000);
+
+  const outputItem = await getYahooHistoryPrice(ticker, formattedFromDate, formattedToDate)
+
+  return {
+    date: (outputItem.timestamp || []).map(item=>moment.unix(item).format("DD MMM YYYY")),
+    price: outputItem.indicators.quote.find(x => x).close
+  }
+}
+
+export default async (req, res) => {
+  const { ticker, year, days } = req.query
+
+  let temp = {}
+
+  if (year)
+    temp = await handleYearPcnt(ticker, year)
+  else
+    temp = await handleDays(ticker, days)
 
   res.statusCode = 200
   res.json(temp)

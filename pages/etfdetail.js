@@ -10,9 +10,10 @@ import TickerInput from '../components/Page/TickerInput'
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
 import { Alert, Badge, Button, Col, Row } from 'react-bootstrap';
 import StockDetails from '../components/StockDetails';
-import PriceInfo from '../components/PriceInfo';
+import PriceChange from '../components/PriceChange';
 import ForecastInfo from '../components/ForecastInfo';
 import { etfDetailsSettings, etfHoldingHeader } from '../config/etf'
+import Price from '../components/Price'
 const axios = require('axios').default
 
 export default function Home() {
@@ -179,6 +180,7 @@ export default function Home() {
                 <LoadingSpinner /> : ''
               }
               <StockInfoTable tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
+              <Price inputTicker={settings.inputETFTicker.find(x => x)} inputDays={90} />
             </Tab>
             <Tab eventKey="Holdings" title="Holdings">
               {clicked ?
@@ -220,7 +222,7 @@ export default function Home() {
                   <Badge variant="dark">{'Price%'}</Badge>
                 </h5>
               </Row>
-              <PriceInfo inputTickers={settings.inputETFTicker} />
+              <PriceChange inputTickers={settings.inputETFTicker} />
             </Tab>
             <Tab eventKey="StockDetails" title={settings.selectedStockTitle} disabled={settings.disableSelectedStockTab}>
               <StockDetails inputTicker={settings.selectedStockTicker} />

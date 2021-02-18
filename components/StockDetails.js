@@ -9,16 +9,17 @@ import { stockDetailsSettings, officersTableHeader } from '../config/stock'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 
-import PriceInfo from '../components/PriceInfo'
+import PriceChange from '../components/PriceChange'
 import ForecastInfo from '../components/ForecastInfo'
 import FinancialsInfo from '../components/FinancialsInfo'
+import Price from '../components/Price'
 import { Badge, Row } from 'react-bootstrap'
 
 const axios = require('axios').default
 
 function StockDetails({ inputTicker }) {
 
-    const [settings, setSettings] = useState({...stockDetailsSettings})
+    const [settings, setSettings] = useState({ ...stockDetailsSettings })
     const [clicked, setClicked] = useState(false)
 
     async function handleTicker() {
@@ -90,7 +91,7 @@ function StockDetails({ inputTicker }) {
         })
 
 
-        const newSettings= {
+        const newSettings = {
             basics: {
                 tableHeader: [],
                 tableData: [...basicItem]
@@ -128,7 +129,7 @@ function StockDetails({ inputTicker }) {
     }
 
     const clearItems = async () => {
-        setSettings({...stockDetailsSettings})
+        setSettings({ ...stockDetailsSettings })
     }
 
     return (
@@ -175,7 +176,7 @@ function StockDetails({ inputTicker }) {
                     {clicked ?
                         <LoadingSpinner /> : ''
                     }
-                    <PriceInfo inputTickers={settings.inputTickers} />
+                    <PriceChange inputTickers={settings.inputTickers} />
                 </Tab>
                 <Tab eventKey="Forecast" title="Forecast">
                     {clicked ?
@@ -188,6 +189,12 @@ function StockDetails({ inputTicker }) {
                         <LoadingSpinner /> : ''
                     }
                     <FinancialsInfo inputTickers={settings.inputTickers} />
+                </Tab>
+                <Tab eventKey="Price" title="Price">
+                    {clicked ?
+                        <LoadingSpinner /> : ''
+                    }
+                    <Price inputTicker={settings.inputTickers.find(x => x)} />
                 </Tab>
             </Tabs>
         </Fragment>
