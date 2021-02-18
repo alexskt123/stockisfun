@@ -5,10 +5,8 @@
 import { getETFAUMSum } from '../../lib/etfdb/getETFAUMSum'
 import { getETFDB } from '../../lib/etfdb/getETFDB'
 
-import { getStockETFCount } from '../../lib/etfdb/getStockETFCount'
 import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
 import { getYahooKeyStatistics } from '../../lib/yahoo/getYahooKeyStatistics'
-import { getMoneyCnn } from '../../lib/forecast/getMoneyCnn'
 
 import percent from 'percent'
 
@@ -41,19 +39,15 @@ const getAUMSum = async (ticker) => {
 export default async (req, res) => {
   const { ticker } = req.query
 
-  let etfCount
   let quote
   let keyRatio
   let floatingShareRatio = 'N/A'
   let marketCap = 'N/A'
-  let moneyCnn
   let data = []
 
   const etfData = await getAUMSum(ticker)
-  etfCount = await getStockETFCount(ticker)
   quote = await getYahooQuote(ticker)
   keyRatio = await getYahooKeyStatistics(ticker)
-  moneyCnn = await getMoneyCnn(ticker)
 
   if (keyRatio && keyRatio.floatShares) {
     floatingShareRatio = percent.calc(keyRatio.floatShares.raw, keyRatio.sharesOutstanding.raw, 2, true)
@@ -63,7 +57,7 @@ export default async (req, res) => {
     marketCap = `${(quote.marketCap / 1000000000).toFixed(2)}B`
   }
 
-  data = [...etfData, quote.regularMarketPrice, marketCap, etfCount, floatingShareRatio, ...moneyCnn]
+  data = [...etfData, quote.regularMarketPrice, marketCap, floatingShareRatio]
   
   res.statusCode = 200
   res.json(data)
