@@ -118,15 +118,16 @@ function PriceInfo({ inputTicker }) {
             }
             <div style={{ display: 'inline-flex', alignItems: 'baseline' }} className="ml-1">
                 <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">
-                    <h5>
+                    <h6>
                         <Badge variant="dark">
                             <span>
                                 {'In Business Days'}
                             </span>
                         </Badge>
-                    </h5>
+                    </h6>
                 </Form.Label>
                 <Form.Control
+                    size="sm"
                     as="select"
                     className="my-1 mr-sm-2"
                     name="formYear"
@@ -138,10 +139,12 @@ function PriceInfo({ inputTicker }) {
                     <option value="10">10D</option>
                     <option value="30">30D</option>
                     <option value="90">3M</option>
+                    <option value="120">6M</option>
                     <option value="365">1Y</option>
                     <option value="1095">3Y</option>
                 </Form.Control>
                 <Form.Control
+                    size="sm"
                     as="select"
                     className="my-1 mr-sm-2"
                     name="formma"

@@ -87,10 +87,10 @@ const handleDays = async (ticker, days) => {
 
   let formattedToDate = moment();
   let formattedFromDate
-  let cnt = 1
-  let trial = 1
+  let cnt = 0
+  let trial = 0
 
-  while (cnt < days) {
+  while (cnt < parseInt(days) + 1) {
 
     formattedFromDate = moment().subtract(trial, 'days').startOf('day');
 
