@@ -59,7 +59,8 @@ function PriceInfo({ inputTicker }) {
                         fill: false,
                         backgroundColor: "rgba(30,230,230,0.2)",
                         borderColor: "rgba(30,230,230,1)",
-                        showLine: false
+                        showLine: inputMA == '' ? true : false,
+                        pointRadius: inputMA == '' ? 0 : 3
                     }, {
                         label: '5-MA',
                         data: [...ma5.slice(60)],
@@ -117,13 +118,13 @@ function PriceInfo({ inputTicker }) {
             }
             <div style={{ display: 'inline-flex', alignItems: 'baseline' }} className="ml-1">
                 <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">
-                    <h4>
+                    <h5>
                         <Badge variant="dark">
                             <span>
                                 {'In Business Days'}
                             </span>
                         </Badge>
-                    </h4>
+                    </h5>
                 </Form.Label>
                 <Form.Control
                     as="select"

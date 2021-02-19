@@ -6,6 +6,7 @@ import { getYahooAssetProfile } from '../../lib/yahoo/getYahooAssetProfile'
 import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
 import { getYahooBalanceSheet } from '../../lib/yahoo/getYahooBalanceSheet'
 import millify from 'millify'
+import roundTo from 'round-to'
 
 export default async (req, res) => {
   const { ticker } = req.query
@@ -54,6 +55,8 @@ export default async (req, res) => {
 
   const newData = {
     'Name': quote.longName,
+    'Price': quote.regularMarketPrice,
+    '52W-Low-High': `${roundTo(parseFloat(quote.fiftyTwoWeekLow), 2)} - ${roundTo(parseFloat(quote.fiftyTwoWeekHigh), 2)}`,
     'Website': data.website,
     'Industry': data.industry,
     'Sector': data.sector,
