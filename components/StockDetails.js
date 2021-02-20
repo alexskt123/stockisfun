@@ -39,81 +39,126 @@ function StockDetails({ inputTicker }) {
         let etfList = []
         let etfCount = 0
 
-        basics = await axios(`/api/getYahooAssetProfile?ticker=${ticker}`)
-        etfList = await axios(`/api/getETFListByTicker?ticker=${ticker}`)
-        etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
+        // basics = await axios(`/api/getYahooAssetProfile?ticker=${ticker}`)
+        // etfList = await axios(`/api/getETFListByTicker?ticker=${ticker}`)
+        // etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
 
-        if (etfList.data) {
-            etfItemHeader = Object.keys(etfList.data.find(x => x) || {})
+        setSettings({ ...settings, inputTickers: [ticker] })
 
-            etfItem.push(...etfList.data.map(data => {
-                const newArr = []
-                etfItemHeader.forEach(item => {
-                    newArr.push(data[item])
+        axios.all([
+            axios
+                .get(`/api/getYahooAssetProfile?ticker=${ticker}`)
+                .then((response) => {
+                    const basicsData = response.data.basics
+                    const balanceSheetData = response.data.balanceSheet
+
+                    Object.keys(basicsData).forEach(item => {
+                        if (item !== 'Company Officers') {
+                            basicItem.push([item, basicsData[item]])
+                        } else {
+                            officers = basicsData['Company Officers'].map(item => {
+                                const itemArr = [
+                                    item.name,
+                                    item.title,
+                                    item.age || 'N/A',
+                                    (item.totalPay || { 'longFmt': 'N/A' }).longFmt
+                                ]
+                                return itemArr
+                            })
+                        }
+                    })
+
+                    Object.keys((balanceSheetData.find(x => x) || {})).forEach(item => {
+                        if (item !== 'Date') {
+                            const curItem = []
+                            balanceSheetData.forEach(data => {
+                                curItem.push(data[item])
+                            })
+
+                            balanceSheetItem.push([item, ...curItem])
+                        }
+                    })
+
+                    balanceSheetHeader.push('')
+                    balanceSheetData.forEach(item => {
+                        balanceSheetHeader.push(item['Date'])
+                    })
+
+                    basics = {
+                        basics: {
+                            tableHeader: [],
+                            tableData: [...basicItem]
+                        },
+                        officers: {
+                            tableHeader: [...officersTableHeader],
+                            tableData: [...officers]
+                        },
+                        balanceSheet: {
+                            tableHeader: [...balanceSheetHeader],
+                            tableData: [...balanceSheetItem]
+                        }
+                    }
+
+                    setSettings({
+                        ...settings,
+                        ...basics,
+                        ...etfList,
+                        etfCount,
+                        inputTickers: [ticker]
+                    })
+                }),
+            axios
+                .get(`/api/getETFListByTicker?ticker=${ticker}`)
+                .then((response) => {
+                    if (response.data) {
+                        etfItemHeader = Object.keys(response.data.find(x => x) || {})
+
+                        etfItem.push(...response.data.map(data => {
+                            const newArr = []
+                            etfItemHeader.forEach(item => {
+                                newArr.push(data[item])
+                            })
+                            return newArr
+                        }))
+
+                        etfList = {
+                            etfList: {
+                                tableHeader: [...etfItemHeader],
+                                tableData: [...etfItem]
+                            }
+                        }
+
+                        setSettings({
+                            ...settings,
+                            ...basics,
+                            ...etfList,
+                            etfCount,
+                            inputTickers: [ticker]
+                        })
+                    }
+
+                }),
+            axios
+                .get(`/api/getStockETFCount?ticker=${ticker}`)
+                .then((response) => {
+
+                    etfCount = response.data
+
+                    setSettings({
+                        ...settings,
+                        ...basics,
+                        ...etfList,
+                        etfCount,
+                        inputTickers: [ticker]
+                    })
+
                 })
-                return newArr
-            }))
-        }
-
-        const basicsData = basics.data.basics
-        const balanceSheetData = basics.data.balanceSheet
-
-        Object.keys(basicsData).forEach(item => {
-            if (item !== 'Company Officers') {
-                basicItem.push([item, basicsData[item]])
-            } else {
-                officers = basicsData['Company Officers'].map(item => {
-                    const itemArr = [
-                        item.name,
-                        item.title,
-                        item.age || 'N/A',
-                        (item.totalPay || { 'longFmt': 'N/A' }).longFmt
-                    ]
-                    return itemArr
-                })
-            }
-        })
-
-        Object.keys((balanceSheetData.find(x => x) || {})).forEach(item => {
-            if (item !== 'Date') {
-                const curItem = []
-                balanceSheetData.forEach(data => {
-                    curItem.push(data[item])
-                })
-
-                balanceSheetItem.push([item, ...curItem])
-            }
-        })
-
-        balanceSheetHeader.push('')
-        balanceSheetData.forEach(item => {
-            balanceSheetHeader.push(item['Date'])
-        })
+        ])
+            .then((_) => {
+                setClicked(false)
+            })
 
 
-        const newSettings = {
-            basics: {
-                tableHeader: [],
-                tableData: [...basicItem]
-            },
-            officers: {
-                tableHeader: [...officersTableHeader],
-                tableData: [...officers]
-            },
-            etfList: {
-                tableHeader: [...etfItemHeader],
-                tableData: [...etfItem]
-            },
-            balanceSheet: {
-                tableHeader: [...balanceSheetHeader],
-                tableData: [...balanceSheetItem]
-            },
-            etfCount: etfCount.data,
-            inputTickers: [ticker]
-        }
-
-        setSettings(newSettings)
-        setClicked(false)
     }
 
     useEffect(() => {
