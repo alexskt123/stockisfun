@@ -15,6 +15,8 @@ import FinancialsInfo from '../components/FinancialsInfo'
 import Price from '../components/Price'
 import { Badge, Row } from 'react-bootstrap'
 
+import percent from 'percent'
+
 const axios = require('axios').default
 
 function StockDetails({ inputTicker }) {
@@ -38,10 +40,7 @@ function StockDetails({ inputTicker }) {
         let etfItemHeader = []
         let etfList = []
         let etfCount = 0
-
-        // basics = await axios(`/api/getYahooAssetProfile?ticker=${ticker}`)
-        // etfList = await axios(`/api/getETFListByTicker?ticker=${ticker}`)
-        // etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
+        let floatingShareRatio = 'N/A'
 
         setSettings({ ...settings, inputTickers: [ticker] })
 
@@ -104,6 +103,7 @@ function StockDetails({ inputTicker }) {
                         ...basics,
                         ...etfList,
                         etfCount,
+                        floatingShareRatio,
                         inputTickers: [ticker]
                     })
                 }),
@@ -133,6 +133,7 @@ function StockDetails({ inputTicker }) {
                             ...basics,
                             ...etfList,
                             etfCount,
+                            floatingShareRatio,
                             inputTickers: [ticker]
                         })
                     }
@@ -149,6 +150,26 @@ function StockDetails({ inputTicker }) {
                         ...basics,
                         ...etfList,
                         etfCount,
+                        floatingShareRatio,
+                        inputTickers: [ticker]
+                    })
+
+                }),
+            axios
+                .get(`/api/getYahooKeyStatistics?ticker=${ticker}`)
+                .then((response) => {
+
+                    const keyRatio = response.data
+                    if (keyRatio && keyRatio.floatShares) {
+                        floatingShareRatio = percent.calc(keyRatio.floatShares.raw, keyRatio.sharesOutstanding.raw, 2, true)
+                    }
+
+                    setSettings({
+                        ...settings,
+                        ...basics,
+                        ...etfList,
+                        etfCount,
+                        floatingShareRatio,
                         inputTickers: [ticker]
                     })
 
@@ -157,7 +178,6 @@ function StockDetails({ inputTicker }) {
             .then((_) => {
                 setClicked(false)
             })
-
 
     }
 
@@ -204,6 +224,12 @@ function StockDetails({ inputTicker }) {
                         </h6>
                         <h6>
                             <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == '52W-Low-High').find(x => x) || [])[1]}</Badge>
+                        </h6>
+                        <h6>
+                            <Badge variant="dark">{'Floating Shares: '}</Badge>
+                        </h6>
+                        <h6>
+                            <Badge variant="light" className="ml-2">{settings.floatingShareRatio}</Badge>
                         </h6>
                     </Row>
                     <Price inputTicker={settings.inputTickers.find(x => x)} />
