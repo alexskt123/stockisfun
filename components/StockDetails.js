@@ -225,6 +225,8 @@ function StockDetails({ inputTicker }) {
                         <h6>
                             <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == '52W-Low-High').find(x => x) || [])[1]}</Badge>
                         </h6>
+                    </Row>
+                    <Row className="ml-1 mt-1">
                         <h6>
                             <Badge variant="dark">{'Floating Shares: '}</Badge>
                         </h6>
