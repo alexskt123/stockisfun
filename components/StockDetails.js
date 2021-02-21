@@ -212,7 +212,7 @@ function StockDetails({ inputTicker }) {
                             <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == 'Name').find(x => x) || [])[1]}</Badge>
                         </h6>
                     </Row>
-                    <Row className="ml-1 mt-1">
+                    <Row className="ml-1">
                         <h6>
                             <Badge variant="dark">{'Price: '}</Badge>
                         </h6>
@@ -226,12 +226,26 @@ function StockDetails({ inputTicker }) {
                             <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == '52W-Low-High').find(x => x) || [])[1]}</Badge>
                         </h6>
                     </Row>
-                    <Row className="ml-1 mt-1">
+                    <Row className="ml-1">
                         <h6>
                             <Badge variant="dark">{'Floating Shares: '}</Badge>
                         </h6>
                         <h6>
                             <Badge variant="light" className="ml-2">{settings.floatingShareRatio}</Badge>
+                        </h6>
+                        <h6>
+                            <Badge variant="dark" className="ml-2">{'Market Cap.: '}</Badge>
+                        </h6>
+                        <h6>
+                            <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == 'Market Cap.').find(x => x) || [])[1]}</Badge>
+                        </h6>
+                    </Row>
+                    <Row className="ml-1">
+                        <h6>
+                            <Badge variant="dark">{'Industry: '}</Badge>
+                        </h6>
+                        <h6>
+                            <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == 'Industry').find(x => x) || [])[1]}</Badge>
                         </h6>
                     </Row>
                     <Price inputTicker={settings.inputTickers.find(x => x)} />
