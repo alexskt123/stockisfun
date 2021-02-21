@@ -34,7 +34,7 @@ export default async (req, res) => {
             if (responses)
                 responses.forEach(item => {
                     if (item.data) {
-                        priceMADetails.asOfDate == '' ? item.data.asOfDate : priceMADetails.asOfDate
+                        priceMADetails.asOfDate = priceMADetails.asOfDate == '' ? item.data.asOfDate : priceMADetails.asOfDate
                         priceMADetails.fiveLowerTwenty.push(...item.data.fiveLowerTwenty)
                         priceMADetails.fiveLowerTwentyChart.push(...item.data.fiveLowerTwentyChart)
                         priceMADetails.fiveHigherTwenty.push(...item.data.fiveHigherTwenty)
