@@ -1,3 +1,5 @@
+
+import sendEmail from '../../lib/sendEmail'
 import { getUsers } from '../../lib/firebaseResult'
 
 const axios = require('axios').default
@@ -137,6 +139,7 @@ export default async (req, res) => {
         </p>
         `
     };
+
 
     await sendEmail(mailOptions)
 
