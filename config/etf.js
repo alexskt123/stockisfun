@@ -23,3 +23,5 @@ export const etfDetailsSettings = {
 }
 
 export const etfHoldingHeader = ["Ticker", "Name", "Holding"]
+
+export const aumSumCount = 10
