@@ -1,12 +1,4 @@
-
-import { getYahooHistoryPrice } from '../../lib/yahoo/getYahooHistoryPrice'
-import moment from 'moment-business-days'
-import { ma } from 'moving-averages'
-import QuickChart from 'quickchart-js'
-
-import sendEmail from '../../lib/sendEmail'
 import { getUsers } from '../../lib/firebaseResult'
-import { getFormattedFromToDate } from '../../lib/commonFunction'
 
 const axios = require('axios').default
 
@@ -21,7 +13,15 @@ export default async (req, res) => {
         fiveLowerTwenty: [],
         fiveLowerTwentyChart: [],
         fiveHigherTwenty: [],
-        fiveHigherTwentyChart: []
+        fiveHigherTwentyChart: [],
+        fiveLowerSixty: [],
+        fiveLowerSixtyChart: [],
+        fiveHigherSixty: [],
+        fiveHigherSixtyChart: [],
+        twentyLowerSixty: [],
+        twentyLowerSixtyChart: [],
+        twentyHigherSixty: [],
+        twentyHigherSixtyChart: [],
     }
 
     await axios.all(tickerArr.map(ticker => {
@@ -37,6 +37,14 @@ export default async (req, res) => {
                         priceMADetails.fiveLowerTwentyChart.push(...item.data.fiveLowerTwentyChart)
                         priceMADetails.fiveHigherTwenty.push(...item.data.fiveHigherTwenty)
                         priceMADetails.fiveHigherTwentyChart.push(...item.data.fiveHigherTwentyChart)
+                        priceMADetails.fiveLowerSixty.push(...item.data.fiveLowerSixty)
+                        priceMADetails.fiveLowerSixtyChart.push(...item.data.fiveLowerSixtyChart)
+                        priceMADetails.fiveHigherSixty.push(...item.data.fiveHigherSixty)
+                        priceMADetails.fiveHigherSixtyChart.push(...item.data.fiveHigherSixtyChart)
+                        priceMADetails.twentyLowerSixty.push(...item.data.twentyLowerSixty)
+                        priceMADetails.twentyLowerSixtyChart.push(...item.data.twentyLowerSixtyChart)
+                        priceMADetails.twentyHigherSixty.push(...item.data.twentyHigherSixty)
+                        priceMADetails.twentyHigherSixtyChart.push(...item.data.twentyHigherSixtyChart)
                     }
                 })
         })
@@ -47,6 +55,22 @@ export default async (req, res) => {
     }, '')
     const fiveHigherTwentyList = priceMADetails.fiveHigherTwenty.reduce((acc, cur, index) => {
         acc += `<li><p>${cur}</p> <img src="${priceMADetails.fiveHigherTwentyChart[index]}"/> </li>`
+        return acc
+    }, '')
+    const fiveLowerSixtyList = priceMADetails.fiveLowerSixty.reduce((acc, cur, index) => {
+        acc += `<li><p>${cur}</p> <img src="${priceMADetails.fiveLowerSixtyChart[index]}"/> </li>`
+        return acc
+    }, '')
+    const fiveHigherSixtyList = priceMADetails.fiveHigherSixty.reduce((acc, cur, index) => {
+        acc += `<li><p>${cur}</p> <img src="${priceMADetails.fiveHigherSixtyChart[index]}"/> </li>`
+        return acc
+    }, '')
+    const twentyLowerSixtyList = priceMADetails.twentyLowerSixty.reduce((acc, cur, index) => {
+        acc += `<li><p>${cur}</p> <img src="${priceMADetails.twentyLowerSixtyChart[index]}"/> </li>`
+        return acc
+    }, '')
+    const twentyHigherSixtyList = priceMADetails.twentyHigherSixty.reduce((acc, cur, index) => {
+        acc += `<li><p>${cur}</p> <img src="${priceMADetails.twentyHigherSixtyChart[index]}"/> </li>`
         return acc
     }, '')
     const inputArrList = tickerArr.reduce((acc, cur) => {
@@ -78,6 +102,34 @@ export default async (req, res) => {
         </p>
         <hr>
         <p>
+            <b>5-MA lower than 60-MA</b>
+            <ol>
+                ${fiveLowerSixtyList}
+            </ol>
+        </p>
+        <hr>
+        <p>
+            <b>5-MA higher than 60-MA</b>
+            <ol>
+                ${fiveHigherSixtyList}
+            </ol>
+        </p>
+        <hr> 
+        <p>
+            <b>20-MA lower than 60-MA</b>
+            <ol>
+                ${twentyLowerSixtyList}
+            </ol>
+        </p>
+        <hr>
+        <p>
+            <b>20-MA higher than 60-MA</b>
+            <ol>
+                ${twentyHigherSixtyList}
+            </ol>
+        </p>
+        <hr>       
+        <p>
             <b>Grabbing Ticker List:</b>
             <ol>
                 ${inputArrList}
@@ -86,11 +138,8 @@ export default async (req, res) => {
         `
     };
 
-
-    //await sendEmail(mailOptions)
-
-    console.log(priceMADetails)
+    await sendEmail(mailOptions)
 
     res.statusCode = 200
-    res.json({})
+    res.json(priceMADetails)
 }

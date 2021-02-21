@@ -71,19 +71,41 @@ const getImgUrl = async (ticker, dateprice, ma5, ma20, ma60) => {
     return newChart.getUrl()
 }
 
+const chkLower = async (trackArr, refArr) => {
+    if (trackArr[trackArr.length - 1] >= refArr[refArr.length - 1]
+        && trackArr.find(x => x) < refArr.find(x => x)) {
+        return true
+    } else return false
+}
+
+const chkHigher = async (trackArr, refArr) => {
+    if (trackArr[trackArr.length - 1] <= refArr[refArr.length - 1]
+        && trackArr.find(x => x) > refArr.find(x => x)) {
+        return true
+    } else return false
+}
 
 export default async (req, res) => {
 
     const { ticker } = req.query
 
     const fromtodate = await getFormattedFromToDate(80)
-
     let dateprice = await handleDays(ticker, fromtodate.formattedFromDate, fromtodate.formattedToDate)
 
     let fiveLowerTwenty = []
     let fiveLowerTwentyChart = []
     let fiveHigherTwenty = []
     let fiveHigherTwentyChart = []
+
+    let fiveLowerSixty = []
+    let fiveLowerSixtyChart = []
+    let fiveHigherSixty = []
+    let fiveHigherSixtyChart = []
+
+    let twentyLowerSixty = []
+    let twentyLowerSixtyChart = []
+    let twentyHigherSixty = []
+    let twentyHigherSixtyChart = []
 
     const asOfDate = dateprice.date.reverse().find(x => x)
 
@@ -95,29 +117,37 @@ export default async (req, res) => {
     let ma20filter = [...ma20].reverse().slice(0, 2)
     let ma60filter = [...ma60].reverse().slice(0, 2)
 
-    let newChartUrl
-
     if (ma5filter.length == 2 && ma20filter.length == 2 && ma60filter.length == 2) {
-        if (ma5filter[ma5filter.length - 1] >= ma20filter[ma20filter.length - 1]
-            && ma5filter.find(x => x) < ma20filter.find(x => x)) {
-
+        if (await chkLower(ma5filter, ma20filter)) {
             fiveLowerTwenty.push(ticker)
-
-            newChartUrl = await getImgUrl(ticker, dateprice, ma5, ma20, ma60)
-            fiveLowerTwentyChart.push(newChartUrl)
+            fiveLowerTwentyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
         }
-    }
 
-    if (ma5filter.length == 2 && ma20filter.length == 2 && ma60filter.length == 2) {
-        if (ma5filter[ma5filter.length - 1] <= ma20filter[ma20filter.length - 1]
-            && ma5filter.find(x => x) > ma20filter.find(x => x)) {
+        if (await chkHigher(ma5filter, ma20filter)) {
             fiveHigherTwenty.push(ticker)
+            fiveHigherTwentyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
+        }
 
-            newChartUrl = await getImgUrl(ticker, dateprice, ma5, ma20, ma60)
-            fiveHigherTwentyChart.push(newChartUrl)
+        if (await chkLower(ma5filter, ma60filter)) {
+            fiveLowerSixty.push(ticker)
+            fiveLowerSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
+        }
+
+        if (await chkHigher(ma5filter, ma60filter)) {
+            fiveHigherSixty.push(ticker)
+            fiveHigherSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
+        }
+
+        if (await chkLower(ma20filter, ma60filter)) {
+            twentyLowerSixty.push(ticker)
+            twentyLowerSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
+        }
+
+        if (await chkHigher(ma20filter, ma60filter)) {
+            twentyHigherSixty.push(ticker)
+            twentyHigherSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
         }
     }
-
 
     res.statusCode = 200
     res.json({
@@ -125,6 +155,14 @@ export default async (req, res) => {
         fiveLowerTwenty,
         fiveLowerTwentyChart,
         fiveHigherTwenty,
-        fiveHigherTwentyChart
+        fiveHigherTwentyChart,
+        fiveLowerSixty,
+        fiveLowerSixtyChart,
+        fiveHigherSixty,
+        fiveHigherSixtyChart,
+        twentyLowerSixty,
+        twentyLowerSixtyChart,
+        twentyHigherSixty,
+        twentyHigherSixtyChart
     })
 }
