@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import { google } from 'googleapis'
 
 import { getYahooHistoryPrice } from '../../lib/yahoo/getYahooHistoryPrice'
 import moment from 'moment-business-days'
@@ -109,6 +110,53 @@ const getImgUrl = async (ticker, dateprice, ma5, ma20, ma60) => {
     return newChart.getUrl()
 }
 
+
+const createTransporter = async () => {
+    const OAuth2 = google.auth.OAuth2;
+    
+    const oauth2Client = new OAuth2(
+        process.env.CLIENT_ID,
+        process.env.CLIENT_SECRET,
+        "https://developers.google.com/oauthplayground"
+    );
+
+    oauth2Client.setCredentials({
+        refresh_token: process.env.REFRESH_TOKEN
+    });
+
+    const accessToken = await new Promise((resolve, reject) => {
+        oauth2Client.getAccessToken((err, token) => {
+            if (err) {
+                reject("Failed to create access token :(");
+            }
+            resolve(token);
+        });
+    });
+
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            type: 'OAuth2',
+            user: process.env.EMAIL,
+            pass: process.env.EMAIL_PW,
+            clientId: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
+            refreshToken: process.env.REFRESH_TOKEN,
+            accessToken
+        }
+    });
+
+    return transporter;
+};
+
+const sendEmail = async (emailOptions) => {
+    let emailTransporter = await createTransporter();
+    await emailTransporter.sendMail(emailOptions);
+    emailTransporter.close()
+};
+
 export default async (req, res) => {
 
     const users = await getUsers()
@@ -173,7 +221,7 @@ export default async (req, res) => {
     }, '')
 
     let mailOptions = {
-        from: 'stockisfun2021@gmail.com',
+        from: process.env.EMAIL,
         to: users.find(x => x).email,
         subject: 'Moving Average Highlight',
         html: `
@@ -204,23 +252,10 @@ export default async (req, res) => {
         `
     };
 
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'stockisfun2021@gmail.com',
-            pass: process.env.EMAIL_PW
-        }
-    })
 
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+    await sendEmail(mailOptions)
 
 
     res.statusCode = 200
-    res.json('done')
+    res.json({})
 }
