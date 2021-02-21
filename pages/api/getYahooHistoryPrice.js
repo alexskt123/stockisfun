@@ -6,8 +6,8 @@ import { getYahooHistoryPrice } from '../../lib/yahoo/getYahooHistoryPrice'
 import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
 import { dateRange, dateRangeByNoOfYears, quoteFilterList } from '../../config/price'
 import percent from 'percent'
+import { getFormattedFromToDate } from '../../lib/commonFunction'
 import moment from 'moment-business-days'
-import fedHolidays from '@18f/us-federal-holidays'
 
 const axios = require('axios').default
 
@@ -76,43 +76,14 @@ const handleYearPcnt = async (ticker, year) => {
 }
 
 const handleDays = async (ticker, days) => {
-  if ( ticker === "undefined" || days === "undefined") return {date: [], price: []}
+  if (ticker === "undefined" || days === "undefined") return { date: [], price: [] }
 
-  moment.updateLocale('us', {
-    workingWeekdays: [1, 2, 3, 4, 5]
-  });
-
-  const options = { shiftSaturdayHolidays: true, shiftSundayHolidays: true };
-  const holidays = fedHolidays.allForYear(moment().year(), options);
-
-  let formattedToDate = moment();
-  let formattedFromDate
-  let cnt = 0
-  let trial = 0
-
-  while (cnt < parseInt(days) + 1) {
-
-    formattedFromDate = moment().subtract(trial, 'days').startOf('day');
-
-    if (formattedFromDate.isBusinessDay()
-      && holidays.map(holidayItem => {
-        const holiday = holidayItem.date
-        return holiday.getFullYear() == formattedFromDate.year()
-          && holiday.getMonth() == formattedFromDate.month()
-          && holiday.getDate() == formattedFromDate.date()
-      }).filter(x => x == true).length <= 0)
-      cnt += 1
-    trial += 1
-
-  }
-
-  formattedFromDate = parseInt(formattedFromDate.valueOf() / 1000);
-  formattedToDate = parseInt(formattedToDate.valueOf() / 1000);
+  const { formattedFromDate, formattedToDate } = await getFormattedFromToDate(days)
 
   const outputItem = await getYahooHistoryPrice(ticker, formattedFromDate, formattedToDate)
 
   return {
-    date: (outputItem.timestamp || []).map(item=>moment.unix(item).format("DD MMM YYYY")),
+    date: (outputItem.timestamp || []).map(item => moment.unix(item).format("DD MMM YYYY")),
     price: outputItem.indicators.quote.find(x => x).close
   }
 }
