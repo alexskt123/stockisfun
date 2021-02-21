@@ -199,7 +199,7 @@ function StockDetails({ inputTicker }) {
 
     return (
         <Fragment>
-            <Tabs className="mt-4" defaultActiveKey="Price" id="uncontrolled-tab-example">
+            <Tabs style={{ fontSize: '11px' }} className="mt-4" defaultActiveKey="Price" id="uncontrolled-tab-example">
                 <Tab eventKey="Price" title="Price">
                     {clicked ?
                         <LoadingSpinner /> : ''
@@ -267,17 +267,17 @@ function StockDetails({ inputTicker }) {
                     </Row>
                     <StockInfoTable tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
                 </Tab>
-                <Tab eventKey="BalanceSheet" title="Balance Sheet">
-                    {clicked ?
-                        <LoadingSpinner /> : ''
-                    }
-                    <StockInfoTable tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} sortItem={sortItem} />
-                </Tab>
                 <Tab eventKey="Price%" title="Price%">
                     {clicked ?
                         <LoadingSpinner /> : ''
                     }
                     <PriceChange inputTickers={settings.inputTickers} />
+                </Tab>
+                <Tab eventKey="BalanceSheet" title="Balance Sheet">
+                    {clicked ?
+                        <LoadingSpinner /> : ''
+                    }
+                    <StockInfoTable tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} sortItem={sortItem} />
                 </Tab>
                 <Tab eventKey="Forecast" title="Forecast">
                     {clicked ?

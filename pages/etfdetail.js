@@ -174,7 +174,7 @@ export default function Home() {
             tableData={undefined}
             exportFileName={undefined}
           />
-          <Tabs variant="pills" className="mt-4" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
+          <Tabs style={{ fontSize: '11px' }} variant="pills" className="mt-4" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
             <Tab eventKey="Basics" title="Basics">
               {clicked ?
                 <LoadingSpinner /> : ''

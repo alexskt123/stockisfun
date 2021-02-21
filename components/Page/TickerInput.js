@@ -29,16 +29,17 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
                         <Fragment>
                             <div style={{ display: 'inline-flex', alignItems: 'baseline' }} className="ml-1">
                                 <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">
-                                    <h4>
+                                    <h5>
                                         <Badge variant="dark">
                                             <span>
                                                 {'No. of Years'}
                                             </span>
                                         </Badge>
-                                    </h4>
+                                    </h5>
                                 </Form.Label>
                                 <Form.Control
                                     as="select"
+                                    size="sm"
                                     className="my-1 mr-sm-2"
                                     name="formYear"
                                     custom
@@ -56,17 +57,17 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
                         </Fragment>
                         : ''
                 }
-                <Row className="ml-1 mt-3">
-                    <Button variant="success" type="submit" disabled={clicked}>
+                <Row className="ml-1 mt-2">
+                    <Button size="sm" variant="success" type="submit" disabled={clicked}>
                         {'Go'}
                     </Button>
-                    <Button className="ml-3" variant="danger" onClick={() => { clearItems() }} disabled={clicked}>
+                    <Button size="sm" className="ml-3" variant="danger" onClick={() => { clearItems() }} disabled={clicked}>
                         {'Clear All'}
                     </Button>
                     {
                         tableHeader && tableData ?
                             <Fragment>
-                                <Button className="ml-3" variant="info" onClick={() => { exportToFile(tableHeader, tableData, exportFileName) }} disabled={clicked}>
+                                <Button size="sm" className="ml-3" variant="info" onClick={() => { exportToFile(tableHeader, tableData, exportFileName) }} disabled={clicked}>
                                     {'Export'}
                                 </Button>
                             </Fragment>
