@@ -14,7 +14,11 @@ export const stockDetailsSettings = {
     },
     balanceSheet: {
         tableHeader: [],
-        tableData: []
+        tableData: [],
+        chartData: {
+            labels: [],
+            datasets: []
+        }
     },
     inputTickers: [],
     etfCount: ''

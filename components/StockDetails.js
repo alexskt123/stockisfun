@@ -1,7 +1,6 @@
 
 import { Fragment, useState, useEffect } from 'react'
 
-import { sortTableItem } from '../lib/commonFunction'
 import LoadingSpinner from './Loading/LoadingSpinner'
 import StockInfoTable from '../components/Page/StockInfoTable'
 import { stockDetailsSettings, officersTableHeader } from '../config/stock'
@@ -14,6 +13,7 @@ import ForecastInfo from '../components/ForecastInfo'
 import FinancialsInfo from '../components/FinancialsInfo'
 import Price from '../components/Price'
 import { Badge, Row } from 'react-bootstrap'
+import { Bar } from 'react-chartjs-2';
 
 import percent from 'percent'
 
@@ -36,6 +36,7 @@ function StockDetails({ inputTicker }) {
         let basicItem = []
         let balanceSheetItem = []
         let balanceSheetHeader = []
+        let balanceSheetChartData = { labels: [], datasets: [] }
         let etfItem = []
         let etfItemHeader = []
         let etfList = []
@@ -78,9 +79,25 @@ function StockDetails({ inputTicker }) {
                         }
                     })
 
+                    Object.keys((balanceSheetData.find(x => x) || {}))
+                        .filter(x => x == 'Total Assets' || x == 'Total Liability')
+                        .forEach(item => {
+                            const r = Math.floor(Math.random() * 255) + 1
+                            const g = Math.floor(Math.random() * 255) + 1
+                            const b = Math.floor(Math.random() * 255) + 1
+
+                            balanceSheetChartData.datasets.push({
+                                type: 'bar',
+                                label: item,
+                                backgroundColor: `rgba(${r}, ${g}, ${b})`,
+                                data: [...balanceSheetData.map(data => data[item].replace(/B|M|K/, ''))]
+                            })
+                        })
+
                     balanceSheetHeader.push('')
                     balanceSheetData.forEach(item => {
                         balanceSheetHeader.push(item['Date'])
+                        balanceSheetChartData.labels.push(item['Date'])
                     })
 
                     basics = {
@@ -94,7 +111,8 @@ function StockDetails({ inputTicker }) {
                         },
                         balanceSheet: {
                             tableHeader: [...balanceSheetHeader],
-                            tableData: [...balanceSheetItem]
+                            tableData: [...balanceSheetItem],
+                            chartData: balanceSheetChartData
                         }
                     }
 
@@ -176,6 +194,7 @@ function StockDetails({ inputTicker }) {
                 })
         ])
             .then((_) => {
+                console.log(settings)
                 setClicked(false)
             })
 
@@ -196,6 +215,8 @@ function StockDetails({ inputTicker }) {
     const clearItems = async () => {
         setSettings({ ...stockDetailsSettings })
     }
+
+    const rand = () => Math.round(Math.random() * 20 - 10)
 
     return (
         <Fragment>
@@ -292,6 +313,7 @@ function StockDetails({ inputTicker }) {
                         <LoadingSpinner /> : ''
                     }
                     <StockInfoTable tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} sortItem={sortItem} />
+                    <Bar data={settings.balanceSheet.chartData} />
                 </Tab>
                 <Tab eventKey="Forecast" title="Forecast">
                     {clicked ?
