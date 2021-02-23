@@ -85,7 +85,7 @@ export default async (req, res) => {
 
     let mailOptions = {
         from: process.env.EMAIL,
-        to: curEmailTemplate.to,
+        bcc: curEmailTemplate.to,
         subject: `Moving Average Highlight - As of ${priceMADetails.asOfDate}`,
         html: `
         <p>
