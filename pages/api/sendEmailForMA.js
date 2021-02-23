@@ -6,6 +6,11 @@ const axios = require('axios').default
 
 export default async (req, res) => {
 
+    
+    let response = {
+        response: 'NOT OK'
+    }
+
     const { id } = req.query
 
     const emails = await getEmailByID(id)
@@ -34,7 +39,9 @@ export default async (req, res) => {
     }))
         .catch(error => console.log(error))
         .then((responses) => {
-            if (responses)
+            if (responses) {
+                response.response = 'OK'
+
                 responses.forEach(item => {
                     if (item.data) {
                         priceMADetails.asOfDate = priceMADetails.asOfDate == '' ? item.data.asOfDate : priceMADetails.asOfDate
@@ -51,7 +58,8 @@ export default async (req, res) => {
                         priceMADetails.twentyHigherSixty.push(...item.data.twentyHigherSixty)
                         priceMADetails.twentyHigherSixtyChart.push(...item.data.twentyHigherSixtyChart)
                     }
-                })
+                })                
+            }
         })
 
     const fiveLowerTwentyList = priceMADetails.fiveLowerTwenty.reduce((acc, cur, index) => {
@@ -150,5 +158,5 @@ export default async (req, res) => {
     await sendEmail(mailOptions)
 
     res.statusCode = 200
-    res.json(priceMADetails)
+    res.json(response)
 }
