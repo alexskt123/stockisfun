@@ -1,14 +1,17 @@
 
 import sendEmail from '../../lib/sendEmail'
-import { getUsers } from '../../lib/firebaseResult'
+import { getEmailByID } from '../../lib/firebaseResult'
 
 const axios = require('axios').default
 
 export default async (req, res) => {
 
-    const users = await getUsers()
+    const { id } = req.query
 
-    const tickerArr = users.find(x => x).stock.split(',').map(item => item.toUpperCase())
+    const emails = await getEmailByID(id)
+    const curEmailTemplate = emails.find(x => x)
+
+    const tickerArr = curEmailTemplate.stock.split(',').map(item => item.toUpperCase())
 
     let priceMADetails = {
         asOfDate: '',
@@ -82,9 +85,12 @@ export default async (req, res) => {
 
     let mailOptions = {
         from: process.env.EMAIL,
-        to: users.find(x => x).email,
-        subject: 'Moving Average Highlight',
+        to: curEmailTemplate.to,
+        subject: `Moving Average Highlight - As of ${priceMADetails.asOfDate}`,
         html: `
+        <p>
+            <h5>${curEmailTemplate.name}</h5>
+        </p>        
         <p>
             <b>As of ${priceMADetails.asOfDate}:</b>
         </p>
