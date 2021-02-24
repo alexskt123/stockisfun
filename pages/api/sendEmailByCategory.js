@@ -14,7 +14,7 @@ export default async (req, res) => {
     }
 
     await axios.all(emails.map(email => {
-        return axios.get(`https://stockisfun.vercel.app/api/sendEmailForMA?id=${email.id}`).catch(err => console.log(err))
+        return axios.get(`https://stockisfun.vercel.app/api/sendEmailFor${category}?id=${email.id}`).catch(err => console.log(err))
     }))
         .catch(error => console.log(error))
         .then((_responses) => {
