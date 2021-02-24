@@ -7,7 +7,7 @@ import moment from 'moment-business-days'
 const axios = require('axios').default
 
 export default async (req, res) => {
-    
+
     let response = {
         response: 'NOT OK'
     }
@@ -28,7 +28,7 @@ export default async (req, res) => {
             'Price',
             'Market Cap.',
             'Floating Shares Ratio'
-          ],
+        ],
         tableData: []
     }
 
@@ -44,10 +44,14 @@ export default async (req, res) => {
                     if (item && item.data) {
                         csvFile.tableData.push([tickerArr[index], ...item.data])
                     }
-                })                
+                })
             }
         })
 
+    const inputArrList = tickerArr.reduce((acc, cur) => {
+        acc += `<li>${cur}</li>`
+        return acc
+    }, '')
 
     let mailOptions = {
         from: process.env.EMAIL,
