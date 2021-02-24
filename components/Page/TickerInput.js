@@ -6,13 +6,11 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import FileSaver from 'file-saver'
-import Papa from 'papaparse'
+import { getCSVContent } from '../../lib/commonFunction'
 
 const exportToFile = (tableHeader, tableData, exportFileName) => {
     if (tableHeader && tableData) {
-        const nowDate = new Date()
-        const tableArr = Papa.unparse([['Date', `${nowDate.getDate()}-${nowDate.getMonth() + 1}-${nowDate.getFullYear()}`], [''], tableHeader, ...tableData])
-        const blob = new Blob([tableArr], { type: "application/json" });
+        const blob = new Blob([getCSVContent(tableHeader, tableData)], { type: "application/json" });
         FileSaver.saveAs(blob, exportFileName);
     }
 }
@@ -71,7 +69,7 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
                                     {'Export'}
                                 </Button>
                             </Fragment>
-                        : ''
+                            : ''
                     }
 
                 </Row>

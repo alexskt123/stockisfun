@@ -112,7 +112,7 @@ function StockDetails({ inputTicker }) {
                         balanceSheet: {
                             tableHeader: [...balanceSheetHeader],
                             tableData: [...balanceSheetItem],
-                            chartData: balanceSheetChartData
+                            chartData: {...balanceSheetChartData}
                         }
                     }
 
@@ -194,7 +194,6 @@ function StockDetails({ inputTicker }) {
                 })
         ])
             .then((_) => {
-                console.log(settings)
                 setClicked(false)
             })
 
@@ -215,8 +214,6 @@ function StockDetails({ inputTicker }) {
     const clearItems = async () => {
         setSettings({ ...stockDetailsSettings })
     }
-
-    const rand = () => Math.round(Math.random() * 20 - 10)
 
     return (
         <Fragment>
