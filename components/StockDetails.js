@@ -12,11 +12,11 @@ import Tab from 'react-bootstrap/Tab'
 import PriceChange from '../components/PriceChange'
 import ForecastInfo from '../components/ForecastInfo'
 import FinancialsInfo from '../components/FinancialsInfo'
-import Price from '../components/Price'
 import { Badge, Row } from 'react-bootstrap'
 import { Bar } from 'react-chartjs-2';
 
 import percent from 'percent'
+import PriceTab from './Page/PriceTab'
 
 const axios = require('axios').default
 
@@ -234,68 +234,7 @@ function StockDetails({ inputTicker }) {
                     {clicked ?
                         <LoadingSpinner /> : ''
                     }
-                    <Row className="ml-1 mt-1">
-                        <h6>
-                            <Badge variant="dark">{'Name: '}</Badge>
-                        </h6>
-                        <h6>
-                            <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == 'Name').find(x => x) || [])[1]}</Badge>
-                        </h6>
-                    </Row>
-                    <Row className="ml-1">
-                        <h6>
-                            <Badge variant="dark">{'Price: '}</Badge>
-                        </h6>
-                        <h6>
-                            <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x) || [])[1]}</Badge>
-                        </h6>
-                        <h6>
-                            <Badge className="ml-3" variant="dark">{'52W-L-H: '}</Badge>
-                        </h6>
-                        <h6>
-                            <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == '52W-Low-High').find(x => x) || [])[1]}</Badge>
-                        </h6>
-                    </Row>
-                    <Row className="ml-1">
-                        <h6>
-                            <Badge variant="dark">{'Floating Shares: '}</Badge>
-                        </h6>
-                        <h6>
-                            <Badge variant="light" className="ml-2">{settings.floatingShareRatio}</Badge>
-                        </h6>
-                        <h6>
-                            <Badge variant="dark" className="ml-2">{'Market Cap.: '}</Badge>
-                        </h6>
-                        <h6>
-                            <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == 'Market Cap.').find(x => x) || [])[1]}</Badge>
-                        </h6>
-                    </Row>
-                    <Row className="ml-1">
-                        <h6>
-                            <Badge variant="dark">{'Industry: '}</Badge>
-                        </h6>
-                        <h6>
-                            <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == 'Industry').find(x => x) || [])[1]}</Badge>
-                        </h6>
-                    </Row>
-                    <Price inputTicker={settings.inputTickers.find(x => x)} />
-                </Tab>
-                <Tab eventKey="Basics" title="Basics">
-                    {clicked ?
-                        <LoadingSpinner /> : ''
-                    }
-                    <Row className="ml-1 mt-3">
-                        <h5>
-                            <Badge variant="dark">{'Company Profile'}</Badge>
-                        </h5>
-                    </Row>
-                    <StockInfoTable tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
-                    <Row className="ml-1">
-                        <h5>
-                            <Badge variant="dark">{'Officers'}</Badge>
-                        </h5>
-                    </Row>
-                    <StockInfoTable tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} sortItem={sortItem} />
+                    <PriceTab inputSettings={settings} />
                 </Tab>
                 <Tab eventKey="ETFList" title="ETF List">
                     {clicked ?

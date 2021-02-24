@@ -8,6 +8,7 @@ import { getETFDB } from '../../lib/etfdb/getETFDB'
 import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
 import { getYahooKeyStatistics } from '../../lib/yahoo/getYahooKeyStatistics'
 import { aumSumCount } from '../../config/etf'
+import { getHost } from '../../lib/commonFunction'
 
 import percent from 'percent'
 const axios = require('axios').default
@@ -20,7 +21,7 @@ const getAUMSum = async (ticker) => {
   etfList.splice(aumSumCount)
 
   await axios.all(etfList.map((etf) => {
-    return axios.get(`https://stockisfun.vercel.app/api/getETFDB?ticker=${etf.ticker}`).catch(err => console.log(err))
+    return axios.get(`${getHost()}/api/getETFDB?ticker=${etf.ticker}`).catch(err => console.log(err))
   }))
     .catch(error => console.log(error))
     .then((responses) => {

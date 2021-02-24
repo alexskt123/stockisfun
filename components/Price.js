@@ -7,7 +7,6 @@ import LoadingSpinner from './Loading/LoadingSpinner';
 import Form from 'react-bootstrap/Form'
 import { Badge } from 'react-bootstrap';
 import { ma, ema } from 'moving-averages'
-import { BsTypeUnderline } from 'react-icons/bs';
 
 const axios = require('axios').default
 
@@ -29,22 +28,13 @@ function PriceInfo({ inputTicker }) {
 
     const getPrice = async (inputTicker, inputDays, inputMA) => {
         if (inputTicker == undefined) return
-        let dateprice = await axios(`/api/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(inputDays) + 60}`)
 
-        let ma5 = []
-        let ma20 = []
-        let ma60 = [] 
-
-        if (inputMA == 'ma') {
-            ma5 = ma([...dateprice.data.price], 5)
-            ma20 = ma([...dateprice.data.price], 20)
-            ma60 = ma([...dateprice.data.price], 60)
-            
-        } else if (inputMA == 'ema') {
-            ma5 = ema([...dateprice.data.price], 5)
-            ma20 = ema([...dateprice.data.price], 20)
-            ma60 = ema([...dateprice.data.price], 60)
-        }
+        const dateprice = await axios(`/api/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(inputDays) + 60}`)
+        const date = dateprice.data?.date || []
+        const price = dateprice.data?.price || []
+        const ma5 = inputMA == 'ma' ? ma([...price], 5) : inputMA == 'ema' ? ema([...price], 5) : []
+        const ma20 = inputMA == 'ma' ? ma([...price], 20) : inputMA == 'ema' ? ema([...price], 20) : []
+        const ma60 = inputMA == 'ma' ? ma([...price], 60) : inputMA == 'ema' ? ema([...price], 60) : []
 
         setSettings(
             {
@@ -52,10 +42,10 @@ function PriceInfo({ inputTicker }) {
                 days: inputDays,
                 ma: inputMA,
                 chartData: {
-                    'labels': [...dateprice.data.date.slice(60)],
+                    'labels': [...date.slice(60)],
                     'datasets': [{
                         label: inputTicker,
-                        data: [...dateprice.data.price.slice(60)],
+                        data: [...price.slice(60)],
                         fill: false,
                         backgroundColor: "rgba(30,230,230,0.2)",
                         borderColor: "rgba(30,230,230,1)",
