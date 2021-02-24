@@ -4,6 +4,7 @@ import { Fragment, useState, useEffect } from 'react'
 import LoadingSpinner from './Loading/LoadingSpinner'
 import StockInfoTable from '../components/Page/StockInfoTable'
 import { stockDetailsSettings, officersTableHeader } from '../config/stock'
+import { convertSameUnit } from '../lib/commonFunction'
 
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
@@ -80,19 +81,30 @@ function StockDetails({ inputTicker }) {
                     })
 
                     Object.keys((balanceSheetData.find(x => x) || {}))
-                        .filter(x => x == 'Total Assets' || x == 'Total Liability')
+                        .filter(x => x == 'Total Assets' || x == 'Total Liability' || x == "Total Stock Holder Equity")
                         .forEach(item => {
                             const r = Math.floor(Math.random() * 255) + 1
                             const g = Math.floor(Math.random() * 255) + 1
                             const b = Math.floor(Math.random() * 255) + 1
 
-                            balanceSheetChartData.datasets.push({
-                                type: 'bar',
-                                label: item,
-                                backgroundColor: `rgba(${r}, ${g}, ${b})`,
-                                data: [...balanceSheetData.map(data => data[item].replace(/B|M|K/, ''))]
-                            })
+                            balanceSheetChartData.datasets.push(item == "Total Stock Holder Equity" ?
+                                {
+                                    type: 'line',
+                                    label: item,
+                                    borderColor: `rgba(${r}, ${g}, ${b})`,
+                                    borderWidth: 2,
+                                    fill: false,
+                                    data: convertSameUnit([...balanceSheetData.map(data => data[item])]).map(data => data.replace(/K|M|B|T/, ''))
+                                } : {
+                                    type: 'bar',
+                                    label: item,
+                                    backgroundColor: `rgba(${r}, ${g}, ${b})`,
+                                    data: convertSameUnit([...balanceSheetData.map(data => data[item])]).map(data => data.replace(/K|M|B|T/, ''))
+                                })
                         })
+
+                    balanceSheetChartData.labels.reverse()
+                    balanceSheetChartData.datasets.reverse()
 
                     balanceSheetHeader.push('')
                     balanceSheetData.forEach(item => {
@@ -112,7 +124,7 @@ function StockDetails({ inputTicker }) {
                         balanceSheet: {
                             tableHeader: [...balanceSheetHeader],
                             tableData: [...balanceSheetItem],
-                            chartData: {...balanceSheetChartData}
+                            chartData: { ...balanceSheetChartData }
                         }
                     }
 
