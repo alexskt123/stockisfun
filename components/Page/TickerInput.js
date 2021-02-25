@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import FileSaver from 'file-saver'
 import { getCSVContent } from '../../lib/commonFunction'
+import { priceChangeDateRangeSelectAttr, buttonSettings } from '../../config/form'
 
 const exportToFile = (tableHeader, tableData, exportFileName) => {
     if (tableHeader && tableData) {
@@ -36,37 +37,32 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
                                     </h5>
                                 </Form.Label>
                                 <Form.Control
-                                    as="select"
-                                    size="sm"
-                                    className="my-1 mr-sm-2"
-                                    name="formYear"
+                                    {...priceChangeDateRangeSelectAttr.formControl}
                                     custom
                                     onChange={(e) => handleChange(e)}
                                 >
-                                    <option value="15">15 years</option>
-                                    <option value="25">25 years</option>
-                                    <option value="20">20 years</option>
-                                    <option value="10">10 years</option>
-                                    <option value="5">5 years</option>
-                                    <option value="3">3 years</option>
-                                    <option value="1">1 year</option>
+                                    {
+                                        priceChangeDateRangeSelectAttr.dateRangeOptions.map(item => {
+                                            return <option value={item.value}>{item.label}</option>
+                                        })
+                                    }
                                 </Form.Control>
                             </div>
                         </Fragment>
                         : ''
                 }
                 <Row className="ml-1 mt-2">
-                    <Button size="sm" variant="success" type="submit" disabled={clicked}>
-                        {'Go'}
+                    <Button {...buttonSettings.Go.attr} disabled={clicked}>
+                        {buttonSettings.Go.label}
                     </Button>
-                    <Button size="sm" className="ml-3" variant="danger" onClick={() => { clearItems() }} disabled={clicked}>
-                        {'Clear All'}
+                    <Button {...buttonSettings.ClearAll.attr} onClick={() => { clearItems() }} disabled={clicked}>
+                        {buttonSettings.ClearAll.label}
                     </Button>
                     {
                         tableHeader && tableData ?
                             <Fragment>
-                                <Button size="sm" className="ml-3" variant="info" onClick={() => { exportToFile(tableHeader, tableData, exportFileName) }} disabled={clicked}>
-                                    {'Export'}
+                                <Button {...buttonSettings.Export.attr} onClick={() => { exportToFile(tableHeader, tableData, exportFileName) }} disabled={clicked}>
+                                    {buttonSettings.Export.label}
                                 </Button>
                             </Fragment>
                             : ''

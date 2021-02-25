@@ -1,14 +1,22 @@
 
 import { Fragment, useState, useEffect } from 'react'
 import Price from '../../components/Price'
+import { priceTabLabelPairs } from '../../config/price'
 import { Badge, Row } from 'react-bootstrap'
 
 function PriceTab({ inputSettings }) {
 
     const [settings, setSettings] = useState({ ...inputSettings })
+    const [labels, setLabels] = useState([...priceTabLabelPairs])
 
     useEffect(() => {
         setSettings(inputSettings)
+        setLabels(priceTabLabelPairs.map(item => {
+            return {
+                'name': item.name,
+                'value': ({ ...inputSettings }.basics.tableData.filter(x => x.find(x => x) == item.name).find(x => x) || [])[1]
+            }
+        }))
     }, [inputSettings])
 
     return (
@@ -18,7 +26,7 @@ function PriceTab({ inputSettings }) {
                     <Badge variant="dark">{'Name: '}</Badge>
                 </h6>
                 <h6>
-                    <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == 'Name').find(x => x) || [])[1]}</Badge>
+                    <Badge variant="light" className="ml-2">{labels.find(x => x.name == 'Name').value}</Badge>
                 </h6>
             </Row>
             <Row className="ml-1">
@@ -26,13 +34,13 @@ function PriceTab({ inputSettings }) {
                     <Badge variant="dark">{'Price: '}</Badge>
                 </h6>
                 <h6>
-                    <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x) || [])[1]}</Badge>
+                    <Badge variant="light" className="ml-2">{labels.find(x => x.name == 'Price').value}</Badge>
                 </h6>
                 <h6>
                     <Badge className="ml-3" variant="dark">{'52W-L-H: '}</Badge>
                 </h6>
                 <h6>
-                    <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == '52W-Low-High').find(x => x) || [])[1]}</Badge>
+                    <Badge variant="light" className="ml-2">{labels.find(x => x.name == '52W-Low-High').value}</Badge>
                 </h6>
             </Row>
             <Row className="ml-1">
@@ -46,7 +54,7 @@ function PriceTab({ inputSettings }) {
                     <Badge variant="dark" className="ml-2">{'Market Cap.: '}</Badge>
                 </h6>
                 <h6>
-                    <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == 'Market Cap.').find(x => x) || [])[1]}</Badge>
+                    <Badge variant="light" className="ml-2">{labels.find(x => x.name == 'Market Cap.').value}</Badge>
                 </h6>
             </Row>
             <Row className="ml-1">
@@ -54,7 +62,7 @@ function PriceTab({ inputSettings }) {
                     <Badge variant="dark">{'Industry: '}</Badge>
                 </h6>
                 <h6>
-                    <Badge variant="light" className="ml-2">{({ ...settings }.basics.tableData.filter(x => x.find(x => x) == 'Industry').find(x => x) || [])[1]}</Badge>
+                    <Badge variant="light" className="ml-2">{labels.find(x => x.name == 'Industry').value}</Badge>
                 </h6>
             </Row>
             <Price inputTicker={settings.inputTickers.find(x => x)} />

@@ -27,29 +27,29 @@ function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, ce
     <Fragment>
       <Table className="pl-3 mt-3" responsive>
         <thead>
-          <tr>
+          <tr key={'tableFirstHeader'}>
             {tableFirstHeader ?
               tableFirstHeader.map((item, index) => (
                 <th style={(index == 0 ? sticky : {})} key={index} >{item}</th>
               ))
               : ''}
           </tr>
-          <tr>
-            {tableHeader.map((item, index) => (
-              <th style={(index == 0 ? sticky : {})} onClick={() => { sortItem(index) }} key={index} >{item}</th>
-            ))
-            }
-
+          <tr key={'tableHeader'}>
+            {tableHeader ?
+              tableHeader.map((item, index) => (
+                <th style={(index == 0 ? sticky : {})} onClick={() => { sortItem(index) }} key={index} >{item}</th>
+              ))
+              : ''}
           </tr>
         </thead>
         <tbody>
-
-          {tableData.map((item, index) => (
-            <tr key={index}>
-              {item.map((xx, yy) => <td onClick={() => { checkCanClick(item, cellClick) }} style={(yy == 0 ? sticky : {})} key={`${index}${yy}`}><span style={getCellColor(xx)}>{getCellItem(xx)}</span></td>)}
-            </tr>
-          ))}
-
+          {tableData ?
+            tableData.map((item, index) => (
+              <tr key={index}>
+                {item.map((xx, yy) => <td onClick={() => { checkCanClick(item, cellClick) }} style={(yy == 0 ? sticky : {})} key={`${index}${yy}`}><span style={getCellColor(xx)}>{getCellItem(xx)}</span></td>)}
+              </tr>
+            ))
+            : ''}
         </tbody>
       </Table>
     </Fragment>
