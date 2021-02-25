@@ -80,28 +80,41 @@ function StockDetails({ inputTicker }) {
                         }
                     })
 
-                    Object.keys((balanceSheetData.find(x => x) || {}))
-                        .filter(x => x == 'Total Assets' || x == 'Total Liability' || x == "Total Stock Holder Equity")
-                        .forEach(item => {
-                            const r = Math.floor(Math.random() * 255) + 1
-                            const g = Math.floor(Math.random() * 255) + 1
-                            const b = Math.floor(Math.random() * 255) + 1
-
-                            balanceSheetChartData.datasets.push(item == "Total Stock Holder Equity" ?
-                                {
-                                    type: 'line',
-                                    label: item,
-                                    borderColor: `rgba(${r}, ${g}, ${b})`,
-                                    borderWidth: 2,
-                                    fill: false,
-                                    data: convertSameUnit([...balanceSheetData.map(data => data[item])]).map(data => data.replace(/K|M|B|T/, ''))
-                                } : {
-                                    type: 'bar',
-                                    label: item,
-                                    backgroundColor: `rgba(${r}, ${g}, ${b})`,
-                                    data: convertSameUnit([...balanceSheetData.map(data => data[item])]).map(data => data.replace(/K|M|B|T/, ''))
-                                })
+                    const balanceChartLabel = 'Total Assets,Total Liability,Total Stock Holder Equity'.split(',')
+                    const balanceChartData = Object.keys((balanceSheetData.find(x => x) || {}))
+                        .filter(x => balanceChartLabel.includes(x))
+                        .map(item => {
+                            return [...balanceSheetData.map(data => data[item])]
                         })
+
+                    const balanceChart = convertSameUnit(balanceChartData).map((data, index) => {
+                        return {
+                            label: balanceChartLabel[index],
+                            data: data.map(item => item.replace(/K|M|B|T/, ''))
+                        }
+                    })
+                    balanceChart.forEach(item => {
+                        const r = Math.floor(Math.random() * 255) + 1
+                        const g = Math.floor(Math.random() * 255) + 1
+                        const b = Math.floor(Math.random() * 255) + 1
+
+                        balanceSheetChartData.datasets.push(item.label == "Total Stock Holder Equity" ?
+                            {
+                                type: 'line',
+                                label: item.label,
+                                borderColor: `rgba(${r}, ${g}, ${b})`,
+                                borderWidth: 2,
+                                fill: false,
+                                data: item.data
+                            } : {
+                                type: 'bar',
+                                label: item.label,
+                                backgroundColor: `rgba(${r}, ${g}, ${b})`,
+                                data: item.data
+                            }
+                        )
+                    })
+
 
                     balanceSheetChartData.labels.reverse()
                     balanceSheetChartData.datasets.reverse()
