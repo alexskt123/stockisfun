@@ -17,6 +17,7 @@ import { Bar } from 'react-chartjs-2';
 
 import percent from 'percent'
 import PriceTab from './Page/PriceTab'
+import { Alert } from 'react-bootstrap'
 
 const axios = require('axios').default
 
@@ -244,10 +245,18 @@ function StockDetails({ inputTicker }) {
         <Fragment>
             <Tabs style={{ fontSize: '11px' }} className="mt-4" defaultActiveKey="Price" id="uncontrolled-tab-example">
                 <Tab eventKey="Price" title="Price">
-                    {clicked ?
-                        <LoadingSpinner /> : ''
+                    {
+                        settings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
+                            ? <Fragment>
+                                {clicked ?
+                                    <LoadingSpinner /> : ''
+                                }
+                                <PriceTab inputSettings={settings} />
+                            </Fragment>
+                            : <Alert className="mt-2" key={'Alert-No-Stock-Info'} variant={'success'}>
+                                {'Please enter a valid sticker!'}
+                            </Alert>
                     }
-                    <PriceTab inputSettings={settings} />
                 </Tab>
                 <Tab eventKey="Basics" title="Basics">
                     {clicked ?
