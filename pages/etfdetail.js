@@ -15,7 +15,7 @@ import ForecastInfo from '../components/ForecastInfo';
 import { etfDetailsSettings, etfHoldingHeader } from '../config/etf'
 import Price from '../components/Price'
 const axios = require('axios').default
-import { handleDebounceChange, getHost } from '../lib/commonFunction'
+import { handleDebounceChange } from '../lib/commonFunction'
 
 export default function Home() {
 
@@ -68,7 +68,7 @@ export default function Home() {
     holdingInfo = [...etf.data.holdingInfo]
 
     await axios.all([...etf.data.holdingInfo].map(item => {
-      return axios.get(`${getHost()}/api/getYahooHistoryPrice?ticker=${item.find(x => x)}&year=3`).catch(err => console.log(err))
+      return axios.get(`/api/getYahooHistoryPrice?ticker=${item.find(x => x)}&year=3`).catch(err => console.log(err))
     }))
       .catch(error => console.log(error))
       .then((responses) => {
