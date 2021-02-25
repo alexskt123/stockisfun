@@ -15,7 +15,7 @@ import ForecastInfo from '../components/ForecastInfo';
 import { etfDetailsSettings, etfHoldingHeader } from '../config/etf'
 import Price from '../components/Price'
 const axios = require('axios').default
-import { handleDebounceChange } from '../lib/commonFunction'
+import { handleDebounceChange, getHost } from '../lib/commonFunction'
 
 export default function Home() {
 
@@ -54,11 +54,10 @@ export default function Home() {
 
     let ticker = inputTicker.toUpperCase()
 
-    let etf
+
     let holdingInfo = []
     let etfInfo = []
-
-    etf = await axios(`/api/getETFDB?ticker=${ticker}`)
+    let etf = await axios(`/api/getETFDB?ticker=${ticker}`)
 
     Object.keys(etf.data.basicInfo).forEach(item => {
       etfInfo.push([item, etf.data.basicInfo[item]])
@@ -67,6 +66,19 @@ export default function Home() {
     etfInfo.push(['Analyst Report', etf.data.analystReport])
 
     holdingInfo = [...etf.data.holdingInfo]
+
+    await axios.all([...etf.data.holdingInfo].map(item => {
+      return axios.get(`${getHost()}/api/getYahooHistoryPrice?ticker=${item.find(x => x)}&year=3`).catch(err => console.log(err))
+    }))
+      .catch(error => console.log(error))
+      .then((responses) => {
+        if (responses) {
+          holdingInfo = [...etf.data.holdingInfo].map((item, index) => {
+            return item.concat(responses[index].data.data)
+          })
+          //console.log(responses.map(response => response.data.data))
+        }
+      })
 
 
     const pieColors = holdingInfo.map(_item => {

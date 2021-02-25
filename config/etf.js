@@ -22,6 +22,6 @@ export const etfDetailsSettings = {
     disableSelectedStockTab: true
 }
 
-export const etfHoldingHeader = ["Ticker", "Name", "Holding"]
+export const etfHoldingHeader = ["Ticker", "Name", "Holding", "This Yr %", "Last Yr %", "Last 2Yr %", "Last 3Yr %"]
 
 export const aumSumCount = 10
