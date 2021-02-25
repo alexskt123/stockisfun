@@ -6,7 +6,7 @@ import ForecastInfo from '../components/ForecastInfo'
 import TickerInput from '../components/Page/TickerInput'
 import TickerBullet from '../components/Page/TickerBullet'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
-import { getForecastInfo, forecastSettingSchema } from '../lib/commonFunction'
+import { getForecastInfo, forecastSettingSchema, handleDebounceChange } from '../lib/commonFunction'
 
 import { useRouter } from 'next/router'
 
@@ -22,10 +22,7 @@ export default function Home() {
 
 
   const handleChange = (e) => {
-    setFormValue({
-      ...formValue,
-      [e.target.name]: e.target.value
-    })
+    handleDebounceChange(e, formValue, setFormValue)
   }
 
   const clearItems = async () => {

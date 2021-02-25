@@ -6,7 +6,7 @@ import { selectedHeadersArr } from '../config/etf'
 import StockInfoTable from '../components/Page/StockInfoTable'
 import TickerInput from '../components/Page/TickerInput'
 import TickerBullet from '../components/Page/TickerBullet'
-import { sortTableItem } from '../lib/commonFunction'
+import { sortTableItem, handleDebounceChange } from '../lib/commonFunction'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 
 const axios = require('axios').default
@@ -25,10 +25,7 @@ export default function Home() {
 
 
   const handleChange = (e) => {
-    setFormValue({
-      ...formValue,
-      [e.target.name]: e.target.value
-    })
+    handleDebounceChange(e, formValue, setFormValue)
   }
 
 

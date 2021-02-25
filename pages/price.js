@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect } from 'react'
 import { dateRange, dateRangeByNoOfYears } from '../config/price'
 import TickerInput from '../components/Page/TickerInput'
 import TickerBullet from '../components/Page/TickerBullet'
-import { getPriceInfo, priceSettingSchema } from '../lib/commonFunction'
+import { getPriceInfo, priceSettingSchema, handleDebounceChange } from '../lib/commonFunction'
 import CustomContainer from '../components/Layout/CustomContainer'
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
 
@@ -34,10 +34,7 @@ export default function Home() {
       // })
     }
 
-    setFormValue({
-      ...formValue,
-      [e.target.name]: e.target.value
-    })
+    handleDebounceChange(e, formValue, setFormValue)
   }
 
   const clearItems = async () => {

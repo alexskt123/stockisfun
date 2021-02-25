@@ -7,7 +7,7 @@ import TickerBullet from '../components/Page/TickerBullet'
 import { sortTableItem } from '../lib/commonFunction'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 import FinancialsInfo from '../components/FinancialsInfo'
-import { getFinancialsInfo, financialsSettingSchema } from '../lib/commonFunction'
+import { getFinancialsInfo, financialsSettingSchema, handleDebounceChange } from '../lib/commonFunction'
 
 const axios = require('axios').default
 
@@ -21,10 +21,7 @@ export default function Home() {
 
 
   const handleChange = (e) => {
-    setFormValue({
-      ...formValue,
-      [e.target.name]: e.target.value
-    })
+    handleDebounceChange(e, formValue, setFormValue)
   }
 
   const sortItem = async (index) => {

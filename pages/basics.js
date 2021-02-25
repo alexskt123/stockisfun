@@ -4,7 +4,8 @@ import { useRouter } from 'next/router'
 
 import CustomContainer from '../components/Layout/CustomContainer'
 import TickerInput from '../components/Page/TickerInput'
-import StockDetails from '../components/StockDetails';
+import StockDetails from '../components/StockDetails'
+import { handleDebounceChange } from '../lib/commonFunction'
 
 export default function Home() {
 
@@ -14,10 +15,7 @@ export default function Home() {
   const [clicked, setClicked] = useState(false)
 
   const handleChange = (e) => {
-    setFormValue({
-      ...formValue,
-      [e.target.name]: e.target.value
-    })
+    handleDebounceChange(e, formValue, setFormValue)
   }
 
   const handleSubmit = async (event) => {

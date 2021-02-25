@@ -8,13 +8,14 @@ import { Doughnut } from 'react-chartjs-2';
 import StockInfoTable from '../components/Page/StockInfoTable'
 import TickerInput from '../components/Page/TickerInput'
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
-import { Alert, Badge, Button, Col, Row } from 'react-bootstrap';
+import { Alert, Badge, Button, Row } from 'react-bootstrap';
 import StockDetails from '../components/StockDetails';
 import PriceChange from '../components/PriceChange';
 import ForecastInfo from '../components/ForecastInfo';
 import { etfDetailsSettings, etfHoldingHeader } from '../config/etf'
 import Price from '../components/Price'
 const axios = require('axios').default
+import { handleDebounceChange } from '../lib/commonFunction'
 
 export default function Home() {
 
@@ -27,10 +28,7 @@ export default function Home() {
   const [settings, setSettings] = useState({ ...etfDetailsSettings })
 
   const handleChange = (e) => {
-    setFormValue({
-      ...formValue,
-      [e.target.name]: e.target.value
-    })
+    handleDebounceChange(e, formValue, setFormValue)
   }
 
   const sortItem = async (index) => {
@@ -43,7 +41,7 @@ export default function Home() {
       selectedTab: 'StockDetails',
       selectedStockTicker: item.find(x => x),
       disableSelectedStockTab: false,
-      selectedStockTitle: item.find(x=> x)
+      selectedStockTitle: item.find(x => x)
     })
   }
 

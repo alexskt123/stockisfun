@@ -249,6 +249,12 @@ function StockDetails({ inputTicker }) {
                     }
                     <PriceTab inputSettings={settings} />
                 </Tab>
+                <Tab eventKey="Basics" title="Basics">
+                    {clicked ?
+                        <LoadingSpinner /> : ''
+                    }
+                    <StockInfoTable tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
+                </Tab>
                 <Tab eventKey="ETFList" title="ETF List">
                     {clicked ?
                         <LoadingSpinner /> : ''
