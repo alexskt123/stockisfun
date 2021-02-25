@@ -20,6 +20,14 @@ export const stockDetailsSettings = {
             datasets: []
         }
     },
+    earnings: {
+        tableHeader: [],
+        tableData: [],
+        chartData: {
+            labels: [],
+            datasets: []
+        }
+    },
     inputTickers: [],
     etfCount: ''
 }

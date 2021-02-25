@@ -18,6 +18,7 @@ import { Bar } from 'react-chartjs-2';
 import percent from 'percent'
 import PriceTab from './Page/PriceTab'
 import { Alert } from 'react-bootstrap'
+import millify from 'millify'
 
 const axios = require('axios').default
 
@@ -44,6 +45,7 @@ function StockDetails({ inputTicker }) {
         let etfList = []
         let etfCount = 0
         let floatingShareRatio = 'N/A'
+        let earnings = { tableHeader: [], tableData: [], chartData: { labels: [], datasets: [] } }
 
         setSettings({ ...settings, inputTickers: [ticker] })
 
@@ -145,6 +147,7 @@ function StockDetails({ inputTicker }) {
                     setSettings({
                         ...settings,
                         ...basics,
+                        earnings: { ...earnings },
                         ...etfList,
                         etfCount,
                         floatingShareRatio,
@@ -175,6 +178,7 @@ function StockDetails({ inputTicker }) {
                         setSettings({
                             ...settings,
                             ...basics,
+                            earnings: { ...earnings },
                             ...etfList,
                             etfCount,
                             floatingShareRatio,
@@ -192,6 +196,7 @@ function StockDetails({ inputTicker }) {
                     setSettings({
                         ...settings,
                         ...basics,
+                        earnings: { ...earnings },
                         ...etfList,
                         etfCount,
                         floatingShareRatio,
@@ -211,12 +216,61 @@ function StockDetails({ inputTicker }) {
                     setSettings({
                         ...settings,
                         ...basics,
+                        earnings: { ...earnings },
                         ...etfList,
                         etfCount,
                         floatingShareRatio,
                         inputTickers: [ticker]
                     })
 
+                }),
+            axios
+                .get(`/api/getYahooEarnings?ticker=${ticker}`)
+                .then((response) => {
+                    if (response && response.data) {
+                        earnings.tableHeader = ['', ...response.data.map(item => item.date)]
+
+                        Object.keys([...response.data].find(x => x) || []).reverse().forEach(item => {
+                            if (item == 'date') {
+                                earnings.chartData.labels = [...response.data.map(data => data[item])]
+                            } else {
+                                earnings.tableData.push([item, ...response.data.map(data => millify(data[item] || 0))])
+
+                                const r = Math.floor(Math.random() * 255) + 1
+                                const g = Math.floor(Math.random() * 255) + 1
+                                const b = Math.floor(Math.random() * 255) + 1
+
+                                earnings.chartData.datasets.push(
+                                    item == 'Net Income' ? {
+                                        type: 'line',
+                                        label: item,
+                                        borderColor: `rgba(${r}, ${g}, ${b})`,
+                                        borderWidth: 2,
+                                        fill: false,
+                                        data: response.data.map(data => data[item])
+                                    } : {
+                                        type: 'bar',
+                                        label: item,
+                                        backgroundColor: `rgba(${r}, ${g}, ${b})`,
+                                        data: response.data.map(data => data[item])
+                                    }
+                                )
+                            }
+                        })
+
+                        earnings.tableData.reverse()
+
+                    }
+
+                    setSettings({
+                        ...settings,
+                        ...basics,
+                        earnings: { ...earnings },
+                        ...etfList,
+                        etfCount,
+                        floatingShareRatio,
+                        inputTickers: [ticker]
+                    })
                 })
         ])
             .then((_) => {
@@ -284,12 +338,19 @@ function StockDetails({ inputTicker }) {
                     }
                     <PriceChange inputTickers={settings.inputTickers} />
                 </Tab>
-                <Tab eventKey="BalanceSheet" title="Balance Sheet">
+                <Tab eventKey="BalanceSheet" title="Bal. Sheet">
                     {clicked ?
                         <LoadingSpinner /> : ''
                     }
                     <StockInfoTable tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} sortItem={sortItem} />
                     <Bar data={settings.balanceSheet.chartData} />
+                </Tab>
+                <Tab eventKey="Earnings" title="Earnings">
+                    {clicked ?
+                        <LoadingSpinner /> : ''
+                    }
+                    <StockInfoTable tableHeader={settings.earnings.tableHeader} tableData={settings.earnings.tableData} sortItem={sortItem} />
+                    <Bar data={settings.earnings.chartData} />
                 </Tab>
                 <Tab eventKey="Forecast" title="Forecast">
                     {clicked ?
