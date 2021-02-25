@@ -90,7 +90,7 @@ function StockDetails({ inputTicker }) {
                     const balanceChart = convertSameUnit(balanceChartData).map((data, index) => {
                         return {
                             label: balanceChartLabel[index],
-                            data: data.map(item => item.replace(/K|M|B|T/, ''))
+                            data: data.map(item => (item || '').replace(/K|k|M|B|T/, ''))
                         }
                     })
                     balanceChart.forEach(item => {
