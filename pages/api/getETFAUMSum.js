@@ -51,25 +51,39 @@ const getAUMSum = async (ticker) => {
 export default async (req, res) => {
   const { ticker } = req.query
 
-  let quote
-  let keyRatio
   let floatingShareRatio = 'N/A'
   let marketCap = 'N/A'
+  let regularMarketPrice = 'N/A'
+  let etfCount = 'N/A'
   let data = []
 
   const etfData = await getAUMSum(ticker)
-  quote = await getYahooQuote(ticker)
-  keyRatio = await getYahooKeyStatistics(ticker)
 
-  if (keyRatio && keyRatio.floatShares) {
-    floatingShareRatio = percent.calc(keyRatio.floatShares.raw, keyRatio.sharesOutstanding.raw, 2, true)
-  }
+  await axios.all([
+    axios.get(`${getHost()}/api/getYahooQuote?ticker=${ticker}`),
+    axios.get(`${getHost()}/api/getYahooKeyStatistics?ticker=${ticker}`),
+    axios.get(`${getHost()}/api/getStockETFCount?ticker=${ticker}`)
+  ])
+    .then((responses) => {
+      const resDataSet = responses.map(item => item.data)
+      const quote = resDataSet[0]
+      const keyRatio = resDataSet[1]
+      const etfCountData = resDataSet[2]
 
-  if (quote && quote.marketCap) {
-    marketCap = `${(quote.marketCap / 1000000000).toFixed(2)}B`
-  }
+      if (keyRatio && keyRatio.floatShares) {
+        floatingShareRatio = percent.calc(keyRatio.floatShares.raw, keyRatio.sharesOutstanding.raw, 2, true)
+      }
 
-  data = [...etfData, quote.regularMarketPrice, marketCap, floatingShareRatio]
+      if (quote && quote.marketCap) {
+        marketCap = `${(quote.marketCap / 1000000000).toFixed(2)}B`
+        regularMarketPrice = quote.regularMarketPrice
+      }
+
+      etfCount = etfCountData
+
+    })
+
+  data = [...etfData, regularMarketPrice, marketCap, floatingShareRatio, etfCount]
 
   res.statusCode = 200
   res.json(data)

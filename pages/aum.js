@@ -68,16 +68,14 @@ export default function Home() {
     let outputItem
     let temp = []
     let moneyCnn = []
-    let etfCount
 
     for (const ticker of newTickers) {
       outputItem = await axios(`/api/getETFAUMSum?ticker=${ticker}`)
       moneyCnn = await axios(`/api/getMoneyCnn?ticker=${ticker}`)
-      etfCount = await axios(`/api/getStockETFCount?ticker=${ticker}`)
 
       let etf = {}
       etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = [...outputItem.data, etfCount.data, ...moneyCnn.data]
+      etf['info'] = [...outputItem.data, ...moneyCnn.data]
       temp.push(
         etf
       )

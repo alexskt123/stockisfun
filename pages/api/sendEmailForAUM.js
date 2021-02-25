@@ -27,7 +27,8 @@ export default async (req, res) => {
             'AUM Sum',
             'Price',
             'Market Cap.',
-            'Floating Shares Ratio'
+            'Floating Shares Ratio',
+            'No. of ETF'
         ],
         tableData: []
     }
