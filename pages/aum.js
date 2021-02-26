@@ -7,8 +7,8 @@ import TickerBullet from '../components/Page/TickerBullet'
 import { sortTableItem } from '../lib/commonFunction'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 import CustomContainer from '../components/Layout/CustomContainer'
+import { aumTableHeader } from '../config/etf'
 
-import percent from 'percent'
 const axios = require('axios').default
 
 export default function Home() {
@@ -90,20 +90,7 @@ export default function Home() {
     ])
 
     setTableHeader(
-      [
-        'Ticker',
-        ...Array.from({ length: 10 }, (x, i) => `ETF ${i + 1}`),
-        'AUM Sum',
-        'Price',
-        'Market Cap.',
-        'Floating Shares Ratio',
-        'No. of ETF',
-        'No. of Analyst',
-        '1 Yr Median',
-        '1 Yr High',
-        '1 Yr Low',
-        'Average %'
-      ]
+      [...aumTableHeader]
     )
 
     setEtfInfo(

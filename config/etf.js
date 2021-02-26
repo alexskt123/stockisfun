@@ -25,3 +25,18 @@ export const etfDetailsSettings = {
 export const etfHoldingHeader = ["Ticker", "Name", "Holding"]
 
 export const aumSumCount = 10
+
+export const aumTableHeader = [
+    'Ticker',
+    ...Array.from({ length: aumSumCount }, (_x, i) => `ETF ${i + 1}`),
+    'AUM Sum',
+    'Price',
+    'Market Cap.',
+    'Floating Shares Ratio',
+    'No. of ETF',
+    'No. of Analyst',
+    '1 Yr Median',
+    '1 Yr High',
+    '1 Yr Low',
+    'Average %'
+]
