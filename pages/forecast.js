@@ -10,8 +10,6 @@ import { getForecastInfo, forecastSettingSchema, handleDebounceChange } from '..
 
 import { useRouter } from 'next/router'
 
-const axios = require('axios').default
-
 export default function Home() {
 
   const [settings, setSettings] = useState(forecastSettingSchema)
@@ -90,7 +88,7 @@ export default function Home() {
           <TickerInput
             validated={validated}
             handleSubmit={handleSubmit}
-            placeholderText={"Single:  aapl /  Mulitple:  aapl,tdoc,fb,gh"}
+            placeholderText={'Single:  aapl /  Mulitple:  aapl,tdoc,fb,gh'}
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}

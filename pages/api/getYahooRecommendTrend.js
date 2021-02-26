@@ -4,10 +4,6 @@
 
 import { getYahooRecommendTrend } from '../../lib/yahoo/getYahooRecommendTrend'
 
-
-const axios = require('axios').default
-
-
 export default async (req, res) => {
   const { ticker } = req.query
 

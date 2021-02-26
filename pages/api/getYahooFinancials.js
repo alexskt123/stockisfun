@@ -8,9 +8,6 @@ import { getYahooFinancialData } from '../../lib/yahoo/getYahooFinancialData'
 import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
 import percent from 'percent'
 
-const axios = require('axios').default
-
-
 export default async (req, res) => {
   const { ticker } = req.query
 
@@ -19,10 +16,10 @@ export default async (req, res) => {
   const financialData = await getYahooFinancialData(ticker)
   const quote = await getYahooQuote(ticker)
 
-  let revenueArr = []
-  let netIncomeArr = []
+  const revenueArr = []
+  const netIncomeArr = []
 
-  let earningsExtract = earnings.map(item => {
+  const earningsExtract = earnings.map(item => {
     return {
       'revenue': item.revenue.raw,
       'netIncome': item.earnings.raw

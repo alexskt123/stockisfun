@@ -8,55 +8,55 @@ import {forecastTableFirstHeader} from '../config/forecast'
 
 function ForecastInfo({ inputSettings, inputTickers }) {
 
-    const [settings, setSettings] = useState(forecastSettingSchema)
-    const [loading, setLoading] = useState(false)
+  const [settings, setSettings] = useState(forecastSettingSchema)
+  const [loading, setLoading] = useState(false)
 
-    async function handleTickers() {
+  async function handleTickers() {
 
-        setLoading(true)
+    setLoading(true)
 
-        if (inputSettings) {
-            setSettings(inputSettings)
-        } else if (inputTickers) {
-            await clearItems()
-            const forecastInfo = await getForecastInfo(inputTickers, forecastSettingSchema)
-            setSettings(forecastInfo)
-        } else if (inputTickers.length <= 0) {
-            await clearItems()
-        }
-
-        setLoading(false)
+    if (inputSettings) {
+      setSettings(inputSettings)
+    } else if (inputTickers) {
+      await clearItems()
+      const forecastInfo = await getForecastInfo(inputTickers, forecastSettingSchema)
+      setSettings(forecastInfo)
+    } else if (inputTickers.length <= 0) {
+      await clearItems()
     }
 
-    useEffect(() => {
-        handleTickers()
-    }, [inputSettings, inputTickers])
+    setLoading(false)
+  }
 
-    const sortItem = async (index) => {
-        setSettings({
-            ...settings,
-            stockInfo: await sortTableItem(settings.stockInfo, index, settings.ascSort),
-            ascSort: !settings.ascSort
-        })
-    }
+  useEffect(() => {
+    handleTickers()
+  }, [inputSettings, inputTickers])
 
-    const clearItems = async () => {
-        setSettings({
-            ...settings,
-            tickers: [],
-            tableHeader: [],
-            stocInfo: []
-        })
-    }
+  const sortItem = async (index) => {
+    setSettings({
+      ...settings,
+      stockInfo: await sortTableItem(settings.stockInfo, index, settings.ascSort),
+      ascSort: !settings.ascSort
+    })
+  }
 
-    return (
-        <Fragment>
-            {loading ?
-                <LoadingSpinner /> : ''
-            }
-            <StockInfoTable tableFirstHeader={[...forecastTableFirstHeader]} tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
-        </Fragment>
-    )
+  const clearItems = async () => {
+    setSettings({
+      ...settings,
+      tickers: [],
+      tableHeader: [],
+      stocInfo: []
+    })
+  }
+
+  return (
+    <Fragment>
+      {loading ?
+        <LoadingSpinner /> : ''
+      }
+      <StockInfoTable tableFirstHeader={[...forecastTableFirstHeader]} tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
+    </Fragment>
+  )
 }
 
 export default ForecastInfo

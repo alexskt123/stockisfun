@@ -4,14 +4,11 @@
 
 import { getETFAUMSum } from '../../lib/etfdb/getETFAUMSum'
 
-const axios = require('axios').default
-
-
 export default async (req, res) => {
   const { ticker } = req.query
 
   const etfList = await getETFAUMSum(ticker)
-  let data = []
+  const data = []
   let i = 0
 
   for (const etf of etfList) {

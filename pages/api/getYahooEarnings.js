@@ -4,9 +4,6 @@
 
 import { getYahooIncomeStatement } from '../../lib/yahoo/getYahooIncomeStatement'
 
-const axios = require('axios').default
-
-
 export default async (req, res) => {
   const { ticker } = req.query
 

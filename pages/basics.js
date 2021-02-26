@@ -54,7 +54,7 @@ export default function Home() {
           <TickerInput
             validated={validated}
             handleSubmit={handleSubmit}
-            placeholderText={"i.e. appl"}
+            placeholderText={'i.e. appl'}
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}

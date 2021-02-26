@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint --fix **/*.js"
   },
   "dependencies": {
     "@18f/us-federal-holidays": "^1.4.0",

@@ -4,10 +4,6 @@
 
 import { getYahooKeyStatistics } from '../../lib/yahoo/getYahooKeyStatistics'
 
-
-const axios = require('axios').default
-
-
 export default async (req, res) => {
   const { ticker } = req.query
 

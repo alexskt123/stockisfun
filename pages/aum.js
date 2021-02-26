@@ -60,17 +60,17 @@ export default function Home() {
 
   async function handleTickers(inputTickers) {
 
-    let newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
+    const newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
 
     let outputItem
-    let temp = []
+    const temp = []
     let moneyCnn = []
 
     for (const ticker of newTickers) {
       outputItem = await axios(`/api/getETFAUMSum?ticker=${ticker}`)
       moneyCnn = await axios(`/api/getMoneyCnn?ticker=${ticker}`)
 
-      let etf = {}
+      const etf = {}
       etf['ticker'] = ticker.toUpperCase()
       etf['info'] = [...outputItem.data, ...moneyCnn.data]
       temp.push(
@@ -131,7 +131,7 @@ export default function Home() {
           <TickerInput
             validated={validated}
             handleSubmit={handleSubmit}
-            placeholderText={"Single:  aapl /  Mulitple:  tsm,gh"}
+            placeholderText={'Single:  aapl /  Mulitple:  tsm,gh'}
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}

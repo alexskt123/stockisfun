@@ -3,15 +3,15 @@ import { Fragment, useState } from 'react'
 import CustomContainer from '../components/Layout/CustomContainer'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2'
 
 import StockInfoTable from '../components/Page/StockInfoTable'
 import TickerInput from '../components/Page/TickerInput'
-import LoadingSpinner from '../components/Loading/LoadingSpinner';
-import { Alert, Badge, Button, Row } from 'react-bootstrap';
-import StockDetails from '../components/StockDetails';
-import PriceChange from '../components/PriceChange';
-import ForecastInfo from '../components/ForecastInfo';
+import LoadingSpinner from '../components/Loading/LoadingSpinner'
+import { Alert, Badge, Button, Row } from 'react-bootstrap'
+import StockDetails from '../components/StockDetails'
+import PriceChange from '../components/PriceChange'
+import ForecastInfo from '../components/ForecastInfo'
 import { etfDetailsSettings, etfHoldingHeader } from '../config/etf'
 import Price from '../components/Price'
 const axios = require('axios').default
@@ -52,12 +52,12 @@ export default function Home() {
   async function handleTicker(inputTicker) {
     if (!inputTicker) return
 
-    let ticker = inputTicker.toUpperCase()
+    const ticker = inputTicker.toUpperCase()
 
 
     let holdingInfo = []
-    let etfInfo = []
-    let etf = await axios(`/api/getETFDB?ticker=${ticker}`)
+    const etfInfo = []
+    const etf = await axios(`/api/getETFDB?ticker=${ticker}`)
 
     Object.keys(etf.data.basicInfo).forEach(item => {
       etfInfo.push([item, etf.data.basicInfo[item]])
@@ -116,7 +116,7 @@ export default function Home() {
       if (cur[0].length > 0 && cur[0] != 'Others')
         acc = `${acc},${cur[0]}`
       return acc
-    }, '').replace(/(^,)|(,$)/g, "")
+    }, '').replace(/(^,)|(,$)/g, '')
 
     if (href != '') setAllowCheck(true)
 
@@ -176,7 +176,7 @@ export default function Home() {
           <TickerInput
             validated={validated}
             handleSubmit={handleSubmit}
-            placeholderText={"i.e. arkk"}
+            placeholderText={'i.e. arkk'}
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}

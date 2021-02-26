@@ -7,53 +7,53 @@ import StockInfoTable from '../components/Page/StockInfoTable'
 
 function FinancialsInfo({ inputSettings, inputTickers }) {
 
-    const [settings, setSettings] = useState(financialsSettingSchema)
-    const [loading, setLoading] = useState(false)
+  const [settings, setSettings] = useState(financialsSettingSchema)
+  const [loading, setLoading] = useState(false)
 
-    async function handleTickers() {
+  async function handleTickers() {
 
-        setLoading(true)
+    setLoading(true)
 
-        if (inputSettings) {
-            setSettings(inputSettings)
-        } else if (inputTickers) {
-            await clearItems()
-            const financialsInfo = await getFinancialsInfo(inputTickers, financialsSettingSchema)
-            setSettings(financialsInfo)
-        }
-
-        setLoading(false)
+    if (inputSettings) {
+      setSettings(inputSettings)
+    } else if (inputTickers) {
+      await clearItems()
+      const financialsInfo = await getFinancialsInfo(inputTickers, financialsSettingSchema)
+      setSettings(financialsInfo)
     }
 
-    useEffect(() => {
-        handleTickers()
-    }, [inputSettings, inputTickers])
+    setLoading(false)
+  }
 
-    const sortItem = async (index) => {
-        setSettings({
-            ...settings,
-            stockInfo: await sortTableItem(settings.stockInfo, index, settings.ascSort),
-            ascSort: !settings.ascSort
-        })
-    }
+  useEffect(() => {
+    handleTickers()
+  }, [inputSettings, inputTickers])
 
-    const clearItems = async () => {
-        setSettings({
-            ...settings,
-            tickers: [],
-            tableHeader: [],
-            stocInfo: []
-        })
-    }
+  const sortItem = async (index) => {
+    setSettings({
+      ...settings,
+      stockInfo: await sortTableItem(settings.stockInfo, index, settings.ascSort),
+      ascSort: !settings.ascSort
+    })
+  }
 
-    return (
-        <Fragment>
-            {loading ?
-                <LoadingSpinner /> : ''
-            }
-            <StockInfoTable tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
-        </Fragment>
-    )
+  const clearItems = async () => {
+    setSettings({
+      ...settings,
+      tickers: [],
+      tableHeader: [],
+      stocInfo: []
+    })
+  }
+
+  return (
+    <Fragment>
+      {loading ?
+        <LoadingSpinner /> : ''
+      }
+      <StockInfoTable tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
+    </Fragment>
+  )
 }
 
 export default FinancialsInfo

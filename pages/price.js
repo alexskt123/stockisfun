@@ -6,10 +6,10 @@ import TickerInput from '../components/Page/TickerInput'
 import TickerBullet from '../components/Page/TickerBullet'
 import { getPriceInfo, priceSettingSchema, handleDebounceChange } from '../lib/commonFunction'
 import CustomContainer from '../components/Layout/CustomContainer'
-import LoadingSpinner from '../components/Loading/LoadingSpinner';
+import LoadingSpinner from '../components/Loading/LoadingSpinner'
 
 import { useRouter } from 'next/router'
-import PriceChange from '../components/PriceChange';
+import PriceChange from '../components/PriceChange'
 
 export default function Home() {
 
@@ -107,7 +107,7 @@ export default function Home() {
           <TickerInput
             validated={validated}
             handleSubmit={handleSubmit}
-            placeholderText={"Single:  aapl /  Mulitple:  tsm,0700.hk,voo"}
+            placeholderText={'Single:  aapl /  Mulitple:  tsm,0700.hk,voo'}
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}

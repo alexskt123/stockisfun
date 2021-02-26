@@ -9,49 +9,49 @@ const axios = require('axios').default
 
 export default async (req, res) => {
 
-    let response = {
-        response: 'NOT OK'
-    }
+  const response = {
+    response: 'NOT OK'
+  }
 
-    const { id } = req.query
+  const { id } = req.query
 
-    const emails = await getEmailByID(id)
-    const curEmailTemplate = emails.find(x => x)
-    const tickerArr = curEmailTemplate.stock.split(',').map(item => item.toUpperCase())
+  const emails = await getEmailByID(id)
+  const curEmailTemplate = emails.find(x => x)
+  const tickerArr = curEmailTemplate.stock.split(',').map(item => item.toUpperCase())
 
-    const tdy = moment().format('YYYY-MM-DD')
-    const subName = `AUM - As of ${tdy}`
-    let csvFile = {
-        tableHeader: [...aumTableHeader],
-        tableData: []
-    }
+  const tdy = moment().format('YYYY-MM-DD')
+  const subName = `AUM - As of ${tdy}`
+  const csvFile = {
+    tableHeader: [...aumTableHeader],
+    tableData: []
+  }
 
-    await axios.all(tickerArr.map(ticker => {
-        return axios.get(`${getHost()}/api/getETFAUMSum?ticker=${ticker}`).catch(err => console.log(err))
-    }))
-        .catch(error => console.log(error))
-        .then((responses) => {
-            if (responses) {
-                response.response = 'OK'
+  await axios.all(tickerArr.map(ticker => {
+    return axios.get(`${getHost()}/api/getETFAUMSum?ticker=${ticker}`).catch(err => console.log(err))
+  }))
+    .catch(error => console.log(error))
+    .then((responses) => {
+      if (responses) {
+        response.response = 'OK'
 
-                responses.forEach((item, index) => {
-                    if (item && item.data) {
-                        csvFile.tableData.push([tickerArr[index], ...item.data])
-                    }
-                })
-            }
+        responses.forEach((item, index) => {
+          if (item && item.data) {
+            csvFile.tableData.push([tickerArr[index], ...item.data])
+          }
         })
+      }
+    })
 
-    const inputArrList = tickerArr.reduce((acc, cur) => {
-        acc += `<li>${cur}</li>`
-        return acc
-    }, '')
+  const inputArrList = tickerArr.reduce((acc, cur) => {
+    acc += `<li>${cur}</li>`
+    return acc
+  }, '')
 
-    let mailOptions = {
-        from: process.env.EMAIL,
-        bcc: curEmailTemplate.to,
-        subject: subName,
-        html: `
+  const mailOptions = {
+    from: process.env.EMAIL,
+    bcc: curEmailTemplate.to,
+    subject: subName,
+    html: `
         <p>
             <h5>${curEmailTemplate.name}</h5>
         </p>        
@@ -66,17 +66,17 @@ export default async (req, res) => {
             </ol>
         </p>
         `,
-        attachments: [
-            {   // utf-8 string as an attachment
-                filename: `${subName}.csv`,
-                content: getCSVContent(csvFile.tableHeader, csvFile.tableData)
-            }
-        ]
-    };
+    attachments: [
+      {   // utf-8 string as an attachment
+        filename: `${subName}.csv`,
+        content: getCSVContent(csvFile.tableHeader, csvFile.tableData)
+      }
+    ]
+  }
 
 
-    await sendEmail(mailOptions)
+  await sendEmail(mailOptions)
 
-    res.statusCode = 200
-    res.json(response)
+  res.statusCode = 200
+  res.json(response)
 }

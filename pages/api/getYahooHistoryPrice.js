@@ -13,7 +13,7 @@ const axios = require('axios').default
 
 const handleYearPcnt = async (ticker, year) => {
 
-  let inputItems = []
+  const inputItems = []
 
   let newDateRange = dateRange
   if (year) newDateRange = await dateRangeByNoOfYears(year)
@@ -27,7 +27,7 @@ const handleYearPcnt = async (ticker, year) => {
     )
   })
 
-  let temp = {
+  const temp = {
     'ticker': ticker.toUpperCase(),
     'startPrice': null,
     'endPrice': null,
@@ -38,17 +38,17 @@ const handleYearPcnt = async (ticker, year) => {
 
   for (const item of inputItems) {
 
-    let formattedFromDate = new Date(item.fromDate);
-    formattedFromDate = formattedFromDate.getTime() / 1000;
+    let formattedFromDate = new Date(item.fromDate)
+    formattedFromDate = formattedFromDate.getTime() / 1000
 
-    let formattedToDate = new Date(item.toDate);
-    formattedToDate = formattedToDate.getTime() / 1000;
+    let formattedToDate = new Date(item.toDate)
+    formattedToDate = formattedToDate.getTime() / 1000
 
     const outputItem = await getYahooHistoryPrice(item.ticker, formattedFromDate, formattedToDate)
     const quote = await getYahooQuote(item.ticker)
     const allData = outputItem.indicators.quote.find(x => x).close
 
-    let newQuote = {}
+    const newQuote = {}
     newQuote['ticker'] = ticker.toUpperCase()
     quoteFilterList.forEach(item => {
       newQuote[item.label] = quote[item.column]
@@ -68,7 +68,7 @@ const handleYearPcnt = async (ticker, year) => {
       temp.startPrice = opening
       temp.yearCnt += 1
     }
-    else temp.data.push("N/A")
+    else temp.data.push('N/A')
 
   }
 
@@ -76,14 +76,14 @@ const handleYearPcnt = async (ticker, year) => {
 }
 
 const handleDays = async (ticker, days) => {
-  if (ticker === "undefined" || days === "undefined") return { date: [], price: [] }
+  if (ticker === 'undefined' || days === 'undefined') return { date: [], price: [] }
 
   const { formattedFromDate, formattedToDate } = await getFormattedFromToDate(days)
 
   const outputItem = await getYahooHistoryPrice(ticker, formattedFromDate, formattedToDate)
 
   return {
-    date: (outputItem.timestamp || []).map(item => moment.unix(item).format("DD MMM YYYY")),
+    date: (outputItem.timestamp || []).map(item => moment.unix(item).format('DD MMM YYYY')),
     price: outputItem.indicators.quote.find(x => x).close
   }
 }

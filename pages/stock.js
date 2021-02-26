@@ -36,7 +36,7 @@ export default function Home() {
       const incomeData = await getIncomeStatement(ticker.toUpperCase())
 
 
-      let data = []
+      const data = []
 
       incomeData.forEach((item, index) => {
         const compareData = incomeData[index + 1] || item
@@ -67,7 +67,7 @@ export default function Home() {
       // ))      
 
       let dataKeys = []
-      let dataValues = []
+      const dataValues = []
       dataKeys = Object.keys((data || [{}] )[0])
       
 
@@ -133,11 +133,11 @@ export default function Home() {
             </thead>
             <tbody>
 
-                {incomeStatementData.map((item, index) => (
-                  <tr key={index}>
-                    {item.map((xx,yy) => <td key={`${index}${yy}`}>{xx}</td>)}             
-                  </tr>                  
-                ))}
+              {incomeStatementData.map((item, index) => (
+                <tr key={index}>
+                  {item.map((xx,yy) => <td key={`${index}${yy}`}>{xx}</td>)}             
+                </tr>                  
+              ))}
 
             </tbody>
           </Table>

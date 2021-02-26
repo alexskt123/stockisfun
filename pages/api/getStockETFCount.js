@@ -4,10 +4,6 @@
 
 import { getStockETFCount } from '../../lib/etfdb/getStockETFCount'
 
-
-const axios = require('axios').default
-
-
 export default async (req, res) => {
   const { ticker } = req.query
 

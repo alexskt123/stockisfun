@@ -15,14 +15,14 @@ export const chartDataSet = {
 }
 
 const year = new Date().getFullYear()
-export const dateRange = [...Array(16)].map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`]).map(x => ({ "fromDate": x[0], "toDate": x[1] }))
+export const dateRange = [...Array(16)].map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`]).map(x => ({ 'fromDate': x[0], 'toDate': x[1] }))
 
 export const dateRangeByNoOfYears = async (inputYears) => {
   let noOfYears = 15
   noOfYears = !inputYears ? noOfYears : inputYears
 
   //return Array.from({length: noOfYears + 1}, (x, i) => [`${year-i}-01-01`,`${year-i}-12-31`]).map(x=>({"fromDate":x[0],"toDate":x[1]}))
-  return [...Array(parseInt(noOfYears) + 1)].map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`]).map(x => ({ "fromDate": x[0], "toDate": x[1] }))
+  return [...Array(parseInt(noOfYears) + 1)].map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`]).map(x => ({ 'fromDate': x[0], 'toDate': x[1] }))
 }
 
 // [
@@ -82,8 +82,8 @@ export const priceChartSettings = {
   label: '',
   data: [],
   fill: false,
-  backgroundColor: "rgba(30,230,230,0.2)",
-  borderColor: "rgba(30,230,230,1)",
+  backgroundColor: 'rgba(30,230,230,0.2)',
+  borderColor: 'rgba(30,230,230,1)',
   showLine: false,
   pointRadius: 3
 }
@@ -92,8 +92,8 @@ export const ma5ChartSettings = {
   label: '5-MA',
   data: [],
   fill: false,
-  backgroundColor: "rgba(200,12,12,0.2)",
-  borderColor: "rgba(200,12,12,1)",
+  backgroundColor: 'rgba(200,12,12,0.2)',
+  borderColor: 'rgba(200,12,12,1)',
   pointRadius: 0
 }
 
@@ -101,8 +101,8 @@ export const ma20ChartSettings = {
   label: '20-MA',
   data: [],
   fill: false,
-  backgroundColor: "rgba(220,220,20,0.2)",
-  borderColor: "rgba(220,220,20,1)",
+  backgroundColor: 'rgba(220,220,20,0.2)',
+  borderColor: 'rgba(220,220,20,1)',
   pointRadius: 0
 }
 
@@ -110,17 +110,17 @@ export const ma60ChartSettings = {
   label: '60-MA',
   data: [],
   fill: false,
-  backgroundColor: "rgba(75,50,10,0.2)",
-  borderColor: "rgba(75,50,10,1)",
+  backgroundColor: 'rgba(75,50,10,0.2)',
+  borderColor: 'rgba(75,50,10,1)',
   pointRadius: 0
 }
 
 export const dateRangeSelectAttr = {
   formControl: {
-    size: "sm",
-    as: "select",
-    className: "my-1 mr-sm-2",
-    name: "formYear"
+    size: 'sm',
+    as: 'select',
+    className: 'my-1 mr-sm-2',
+    name: 'formYear'
   },
   dateRangeOptions: [
     {
@@ -156,10 +156,10 @@ export const dateRangeSelectAttr = {
 
 export const maSelectAttr = {
   formControl: {
-    size: "sm",
-    as: "select",
-    className: "my-1 mr-sm-2",
-    name: "formma"
+    size: 'sm',
+    as: 'select',
+    className: 'my-1 mr-sm-2',
+    name: 'formma'
   },
   maOptions: [
     {
