@@ -37,5 +37,9 @@
     "react-icons": "^4.2.0",
     "round-to": "^5.0.0"
   },
-  "proxy": "http://localhost:3000/"
+  "proxy": "http://localhost:3000/",
+  "devDependencies": {
+    "eslint": "^7.20.0",
+    "eslint-plugin-react": "^7.22.0"
+  }
 }
