@@ -21,11 +21,11 @@ const checkCanClick = (item, cellClick) => {
 
 const sticky = { backgroundColor: '#ddd', left: 0, position: 'sticky', zIndex: '997' }
 
-function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, cellClick }) {
+function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, cellClick, tableSize }) {
 
   return (
     <Fragment>
-      <Table size="md" className="pl-3 mt-3" responsive>
+      <Table size={tableSize ? tableSize : "md"} className="pl-3 mt-3" responsive>
         <thead>
           <tr key={'tableFirstHeader'}>
             {tableFirstHeader ?

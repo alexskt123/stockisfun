@@ -7,7 +7,8 @@ export const tableHeaderList = [
     },
     {
         label: 'Pre Time',
-        item: 'preMarketTime'
+        item: 'preMarketTime',
+        format: 'H:mm:ss'
     },
     {
         label: 'Pre Market',
@@ -15,7 +16,8 @@ export const tableHeaderList = [
     },
     {
         label: 'Pre Market%',
-        item: 'preMarketChangePercent'
+        item: 'preMarketChangePercent',
+        format: '%'
     },
     {
         label: 'Market',
@@ -23,7 +25,8 @@ export const tableHeaderList = [
     },
     {
         label: 'Day Chg%',
-        item: 'regularMarketChangePercent'
+        item: 'regularMarketChangePercent',
+        format: '%'
     },
     {
         label: 'Volume',

@@ -9,9 +9,10 @@ import TickerBullet from '../components/Page/TickerBullet'
 import { sortTableItem, handleDebounceChange } from '../lib/commonFunction'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 import moment from 'moment-business-days'
-import {tableHeaderList} from '../config/watchlist'
+import { tableHeaderList } from '../config/watchlist'
 import millify from 'millify'
 import { Button } from 'react-bootstrap'
+import { balanceSheetRespsone } from '../config/yahooChart'
 
 const axios = require('axios').default
 
@@ -77,18 +78,15 @@ export default function Home() {
 
           responses.forEach((response, index) => {
             if (response && response.data) {
-              temp.push(
-                {
-                  'Ticker': newTickers[index],
-                  'Pre Time': moment(response.data.preMarketTime * 1000).format('H:mm:ss'),
-                  'Pre Market': response.data.preMarketPrice,
-                  'Pre Market%': `${response.data.preMarketChangePercent?.toFixed(2)}%`,
-                  'Market': response.data.regularMarketPrice,
-                  'Market%': `${response.data.regularMarketChangePercent?.toFixed(2)}%`,
-                  'Volume': millify(response.data.regularMarketVolume || 0),
-                  'Day Range': response.data.regularMarketDayRange,
-                  'Previous Close': response.data.regularMarketPreviousClose
-                }
+              temp.push(tableHeaderList.map(header => {
+                if (response.data[header.item])
+                  return {
+                    'label': header.label,
+                    'item': header.format && header.format == '%' ? `${response.data[header.item]?.toFixed(2)}%`
+                      : header.format && header.format == 'H:mm:ss' ? moment(response.data[header.item] * 1000).format('H:mm:ss')
+                        : response.data[header.item]
+                  }
+              })
               )
             }
           })
@@ -97,7 +95,7 @@ export default function Home() {
 
     setTableHeader(
       [
-        ...tableHeaderList.map(item => item.label)
+        ...temp.find(x => x).filter(x => x).map(item => item.label)
       ]
     )
 
@@ -108,10 +106,7 @@ export default function Home() {
     setWatchList(
       [
         ...temp.map(item => {
-          const newItem = [
-            ...Object.values(item)
-          ]
-          return newItem
+          return item.filter(x => x).map(jj => jj.item)
         })
       ]
     )
@@ -166,7 +161,7 @@ export default function Home() {
             <LoadingSpinner /> : ''
           }
           <Button onClick={() => { refreshItems() }} size='sm' variant='outline-dark' >{'Refresh'}</Button>
-          <StockInfoTable tableHeader={tableHeader} tableData={watchList} sortItem={sortItem} />
+          <StockInfoTable tableHeader={tableHeader} tableData={watchList} sortItem={sortItem} tableSize="sm" />
         </Fragment>
       </CustomContainer>
     </Fragment >
