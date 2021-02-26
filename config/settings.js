@@ -44,5 +44,9 @@ export const NavItems = [
   {
     href: '/basics',
     label: 'Stock Detail'
+  },
+  {
+    href: '/watchlist',
+    label: 'Watch List'
   }
 ]

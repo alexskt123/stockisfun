@@ -35,12 +35,12 @@ function TickerBullet({ tickers, overlayItem, removeItem }) {
                 key={`${item}${index}`}
                 overlay={<Tooltip>{getOverlayItems(item, overlayItem)}</Tooltip>}
               >
-                <h5>
+                <h6>
                   <Badge pill variant="success" className="ml-1">
                     {`${item}`}
                     <BsFillXCircleFill onClick={() => { removeItem(item) }} className="ml-1 mb-1" />
                   </Badge>
-                </h5>
+                </h6>
               </OverlayTrigger>
             </Fragment>
           ))

@@ -328,6 +328,7 @@ function StockDetails({ inputTicker }) {
             <LoadingSpinner /> : ''
           }
           <StockInfoTable tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
+          <StockInfoTable className='mt-2' tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} sortItem={sortItem} />
         </Tab>
         <Tab eventKey="ETFList" title="ETF List">
           {clicked ?
