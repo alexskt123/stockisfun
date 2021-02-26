@@ -3,13 +3,13 @@ import { Fragment } from 'react'
 import Table from 'react-bootstrap/Table'
 
 const getCellColor = (cellValue) => {
-  if ((cellValue || '').toString().replace(/\%/, '') < 0) return { color: 'red' }
+  if ((cellValue || '').toString().replace(/%/, '') < 0) return { color: 'red' }
   else return { color: 'black' }
 }
 
 const getCellItem = (item) => {
   if ((item || '').toString().match(/http:/gi))
-    return <a href={item} target='_blank'>{item}</a>
+    return <a href={item} target='_blank' rel="noopener noreferrer">{item}</a>
   else return item
 }
 

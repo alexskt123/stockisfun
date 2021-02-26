@@ -5,12 +5,9 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { getIncomeStatement } from '../lib/getIncomeStatement'
 import Table from 'react-bootstrap/Table'
-import { CarouselItem } from 'react-bootstrap'
 
 export default function Home() {
 
-
-  const [quote, setQuote] = useState(null)
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [incomeStatementData, setIncomeStatementData] = useState([])
@@ -71,7 +68,7 @@ export default function Home() {
       dataKeys = Object.keys((data || [{}] )[0])
       
 
-      data.forEach((item, index) => {
+      data.forEach(item => {
         dataValues.push(Object.values(item))
       })
 

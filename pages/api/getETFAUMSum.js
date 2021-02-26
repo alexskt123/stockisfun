@@ -3,10 +3,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { getETFAUMSum } from '../../lib/etfdb/getETFAUMSum'
-import { getETFDB } from '../../lib/etfdb/getETFDB'
-
-import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
-import { getYahooKeyStatistics } from '../../lib/yahoo/getYahooKeyStatistics'
 import { aumSumCount } from '../../config/etf'
 import { getHost } from '../../lib/commonFunction'
 

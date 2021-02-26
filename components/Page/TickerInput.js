@@ -42,8 +42,8 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
                   onChange={(e) => handleChange(e)}
                 >
                   {
-                    priceChangeDateRangeSelectAttr.dateRangeOptions.map(item => {
-                      return <option value={item.value}>{item.label}</option>
+                    priceChangeDateRangeSelectAttr.dateRangeOptions.map((item, index) => {
+                      return <option key={`${item}${index}`} value={item.value}>{item.label}</option>
                     })
                   }
                 </Form.Control>

@@ -4,12 +4,9 @@ import CustomContainer from '../components/Layout/CustomContainer'
 
 import TickerInput from '../components/Page/TickerInput'
 import TickerBullet from '../components/Page/TickerBullet'
-import { sortTableItem } from '../lib/commonFunction'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 import FinancialsInfo from '../components/FinancialsInfo'
 import { getFinancialsInfo, financialsSettingSchema, handleDebounceChange } from '../lib/commonFunction'
-
-const axios = require('axios').default
 
 export default function Home() {
 
@@ -19,16 +16,8 @@ export default function Home() {
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
 
-
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
-  }
-
-  const sortItem = async (index) => {
-    setAscSort(!ascSort)
-    setstockInfo(
-      await sortTableItem(stockInfo, index, ascSort)
-    )
   }
 
   const clearItems = async () => {

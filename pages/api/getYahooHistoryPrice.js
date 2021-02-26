@@ -9,8 +9,6 @@ import percent from 'percent'
 import { getFormattedFromToDate } from '../../lib/commonFunction'
 import moment from 'moment-business-days'
 
-const axios = require('axios').default
-
 const handleYearPcnt = async (ticker, year) => {
 
   const inputItems = []
