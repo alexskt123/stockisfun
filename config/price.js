@@ -77,3 +77,126 @@ export const priceSchema = {
     'datasets': []
   }
 }
+
+export const priceChartSettings = {
+  label: '',
+  data: [],
+  fill: false,
+  backgroundColor: "rgba(30,230,230,0.2)",
+  borderColor: "rgba(30,230,230,1)",
+  showLine: false,
+  pointRadius: 3
+}
+
+export const ma5ChartSettings = {
+  label: '5-MA',
+  data: [],
+  fill: false,
+  backgroundColor: "rgba(200,12,12,0.2)",
+  borderColor: "rgba(200,12,12,1)",
+  pointRadius: 0
+}
+
+export const ma20ChartSettings = {
+  label: '20-MA',
+  data: [],
+  fill: false,
+  backgroundColor: "rgba(220,220,20,0.2)",
+  borderColor: "rgba(220,220,20,1)",
+  pointRadius: 0
+}
+
+export const ma60ChartSettings = {
+  label: '60-MA',
+  data: [],
+  fill: false,
+  backgroundColor: "rgba(75,50,10,0.2)",
+  borderColor: "rgba(75,50,10,1)",
+  pointRadius: 0
+}
+
+export const dateRangeSelectAttr = {
+  formControl: {
+    size: "sm",
+    as: "select",
+    className: "my-1 mr-sm-2",
+    name: "formYear"
+  },
+  dateRangeOptions: [
+    {
+      label: '5D',
+      value: '5'
+    },
+    {
+      label: '10D',
+      value: '10'
+    },
+    {
+      label: '30D',
+      value: '30'
+    },
+    {
+      label: '3M',
+      value: '90'
+    },
+    {
+      label: '6M',
+      value: '120'
+    },
+    {
+      label: '1Y',
+      value: '365'
+    },
+    {
+      label: '3Y',
+      value: '1095'
+    }
+  ]
+}
+
+export const maSelectAttr = {
+  formControl: {
+    size: "sm",
+    as: "select",
+    className: "my-1 mr-sm-2",
+    name: "formma"
+  },
+  maOptions: [
+    {
+      label: 'N/A',
+      value: ''
+    },
+    {
+      label: 'MA',
+      value: 'ma'
+    },
+    {
+      label: 'EMA',
+      value: 'ema'
+    }
+  ]
+}
+
+export const priceTabLabelPairs = [
+  {
+    name: 'Name',
+    value: ''
+  },
+  {
+    name: 'Price',
+    value: ''
+  },
+  {
+    name: '52W-Low-High',
+    value: ''
+  },
+  {
+    name: 'Market Cap.',
+    value: ''
+  },
+  {
+    name: 'Industry',
+    value: ''
+  }
+]
+

@@ -3,6 +3,7 @@ import sendEmail from '../../lib/sendEmail'
 import { getEmailByID } from '../../lib/firebaseResult'
 import { getCSVContent, getHost } from '../../lib/commonFunction'
 import moment from 'moment-business-days'
+import { aumTableHeader } from '../../config/etf'
 
 const axios = require('axios').default
 
@@ -21,15 +22,7 @@ export default async (req, res) => {
     const tdy = moment().format('YYYY-MM-DD')
     const subName = `AUM - As of ${tdy}`
     let csvFile = {
-        tableHeader: [
-            'Ticker',
-            ...Array.from({ length: 10 }, (x, i) => `ETF ${i + 1}`),
-            'AUM Sum',
-            'Price',
-            'Market Cap.',
-            'Floating Shares Ratio',
-            'No. of ETF'
-        ],
+        tableHeader: [...aumTableHeader],
         tableData: []
     }
 
