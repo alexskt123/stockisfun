@@ -234,7 +234,7 @@ function StockDetails({ inputTicker }) {
                 yAxes: [{
                   ticks: {
                     callback: function (value) {
-                      return millify(value || 0);
+                      return millify(value || 0)
                     }
                   }
                 }]
@@ -260,11 +260,11 @@ function StockDetails({ inputTicker }) {
                     fill: false,
                     data: response.data.map(data => data[item])
                   } : {
-                      type: 'bar',
-                      label: item,
-                      backgroundColor: `rgba(${r}, ${g}, ${b})`,
-                      data: response.data.map(data => data[item])
-                    }
+                    type: 'bar',
+                    label: item,
+                    backgroundColor: `rgba(${r}, ${g}, ${b})`,
+                    data: response.data.map(data => data[item])
+                  }
                 )
               }
             })

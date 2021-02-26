@@ -14,8 +14,9 @@ import PriceChange from '../components/PriceChange'
 import ForecastInfo from '../components/ForecastInfo'
 import { etfDetailsSettings, etfHoldingHeader } from '../config/etf'
 import Price from '../components/Price'
-const axios = require('axios').default
 import { handleDebounceChange } from '../lib/commonFunction'
+
+const axios = require('axios').default
 
 export default function Home() {
 
@@ -189,8 +190,16 @@ export default function Home() {
               {clicked ?
                 <LoadingSpinner /> : ''
               }
-              <StockInfoTable tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
-              <Price inputTicker={settings.inputETFTicker.find(x => x)} inputDays={90} />
+              {
+                settings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
+                  ? <Fragment>
+                    <StockInfoTable tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
+                    <Price inputTicker={settings.inputETFTicker.find(x => x)} inputDays={90} />
+                  </Fragment>
+                  : <Alert className="mt-2" key={'Alert-No-Stock-Info'} variant={'success'}>
+                    {'Please enter a valid sticker!'}
+                  </Alert>
+              }
             </Tab>
             <Tab eventKey="Holdings" title="Holdings">
               {clicked ?
