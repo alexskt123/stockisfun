@@ -29,7 +29,7 @@ function TickerBullet({ tickers, overlayItem, removeItem }) {
       <Row className="pl-3 pt-3">
         {
           tickers.map((item, index) => (
-            <Fragment>
+            <Fragment key={`${item}${index}`}>
               <OverlayTrigger
                 placement="bottom"
                 key={`${item}${index}`}

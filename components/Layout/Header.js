@@ -45,9 +45,9 @@ function Header() {
                 .filter((value, index, self) => self.indexOf(value) === index)
                 .map((cat, catIdx) => {
                   return (
-                    <Fragment>
-                      <Badge variant="dark" className='ml-1' key={`category${catIdx}`}>{cat}</Badge>
-                      <NavDropdown.Divider key={`divider${catIdx}`} />
+                    <Fragment key={`${cat}${catIdx}`}>
+                      <Badge variant="dark" className='ml-1'>{cat}</Badge>
+                      <NavDropdown.Divider />
                       {NavDropDown.filter(x => x.category == cat).map((item, idx) => {
                         const href = `${item.href}`
                         const active = router.asPath === href

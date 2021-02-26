@@ -283,7 +283,7 @@ function StockDetails({ inputTicker }) {
     inputTicker != '' ? handleTicker() : clearItems()
   }, [inputTicker])
 
-  const sortItem = async (index) => {
+  const sortItem = async (_index) => {
     // setSettings({
     //     ...settings,
     //     stockInfo: await sortTableItem(settings.stockInfo, index, settings.ascSort),

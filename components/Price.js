@@ -109,8 +109,8 @@ function PriceInfo({ inputTicker }) {
           onChange={(e) => handleChange(e)}
         >
           {
-            dateRangeSelectAttr.dateRangeOptions.map(item => {
-              return <option value={item.value}>{item.label}</option>
+            dateRangeSelectAttr.dateRangeOptions.map((item, index) => {
+              return <option key={`${item}${index}`} value={item.value}>{item.label}</option>
             })
           }
         </Form.Control>
@@ -121,8 +121,8 @@ function PriceInfo({ inputTicker }) {
           onChange={(e) => handleChange(e)}
         >
           {
-            maSelectAttr.maOptions.map(item => {
-              return <option value={item.value}>{item.label}</option>
+            maSelectAttr.maOptions.map((item, index) => {
+              return <option key={`${item}${index}`} value={item.value}>{item.label}</option>
             })
           }
         </Form.Control>

@@ -31,7 +31,7 @@ export default function Home() {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-  const sortItem = async (index) => {
+  const sortItem = async (_index) => {
 
   }
 
