@@ -26,6 +26,9 @@ export const stockDetailsSettings = {
     chartData: {
       labels: [],
       datasets: []
+    },
+    chartOptions: {
+      
     }
   },
   inputTickers: [],

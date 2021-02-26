@@ -45,7 +45,7 @@ function StockDetails({ inputTicker }) {
     let etfList = []
     let etfCount = 0
     let floatingShareRatio = 'N/A'
-    const earnings = { tableHeader: [], tableData: [], chartData: { labels: [], datasets: [] } }
+    const earnings = { tableHeader: [], tableData: [], chartData: { labels: [], datasets: [] }, chartOptions: {} }
 
     setSettings({ ...settings, inputTickers: [ticker] })
 
@@ -229,6 +229,17 @@ function StockDetails({ inputTicker }) {
         .then((response) => {
           if (response && response.data) {
             earnings.tableHeader = ['', ...response.data.map(item => item.date)]
+            earnings.chartOptions = {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    callback: function (value) {
+                      return millify(value || 0);
+                    }
+                  }
+                }]
+              }
+            }
 
             Object.keys([...response.data].find(x => x) || []).reverse().forEach(item => {
               if (item == 'date') {
@@ -249,11 +260,11 @@ function StockDetails({ inputTicker }) {
                     fill: false,
                     data: response.data.map(data => data[item])
                   } : {
-                    type: 'bar',
-                    label: item,
-                    backgroundColor: `rgba(${r}, ${g}, ${b})`,
-                    data: response.data.map(data => data[item])
-                  }
+                      type: 'bar',
+                      label: item,
+                      backgroundColor: `rgba(${r}, ${g}, ${b})`,
+                      data: response.data.map(data => data[item])
+                    }
                 )
               }
             })
@@ -350,7 +361,7 @@ function StockDetails({ inputTicker }) {
             <LoadingSpinner /> : ''
           }
           <StockInfoTable tableHeader={settings.earnings.tableHeader} tableData={settings.earnings.tableData} sortItem={sortItem} />
-          <Bar data={settings.earnings.chartData} />
+          <Bar data={settings.earnings.chartData} options={settings.earnings.chartOptions} />
         </Tab>
         <Tab eventKey="Forecast" title="Forecast">
           {clicked ?
