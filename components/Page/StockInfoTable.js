@@ -2,20 +2,29 @@
 import { Fragment } from 'react'
 import Table from 'react-bootstrap/Table'
 
-const getCellColor = (cellValue) => {
-  if ((cellValue || '').toString().replace(/%/, '') < 0) return { color: 'red' }
+const getCellColor = (item) => {
+  const itemData = typeof item == "object" ? item.data : item
+  if (item.style) {
+    if (item.style == 'green-red') {
+      return (item.data || '').toString().replace(/%/, '') < 0 ?  { color: 'red' } : {color: 'green'}
+    }
+  }
+  else if ((itemData || '').toString().replace(/%/, '') < 0) return { color: 'red' }
   else return { color: 'black' }
 }
 
 const getCellItem = (item) => {
-  if ((item || '').toString().match(/http:/gi))
-    return <a href={item} target='_blank' rel="noopener noreferrer">{item}</a>
-  else return item
+  const itemData = typeof item == "object" ? item.data : item
+  if ((itemData || '').toString().match(/http:/gi))
+    return <a href={itemData} target='_blank' rel="noopener noreferrer">{itemData}</a>
+  else return itemData
 }
 
 const checkCanClick = (item, cellClick) => {
+  console.log(item)
+  const itemData = typeof item == "object" && item.data ? item.data : item
   if (cellClick) {
-    cellClick(item)
+    cellClick(itemData)
   }
 }
 

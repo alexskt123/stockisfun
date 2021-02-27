@@ -81,10 +81,10 @@ export default function Home() {
                 if (response.data[header.item])
                   return {
                     'label': header.label,
-                    'item': header.format && header.format == '%' ? `${response.data[header.item]?.toFixed(2)}%`
+                    'item': header.format && header.format == '%' ? { style: 'green-red', data: `${response.data[header.item]?.toFixed(2)}%` }
                       : header.format && header.format == 'H:mm:ss' ? moment(response.data[header.item] * 1000).format('H:mm:ss')
                         : header.format && header.format == 'millify' ? millify(response.data[header.item] || 0)
-                        : response.data[header.item]
+                          : response.data[header.item]
                   }
               })
               )
