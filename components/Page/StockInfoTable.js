@@ -21,7 +21,6 @@ const getCellItem = (item) => {
 }
 
 const checkCanClick = (item, cellClick) => {
-  console.log(item)
   const itemData = typeof item == "object" && item.data ? item.data : item
   if (cellClick) {
     cellClick(itemData)
