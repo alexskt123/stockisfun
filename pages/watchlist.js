@@ -161,7 +161,7 @@ export default function Home() {
             <LoadingSpinner /> : ''
           }
           <Button onClick={() => { refreshItems() }} size='sm' variant='outline-dark' >{'Refresh'}</Button>
-          <StockInfoTable tableHeader={tableHeader} tableData={watchList} sortItem={sortItem} tableSize="sm" />
+          <StockInfoTable striped={true} tableHeader={tableHeader} tableData={watchList} sortItem={sortItem} tableSize="sm" />
         </Fragment>
       </CustomContainer>
     </Fragment >

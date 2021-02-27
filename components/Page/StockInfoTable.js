@@ -1,12 +1,13 @@
 
 import { Fragment } from 'react'
 import Table from 'react-bootstrap/Table'
+import Link from 'next/link'
 
 const getCellColor = (item) => {
   const itemData = typeof item == "object" ? item.data : item
   if (item.style) {
     if (item.style == 'green-red') {
-      return (item.data || '').toString().replace(/%/, '') < 0 ?  { color: 'red' } : {color: 'green'}
+      return (item.data || '').toString().replace(/%/, '') < 0 ? { color: 'red' } : { color: 'green' }
     }
   }
   else if ((itemData || '').toString().replace(/%/, '') < 0) return { color: 'red' }
@@ -17,6 +18,9 @@ const getCellItem = (item) => {
   const itemData = typeof item == "object" ? item.data : item
   if ((itemData || '').toString().match(/http:/gi))
     return <a href={itemData} target='_blank' rel="noopener noreferrer">{itemData}</a>
+  else if (typeof item == "object" && item.link) {
+    return <Link href={item.link} ><a>{itemData}</a></Link>
+  }
   else return itemData
 }
 
@@ -29,11 +33,11 @@ const checkCanClick = (item, cellClick) => {
 
 const sticky = { backgroundColor: '#ddd', left: 0, position: 'sticky', zIndex: '997' }
 
-function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, cellClick, tableSize }) {
+function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, cellClick, tableSize, striped }) {
 
   return (
     <Fragment>
-      <Table striped bordered hover size={tableSize ? tableSize : "md"} className="pl-3 mt-3" responsive>
+      <Table striped={striped ? true : false} bordered hover size={tableSize ? tableSize : "md"} className="pl-3 mt-3" responsive>
         <thead>
           <tr key={'tableFirstHeader'}>
             {tableFirstHeader ?

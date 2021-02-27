@@ -1,5 +1,6 @@
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import CustomContainer from '../components/Layout/CustomContainer'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
@@ -53,8 +54,9 @@ export default function Home() {
   async function handleTicker(inputTicker) {
     if (!inputTicker) return
 
-    const ticker = inputTicker.toUpperCase()
+    setClicked(true)
 
+    const ticker = inputTicker.toUpperCase()
 
     let holdingInfo = []
     const etfInfo = []
@@ -144,15 +146,13 @@ export default function Home() {
     }
 
     setSettings(newSettings)
-
-
+    setClicked(false)
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     const form = event.currentTarget
 
-    setClicked(true)
     setAllowCheck(false)
 
     if (form.checkValidity() === false) {
@@ -165,7 +165,6 @@ export default function Home() {
 
     }
     setValidated(true)
-    setClicked(false)
   }
 
   const handleSelect = (key) => {
@@ -174,6 +173,15 @@ export default function Home() {
       selectedTab: key
     })
   }
+
+  const router = useRouter()
+  const { query } = router.query
+
+  useEffect(() => {
+    if (query) {
+      handleTicker(query)
+    }
+  }, [query])
 
   return (
     <Fragment>

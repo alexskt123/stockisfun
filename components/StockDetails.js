@@ -27,6 +27,11 @@ function StockDetails({ inputTicker }) {
   const [settings, setSettings] = useState({ ...stockDetailsSettings })
   const [clicked, setClicked] = useState(false)
 
+
+  const cellClick = async (_item) => {
+    
+  }
+
   async function handleTicker() {
     if (!inputTicker) return
 
@@ -171,7 +176,9 @@ function StockDetails({ inputTicker }) {
             etfList = {
               etfList: {
                 tableHeader: [...etfItemHeader],
-                tableData: [...etfItem]
+                tableData: [...etfItem.map(itemArr => itemArr.map((item, idx)=> {
+                  return idx == 0 ? {link: `/etfdetail?query=${item}`, data: item} : item
+                }))]
               }
             }
 
@@ -342,7 +349,7 @@ function StockDetails({ inputTicker }) {
               <Badge variant="light" className="ml-2">{settings.etfCount}</Badge>
             </h5>
           </Row>
-          <StockInfoTable tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
+          <StockInfoTable cellClick={cellClick} striped={true} tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
         </Tab>
         <Tab eventKey="Price%" title="Price%">
           {clicked ?
