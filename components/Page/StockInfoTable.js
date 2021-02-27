@@ -31,13 +31,20 @@ const checkCanClick = (item, cellClick) => {
   }
 }
 
-const sticky = { backgroundColor: '#ddd', left: 0, position: 'sticky', zIndex: '997' }
+const sticky = { backgroundColor: '#f0f0f0', left: 0, position: 'sticky', zIndex: '997' }
 
 function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, cellClick, tableSize, striped }) {
 
   return (
     <Fragment>
-      <Table striped={striped ? true : false} bordered hover size={tableSize ? tableSize : "md"} className="pl-3 mt-3" responsive>
+      <Table
+        striped={striped ? true : false}
+        bordered
+        hover
+        size={tableSize ? tableSize : "md"}
+        className="pl-3 mt-3"
+        responsive
+      >
         <thead>
           <tr key={'tableFirstHeader'}>
             {tableFirstHeader ?

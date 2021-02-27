@@ -1,24 +1,19 @@
 
 import { Fragment, useState, useEffect } from 'react'
-
-import LoadingSpinner from './Loading/LoadingSpinner'
-import StockInfoTable from '../components/Page/StockInfoTable'
-import { stockDetailsSettings, officersTableHeader } from '../config/stock'
-import { convertSameUnit } from '../lib/commonFunction'
-
+import { Alert, Badge, Row } from 'react-bootstrap'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
+import { Bar } from 'react-chartjs-2'
+import percent from 'percent'
 
+import { getBasics, getETFList, getYahooEarnings } from '../lib/stockDetailsFunction'
+import { stockDetailsSettings } from '../config/stock'
+import PriceTab from './Page/PriceTab'
+import LoadingSpinner from './Loading/LoadingSpinner'
+import StockInfoTable from '../components/Page/StockInfoTable'
 import PriceChange from '../components/PriceChange'
 import ForecastInfo from '../components/ForecastInfo'
 import FinancialsInfo from '../components/FinancialsInfo'
-import { Badge, Row } from 'react-bootstrap'
-import { Bar } from 'react-chartjs-2'
-
-import percent from 'percent'
-import PriceTab from './Page/PriceTab'
-import { Alert } from 'react-bootstrap'
-import millify from 'millify'
 
 const axios = require('axios').default
 
@@ -27,267 +22,73 @@ function StockDetails({ inputTicker }) {
   const [settings, setSettings] = useState({ ...stockDetailsSettings })
   const [clicked, setClicked] = useState(false)
 
-
   const cellClick = async (_item) => {
-    
+
   }
 
   async function handleTicker() {
     if (!inputTicker) return
-
     setClicked(true)
 
     const ticker = inputTicker.toUpperCase()
+    let newSettings = { ...stockDetailsSettings, inputTickers: [ticker] }
 
-    let basics
-    let officers = []
-    const basicItem = []
-    const balanceSheetItem = []
-    const balanceSheetHeader = []
-    const balanceSheetChartData = { labels: [], datasets: [] }
-    const etfItem = []
-    let etfItemHeader = []
-    let etfList = []
-    let etfCount = 0
-    let floatingShareRatio = 'N/A'
-    const earnings = { tableHeader: [], tableData: [], chartData: { labels: [], datasets: [] }, chartOptions: {} }
-
-    setSettings({ ...settings, inputTickers: [ticker] })
+    setSettings(newSettings)
 
     axios.all([
       axios
         .get(`/api/getYahooAssetProfile?ticker=${ticker}`)
         .then((response) => {
-          const basicsData = response.data.basics
-          const balanceSheetData = response.data.balanceSheet
-
-          Object.keys(basicsData).forEach(item => {
-            if (item !== 'Company Officers') {
-              basicItem.push([item, basicsData[item]])
-            } else {
-              officers = basicsData['Company Officers'].map(item => {
-                const itemArr = [
-                  item.name,
-                  item.title,
-                  item.age || 'N/A',
-                  (item.totalPay || { 'longFmt': 'N/A' }).longFmt
-                ]
-                return itemArr
-              })
-            }
-          })
-
-          Object.keys((balanceSheetData.find(x => x) || {})).forEach(item => {
-            if (item !== 'Date') {
-              const curItem = []
-              balanceSheetData.forEach(data => {
-                curItem.push(data[item])
-              })
-
-              balanceSheetItem.push([item, ...curItem])
-            }
-          })
-
-          const balanceChartLabel = 'Total Assets,Total Liability,Total Stock Holder Equity'.split(',')
-          const balanceChartData = Object.keys((balanceSheetData.find(x => x) || {}))
-            .filter(x => balanceChartLabel.includes(x))
-            .map(item => {
-              return [...balanceSheetData.map(data => data[item])]
-            })
-
-          const balanceChart = convertSameUnit(balanceChartData).map((data, index) => {
-            return {
-              label: balanceChartLabel[index],
-              data: data.map(item => (item || '').replace(/K|k|M|B|T/, ''))
-            }
-          })
-          balanceChart.forEach(item => {
-            const r = Math.floor(Math.random() * 255) + 1
-            const g = Math.floor(Math.random() * 255) + 1
-            const b = Math.floor(Math.random() * 255) + 1
-
-            balanceSheetChartData.datasets.push(item.label == 'Total Stock Holder Equity' ?
-              {
-                type: 'line',
-                label: item.label,
-                borderColor: `rgba(${r}, ${g}, ${b})`,
-                borderWidth: 2,
-                fill: false,
-                data: item.data
-              } : {
-                type: 'bar',
-                label: item.label,
-                backgroundColor: `rgba(${r}, ${g}, ${b})`,
-                data: item.data
-              }
-            )
-          })
-
-
-          balanceSheetChartData.labels.reverse()
-          balanceSheetChartData.datasets.reverse()
-
-          balanceSheetHeader.push('')
-          balanceSheetData.forEach(item => {
-            balanceSheetHeader.push(item['Date'])
-            balanceSheetChartData.labels.push(item['Date'])
-          })
-
-          basics = {
-            basics: {
-              tableHeader: [],
-              tableData: [...basicItem]
-            },
-            officers: {
-              tableHeader: [...officersTableHeader],
-              tableData: [...officers]
-            },
-            balanceSheet: {
-              tableHeader: [...balanceSheetHeader],
-              tableData: [...balanceSheetItem],
-              chartData: { ...balanceSheetChartData }
-            }
-          }
+          const { basics, officers, balanceSheet } = getBasics(response)
+          newSettings = { ...newSettings, basics, officers, balanceSheet }
 
           setSettings({
-            ...settings,
-            ...basics,
-            earnings: { ...earnings },
-            ...etfList,
-            etfCount,
-            floatingShareRatio,
-            inputTickers: [ticker]
+            ...settings, ...newSettings
           })
         }),
       axios
         .get(`/api/getETFListByTicker?ticker=${ticker}`)
         .then((response) => {
-          if (response.data) {
-            etfItemHeader = Object.keys(response.data.find(x => x) || {})
+          const { etfList } = getETFList(response)
+          newSettings = { ...newSettings, etfList }
 
-            etfItem.push(...response.data.map(data => {
-              const newArr = []
-              etfItemHeader.forEach(item => {
-                newArr.push(data[item])
-              })
-              return newArr
-            }))
-
-            etfList = {
-              etfList: {
-                tableHeader: [...etfItemHeader],
-                tableData: [...etfItem.map(itemArr => itemArr.map((item, idx)=> {
-                  return idx == 0 ? {link: `/etfdetail?query=${item}`, data: item} : item
-                }))]
-              }
-            }
-
-            setSettings({
-              ...settings,
-              ...basics,
-              earnings: { ...earnings },
-              ...etfList,
-              etfCount,
-              floatingShareRatio,
-              inputTickers: [ticker]
-            })
-          }
-
+          setSettings({
+            ...settings, ...newSettings
+          })
         }),
       axios
         .get(`/api/getStockETFCount?ticker=${ticker}`)
         .then((response) => {
-
-          etfCount = response.data
+          const etfCount = response.data
+          newSettings = { ...newSettings, etfCount }
 
           setSettings({
-            ...settings,
-            ...basics,
-            earnings: { ...earnings },
-            ...etfList,
-            etfCount,
-            floatingShareRatio,
-            inputTickers: [ticker]
+            ...settings, ...newSettings
           })
-
         }),
       axios
         .get(`/api/getYahooKeyStatistics?ticker=${ticker}`)
         .then((response) => {
 
           const keyRatio = response.data
+          let floatingShareRatio = 'N/A'
           if (keyRatio && keyRatio.floatShares) {
             floatingShareRatio = percent.calc(keyRatio.floatShares.raw, keyRatio.sharesOutstanding.raw, 2, true)
           }
+          newSettings = { ...newSettings, floatingShareRatio }
 
           setSettings({
-            ...settings,
-            ...basics,
-            earnings: { ...earnings },
-            ...etfList,
-            etfCount,
-            floatingShareRatio,
-            inputTickers: [ticker]
+            ...settings, ...newSettings
           })
-
         }),
       axios
         .get(`/api/getYahooEarnings?ticker=${ticker}`)
         .then((response) => {
-          if (response && response.data) {
-            earnings.tableHeader = ['', ...response.data.map(item => item.date)]
-            earnings.chartOptions = {
-              scales: {
-                yAxes: [{
-                  ticks: {
-                    callback: function (value) {
-                      return millify(value || 0)
-                    }
-                  }
-                }]
-              }
-            }
-
-            Object.keys([...response.data].find(x => x) || []).reverse().forEach(item => {
-              if (item == 'date') {
-                earnings.chartData.labels = [...response.data.map(data => data[item])]
-              } else {
-                earnings.tableData.push([item, ...response.data.map(data => millify(data[item] || 0))])
-
-                const r = Math.floor(Math.random() * 255) + 1
-                const g = Math.floor(Math.random() * 255) + 1
-                const b = Math.floor(Math.random() * 255) + 1
-
-                earnings.chartData.datasets.push(
-                  item == 'Net Income' ? {
-                    type: 'line',
-                    label: item,
-                    borderColor: `rgba(${r}, ${g}, ${b})`,
-                    borderWidth: 2,
-                    fill: false,
-                    data: response.data.map(data => data[item])
-                  } : {
-                    type: 'bar',
-                    label: item,
-                    backgroundColor: `rgba(${r}, ${g}, ${b})`,
-                    data: response.data.map(data => data[item])
-                  }
-                )
-              }
-            })
-
-            earnings.tableData.reverse()
-
-          }
+          const { earnings } = getYahooEarnings(response)
+          newSettings = { ...newSettings, earnings }
 
           setSettings({
-            ...settings,
-            ...basics,
-            earnings: { ...earnings },
-            ...etfList,
-            etfCount,
-            floatingShareRatio,
-            inputTickers: [ticker]
+            ...settings, ...newSettings
           })
         })
     ])
