@@ -25,7 +25,7 @@ function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, ce
 
   return (
     <Fragment>
-      <Table size={tableSize ? tableSize : "md"} className="pl-3 mt-3" responsive>
+      <Table striped bordered hover size={tableSize ? tableSize : "md"} className="pl-3 mt-3" responsive>
         <thead>
           <tr key={'tableFirstHeader'}>
             {tableFirstHeader ?

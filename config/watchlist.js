@@ -30,7 +30,8 @@ export const tableHeaderList = [
     },
     {
         label: 'Volume',
-        item: 'regularMarketVolume'
+        item: 'regularMarketVolume',
+        format: 'millify'
     },
     {
         label: 'Day Range',

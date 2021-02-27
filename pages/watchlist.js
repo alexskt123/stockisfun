@@ -12,7 +12,6 @@ import moment from 'moment-business-days'
 import { tableHeaderList } from '../config/watchlist'
 import millify from 'millify'
 import { Button } from 'react-bootstrap'
-import { balanceSheetRespsone } from '../config/yahooChart'
 
 const axios = require('axios').default
 
@@ -84,6 +83,7 @@ export default function Home() {
                     'label': header.label,
                     'item': header.format && header.format == '%' ? `${response.data[header.item]?.toFixed(2)}%`
                       : header.format && header.format == 'H:mm:ss' ? moment(response.data[header.item] * 1000).format('H:mm:ss')
+                        : header.format && header.format == 'millify' ? millify(response.data[header.item] || 0)
                         : response.data[header.item]
                   }
               })
