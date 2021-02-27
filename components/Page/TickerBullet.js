@@ -30,18 +30,18 @@ function TickerBullet({ tickers, overlayItem, removeItem }) {
         {
           tickers.map((item, index) => (
             <Fragment key={`${item}${index}`}>
-              <OverlayTrigger
+              {/* <OverlayTrigger
                 placement="bottom"
                 key={`${item}${index}`}
                 overlay={<Tooltip>{getOverlayItems(item, overlayItem)}</Tooltip>}
-              >
-                <h6>
-                  <Badge pill variant="success" className="ml-1">
-                    {`${item}`}
-                    <BsFillXCircleFill onClick={() => { removeItem(item) }} className="ml-1 mb-1" />
-                  </Badge>
-                </h6>
-              </OverlayTrigger>
+              > */}
+              <h6>
+                <Badge pill variant="success" className="ml-1">
+                  {`${item}`}
+                  <BsFillXCircleFill onClick={() => { removeItem(item) }} className="ml-1 mb-1" />
+                </Badge>
+              </h6>
+              {/* </OverlayTrigger> */}
             </Fragment>
           ))
         }

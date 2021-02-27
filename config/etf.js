@@ -1,3 +1,5 @@
+import moment from 'moment-business-days'
+
 //const selectedHeaders = "Issuer,Structure,Expense Ratio,Inception,Index Tracked,Category,Asset Class,52 Week Lo,52 Week Hi,AUM,1 Month Avg. Volume,3 Month Avg. Volume"
 const selectedHeaders = 'Issuer,Expense Ratio,Inception,Index Tracked,Category,52 Week Lo,52 Week Hi,AUM,1 Month Avg. Volume,3 Month Avg. Volume'
 
@@ -22,7 +24,7 @@ export const etfDetailsSettings = {
   disableSelectedStockTab: true
 }
 
-export const etfHoldingHeader = ['Ticker', 'Name', 'Holding', 'This Yr %', 'Last Yr %', 'Last 2Yr %', 'Last 3Yr %']
+export const etfHoldingHeader = ['Ticker', 'Name', 'Holding', 'YTD%', ...[...Array(3)].map((_item, idx) => `${moment().subtract(idx + 1, 'years').year()}%`)]
 
 export const aumSumCount = 10
 

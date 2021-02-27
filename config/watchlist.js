@@ -38,7 +38,7 @@ export const tableHeaderList = [
         item: 'regularMarketDayRange'
     },
     {
-        label: 'Previous Close',
+        label: 'Prev. Close',
         item: 'regularMarketPreviousClose'
     }
 ]

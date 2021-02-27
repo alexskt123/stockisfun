@@ -75,7 +75,12 @@ export default function Home() {
       .then((responses) => {
         if (responses) {
           holdingInfo = [...etf.data.holdingInfo].map((item, index) => {
-            return item.concat(responses[index].data.data)
+            return item.concat(responses[index].data.data.map(item => {
+              return {
+                style: 'green-red',
+                data: item
+              }
+            }))
           })
           //console.log(responses.map(response => response.data.data))
         }
@@ -223,7 +228,7 @@ export default function Home() {
                   </div>
                 </Alert>
               </Row>
-              <StockInfoTable tableHeader={settings.holding.tableHeader} tableData={settings.holding.tableData} sortItem={sortItem} cellClick={cellClick} />
+              <StockInfoTable tableSize="sm" tableHeader={settings.holding.tableHeader} tableData={settings.holding.tableData} sortItem={sortItem} cellClick={cellClick} />
               <Doughnut data={settings.pieData} />
             </Tab>
             <Tab eventKey="Statistics" title="Stat.">

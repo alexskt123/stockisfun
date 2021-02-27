@@ -77,7 +77,7 @@ function Header() {
             </NavDropdown>
             {NavItems.map((item, idx) => {
               const href = `${item.href}`
-              const active = router.asPath === href
+              const active = router.asPath.split('?').find(x => x) === href
               return (
                 <Link key={`${idx}`} href={href} passHref>
                   <Nav.Link active={active} disabled={active}>
