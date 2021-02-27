@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 const getCellColor = (item) => {
   const itemData = typeof item == "object" ? item.data : item
-  if (item.style) {
+  if (item && item.style) {
     if (item.style == 'green-red') {
       return (item.data || '').toString().replace(/%/, '') < 0 ? { color: 'red' } : { color: 'green' }
     }

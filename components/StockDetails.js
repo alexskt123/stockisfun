@@ -150,7 +150,7 @@ function StockDetails({ inputTicker }) {
               <Badge variant="light" className="ml-2">{settings.etfCount}</Badge>
             </h5>
           </Row>
-          <StockInfoTable cellClick={cellClick} striped={true} tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
+          <StockInfoTable tableSize="sm" cellClick={cellClick} striped={true} tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
         </Tab>
         <Tab eventKey="Price%" title="Price%">
           {clicked ?
@@ -162,14 +162,14 @@ function StockDetails({ inputTicker }) {
           {clicked ?
             <LoadingSpinner /> : ''
           }
-          <StockInfoTable tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} sortItem={sortItem} />
+          <StockInfoTable tableSize="sm" tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} sortItem={sortItem} />
           <Bar data={settings.balanceSheet.chartData} />
         </Tab>
         <Tab eventKey="Earnings" title="Earnings">
           {clicked ?
             <LoadingSpinner /> : ''
           }
-          <StockInfoTable tableHeader={settings.earnings.tableHeader} tableData={settings.earnings.tableData} sortItem={sortItem} />
+          <StockInfoTable tableSize="sm" tableHeader={settings.earnings.tableHeader} tableData={settings.earnings.tableData} sortItem={sortItem} />
           <Bar data={settings.earnings.chartData} options={settings.earnings.chartOptions} />
         </Tab>
         <Tab eventKey="Forecast" title="Forecast">
