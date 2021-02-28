@@ -2,7 +2,7 @@ import { useState, Fragment, useEffect } from "react";
 import { Card, Menu, Form, Button } from "semantic-ui-react";
 import "../../styles/AuthForm.module.css";
 
-import firebase, {auth, authUI} from "../../config/fire-config";
+import firebase, {auth, authUI} from "../../config/fireui-config";
 
 async function authenticateUser(email, password, isLogin) {
   try {

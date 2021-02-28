@@ -1,5 +1,5 @@
 import { useState, Fragment, useEffect } from "react";
-import firebase, { auth, authUI } from "../../config/fire-config";
+import firebase, { auth, authUI } from "../../config/fireui-config";
 import { defaultUserConfig } from '../../config/settings'
 import { getUserInfoByUID } from '../../lib/firebaseResult'
 import { Badge, Button, Col, Modal, Row } from "react-bootstrap";

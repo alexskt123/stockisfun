@@ -4,7 +4,6 @@
 // require('firebase/database')
 
 import firebase from 'firebase/app'
-import * as firebaseui from 'firebaseui'
 require('firebase/firestore')
 require('firebase/database')
 
@@ -25,5 +24,3 @@ try {
 }
 
 export default firebase
-export const auth = firebase.auth();
-export const authUI = new firebaseui.auth.AuthUI(auth);
