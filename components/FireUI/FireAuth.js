@@ -1,11 +1,12 @@
 import { useState, Fragment, useEffect } from "react";
 import firebase, { auth, authUI } from "../../config/fire-config";
 import { defaultUserConfig } from '../../config/settings'
-import { getStockListByUID } from '../../lib/firebaseResult'
-import { Badge, Button, Modal } from "react-bootstrap";
+import { getUserInfoByUID } from '../../lib/firebaseResult'
+import { Badge, Button, Col, Modal, Row } from "react-bootstrap";
 import { NavDropdown } from 'react-bootstrap'
 import { FaUserCircle, FaList } from 'react-icons/fa'
 import { BiTime } from 'react-icons/bi'
+import { CgViewList } from 'react-icons/cg'
 import moment from 'moment-business-days'
 
 import 'firebaseui/dist/firebaseui.css'
@@ -70,13 +71,14 @@ function FireAuth() {
       authUI.start(".firebaseui-auth-container", uiConfig);
 
     if (user) {
-      const stockList = await getStockListByUID(user.uid)
+      const { stockList, watchList } = await getUserInfoByUID(user.uid)
 
       setUserConfig({
         ...defaultUserConfig,
         displayName: user.displayName ? user.displayName : 'Anonymous',
         loginTime: moment().format("HH:mm:ss DD/MM/YYYY"),
-        stockList
+        stockList,
+        watchList
       })
     }
   }, [show, user]);
@@ -104,11 +106,22 @@ function FireAuth() {
             <NavDropdown.Item>
               <p>
                 <FaList />
-                <Badge className="ml-1" variant="dark">{'Stock List'}</Badge>
+                <Badge className="ml-1" variant="light">{'Stock List'}</Badge>
               </p>
-              {userConfig.stockList.map((item, idx) => {
-                return <Badge className="ml-1" key={idx} variant="light"><Link href={`/basics?query=${item}`}>{item}</Link></Badge>
-              })}
+              <Row>
+                {userConfig.stockList.map((item, idx) => {
+                  return (
+                    <Col xs={3} sm={3} md={3} lg={4}>
+                      <Badge className="ml-1" key={idx} variant="light"><Link href={`/basics?query=${item}`}>{item}</Link></Badge>
+                    </Col>
+                  )
+                })}
+              </Row>
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item>
+              <CgViewList />
+              <Badge className="ml-1" variant="light"><Link href={`/watchlist?query=${userConfig.watchList.join(',')}`}>{'Watch List'}</Link></Badge>
             </NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={handleSignOut}>
