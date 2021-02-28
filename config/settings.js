@@ -39,11 +39,11 @@ export const NavItems = [
 
   {
     href: '/etfdetail',
-    label: 'ETF Detail'
+    label: 'ETF'
   },
   {
     href: '/basics',
-    label: 'Stock Detail'
+    label: 'Stock'
   },
   {
     href: '/watchlist',

@@ -40,6 +40,9 @@ function Header() {
       </Head>
 
       <Navbar collapseOnSelect fixed="top" bg="dark" variant="dark" expand="md" style={{ zIndex: '998!important' }}>
+        <NavDropdown title={<FaUserCircle />} id="nav-user">
+          <DynamicAuth />
+        </NavDropdown>
         <Navbar.Brand>
           <img
             {...imgConfig}
@@ -49,21 +52,6 @@ function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <NavDropdown title={<FaUserCircle />} id="nav-user">
-              <DynamicAuth/>
-              {/* {[{label: 'Sign In', href: '/signin'}].map((item, idx) => {
-                console.log(item.label)
-                const href = `${item.href}`
-                const active = router.asPath.split('?').find(x => x) === href
-                return (
-                  <Link href={href} passHref>
-                    <NavDropdown.Item active={active} disabled={active}>
-                      {`${item.label}`}
-                    </NavDropdown.Item>
-                  </Link>
-                )
-              })} */}
-            </NavDropdown>
             <NavDropdown title="Comparison" id="nav-dropdown">
               {NavDropDown
                 .map(item => item.category)
@@ -112,8 +100,6 @@ function Header() {
               )
             })}
           </Nav>
-
-
         </Navbar.Collapse>
       </Navbar>
     </Fragment >
