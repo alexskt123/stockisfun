@@ -10,7 +10,8 @@ import Nav from 'react-bootstrap/Nav'
 import { NavItems, NavDropDown } from '../../config/settings'
 import Settings from '../../config/settings'
 import { Badge, NavDropdown } from 'react-bootstrap'
-import { FaRegUserCircle } from "react-icons/fa"
+import { IconContext } from 'react-icons'
+import { FaUserCircle } from "react-icons/fa"
 
 import dynamic from "next/dynamic";
 
@@ -40,7 +41,9 @@ function Header() {
       </Head>
 
       <Navbar collapseOnSelect fixed="top" bg="dark" variant="dark" expand="md" style={{ zIndex: '998!important' }}>
-        <NavDropdown title={<FaRegUserCircle />} id="nav-user">
+        <NavDropdown title={<IconContext.Provider value={{ color: "white", className: "global-class-name" }}>
+            <FaUserCircle />
+        </IconContext.Provider>} id="nav-user">
           <DynamicAuth />
         </NavDropdown>
         <Navbar.Brand>
