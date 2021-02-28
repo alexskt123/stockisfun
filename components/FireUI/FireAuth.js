@@ -14,10 +14,12 @@ import Link from "next/link";
 
 function FireAuth() {
   const [show, setShow] = useState(false);
+  const [showSignOut, setShowSignOut] = useState(false)
   const [user, setUser] = useState(null)
   const [userConfig, setUserConfig] = useState({ ...defaultUserConfig })
 
   const handleClose = () => setShow(false);
+  const handleSignOutClose = () => setShowSignOut(false)
   const handleShow = () => {
     setShow(true);
   }
@@ -25,6 +27,7 @@ function FireAuth() {
   const handleSignOut = () => {
     auth.signOut()
     setUser(null)
+    handleSignOutClose()
   }
 
   const handleUIError = (error) => {
@@ -124,7 +127,7 @@ function FireAuth() {
               <Badge className="ml-1" variant="light"><Link href={`/watchlist?query=${userConfig.watchList.join(',')}`}>{'Watch List'}</Link></Badge>
             </NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item onClick={handleSignOut}>
+            <NavDropdown.Item onClick={() => setShowSignOut(true)}>
               <Badge variant="danger">{'Sign Out'}</Badge>
             </NavDropdown.Item>
           </Fragment>
@@ -139,6 +142,22 @@ function FireAuth() {
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal centered size="sm" show={showSignOut} onHide={handleSignOutClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Sign Out</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure to sign out?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={handleSignOut}>
+            Yes
+          </Button>
+          <Button variant="danger" onClick={handleSignOutClose}>
+            No
           </Button>
         </Modal.Footer>
       </Modal>
