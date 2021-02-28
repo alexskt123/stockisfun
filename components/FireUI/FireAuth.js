@@ -1,18 +1,20 @@
 import { useState, Fragment, useEffect } from "react";
 import firebase, { auth, authUI } from "../../config/fire-config";
+import { defaultUserConfig } from '../../config/settings'
+import { getStockListByUID } from '../../lib/firebaseResult'
 import { Badge, Button, Modal } from "react-bootstrap";
 import { NavDropdown } from 'react-bootstrap'
-import { FaUserCircle } from 'react-icons/fa'
+import { FaUserCircle, FaList } from 'react-icons/fa'
 import { BiTime } from 'react-icons/bi'
 import moment from 'moment-business-days'
 
 import 'firebaseui/dist/firebaseui.css'
+import Link from "next/link";
 
 function FireAuth() {
   const [show, setShow] = useState(false);
   const [user, setUser] = useState(null)
-  const [displayName, setDisplayName] = useState('Guest')
-  const [loginTime, setLoginTime] = useState(null)
+  const [userConfig, setUserConfig] = useState({ ...defaultUserConfig })
 
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -33,7 +35,7 @@ function FireAuth() {
     //signInSuccessUrl: '/basics',
     callbacks: {
       signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-        // var user = authResult.user;
+        //var user = authResult.user;
         // var credential = authResult.credential;
         // var isNewUser = authResult.additionalUserInfo.isNewUser;
         // var providerId = authResult.additionalUserInfo.providerId;
@@ -63,13 +65,19 @@ function FireAuth() {
 
   auth.onAuthStateChanged((user) => setUser(user));
 
-  useEffect(() => {
+  useEffect(async () => {
     if (show && document.querySelector('.firebaseui-auth-container'))
       authUI.start(".firebaseui-auth-container", uiConfig);
 
     if (user) {
-      user.displayName ? setDisplayName(user.displayName) : displayName
-      setLoginTime(moment().format("HH:mm:ss DD/MM/YYYY"))
+      const stockList = await getStockListByUID(user.uid)
+
+      setUserConfig({
+        ...defaultUserConfig,
+        displayName: user.displayName ? user.displayName : 'Anonymous',
+        loginTime: moment().format("HH:mm:ss DD/MM/YYYY"),
+        stockList
+      })
     }
   }, [show, user]);
 
@@ -85,12 +93,22 @@ function FireAuth() {
             <NavDropdown.Item >
               <FaUserCircle />
               <Badge className="ml-1" variant="dark">
-                {displayName}
+                {userConfig.displayName}
               </Badge>
               <BiTime className="ml-2" />
               <Badge variant="light">
-                {`${loginTime}`}
+                {`${userConfig.loginTime}`}
               </Badge>
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item>
+              <p>
+                <FaList />
+                <Badge className="ml-1" variant="dark">{'Stock List'}</Badge>
+              </p>
+              {userConfig.stockList.map((item, idx) => {
+                return <Badge className="ml-1" key={idx} variant="light"><Link href={`/basics?query=${item}`}>{item}</Link></Badge>
+              })}
             </NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={handleSignOut}>
