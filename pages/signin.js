@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 
 const DynamicAuthForm = dynamic(
   () => {
-    return import('../components/AuthForm');
+    return import('../components/FireUI/AuthForm');
   },
   { ssr: false }
 );

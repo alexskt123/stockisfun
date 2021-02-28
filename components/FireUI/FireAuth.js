@@ -1,11 +1,12 @@
 import { useState, Fragment, useEffect } from "react";
-import firebase, { auth, authUI } from "../config/fire-config";
-import 'firebaseui/dist/firebaseui.css'
+import firebase, { auth, authUI } from "../../config/fire-config";
 import { Badge, Button, Modal } from "react-bootstrap";
 import { NavDropdown } from 'react-bootstrap'
-import moment from 'moment-business-days'
 import { FaUserCircle } from 'react-icons/fa'
 import { BiTime } from 'react-icons/bi'
+import moment from 'moment-business-days'
+
+import 'firebaseui/dist/firebaseui.css'
 
 function FireAuth() {
   const [show, setShow] = useState(false);
@@ -20,8 +21,7 @@ function FireAuth() {
 
   const handleSignOut = () => {
     auth.signOut()
-    console.log(user)
-    setUser(undefined)
+    setUser(null)
   }
 
   const handleUIError = (error) => {
@@ -58,7 +58,7 @@ function FireAuth() {
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
       firebase.auth.GoogleAuthProvider.PROVIDER_ID
     ],
-    signInFlow: "redirect"
+    signInFlow: "popup"
   }
 
   auth.onAuthStateChanged((user) => setUser(user));

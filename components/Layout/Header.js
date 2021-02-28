@@ -16,7 +16,7 @@ import dynamic from "next/dynamic";
 
 const DynamicAuth = dynamic(
   () => {
-    return import('../../components/FireAuth');
+    return import('../FireUI/FireAuth');
   },
   { ssr: false }
 );
