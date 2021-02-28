@@ -10,6 +10,16 @@ import Nav from 'react-bootstrap/Nav'
 import { NavItems, NavDropDown } from '../../config/settings'
 import Settings from '../../config/settings'
 import { Badge, NavDropdown } from 'react-bootstrap'
+import { FaUserCircle } from "react-icons/fa"
+
+import dynamic from "next/dynamic";
+
+const DynamicAuth = dynamic(
+  () => {
+    return import('../FireUI/FireAuth');
+  },
+  { ssr: false }
+);
 
 
 function Header() {
@@ -39,6 +49,21 @@ function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
+            <NavDropdown title={<FaUserCircle />} id="nav-user">
+              <DynamicAuth/>
+              {/* {[{label: 'Sign In', href: '/signin'}].map((item, idx) => {
+                console.log(item.label)
+                const href = `${item.href}`
+                const active = router.asPath.split('?').find(x => x) === href
+                return (
+                  <Link href={href} passHref>
+                    <NavDropdown.Item active={active} disabled={active}>
+                      {`${item.label}`}
+                    </NavDropdown.Item>
+                  </Link>
+                )
+              })} */}
+            </NavDropdown>
             <NavDropdown title="Comparison" id="nav-dropdown">
               {NavDropDown
                 .map(item => item.category)

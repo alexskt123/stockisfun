@@ -50,3 +50,10 @@ export const NavItems = [
     label: 'Watch List'
   }
 ]
+
+export const defaultUserConfig = {
+  displayName: 'Guest',
+  loginTime: '',
+  stockList: [],
+  watchList: []
+}
