@@ -1,7 +1,7 @@
 import { useState, Fragment, useEffect } from 'react'
 import firebase, { auth, authUI } from '../../config/fireui-config'
 import { defaultUserConfig } from '../../config/settings'
-import { getUserInfoByUID } from '../../lib/firebaseResult'
+import { getUserInfoByUID, initUser } from '../../lib/firebaseResult'
 import { Badge, Button, Col, Modal, Row } from 'react-bootstrap'
 import { NavDropdown } from 'react-bootstrap'
 import { FaUserCircle, FaList } from 'react-icons/fa'
@@ -38,12 +38,13 @@ function FireAuth() {
     autoUpgradeAnonymousUsers: true,
     //signInSuccessUrl: '/basics',
     callbacks: {
-      signInSuccessWithAuthResult: function (_authResult, _redirectUrl) {
+      signInSuccessWithAuthResult: function (authResult, _redirectUrl) {
         //var user = authResult.user;
         // var credential = authResult.credential;
         // var isNewUser = authResult.additionalUserInfo.isNewUser;
         // var providerId = authResult.additionalUserInfo.providerId;
         // var operationType = authResult.operationType;
+        initUser (authResult.user.uid)
 
         handleClose()
         // Do something with the returned AuthResult.

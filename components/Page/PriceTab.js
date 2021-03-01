@@ -3,13 +3,21 @@ import { Fragment, useState, useEffect } from 'react'
 import Price from '../../components/Price'
 import { priceTabLabelPairs } from '../../config/price'
 import { Badge, Row } from 'react-bootstrap'
+import dynamic from 'next/dynamic'
+
+const AddDelStock = dynamic(
+  () => {
+    return import('../../components/FireUI/AddDelStock')
+  },
+  { ssr: false }
+)
 
 function PriceTab({ inputSettings }) {
 
   const [settings, setSettings] = useState({ ...inputSettings })
   const [labels, setLabels] = useState([...priceTabLabelPairs])
 
-  useEffect(() => {
+  useEffect(async () => {
     setSettings(inputSettings)
     setLabels(priceTabLabelPairs.map(item => {
       return {
@@ -28,6 +36,7 @@ function PriceTab({ inputSettings }) {
         <h6>
           <Badge variant="light" className="ml-2">{labels.find(x => x.name == 'Name').value}</Badge>
         </h6>
+        <AddDelStock inputTicker={settings.inputTickers.find(x => x)} />
       </Row>
       <Row className="ml-1">
         <h6>
