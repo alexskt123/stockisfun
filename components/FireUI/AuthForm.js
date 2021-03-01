@@ -1,17 +1,17 @@
-import { useState, Fragment, useEffect } from "react";
-import { Card, Menu, Form, Button } from "semantic-ui-react";
-import "../../styles/AuthForm.module.css";
+import { useState, Fragment, useEffect } from 'react'
+import { Card, Menu, Form, Button } from 'semantic-ui-react'
+import '../../styles/AuthForm.module.css'
 
-import firebase, {auth, authUI} from "../../config/fireui-config";
+import firebase, {auth, authUI} from '../../config/fireui-config'
 
 async function authenticateUser(email, password, isLogin) {
   try {
     const user = isLogin
       ? await auth.signInWithEmailAndPassword(email, password)
-      : await auth.createUserWithEmailAndPassword(email, password);
-    console.log(user);
+      : await auth.createUserWithEmailAndPassword(email, password)
+    console.log(user)
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
@@ -25,29 +25,29 @@ function renderLoggedIn() {
         </Button>
       </div>
     </div>
-  );
+  )
 }
 
 function AuthForm() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [user, setUser] = useState(null);
+  const [isLogin, setIsLogin] = useState(true)
+  const [user, setUser] = useState(null)
 
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState('')
+  const [loginPassword, setLoginPassword] = useState('')
 
-  const [signupEmail, setSignupEmail] = useState("");
-  const [signupPassword, setSignupPassword] = useState("");
+  const [signupEmail, setSignupEmail] = useState('')
+  const [signupPassword, setSignupPassword] = useState('')
   
-  auth.onAuthStateChanged((user) => setUser(user));
+  auth.onAuthStateChanged((user) => setUser(user))
 
   useEffect(() => {
     if (!user) {
-      authUI.start(".google-login", {
+      authUI.start('.google-login', {
         signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
-        signInFlow: "redirect",
-      });
+        signInFlow: 'redirect',
+      })
     }
-  }, [user]);
+  }, [user])
 
   return (
     <div className="auth-form-wrapper">
@@ -79,7 +79,7 @@ function AuthForm() {
                         placeholder="Email Address"
                         name="loginEmail"
                         type="email"
-                        value={loginEmail || ""}
+                        value={loginEmail || ''}
                         onChange={(e) => setLoginEmail(e.target.value)}
                       ></input>
                     </Form.Field>
@@ -89,7 +89,7 @@ function AuthForm() {
                         placeholder="Password"
                         name="loginPassword"
                         type="password"
-                        value={loginPassword || ""}
+                        value={loginPassword || ''}
                         onChange={(e) => setLoginPassword(e.target.value)}
                       ></input>
                     </Form.Field>
@@ -112,7 +112,7 @@ function AuthForm() {
                         placeholder="Email Address"
                         name="signUpEmail"
                         type="email"
-                        value={signupEmail || ""}
+                        value={signupEmail || ''}
                         onChange={(e) => setSignupEmail(e.target.value)}
                       ></input>
                     </Form.Field>
@@ -122,7 +122,7 @@ function AuthForm() {
                         placeholder="Password"
                         name="signUpPassword"
                         type="password"
-                        value={signupPassword || ""}
+                        value={signupPassword || ''}
                         onChange={(e) => setSignupPassword(e.target.value)}
                       ></input>
                     </Form.Field>
@@ -142,7 +142,7 @@ function AuthForm() {
         </Card.Content>
       </Card>
     </div>
-  );
+  )
 }
 
-export default AuthForm;
+export default AuthForm
