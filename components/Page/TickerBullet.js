@@ -2,11 +2,11 @@
 import { Fragment } from 'react'
 import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
+// import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+// import Tooltip from 'react-bootstrap/Tooltip'
 import { BsFillXCircleFill } from 'react-icons/bs'
 
-const getOverlayItems = (ticker, overlayItem) => {
+const _getOverlayItems = (ticker, overlayItem) => {
   const currentItem = overlayItem.filter(x => x.ticker == ticker).find(x => x) || {}
   return (
     <Fragment key={ticker}>
@@ -23,7 +23,7 @@ const getOverlayItems = (ticker, overlayItem) => {
   )
 }
 
-function TickerBullet({ tickers, overlayItem, removeItem }) {
+function TickerBullet({ tickers, _overlayItem, removeItem }) {
   return (
     <Fragment>
       <Row className="pl-3 pt-3">

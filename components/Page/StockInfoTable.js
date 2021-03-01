@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table'
 import Link from 'next/link'
 
 const getCellColor = (item) => {
-  const itemData = typeof item == "object" && item && item.data ? item.data : item
+  const itemData = typeof item == 'object' && item && item.data ? item.data : item
   if (item && item.style) {
     if (item.style == 'green-red') {
       return (item.data || '').toString().replace(/%/, '') < 0 ? { color: 'red' } : { color: 'green' }
@@ -15,17 +15,17 @@ const getCellColor = (item) => {
 }
 
 const getCellItem = (item) => {
-  const itemData = typeof item == "object" && item && item.data ? item.data : item
+  const itemData = typeof item == 'object' && item && item.data ? item.data : item
   if ((itemData || '').toString().match(/http:/gi))
     return <a href={itemData} target='_blank' rel="noopener noreferrer">{itemData}</a>
-  else if (typeof item == "object" && item && item.data && item.link) {
+  else if (typeof item == 'object' && item && item.data && item.link) {
     return <Link href={item.link} ><a>{itemData}</a></Link>
   }
   else return itemData
 }
 
 const checkCanClick = (item, cellClick) => {
-  const itemData = typeof item == "object" && item && item.data ? item.data : item
+  const itemData = typeof item == 'object' && item && item.data ? item.data : item
   if (cellClick) {
     cellClick(itemData)
   }
@@ -41,7 +41,7 @@ function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, ce
         striped={striped ? true : false}
         bordered
         hover
-        size={tableSize ? tableSize : "md"}
+        size={tableSize ? tableSize : 'md'}
         className="pl-3 mt-3"
         responsive
       >

@@ -75,7 +75,7 @@ export default function Home() {
       .then(responses => {
         if (responses) {
 
-          responses.forEach((response, index) => {
+          responses.forEach((response) => {
             if (response && response.data) {
               temp.push(tableHeaderList.map(header => {
                 if (response.data[header.item])
