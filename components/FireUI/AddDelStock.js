@@ -1,48 +1,40 @@
-import { Fragment, useState, useEffect } from 'react'
-import { auth } from '../../config/fireui-config'
-import { getUserInfoByUID, addToUserStockList, delFromUserStockList } from '../../lib/firebaseResult'
+import { Fragment, useContext } from 'react'
+import { addToUserStockList, delFromUserStockList, getUserInfoByUID } from '../../lib/firebaseResult'
 import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
 import { IconContext } from 'react-icons'
+import { Store } from '../../lib/store'
 
-function AddDelStock({ inputTicker }) {
-  const [userSettings, setUserSettings] = useState({ uid: null, stockList: [] })
-  const [user, setUser] = useState(null)
+function AddDelStock({ inputTicker }) {  
+  const store = useContext(Store)
+  const { state, dispatch } = store
+  const { user } = state
 
-  const setUserStockList = async (uid) => {
-    const { stockList } = await getUserInfoByUID(uid)
-    setUserSettings({
-      uid,
-      stockList
-    })
+  const handleDispatch = async () => {    
+    const { stockList } = await getUserInfoByUID(user == null ? '' : user.uid)
+    console.log(stockList, inputTicker, user.uid)
+    const newUserConfig = {
+        ...user,
+        stockList
+    }
+
+    dispatch({ type: 'USER', payload: newUserConfig })
   }
 
   const handleRemove = async () => {
-    await delFromUserStockList(userSettings.uid, inputTicker)
-    await setUserStockList(userSettings.uid)
+    await delFromUserStockList(user.uid, inputTicker)
+    await handleDispatch()
   }
 
   const handleAdd = async () => {
-    await addToUserStockList(userSettings.uid, inputTicker)
-    await setUserStockList(userSettings.uid)
+    await addToUserStockList(user.uid, inputTicker)
+    await handleDispatch()    
   }
-
-  auth.onAuthStateChanged((user) => setUser(user))
-
-  useEffect(async () => {        
-    if (user && user.uid) {
-      const { stockList } = await getUserInfoByUID(user.uid)
-      setUserSettings({
-        uid: user.uid,
-        stockList
-      })
-    }
-  }, [user])
 
   return (
     <Fragment>
       {
-        userSettings.uid
-          ? userSettings.stockList.includes(inputTicker)
+        user.id != ''
+          ? user.stockList.includes(inputTicker)
             ? <IconContext.Provider value={{ color: 'red', className: 'global-class-name' }}>
               <MdRemoveCircleOutline onClick={handleRemove} />
             </IconContext.Provider>

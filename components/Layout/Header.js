@@ -22,6 +22,13 @@ const DynamicAuth = dynamic(
   { ssr: false }
 )
 
+const FireUser = dynamic(
+  () => {
+    return import('../FireUI/FireUser')
+  },
+  { ssr: false }
+)
+
 
 function Header() {
 
@@ -39,7 +46,7 @@ function Header() {
       <Head>
         <title>{'Stock Is Fun'}</title>
       </Head>
-
+      <FireUser/>
       <Navbar collapseOnSelect fixed="top" bg="dark" variant="dark" expand="md" style={{ zIndex: '998!important' }}>
         <NavDropdown title={<IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
           <FaUserCircle />
