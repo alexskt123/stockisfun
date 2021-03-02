@@ -19,6 +19,7 @@ function FireUser() {
             const newUserConfig = {
                 ...defaultUserConfig,
                 id,
+                uid: user.uid,
                 displayName: user.displayName ? user.displayName : 'Anonymous',
                 loginTime: moment().format('HH:mm:ss DD/MM/YYYY'),
                 stockList,

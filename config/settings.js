@@ -53,6 +53,7 @@ export const NavItems = [
 
 export const defaultUserConfig = {
   id: '',
+  uid: '',
   displayName: 'Guest',
   loginTime: '',
   stockList: [],
