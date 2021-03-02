@@ -1,13 +1,13 @@
-import { useState, Fragment, useEffect } from 'react'
+import { useState, Fragment, useEffect, useContext } from 'react'
 import firebase, { auth, authUI } from '../../config/fireui-config'
-import { defaultUserConfig } from '../../config/settings'
-import { getUserInfoByUID, initUser } from '../../lib/firebaseResult'
+import { initUser } from '../../lib/firebaseResult'
 import { Badge, Button, Col, Modal, Row } from 'react-bootstrap'
 import { NavDropdown } from 'react-bootstrap'
 import { FaUserCircle, FaList } from 'react-icons/fa'
 import { BiTime } from 'react-icons/bi'
 import { CgViewList } from 'react-icons/cg'
-import moment from 'moment-business-days'
+import { Store } from '../../lib/store'
+import { defaultUserConfig } from '../../config/settings'
 
 import 'firebaseui/dist/firebaseui.css'
 import Link from 'next/link'
@@ -15,8 +15,10 @@ import Link from 'next/link'
 function FireAuth() {
   const [show, setShow] = useState(false)
   const [showSignOut, setShowSignOut] = useState(false)
-  const [user, setUser] = useState(null)
-  const [userConfig, setUserConfig] = useState({ ...defaultUserConfig })
+  //const [user, setUser] = useState(null)
+  const store = useContext(Store)
+  const { state, dispatch } = store
+  const { user } = state
 
   const handleClose = () => setShow(false)
   const handleSignOutClose = () => setShowSignOut(false)
@@ -26,7 +28,7 @@ function FireAuth() {
 
   const handleSignOut = () => {
     auth.signOut()
-    setUser(null)
+    dispatch({ type: 'USER', payload: {...defaultUserConfig} })
     handleSignOutClose()
   }
 
@@ -44,7 +46,7 @@ function FireAuth() {
         // var isNewUser = authResult.additionalUserInfo.isNewUser;
         // var providerId = authResult.additionalUserInfo.providerId;
         // var operationType = authResult.operationType;
-        initUser (authResult.user.uid)
+        initUser(authResult.user.uid)
 
         handleClose()
         // Do something with the returned AuthResult.
@@ -68,29 +70,17 @@ function FireAuth() {
     signInFlow: 'popup'
   }
 
-  auth.onAuthStateChanged((user) => setUser(user))
+  //auth.onAuthStateChanged((user) => setUser(user))
 
   useEffect(async () => {
     if (show && document.querySelector('.firebaseui-auth-container'))
       authUI.start('.firebaseui-auth-container', uiConfig)
-
-    if (user) {
-      const { stockList, watchList } = await getUserInfoByUID(user.uid)
-
-      setUserConfig({
-        ...defaultUserConfig,
-        displayName: user.displayName ? user.displayName : 'Anonymous',
-        loginTime: moment().format('HH:mm:ss DD/MM/YYYY'),
-        stockList,
-        watchList
-      })
-    }
-  }, [show, user])
+  }, [show])
 
   return (
     <Fragment>
       {
-        !user ?
+        user.id == '' ?
           <NavDropdown.Item onClick={handleShow}>
             <Badge variant="success">{'Sign In'}</Badge>
           </NavDropdown.Item>
@@ -99,11 +89,11 @@ function FireAuth() {
             <NavDropdown.Item >
               <FaUserCircle />
               <Badge className="ml-1" variant="dark">
-                {userConfig.displayName}
+                {user.displayName}
               </Badge>
               <BiTime className="ml-2" />
               <Badge variant="light">
-                {`${userConfig.loginTime}`}
+                {`${user.loginTime}`}
               </Badge>
             </NavDropdown.Item>
             <NavDropdown.Divider />
@@ -113,7 +103,7 @@ function FireAuth() {
                 <Badge className="ml-1" variant="light">{'Stock List'}</Badge>
               </p>
               <Row>
-                {userConfig.stockList.map((item, idx) => {
+                {user.stockList.map((item, idx) => {
                   return (
                     <Col key={`${item}${idx}`} xs={3} sm={3} md={3} lg={4}>
                       <Badge className="ml-1" key={idx} variant="light"><Link href={`/basics?query=${item}`}>{item}</Link></Badge>
@@ -125,7 +115,7 @@ function FireAuth() {
             <NavDropdown.Divider />
             <NavDropdown.Item>
               <CgViewList />
-              <Badge className="ml-1" variant="light"><Link href={`/watchlist?query=${userConfig.watchList.join(',')}`}>{'Watch List'}</Link></Badge>
+              <Badge className="ml-1" variant="light"><Link href={`/watchlist?query=${user.watchList.join(',')}`}>{'Watch List'}</Link></Badge>
             </NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={() => setShowSignOut(true)}>
