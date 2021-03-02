@@ -8,6 +8,7 @@ import { BiTime } from 'react-icons/bi'
 import { CgViewList } from 'react-icons/cg'
 import { Store } from '../../lib/store'
 import { defaultUserConfig } from '../../config/settings'
+import { fireToast } from '../../lib/toast'
 
 import 'firebaseui/dist/firebaseui.css'
 import Link from 'next/link'
@@ -30,6 +31,10 @@ function FireAuth() {
     auth.signOut()
     dispatch({ type: 'USER', payload: { ...defaultUserConfig } })
     handleSignOutClose()
+    fireToast({
+      icon: 'success',
+      title: 'Signed out'
+    })
   }
 
   const handleUIError = (error) => {
@@ -52,6 +57,10 @@ function FireAuth() {
         // Do something with the returned AuthResult.
         // Return type determines whether we continue the redirect
         // automatically or whether we leave that to developer to handle.
+        fireToast({
+          icon: 'success',
+          title: 'Signed in'
+        })
         return false
       },
       signInFailure: function (error) {

@@ -38,7 +38,8 @@
     "react-dom": "17.0.1",
     "react-icons": "^4.2.0",
     "round-to": "^5.0.0",
-    "semantic-ui-react": "^2.0.3"
+    "semantic-ui-react": "^2.0.3",
+    "sweetalert2": "^10.15.5"
   },
   "proxy": "http://localhost:3000/",
   "devDependencies": {

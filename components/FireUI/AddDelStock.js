@@ -3,18 +3,19 @@ import { addToUserStockList, delFromUserStockList, getUserInfoByUID } from '../.
 import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
 import { IconContext } from 'react-icons'
 import { Store } from '../../lib/store'
+import { fireToast } from '../../lib/toast'
 
-function AddDelStock({ inputTicker }) {  
+function AddDelStock({ inputTicker }) {
   const store = useContext(Store)
   const { state, dispatch } = store
   const { user } = state
 
-  const handleDispatch = async () => {    
+  const handleDispatch = async () => {
     const { stockList } = await getUserInfoByUID(user == null ? '' : user.uid)
     console.log(stockList, inputTicker, user.uid)
     const newUserConfig = {
-        ...user,
-        stockList
+      ...user,
+      stockList
     }
 
     dispatch({ type: 'USER', payload: newUserConfig })
@@ -23,11 +24,21 @@ function AddDelStock({ inputTicker }) {
   const handleRemove = async () => {
     await delFromUserStockList(user.uid, inputTicker)
     await handleDispatch()
+
+    fireToast({
+      icon: 'success',
+      title: 'Removed'
+    })
   }
 
   const handleAdd = async () => {
     await addToUserStockList(user.uid, inputTicker)
-    await handleDispatch()    
+    await handleDispatch()
+
+    fireToast({
+      icon: 'success',
+      title: 'Added'
+    })
   }
 
   return (
