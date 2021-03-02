@@ -51,14 +51,14 @@ function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, ce
               tableFirstHeader.map((item, index) => (
                 <th style={(index == 0 ? sticky : {})} key={index} >{item}</th>
               ))
-              : ''}
+              : null}
           </tr>
           <tr key={'tableHeader'}>
             {tableHeader ?
               tableHeader.map((item, index) => (
                 <th style={(index == 0 ? sticky : {})} onClick={() => { sortItem(index) }} key={index} >{item}</th>
               ))
-              : ''}
+              : null}
           </tr>
         </thead>
         <tbody>
@@ -68,7 +68,7 @@ function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, ce
                 {item.map((xx, yy) => <td onClick={() => { checkCanClick(item, cellClick) }} style={(yy == 0 ? sticky : {})} key={`${index}${yy}`}><span style={getCellColor(xx)}>{getCellItem(xx)}</span></td>)}
               </tr>
             ))
-            : ''}
+            : null}
         </tbody>
       </Table>
     </Fragment>

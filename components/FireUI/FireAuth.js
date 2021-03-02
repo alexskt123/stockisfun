@@ -28,7 +28,7 @@ function FireAuth() {
 
   const handleSignOut = () => {
     auth.signOut()
-    dispatch({ type: 'USER', payload: {...defaultUserConfig} })
+    dispatch({ type: 'USER', payload: { ...defaultUserConfig } })
     handleSignOutClose()
   }
 
@@ -97,7 +97,7 @@ function FireAuth() {
               </Badge>
             </NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item>
+            <div className="container">
               <p>
                 <FaList />
                 <Badge className="ml-1" variant="light">{'Stock List'}</Badge>
@@ -111,12 +111,16 @@ function FireAuth() {
                   )
                 })}
               </Row>
-            </NavDropdown.Item>
+            </div>
             <NavDropdown.Divider />
-            <NavDropdown.Item>
-              <CgViewList />
-              <Badge className="ml-1" variant="light"><Link href={`/watchlist?query=${user.watchList.join(',')}`}>{'Watch List'}</Link></Badge>
-            </NavDropdown.Item>
+            <div className="container">
+              <Row>
+                <Col>
+                  <CgViewList />
+                  <Badge className="ml-1" variant="light"><Link href={`/watchlist?query=${user.watchList.join(',')}`}>{'Watch List'}</Link></Badge>
+                </Col>
+              </Row>
+            </div>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={() => setShowSignOut(true)}>
               <Badge variant="danger">{'Sign Out'}</Badge>
