@@ -116,7 +116,7 @@ function StockDetails({ inputTicker }) {
 
   return (
     <Fragment>
-      <Tabs style={{ fontSize: '11px' }} className="mt-4" defaultActiveKey="Price" id="uncontrolled-tab-example">
+      <Tabs style={{ fontSize: '11px' }} className="mt-1" defaultActiveKey="Price" id="uncontrolled-tab-example">
         <Tab eventKey="Price" title="Price">
           {
             settings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)

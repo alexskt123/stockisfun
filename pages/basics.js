@@ -2,14 +2,17 @@
 import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
+import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
 import CustomContainer from '../components/Layout/CustomContainer'
 import TickerInput from '../components/Page/TickerInput'
 import StockDetails from '../components/StockDetails'
 import { handleDebounceChange } from '../lib/commonFunction'
+import { Badge } from 'react-bootstrap'
 
 export default function Home() {
 
-  const [ticker, setTicker] = useState([])
+  const [ticker, setTicker] = useState('')
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
@@ -53,14 +56,27 @@ export default function Home() {
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          <TickerInput
-            validated={validated}
-            handleSubmit={handleSubmit}
-            placeholderText={'i.e. appl'}
-            handleChange={handleChange}
-            clicked={clicked}
-            clearItems={clearItems}
-          />
+          <Accordion>
+            <Card style={{ backgroundColor: '#dbffde' }}>
+              <Accordion.Toggle as={Card.Header} eventKey="0">
+                <b>
+                  <Badge variant="dark">{ticker == '' ? 'Click here to Search!' : ticker.toUpperCase()}</Badge>
+                </b>
+              </Accordion.Toggle>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <TickerInput
+                    validated={validated}
+                    handleSubmit={handleSubmit}
+                    placeholderText={'i.e. appl'}
+                    handleChange={handleChange}
+                    clicked={clicked}
+                    clearItems={clearItems}
+                  />
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
           <StockDetails inputTicker={ticker} />
         </Fragment>
       </CustomContainer>
