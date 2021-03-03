@@ -1,15 +1,16 @@
 
 import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import CustomContainer from '../components/Layout/CustomContainer'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
+import { Alert, Badge, Button, Row } from 'react-bootstrap'
 import { Doughnut } from 'react-chartjs-2'
 
+import CustomContainer from '../components/Layout/CustomContainer'
 import StockInfoTable from '../components/Page/StockInfoTable'
 import TickerInput from '../components/Page/TickerInput'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
-import { Alert, Badge, Button, Row } from 'react-bootstrap'
+import AddDelStock from '../components/FireUI/AddDelStock'
 import StockDetails from '../components/StockDetails'
 import PriceChange from '../components/PriceChange'
 import ForecastInfo from '../components/ForecastInfo'
@@ -198,15 +199,25 @@ export default function Home() {
             tableData={undefined}
             exportFileName={undefined}
           />
-          <Tabs style={{ fontSize: '11px' }} variant="pills" className="mt-4" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
+          {
+            settings.inputETFTicker.length > 0 ?
+              <Alert variant='success' className="mt-3">
+                <div>
+                  <b>{settings.inputETFTicker}</b>
+                  <AddDelStock className="ml-3" inputTicker={settings.inputETFTicker.find(x => x)} handleList='etf' />
+                </div>
+              </Alert>
+              : null
+          }
+          <Tabs style={{ fontSize: '11px' }} variant="pills" className="mt-1" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
             <Tab eventKey="Basics" title="Basics">
               {clicked ?
-                <LoadingSpinner /> : ''
+                <LoadingSpinner /> : null
               }
               {
                 settings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
                   ? <Fragment>
-                    <StockInfoTable tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
+                    <StockInfoTable tableSize="sm" tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
                     <Price inputTicker={settings.inputETFTicker.find(x => x)} inputDays={90} />
                   </Fragment>
                   : <Alert className="mt-2" key={'Alert-No-Stock-Info'} variant={'success'}>
@@ -216,7 +227,7 @@ export default function Home() {
             </Tab>
             <Tab eventKey="Holdings" title="Holdings">
               {clicked ?
-                <LoadingSpinner /> : ''
+                <LoadingSpinner /> : null
               }
               <Row className="mt-3 ml-1">
                 {!showAlert && <Button size="sm" variant="warning" onClick={() => setShowAlert(true)}>{'Details?'}</Button>}
@@ -241,7 +252,7 @@ export default function Home() {
             </Tab>
             <Tab eventKey="Statistics" title="Stat.">
               {clicked ?
-                <LoadingSpinner /> : ''
+                <LoadingSpinner /> : null
               }
               <Row className="ml-1">
                 <h5>

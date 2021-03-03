@@ -122,7 +122,7 @@ function StockDetails({ inputTicker }) {
             settings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
               ? <Fragment>
                 {clicked ?
-                  <LoadingSpinner /> : ''
+                  <LoadingSpinner /> : null
                 }
                 <PriceTab inputSettings={settings} />
               </Fragment>
@@ -133,14 +133,14 @@ function StockDetails({ inputTicker }) {
         </Tab>
         <Tab eventKey="Basics" title="Basics">
           {clicked ?
-            <LoadingSpinner /> : ''
+            <LoadingSpinner /> : null
           }
           <StockInfoTable tableSize="sm" tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
           <StockInfoTable tableSize="sm" className='mt-2' tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} sortItem={sortItem} />
         </Tab>
         <Tab eventKey="ETFList" title="ETF List">
           {clicked ?
-            <LoadingSpinner /> : ''
+            <LoadingSpinner /> : null
           }
           <Row className="ml-1 mt-3">
             <h5>
@@ -154,33 +154,33 @@ function StockDetails({ inputTicker }) {
         </Tab>
         <Tab eventKey="Price%" title="Price%">
           {clicked ?
-            <LoadingSpinner /> : ''
+            <LoadingSpinner /> : null
           }
           <PriceChange inputTickers={settings.inputTickers} />
         </Tab>
         <Tab eventKey="BalanceSheet" title="Bal. Sheet">
           {clicked ?
-            <LoadingSpinner /> : ''
+            <LoadingSpinner /> : null
           }
           <StockInfoTable tableSize="sm" tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} sortItem={sortItem} />
           <Bar data={settings.balanceSheet.chartData} />
         </Tab>
         <Tab eventKey="Earnings" title="Earnings">
           {clicked ?
-            <LoadingSpinner /> : ''
+            <LoadingSpinner /> : null
           }
           <StockInfoTable tableSize="sm" tableHeader={settings.earnings.tableHeader} tableData={settings.earnings.tableData} sortItem={sortItem} />
           <Bar data={settings.earnings.chartData} options={settings.earnings.chartOptions} />
         </Tab>
         <Tab eventKey="Forecast" title="Forecast">
           {clicked ?
-            <LoadingSpinner /> : ''
+            <LoadingSpinner /> : null
           }
           <ForecastInfo inputTickers={settings.inputTickers} />
         </Tab>
         <Tab eventKey="Financials" title="Financials">
           {clicked ?
-            <LoadingSpinner /> : ''
+            <LoadingSpinner /> : null
           }
           <FinancialsInfo inputTickers={settings.inputTickers} />
         </Tab>

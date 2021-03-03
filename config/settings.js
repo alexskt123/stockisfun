@@ -57,5 +57,6 @@ export const defaultUserConfig = {
   displayName: 'Guest',
   loginTime: '',
   stockList: [],
-  watchList: []
+  watchList: [],
+  etfList: []
 }

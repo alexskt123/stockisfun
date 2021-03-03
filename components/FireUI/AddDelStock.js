@@ -1,28 +1,29 @@
 import { Fragment, useContext } from 'react'
-import { addToUserStockList, delFromUserStockList, getUserInfoByUID } from '../../lib/firebaseResult'
+import { addToUserList, delFromUserList, getUserInfoByUID } from '../../lib/firebaseResult'
 import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
 import { IconContext } from 'react-icons'
 import { Store } from '../../lib/store'
 import { fireToast } from '../../lib/toast'
 
-function AddDelStock({ inputTicker }) {
+function AddDelStock({ inputTicker, handleList }) {
   const store = useContext(Store)
   const { state, dispatch } = store
   const { user } = state
 
   const handleDispatch = async () => {
-    const { stockList } = await getUserInfoByUID(user == null ? '' : user.uid)
+    const { stockList, etfList } = await getUserInfoByUID(user == null ? '' : user.uid)
 
     const newUserConfig = {
       ...user,
-      stockList
+      stockList,
+      etfList
     }
 
     dispatch({ type: 'USER', payload: newUserConfig })
   }
 
   const handleRemove = async () => {
-    await delFromUserStockList(user.uid, inputTicker)
+    await delFromUserList(user.uid, inputTicker, handleList)
     await handleDispatch()
 
     fireToast({
@@ -32,7 +33,7 @@ function AddDelStock({ inputTicker }) {
   }
 
   const handleAdd = async () => {
-    await addToUserStockList(user.uid, inputTicker)
+    await addToUserList(user.uid, inputTicker, handleList)
     await handleDispatch()
 
     fireToast({
@@ -45,7 +46,7 @@ function AddDelStock({ inputTicker }) {
     <Fragment>
       {
         user.id != ''
-          ? user.stockList.includes(inputTicker)
+          ? handleList == 'stock' && user.stockList.includes(inputTicker) || handleList == 'etf' && user.etfList.includes(inputTicker)
             ? <IconContext.Provider value={{ color: 'red', className: 'global-class-name' }}>
               <MdRemoveCircleOutline onClick={handleRemove} />
             </IconContext.Provider>

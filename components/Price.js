@@ -90,7 +90,7 @@ function PriceInfo({ inputTicker }) {
   return (
     <Fragment>
       {loading ?
-        <LoadingSpinner /> : ''
+        <LoadingSpinner /> : null
       }
       <div style={{ display: 'inline-flex', alignItems: 'baseline' }} className="ml-1">
         <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">

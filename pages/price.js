@@ -118,7 +118,7 @@ export default function Home() {
           />
           <TickerBullet tickers={settings.tickers} overlayItem={settings.quote} removeItem={removeItem} />
           {clicked ?
-            <LoadingSpinner /> : ''
+            <LoadingSpinner /> : null
           }
           <PriceChange inputSettings={settings} inputDateRange={formValue.formYear} />
         </Fragment>

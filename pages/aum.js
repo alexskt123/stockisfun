@@ -141,7 +141,7 @@ export default function Home() {
           />
           <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
           {clicked ?
-            <LoadingSpinner /> : ''
+            <LoadingSpinner /> : null
           }
           <StockInfoTable tableHeader={tableHeader} tableData={etfInfo} sortItem={sortItem} />
         </Fragment>

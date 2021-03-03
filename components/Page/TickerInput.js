@@ -49,7 +49,7 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
                 </Form.Control>
               </div>
             </Fragment>
-            : ''
+            : null
         }
         <Row className="ml-1 mt-2">
           <Button {...buttonSettings.Go.attr} disabled={clicked}>
@@ -65,7 +65,7 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
                   {buttonSettings.Export.label}
                 </Button>
               </Fragment>
-              : ''
+              : null
           }
 
         </Row>

@@ -176,7 +176,7 @@ export default function Home() {
           />
           <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
           {clicked ?
-            <LoadingSpinner /> : ''
+            <LoadingSpinner /> : null
           }
           <Button onClick={() => { refreshItems() }} size='sm' variant='outline-dark' >{'Refresh'}</Button>
           {

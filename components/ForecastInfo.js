@@ -52,7 +52,7 @@ function ForecastInfo({ inputSettings, inputTickers }) {
   return (
     <Fragment>
       {loading ?
-        <LoadingSpinner /> : ''
+        <LoadingSpinner /> : null
       }
       <StockInfoTable tableSize="sm" tableFirstHeader={[...forecastTableFirstHeader]} tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
     </Fragment>

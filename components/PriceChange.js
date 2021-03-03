@@ -61,7 +61,7 @@ function PriceInfo({ inputSettings, inputTickers, inputYear }) {
   return (
     <Fragment>
       {loading ?
-        <LoadingSpinner /> : ''
+        <LoadingSpinner /> : null
       }            
       <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.yearlyPcnt} sortItem={sortItem} />
       <Line data={settings.chartData} />

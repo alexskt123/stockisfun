@@ -29,7 +29,7 @@ function PriceTab({ inputSettings }) {
         <h6>
           <Badge variant="light" className="ml-2">{labels.find(x => x.name == 'Name').value}</Badge>
         </h6>
-        <AddDelStock inputTicker={settings.inputTickers.find(x => x)} />
+        <AddDelStock inputTicker={settings.inputTickers.find(x => x)} handleList='stock' />
       </Row>
       <Row className="ml-1">
         <h6>

@@ -49,7 +49,7 @@ function FinancialsInfo({ inputSettings, inputTickers }) {
   return (
     <Fragment>
       {loading ?
-        <LoadingSpinner /> : ''
+        <LoadingSpinner /> : null
       }
       <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
     </Fragment>

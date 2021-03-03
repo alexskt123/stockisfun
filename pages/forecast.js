@@ -98,7 +98,7 @@ export default function Home() {
           />
           <TickerBullet tickers={settings.tickers} overlayItem={[]} removeItem={removeItem} />
           {clicked ?
-            <LoadingSpinner/> : ''
+            <LoadingSpinner/> : null
           }
           <ForecastInfo inputSettings={settings} />
         </Fragment >

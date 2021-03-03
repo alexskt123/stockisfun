@@ -88,7 +88,7 @@ export default function Home() {
           />
           <TickerBullet tickers={settings.tickers} overlayItem={[]} removeItem={removeItem} />
           {clicked ?
-            <LoadingSpinner /> : ''
+            <LoadingSpinner /> : null
           }
           <FinancialsInfo inputSettings={settings} />
         </Fragment>

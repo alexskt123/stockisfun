@@ -6,6 +6,7 @@ import { NavDropdown } from 'react-bootstrap'
 import { FaUserCircle, FaList } from 'react-icons/fa'
 import { BiTime } from 'react-icons/bi'
 import { CgViewList } from 'react-icons/cg'
+import { RiFundsBoxLine } from 'react-icons/ri'
 import { Store } from '../../lib/store'
 import { defaultUserConfig } from '../../config/settings'
 import { fireToast } from '../../lib/toast'
@@ -107,7 +108,7 @@ function FireAuth() {
             </NavDropdown.Item>
             <NavDropdown.Divider />
             <div className="container">
-              <p>
+              <p style={{ width: 'inherit' }}>
                 <FaList />
                 <Badge className="ml-1" variant="light">{'Stock List'}</Badge>
               </p>
@@ -116,6 +117,22 @@ function FireAuth() {
                   return (
                     <Col key={`${item}${idx}`} xs={3} sm={3} md={3} lg={4}>
                       <Badge className="ml-1" key={idx} variant="light"><Link href={`/basics?query=${item}`}>{item}</Link></Badge>
+                    </Col>
+                  )
+                })}
+              </Row>
+            </div>
+            <NavDropdown.Divider />
+            <div className="container">
+              <p style={{ width: 'inherit' }}>
+                <RiFundsBoxLine />
+                <Badge className="ml-1" variant="light">{'ETF List'}</Badge>
+              </p>
+              <Row>
+                {user.etfList.map((item, idx) => {
+                  return (
+                    <Col key={`${item}${idx}`} xs={3} sm={3} md={3} lg={4}>
+                      <Badge className="ml-1" key={idx} variant="light"><Link href={`/etfdetail?query=${item}`}>{item}</Link></Badge>
                     </Col>
                   )
                 })}
