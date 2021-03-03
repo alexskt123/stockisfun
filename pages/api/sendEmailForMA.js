@@ -65,27 +65,33 @@ export default async (req, res) => {
     })
 
   const fiveLowerTwentyList = priceMADetails.fiveLowerTwenty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.fiveLowerTwentyChart[index]}/> : ''}</li>`
+    const imgElement = genChart ? `<img src=${priceMADetails.fiveLowerTwentyChart[index]}/>` : ''
+    acc += `<li><p>${cur}</p>${imgElement}</li>`
     return acc
   }, '')
   const fiveHigherTwentyList = priceMADetails.fiveHigherTwenty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.fiveHigherTwentyChart[index]}/> : ''}</li>`    
+    const imgElement = genChart ? `<img src=${priceMADetails.fiveHigherTwentyChart[index]}/>` : ''
+    acc += `<li><p>${cur}</p>${imgElement}</li>`   
     return acc
   }, '')
   const fiveLowerSixtyList = priceMADetails.fiveLowerSixty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.fiveLowerSixtyChart[index]}/> : ''}</li>`    
+    const imgElement = genChart ? `<img src=${priceMADetails.fiveLowerSixtyChart[index]}/>` : ''
+    acc += `<li><p>${cur}</p>${imgElement}</li>`
     return acc
   }, '')
   const fiveHigherSixtyList = priceMADetails.fiveHigherSixty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.fiveHigherSixtyChart[index]}/> : ''}</li>`    
+    const imgElement = genChart ? `<img src=${priceMADetails.fiveHigherSixtyChart[index]}/>` : ''
+    acc += `<li><p>${cur}</p>${imgElement}</li>`  
     return acc
   }, '')
   const twentyLowerSixtyList = priceMADetails.twentyLowerSixty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.twentyLowerSixtyChart[index]}/> : ''}</li>`    
+    const imgElement = genChart ? `<img src=${priceMADetails.twentyLowerSixtyChart[index]}/>` : ''
+    acc += `<li><p>${cur}</p>${imgElement}</li>`
     return acc
   }, '')
   const twentyHigherSixtyList = priceMADetails.twentyHigherSixty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.twentyHigherSixtyChart[index]}/> : ''}</li>`    
+    const imgElement = genChart ? `<img src=${priceMADetails.twentyHigherSixtyChart[index]}/>` : ''
+    acc += `<li><p>${cur}</p>${imgElement}</li>`
     return acc
   }, '')
   const inputArrList = tickerArr.reduce((acc, cur) => {
