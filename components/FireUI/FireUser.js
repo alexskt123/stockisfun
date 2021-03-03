@@ -32,9 +32,7 @@ function FireUser() {
 
   })
 
-  return (
-    ''
-  )
+  return null
 }
 
 export default FireUser
