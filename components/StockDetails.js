@@ -1,6 +1,6 @@
 
 import { Fragment, useState, useEffect } from 'react'
-import { Alert, Badge, Row } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { Bar } from 'react-chartjs-2'
@@ -14,6 +14,7 @@ import StockInfoTable from '../components/Page/StockInfoTable'
 import PriceChange from '../components/PriceChange'
 import ForecastInfo from '../components/ForecastInfo'
 import FinancialsInfo from '../components/FinancialsInfo'
+import ETFList from './ETFList'
 
 const axios = require('axios').default
 
@@ -21,10 +22,6 @@ function StockDetails({ inputTicker }) {
 
   const [settings, setSettings] = useState({ ...stockDetailsSettings })
   const [clicked, setClicked] = useState(false)
-
-  const cellClick = async (_item) => {
-
-  }
 
   async function handleTicker() {
     if (!inputTicker) return
@@ -142,15 +139,7 @@ function StockDetails({ inputTicker }) {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <Row className="ml-1 mt-3">
-            <h5>
-              <Badge variant="dark">{'No. of ETF Count: '}</Badge>
-            </h5>
-            <h5>
-              <Badge variant="light" className="ml-2">{settings.etfCount}</Badge>
-            </h5>
-          </Row>
-          <StockInfoTable tableSize="sm" cellClick={cellClick} striped={true} tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
+          <ETFList inputSettings={{etfList: settings.etfList, etfCount: settings.etfCount}} />
         </Tab>
         <Tab eventKey="Price%" title="Price%">
           {clicked ?

@@ -1,14 +1,18 @@
 
+export const etfListSettings = {
+  etfList: {
+    tableHeader: [],
+    tableData: []
+  },
+  etfCount: ''
+}
+
 export const stockDetailsSettings = {
   basics: {
     tableHeader: [],
     tableData: []
   },
   officers: {
-    tableHeader: [],
-    tableData: []
-  },
-  etfList: {
     tableHeader: [],
     tableData: []
   },
@@ -30,7 +34,7 @@ export const stockDetailsSettings = {
     }
   },
   inputTickers: [],
-  etfCount: ''
+  ...etfListSettings
 }
 
 export const officersTableHeader = ['Officers Name', 'Title', 'Age', 'Pay']
