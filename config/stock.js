@@ -16,16 +16,14 @@ export const stockDetailsSettings = {
     tableHeader: [],
     tableData: [],
     chartData: {
-      labels: [],
-      datasets: []
+
     }
   },
   earnings: {
     tableHeader: [],
     tableData: [],
     chartData: {
-      labels: [],
-      datasets: []
+
     },
     chartOptions: {
       

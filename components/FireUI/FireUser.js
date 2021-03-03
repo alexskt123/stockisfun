@@ -7,33 +7,33 @@ import moment from 'moment-business-days'
 
 function FireUser() {
 
-    const store = useContext(Store)
-    const { state, dispatch } = store
+  const store = useContext(Store)
+  const { state, dispatch } = store
 
-    auth.onAuthStateChanged(async (user) => {
+  auth.onAuthStateChanged(async (user) => {
 
-        if (user && state && state.user && state.user.id == '') {
+    if (user && state && state.user && state.user.id == '') {
 
-            const { stockList, watchList, id } = await getUserInfoByUID(user == null ? '' : user.uid)
+      const { stockList, watchList, id } = await getUserInfoByUID(user == null ? '' : user.uid)
 
-            const newUserConfig = {
-                ...defaultUserConfig,
-                id,
-                uid: user.uid,
-                displayName: user.displayName ? user.displayName : 'Anonymous',
-                loginTime: moment().format('HH:mm:ss DD/MM/YYYY'),
-                stockList,
-                watchList
-            }
+      const newUserConfig = {
+        ...defaultUserConfig,
+        id,
+        uid: user.uid,
+        displayName: user.displayName ? user.displayName : 'Anonymous',
+        loginTime: moment().format('HH:mm:ss DD/MM/YYYY'),
+        stockList,
+        watchList
+      }
 
-            dispatch({ type: 'USER', payload: newUserConfig })
-        }
+      dispatch({ type: 'USER', payload: newUserConfig })
+    }
 
-    })
+  })
 
-    return (
-        ''
-    )
+  return (
+    ''
+  )
 }
 
 export default FireUser

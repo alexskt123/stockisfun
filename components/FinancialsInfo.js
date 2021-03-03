@@ -51,7 +51,7 @@ function FinancialsInfo({ inputSettings, inputTickers }) {
       {loading ?
         <LoadingSpinner /> : ''
       }
-      <StockInfoTable tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
+      <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
     </Fragment>
   )
 }

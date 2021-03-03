@@ -110,7 +110,7 @@ function StockDetails({ inputTicker }) {
     // })
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({ ...stockDetailsSettings })
   }
 
@@ -135,8 +135,8 @@ function StockDetails({ inputTicker }) {
           {clicked ?
             <LoadingSpinner /> : ''
           }
-          <StockInfoTable tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
-          <StockInfoTable className='mt-2' tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} sortItem={sortItem} />
+          <StockInfoTable tableSize="sm" tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
+          <StockInfoTable tableSize="sm" className='mt-2' tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} sortItem={sortItem} />
         </Tab>
         <Tab eventKey="ETFList" title="ETF List">
           {clicked ?

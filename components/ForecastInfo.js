@@ -54,7 +54,7 @@ function ForecastInfo({ inputSettings, inputTickers }) {
       {loading ?
         <LoadingSpinner /> : ''
       }
-      <StockInfoTable tableFirstHeader={[...forecastTableFirstHeader]} tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
+      <StockInfoTable tableSize="sm" tableFirstHeader={[...forecastTableFirstHeader]} tableHeader={settings.tableHeader} tableData={settings.stockInfo} sortItem={sortItem} />
     </Fragment>
   )
 }
