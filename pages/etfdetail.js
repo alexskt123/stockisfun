@@ -50,6 +50,7 @@ export default function Home() {
 
   const clearItems = async () => {
     setSettings({ ...etfDetailsSettings })
+    router.replace("/etfdetail")
   }
 
   async function handleTicker(inputTicker) {
@@ -146,6 +147,7 @@ export default function Home() {
       forecastHref: `/forecast?query=${href}`
     }
 
+    router.replace("/etfdetail", `/etfdetail?query=${ticker.toUpperCase()}`)
     setSettings(newSettings)
     setClicked(false)
   }

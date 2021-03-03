@@ -28,10 +28,6 @@ function ForecastInfo({ inputSettings, inputTickers }) {
     setLoading(false)
   }
 
-  useEffect(() => {
-    handleTickers()
-  }, [inputSettings, inputTickers])
-
   const sortItem = async (index) => {
     setSettings({
       ...settings,
@@ -48,6 +44,10 @@ function ForecastInfo({ inputSettings, inputTickers }) {
       stocInfo: []
     })
   }
+
+  useEffect(() => {
+    handleTickers()
+  }, [inputSettings, inputTickers])
 
   return (
     <Fragment>

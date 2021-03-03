@@ -47,6 +47,8 @@ export default function Home() {
   const clearItems = async () => {
     setTickers([])
     setWatchList([])
+
+    router.replace("/watchlist")
   }
 
   const refreshItems = async () => {
@@ -128,6 +130,8 @@ export default function Home() {
         return item.filter(x => x).map(jj => jj.item)
       })]
     )
+
+    router.replace("/watchlist", `/watchlist?query=${inputTickersWithComma.toUpperCase()}`)
 
     setClicked(false)
 

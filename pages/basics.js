@@ -28,6 +28,7 @@ export default function Home() {
       event.stopPropagation()
     } else {
       const { formTicker } = formValue
+      router.replace("/basics", `/basics?query=${formTicker.toUpperCase()}`)
       setTicker(formTicker)
     }
     setValidated(true)
@@ -36,6 +37,7 @@ export default function Home() {
 
   const clearItems = async () => {
     setTicker('')
+    router.replace("/basics")
   }
 
   const router = useRouter()
