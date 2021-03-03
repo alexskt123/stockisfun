@@ -202,9 +202,9 @@ export default function Home() {
           {
             settings.inputETFTicker.length > 0 ?
               <Alert variant='success' className="mt-3">
-                <div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   <b>{settings.inputETFTicker}</b>
-                  <AddDelStock className="ml-3" inputTicker={settings.inputETFTicker.find(x => x)} handleList='etf' />
+                  <AddDelStock inputTicker={settings.inputETFTicker.find(x => x)} handleList='etf' />
                 </div>
               </Alert>
               : null
