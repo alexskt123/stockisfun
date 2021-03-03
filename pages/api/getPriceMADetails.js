@@ -12,7 +12,7 @@ const handleDays = async (ticker, fromdate, todate) => {
 
   return {
     date: (outputItem.timestamp || []).map(item => moment.unix(item).format('DD MMM YYYY')),
-    price: outputItem.indicators.quote.find(x => x).close
+    price: outputItem.indicators.quote.find(x => x).close || []
   }
 }
 
