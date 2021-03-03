@@ -87,7 +87,8 @@ const chkHigher = async (trackArr, refArr) => {
 
 export default async (req, res) => {
 
-  const { ticker } = req.query
+  const { ticker, genChart } = req.query
+  const isGenChart = genChart == 'true'
 
   const fromtodate = await getFormattedFromToDate(80)
   const dateprice = await handleDays(ticker, fromtodate.formattedFromDate, fromtodate.formattedToDate)
@@ -120,32 +121,32 @@ export default async (req, res) => {
   if (ma5filter.length == 2 && ma20filter.length == 2 && ma60filter.length == 2) {
     if (await chkLower(ma5filter, ma20filter)) {
       fiveLowerTwenty.push(ticker)
-      fiveLowerTwentyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
+      if (isGenChart) fiveLowerTwentyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
 
     if (await chkHigher(ma5filter, ma20filter)) {
       fiveHigherTwenty.push(ticker)
-      fiveHigherTwentyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
+      if (isGenChart) fiveHigherTwentyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
 
     if (await chkLower(ma5filter, ma60filter)) {
       fiveLowerSixty.push(ticker)
-      fiveLowerSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
+      if (isGenChart) fiveLowerSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
 
     if (await chkHigher(ma5filter, ma60filter)) {
       fiveHigherSixty.push(ticker)
-      fiveHigherSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
+      if (isGenChart) fiveHigherSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
 
     if (await chkLower(ma20filter, ma60filter)) {
       twentyLowerSixty.push(ticker)
-      twentyLowerSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
+      if (isGenChart) twentyLowerSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
 
     if (await chkHigher(ma20filter, ma60filter)) {
       twentyHigherSixty.push(ticker)
-      twentyHigherSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
+      if (isGenChart) twentyHigherSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
   }
 

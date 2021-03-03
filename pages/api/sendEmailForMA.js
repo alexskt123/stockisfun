@@ -18,6 +18,7 @@ export default async (req, res) => {
   const curEmailTemplate = emails.find(x => x)
 
   const tickerArr = curEmailTemplate.stock.split(',').map(item => item.toUpperCase())
+  const genChart = curEmailTemplate.genChart ? true : false
 
   const priceMADetails = {
     asOfDate: '',
@@ -36,7 +37,7 @@ export default async (req, res) => {
   }
 
   await axios.all(tickerArr.map(ticker => {
-    return axios.get(`${getHost()}/api/getPriceMADetails?ticker=${ticker}`).catch(err => console.log(err))
+    return axios.get(`${getHost()}/api/getPriceMADetails?ticker=${ticker}&genChart=${genChart}`).catch(err => console.log(err))
   }))
     .catch(error => console.log(error))
     .then((responses) => {
@@ -64,27 +65,27 @@ export default async (req, res) => {
     })
 
   const fiveLowerTwentyList = priceMADetails.fiveLowerTwenty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p> <img src="${priceMADetails.fiveLowerTwentyChart[index]}"/> </li>`
+    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.fiveLowerTwentyChart[index]}/> : ''}</li>`
     return acc
   }, '')
   const fiveHigherTwentyList = priceMADetails.fiveHigherTwenty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p> <img src="${priceMADetails.fiveHigherTwentyChart[index]}"/> </li>`
+    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.fiveHigherTwentyChart[index]}/> : ''}</li>`    
     return acc
   }, '')
   const fiveLowerSixtyList = priceMADetails.fiveLowerSixty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p> <img src="${priceMADetails.fiveLowerSixtyChart[index]}"/> </li>`
+    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.fiveLowerSixtyChart[index]}/> : ''}</li>`    
     return acc
   }, '')
   const fiveHigherSixtyList = priceMADetails.fiveHigherSixty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p> <img src="${priceMADetails.fiveHigherSixtyChart[index]}"/> </li>`
+    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.fiveHigherSixtyChart[index]}/> : ''}</li>`    
     return acc
   }, '')
   const twentyLowerSixtyList = priceMADetails.twentyLowerSixty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p> <img src="${priceMADetails.twentyLowerSixtyChart[index]}"/> </li>`
+    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.twentyLowerSixtyChart[index]}/> : ''}</li>`    
     return acc
   }, '')
   const twentyHigherSixtyList = priceMADetails.twentyHigherSixty.reduce((acc, cur, index) => {
-    acc += `<li><p>${cur}</p> <img src="${priceMADetails.twentyHigherSixtyChart[index]}"/> </li>`
+    acc += `<li><p>${cur}</p>${genChart ? <img src={priceMADetails.twentyHigherSixtyChart[index]}/> : ''}</li>`    
     return acc
   }, '')
   const inputArrList = tickerArr.reduce((acc, cur) => {
