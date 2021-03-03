@@ -3,14 +3,7 @@ import { Fragment, useState, useEffect } from 'react'
 import Price from '../../components/Price'
 import { priceTabLabelPairs } from '../../config/price'
 import { Badge, Row } from 'react-bootstrap'
-import dynamic from 'next/dynamic'
-
-const AddDelStock = dynamic(
-  () => {
-    return import('../../components/FireUI/AddDelStock')
-  },
-  { ssr: false }
-)
+import AddDelStock from '../../components/FireUI/AddDelStock'
 
 function PriceTab({ inputSettings }) {
 

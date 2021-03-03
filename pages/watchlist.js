@@ -1,17 +1,20 @@
 
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
-import CustomContainer from '../components/Layout/CustomContainer'
+import { Button } from 'react-bootstrap'
+import moment from 'moment-business-days'
+import millify from 'millify'
 
+import CustomContainer from '../components/Layout/CustomContainer'
 import StockInfoTable from '../components/Page/StockInfoTable'
 import TickerInput from '../components/Page/TickerInput'
 import TickerBullet from '../components/Page/TickerBullet'
-import { sortTableItem, handleDebounceChange } from '../lib/commonFunction'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
-import moment from 'moment-business-days'
 import { tableHeaderList } from '../config/watchlist'
-import millify from 'millify'
-import { Button } from 'react-bootstrap'
+import { sortTableItem, handleDebounceChange } from '../lib/commonFunction'
+import { updUserWatchList, getUserInfoByUID } from '../lib/firebaseResult'
+import { Store } from '../lib/store'
+import { fireToast } from '../lib/toast'
 
 const axios = require('axios').default
 
@@ -26,11 +29,13 @@ export default function Home() {
   const [clicked, setClicked] = useState(false)
   const [ascSort, setAscSort] = useState(false)
 
+  const store = useContext(Store)
+  const { state, dispatch } = store
+  const { user } = state
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
   }
-
 
   const sortItem = async (index) => {
     setAscSort(!ascSort)
@@ -48,6 +53,27 @@ export default function Home() {
     handleTickers(tickers.join(','))
   }
 
+  const handleDispatch = async () => {
+    const { watchList } = await getUserInfoByUID(user == null ? '' : user.uid)
+
+    const newUserConfig = {
+      ...user,
+      watchList
+    }
+
+    dispatch({ type: 'USER', payload: newUserConfig })
+  }
+
+  const updateWatchList = async () => {
+    await updUserWatchList(user.uid, watchList.map(item => item.find(x => x)))
+    await handleDispatch()
+
+    fireToast({
+      icon: 'success',
+      title: 'Updated'
+    })
+  }
+
   const removeItem = async (value) => {
     if (clicked) return
 
@@ -55,9 +81,7 @@ export default function Home() {
       [...tickers.filter(x => x !== value)]
     )
     setWatchList(
-      [
-        ...watchList.filter(x => x.find(x => x) !== value)
-      ]
+      [...watchList.filter(x => x.find(x => x) !== value)]
     )
   }
 
@@ -94,21 +118,15 @@ export default function Home() {
       })
 
     setTableHeader(
-      [
-        ...temp.find(x => x).filter(x => x).map(item => item.label)
-      ]
+      [...temp.find(x => x).filter(x => x).map(item => item.label)]
     )
 
-    setTickers([
-      ...newTickers
-    ])
+    setTickers([...newTickers])
 
     setWatchList(
-      [
-        ...temp.map(item => {
-          return item.filter(x => x).map(jj => jj.item)
-        })
-      ]
+      [...temp.map(item => {
+        return item.filter(x => x).map(jj => jj.item)
+      })]
     )
 
     setClicked(false)
@@ -161,6 +179,11 @@ export default function Home() {
             <LoadingSpinner /> : ''
           }
           <Button onClick={() => { refreshItems() }} size='sm' variant='outline-dark' >{'Refresh'}</Button>
+          {
+            user.id != ''
+              ? <Button className="ml-2" onClick={() => { updateWatchList() }} size='sm' variant='dark' >{'Update Watch List'}</Button>
+              : null
+          }
           <StockInfoTable striped={true} tableHeader={tableHeader} tableData={watchList} sortItem={sortItem} tableSize="sm" />
         </Fragment>
       </CustomContainer>

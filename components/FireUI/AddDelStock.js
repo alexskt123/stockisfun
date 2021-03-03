@@ -12,7 +12,7 @@ function AddDelStock({ inputTicker }) {
 
   const handleDispatch = async () => {
     const { stockList } = await getUserInfoByUID(user == null ? '' : user.uid)
-    console.log(stockList, inputTicker, user.uid)
+
     const newUserConfig = {
       ...user,
       stockList
@@ -52,7 +52,7 @@ function AddDelStock({ inputTicker }) {
             : <IconContext.Provider value={{ color: 'green', className: 'global-class-name' }}>
               <MdAddCircleOutline onClick={handleAdd} />
             </IconContext.Provider>
-          : ''
+          : null
       }
     </Fragment>
   )
