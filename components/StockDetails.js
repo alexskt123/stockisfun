@@ -99,8 +99,6 @@ function StockDetails({ inputTicker }) {
     inputTicker != '' ? handleTicker() : clearItems()
   }, [inputTicker])
 
-  const sortItem = async (_index) => {}
-
   const clearItems = () => {
     setSettings({ ...stockDetailsSettings })
   }
@@ -126,14 +124,14 @@ function StockDetails({ inputTicker }) {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <StockInfoTable tableSize="sm" tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
-          <StockInfoTable tableSize="sm" className='mt-2' tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} sortItem={sortItem} />
+          <StockInfoTable tableSize="sm" tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} />
+          <StockInfoTable tableSize="sm" className='mt-2' tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} />
         </Tab>
         <Tab eventKey="ETFList" title="ETF List">
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <ETFList inputSettings={{etfList: settings.etfList, etfCount: settings.etfCount}} />
+          <ETFList inputSettings={{ etfList: settings.etfList, etfCount: settings.etfCount }} />
         </Tab>
         <Tab eventKey="Price%" title="Price%">
           {clicked ?
@@ -145,14 +143,14 @@ function StockDetails({ inputTicker }) {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <StockInfoTable tableSize="sm" tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} sortItem={sortItem} />
+          <StockInfoTable tableSize="sm" tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} />
           <Bar data={settings.balanceSheet.chartData} />
         </Tab>
         <Tab eventKey="Earnings" title="Earnings">
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <StockInfoTable tableSize="sm" tableHeader={settings.earnings.tableHeader} tableData={settings.earnings.tableData} sortItem={sortItem} />
+          <StockInfoTable tableSize="sm" tableHeader={settings.earnings.tableHeader} tableData={settings.earnings.tableData} />
           <Bar data={settings.earnings.chartData} options={settings.earnings.chartOptions} />
         </Tab>
         <Tab eventKey="Forecast" title="Forecast">

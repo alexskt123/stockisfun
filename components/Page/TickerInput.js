@@ -67,7 +67,6 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, c
               </Fragment>
               : null
           }
-
         </Row>
       </Form>
     </Fragment>

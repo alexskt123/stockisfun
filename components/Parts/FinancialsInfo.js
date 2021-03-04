@@ -25,10 +25,6 @@ function FinancialsInfo({ inputSettings, inputTickers }) {
     setLoading(false)
   }
 
-  useEffect(() => {
-    handleTickers()
-  }, [inputSettings, inputTickers])
-
   const sortItem = async (index) => {
     setSettings({
       ...settings,
@@ -45,6 +41,10 @@ function FinancialsInfo({ inputSettings, inputTickers }) {
       stocInfo: []
     })
   }
+
+  useEffect(() => {
+    handleTickers()
+  }, [inputSettings, inputTickers])
 
   return (
     <Fragment>

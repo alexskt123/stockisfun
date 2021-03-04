@@ -6,6 +6,14 @@ const Settings = {
 
 export default Settings
 
+export const iconConfig = {
+  alt: '',
+  src: Settings.LogoImgSrc,
+  width: '35',
+  height: '35',
+  className: 'd-inline-block align-top'
+}
+
 export const NavDropDown = [
   {
     href: '/compare/price',

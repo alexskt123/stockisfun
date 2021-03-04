@@ -26,7 +26,6 @@ export default function Holdings({ inputSettings, cellClick }) {
         setSettings(inputSettings)
     }
 
-
     useEffect(() => {
         handleTicker(inputSettings)
     }, [inputSettings])

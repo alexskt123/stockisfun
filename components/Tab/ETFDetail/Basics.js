@@ -10,8 +10,6 @@ export default function Stat({ inputSettings }) {
 
     const [settings, setSettings] = useState({ ...etfDetailsSettings })
 
-    const sortItem = async (_index) => { }
-
     useEffect(() => {
         setSettings(inputSettings)
     }, [inputSettings])
@@ -21,7 +19,7 @@ export default function Stat({ inputSettings }) {
             {
                 settings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
                     ? <Fragment>
-                        <StockInfoTable tableSize="sm" tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
+                        <StockInfoTable tableSize="sm" tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} />
                         <Price inputTicker={settings.inputETFTicker.find(x => x)} inputDays={90} />
                     </Fragment>
                     : <Alert className="mt-2" key={'Alert-No-Stock-Info'} variant={'success'}>

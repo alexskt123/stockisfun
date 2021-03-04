@@ -23,7 +23,6 @@ function PriceInfo({ inputTicker }) {
     else if (e.target.name == 'formma' && e.target.value != settings.ma) {
       handleTicker(inputTicker, settings.days, e.target.value)
     }
-
   }
 
   const getPrice = async (inputTicker, inputDays, inputMA) => {
@@ -72,11 +71,6 @@ function PriceInfo({ inputTicker }) {
     setLoading(false)
   }
 
-  useEffect(() => {
-    handleTicker(inputTicker, settings.days, settings.ma)
-  }, [inputTicker, settings.days, settings.ma])
-
-
   const clearItems = async () => {
     setSettings({
       ...settings,
@@ -86,6 +80,10 @@ function PriceInfo({ inputTicker }) {
       chartData: { 'labels': [], 'datasets': [] }
     })
   }
+
+  useEffect(() => {
+    handleTicker(inputTicker, settings.days, settings.ma)
+  }, [inputTicker, settings.days, settings.ma])
 
   return (
     <Fragment>

@@ -8,7 +8,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 // config
 import { NavItems, NavDropDown } from '../../config/settings'
-import Settings from '../../config/settings'
+import Settings, { iconConfig } from '../../config/settings'
 import { Badge, NavDropdown } from 'react-bootstrap'
 import { IconContext } from 'react-icons'
 import { FaUserCircle } from 'react-icons/fa'
@@ -29,24 +29,16 @@ const FireUser = dynamic(
   { ssr: false }
 )
 
-
 function Header() {
 
-  const imgConfig = {
-    alt: '',
-    src: Settings.LogoImgSrc,
-    width: '35',
-    height: '35',
-    className: 'd-inline-block align-top'
-  }
-
   const router = useRouter()
+
   return (
     <Fragment>
       <Head>
         <title>{'Stock Is Fun'}</title>
       </Head>
-      <FireUser/>
+      <FireUser />
       <Navbar collapseOnSelect fixed="top" bg="dark" variant="dark" expand="md" style={{ zIndex: '998!important' }}>
         <NavDropdown title={<IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
           <FaUserCircle />
@@ -55,7 +47,7 @@ function Header() {
         </NavDropdown>
         <Navbar.Brand>
           <img
-            {...imgConfig}
+            {...iconConfig}
           />
           {'Stock is Fun'}
         </Navbar.Brand>
@@ -86,17 +78,6 @@ function Header() {
                   )
                 })
               }
-              {/* {NavDropDown.map((item, idx) => {
-                const href = `${item.href}`
-                const active = router.asPath === href
-                return (
-                  <Link key={`${idx}`} href={href} passHref>
-                    <NavDropdown.Item active={active} disabled={active}>
-                      {`${item.label}`}
-                    </NavDropdown.Item>
-                  </Link>
-                )
-              })} */}
             </NavDropdown>
             {NavItems.map((item, idx) => {
               const href = `${item.href}`

@@ -10,10 +10,6 @@ function ETFList({ inputSettings }) {
   const [settings, setSettings] = useState({ ...etfListSettings })
   const [ascSort, setAscSort] = useState(false)
 
-  const cellClick = async (_item) => {
-
-  }
-
   async function handleSettings(inputSettings) {
     setSettings(inputSettings)
   }
@@ -45,7 +41,7 @@ function ETFList({ inputSettings }) {
           <Badge variant="light" className="ml-2">{settings.etfCount}</Badge>
         </h5>
       </Row>
-      <StockInfoTable tableSize="sm" cellClick={cellClick} striped={true} tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
+      <StockInfoTable tableSize="sm" striped={true} tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
     </Fragment>
   )
 }

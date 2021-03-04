@@ -36,10 +36,6 @@ function PriceInfo({ inputSettings, inputTickers, inputYear }) {
     setLoading(false)
   }
 
-  useEffect(() => {
-    handleTickers()
-  }, [inputSettings, inputTickers])
-
   const sortItem = async (index) => {
     setSettings({
       ...settings,
@@ -47,6 +43,10 @@ function PriceInfo({ inputSettings, inputTickers, inputYear }) {
       ascSort: !settings.ascSort
     })
   }
+
+  useEffect(() => {
+    handleTickers()
+  }, [inputSettings, inputTickers])
 
   const clearItems = async () => {
     setSettings({
