@@ -3,8 +3,7 @@ import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import { Alert, Badge, Button, Row } from 'react-bootstrap'
-import { Doughnut } from 'react-chartjs-2'
+import { Alert, Badge, Row } from 'react-bootstrap'
 
 import CustomContainer from '../components/Layout/CustomContainer'
 import StockInfoTable from '../components/Page/StockInfoTable'
@@ -17,6 +16,7 @@ import ForecastInfo from '../components/Parts/ForecastInfo'
 import { etfDetailsSettings, etfHoldingHeader } from '../config/etf'
 import Price from '../components/Parts/Price'
 import { handleDebounceChange } from '../lib/commonFunction'
+import Holdings from '../components/Tab/ETFDetail/Holdings'
 
 const axios = require('axios').default
 
@@ -231,26 +231,7 @@ export default function Home() {
               {clicked ?
                 <LoadingSpinner /> : null
               }
-              <Row className="mt-3 ml-1">
-                {!showAlert && <Button size="sm" variant="warning" onClick={() => setShowAlert(true)}>{'Details?'}</Button>}
-                <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.priceHref} variant="dark">{'All Price%'}</Button>
-                <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.forecastHref} variant="outline-dark">{'All Forecast'}</Button>
-              </Row>
-              <Row className="mt-1 ml-1">
-                <Alert show={showAlert} variant="warning">
-                  <Alert.Heading>{'How to get Stock Details?'}</Alert.Heading>
-                  <p>
-                    {'Click the below table row to get!'}
-                  </p>
-                  <div className="d-flex justify-content-end">
-                    <Button onClick={() => setShowAlert(false)} variant="outline-success">
-                      {'Close!'}
-                    </Button>
-                  </div>
-                </Alert>
-              </Row>
-              <StockInfoTable tableSize="sm" tableHeader={settings.holding.tableHeader} tableData={settings.holding.tableData} sortItem={sortItem} cellClick={cellClick} />
-              <Doughnut data={settings.pieData} />
+              <Holdings inputSettings={settings} cellClick={cellClick} />
             </Tab>
             <Tab eventKey="Statistics" title="Stat.">
               {clicked ?

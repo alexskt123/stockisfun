@@ -1,9 +1,9 @@
 
 import { Fragment, useState, useEffect } from 'react'
-import Price from '../Parts/Price'
-import { priceTabLabelPairs } from '../../config/price'
+import Price from '../../Parts/Price'
+import { priceTabLabelPairs } from '../../../config/price'
 import { Badge, Row } from 'react-bootstrap'
-import AddDelStock from '../Fire/AddDelStock'
+import AddDelStock from '../../Fire/AddDelStock'
 
 function PriceTab({ inputSettings }) {
 

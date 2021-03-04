@@ -8,13 +8,13 @@ import percent from 'percent'
 
 import { getBasics, getETFList, getYahooEarnings } from '../lib/stockDetailsFunction'
 import { stockDetailsSettings } from '../config/stock'
-import PriceTab from './Tab/PriceTab'
+import Price from './Tab/StockDetail/Price'
 import LoadingSpinner from './Loading/LoadingSpinner'
 import StockInfoTable from '../components/Page/StockInfoTable'
 import PriceChange from '../components/Parts/PriceChange'
 import ForecastInfo from '../components/Parts/ForecastInfo'
 import FinancialsInfo from '../components/Parts/FinancialsInfo'
-import ETFList from './Tab/ETFListTab'
+import ETFList from './Tab/StockDetail/ETFList'
 
 const axios = require('axios').default
 
@@ -121,7 +121,7 @@ function StockDetails({ inputTicker }) {
                 {clicked ?
                   <LoadingSpinner /> : null
                 }
-                <PriceTab inputSettings={settings} />
+                <Price inputSettings={settings} />
               </Fragment>
               : <Alert className="mt-2" key={'Alert-No-Stock-Info'} variant={'success'}>
                 {'Please enter a valid sticker!'}
