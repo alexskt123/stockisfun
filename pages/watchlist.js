@@ -119,14 +119,21 @@ export default function Home() {
         }
       })
 
+    const newTemp = temp.every(itemArr => itemArr.filter(x => x != undefined).length == 6) ? temp :
+    temp.filter(x => x.find(x => x) && x.find(x => x).label == 'Ticker').map(itemArr => {
+      return itemArr.map((item, idx) => {
+        return item == undefined ? { label: tableHeaderList[idx].label, item: 'N/A' } : item
+      })
+    })
+
     setTableHeader(
-      [...temp.find(x => x).filter(x => x).map(item => item.label)]
-    )
+        [...newTemp.find(x => x).filter(x => x).map(item => item.label)]
+      )
 
     setTickers([...newTickers])
 
     setWatchList(
-      [...temp.map(item => {
+      [...newTemp.map(item => {
         return item.filter(x => x).map(jj => jj.item)
       })]
     )
