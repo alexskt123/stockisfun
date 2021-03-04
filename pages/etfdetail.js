@@ -10,7 +10,7 @@ import CustomContainer from '../components/Layout/CustomContainer'
 import StockInfoTable from '../components/Page/StockInfoTable'
 import TickerInput from '../components/Page/TickerInput'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
-import AddDelStock from '../components/FireUI/AddDelStock'
+import AddDelStock from '../components/Fire/AddDelStock'
 import StockDetails from '../components/StockDetails'
 import PriceChange from '../components/PriceChange'
 import ForecastInfo from '../components/ForecastInfo'
@@ -50,7 +50,7 @@ export default function Home() {
 
   const clearItems = async () => {
     setSettings({ ...etfDetailsSettings })
-    router.replace("/etfdetail")
+    router.replace('/etfdetail')
   }
 
   async function handleTicker(inputTicker) {
@@ -147,7 +147,7 @@ export default function Home() {
       forecastHref: `/forecast?query=${href}`
     }
 
-    router.replace("/etfdetail", `/etfdetail?query=${ticker.toUpperCase()}`)
+    router.replace('/etfdetail', `/etfdetail?query=${ticker.toUpperCase()}`)
     setSettings(newSettings)
     setClicked(false)
   }

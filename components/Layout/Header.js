@@ -17,14 +17,14 @@ import dynamic from 'next/dynamic'
 
 const DynamicAuth = dynamic(
   () => {
-    return import('../FireUI/FireAuth')
+    return import('../Fire/FireAuth')
   },
   { ssr: false }
 )
 
 const FireUser = dynamic(
   () => {
-    return import('../FireUI/FireUser')
+    return import('../Fire/FireUser')
   },
   { ssr: false }
 )

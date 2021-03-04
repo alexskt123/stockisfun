@@ -3,7 +3,7 @@ import { Fragment, useState, useEffect } from 'react'
 import Price from '../../components/Price'
 import { priceTabLabelPairs } from '../../config/price'
 import { Badge, Row } from 'react-bootstrap'
-import AddDelStock from '../../components/FireUI/AddDelStock'
+import AddDelStock from '../Fire/AddDelStock'
 
 function PriceTab({ inputSettings }) {
 
