@@ -1,15 +1,15 @@
 
 import { Fragment, useState, useEffect } from 'react'
 
-import { dateRange, dateRangeByNoOfYears } from '../config/price'
-import TickerInput from '../components/Page/TickerInput'
-import TickerBullet from '../components/Page/TickerBullet'
-import { getPriceInfo, priceSettingSchema, handleDebounceChange } from '../lib/commonFunction'
-import CustomContainer from '../components/Layout/CustomContainer'
-import LoadingSpinner from '../components/Loading/LoadingSpinner'
+import { dateRange, dateRangeByNoOfYears } from '../../config/price'
+import TickerInput from '../../components/Page/TickerInput'
+import TickerBullet from '../../components/Page/TickerBullet'
+import { getPriceInfo, priceSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
+import CustomContainer from '../../components/Layout/CustomContainer'
+import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 
 import { useRouter } from 'next/router'
-import PriceChange from '../components/PriceChange'
+import PriceChange from '../../components/PriceChange'
 
 export default function Home() {
 

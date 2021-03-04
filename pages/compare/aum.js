@@ -1,13 +1,13 @@
 
 import { Fragment, useState } from 'react'
 
-import StockInfoTable from '../components/Page/StockInfoTable'
-import TickerInput from '../components/Page/TickerInput'
-import TickerBullet from '../components/Page/TickerBullet'
-import { sortTableItem, handleDebounceChange } from '../lib/commonFunction'
-import LoadingSpinner from '../components/Loading/LoadingSpinner'
-import CustomContainer from '../components/Layout/CustomContainer'
-import { aumTableHeader } from '../config/etf'
+import StockInfoTable from '../../components/Page/StockInfoTable'
+import TickerInput from '../../components/Page/TickerInput'
+import TickerBullet from '../../components/Page/TickerBullet'
+import { sortTableItem, handleDebounceChange } from '../../lib/commonFunction'
+import LoadingSpinner from '../../components/Loading/LoadingSpinner'
+import CustomContainer from '../../components/Layout/CustomContainer'
+import { aumTableHeader } from '../../config/etf'
 
 const axios = require('axios').default
 

@@ -143,8 +143,8 @@ export default function Home() {
       pieData: pieData,
       inputETFTicker: [ticker],
       selectedStockTicker: '',
-      priceHref: `/price?query=${href}`,
-      forecastHref: `/forecast?query=${href}`
+      priceHref: `/compare/price?query=${href}`,
+      forecastHref: `/compare/forecast?query=${href}`
     }
 
     router.replace('/etfdetail', `/etfdetail?query=${ticker.toUpperCase()}`)
