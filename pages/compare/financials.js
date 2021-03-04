@@ -5,7 +5,7 @@ import CustomContainer from '../../components/Layout/CustomContainer'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import FinancialsInfo from '../../components/FinancialsInfo'
+import FinancialsInfo from '../../components/Parts/FinancialsInfo'
 import { getFinancialsInfo, financialsSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
 
 export default function Home() {

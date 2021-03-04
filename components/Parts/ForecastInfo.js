@@ -1,10 +1,10 @@
 
 import { Fragment, useState, useEffect } from 'react'
 
-import { getForecastInfo, sortTableItem, forecastSettingSchema } from '../lib/commonFunction'
-import LoadingSpinner from './Loading/LoadingSpinner'
-import StockInfoTable from '../components/Page/StockInfoTable'
-import {forecastTableFirstHeader} from '../config/forecast'
+import { getForecastInfo, sortTableItem, forecastSettingSchema } from '../../lib/commonFunction'
+import LoadingSpinner from '../Loading/LoadingSpinner'
+import StockInfoTable from '../../components/Page/StockInfoTable'
+import {forecastTableFirstHeader} from '../../config/forecast'
 
 function ForecastInfo({ inputSettings, inputTickers }) {
 

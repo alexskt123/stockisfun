@@ -1,9 +1,9 @@
 
 import { Fragment, useState, useEffect } from 'react'
 
-import { getFinancialsInfo, sortTableItem, financialsSettingSchema } from '../lib/commonFunction'
-import LoadingSpinner from './Loading/LoadingSpinner'
-import StockInfoTable from '../components/Page/StockInfoTable'
+import { getFinancialsInfo, sortTableItem, financialsSettingSchema } from '../../lib/commonFunction'
+import LoadingSpinner from '../Loading/LoadingSpinner'
+import StockInfoTable from '../Page/StockInfoTable'
 
 function FinancialsInfo({ inputSettings, inputTickers }) {
 

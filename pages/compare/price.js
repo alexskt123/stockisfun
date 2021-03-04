@@ -9,7 +9,7 @@ import CustomContainer from '../../components/Layout/CustomContainer'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 
 import { useRouter } from 'next/router'
-import PriceChange from '../../components/PriceChange'
+import PriceChange from '../../components/Parts/PriceChange'
 
 export default function Home() {
 

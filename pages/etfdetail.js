@@ -12,10 +12,10 @@ import TickerInput from '../components/Page/TickerInput'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 import AddDelStock from '../components/Fire/AddDelStock'
 import StockDetails from '../components/StockDetails'
-import PriceChange from '../components/PriceChange'
-import ForecastInfo from '../components/ForecastInfo'
+import PriceChange from '../components/Parts/PriceChange'
+import ForecastInfo from '../components/Parts/ForecastInfo'
 import { etfDetailsSettings, etfHoldingHeader } from '../config/etf'
-import Price from '../components/Price'
+import Price from '../components/Parts/Price'
 import { handleDebounceChange } from '../lib/commonFunction'
 
 const axios = require('axios').default

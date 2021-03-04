@@ -8,13 +8,13 @@ import percent from 'percent'
 
 import { getBasics, getETFList, getYahooEarnings } from '../lib/stockDetailsFunction'
 import { stockDetailsSettings } from '../config/stock'
-import PriceTab from './Page/PriceTab'
+import PriceTab from './Tab/PriceTab'
 import LoadingSpinner from './Loading/LoadingSpinner'
 import StockInfoTable from '../components/Page/StockInfoTable'
-import PriceChange from '../components/PriceChange'
-import ForecastInfo from '../components/ForecastInfo'
-import FinancialsInfo from '../components/FinancialsInfo'
-import ETFList from './ETFList'
+import PriceChange from '../components/Parts/PriceChange'
+import ForecastInfo from '../components/Parts/ForecastInfo'
+import FinancialsInfo from '../components/Parts/FinancialsInfo'
+import ETFList from './Tab/ETFListTab'
 
 const axios = require('axios').default
 

@@ -1,9 +1,9 @@
 
 import { Fragment, useState, useEffect } from 'react'
 
-import { priceSchema, priceChartSettings, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings, dateRangeSelectAttr, maSelectAttr } from '../config/price'
+import { priceSchema, priceChartSettings, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings, dateRangeSelectAttr, maSelectAttr } from '../../config/price'
 import { Line } from 'react-chartjs-2'
-import LoadingSpinner from './Loading/LoadingSpinner'
+import LoadingSpinner from '../Loading/LoadingSpinner'
 import Form from 'react-bootstrap/Form'
 import { Badge } from 'react-bootstrap'
 import { ma, ema } from 'moving-averages'
