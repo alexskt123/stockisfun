@@ -29,7 +29,7 @@ function PriceInfo({ inputTicker }) {
   const getPrice = async (inputTicker, inputDays, inputMA) => {
     if (inputTicker == undefined) return
 
-    const dateprice = await axios(`/api/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(inputDays) + 60}`)
+    const dateprice = await axios(`/api/yahoo/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(inputDays) + 60}`)
     const date = dateprice.data?.date || []
     const price = dateprice.data?.price || []
     const ma5 = inputMA == 'ma' ? ma([...price], 5) : inputMA == 'ema' ? ema([...price], 5) : []

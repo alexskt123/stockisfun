@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooIncomeStatement } from '../../lib/yahoo/getYahooIncomeStatement'
+import { getYahooIncomeStatement } from '../../../lib/yahoo/getYahooIncomeStatement'
 
 export default async (req, res) => {
   const { ticker } = req.query

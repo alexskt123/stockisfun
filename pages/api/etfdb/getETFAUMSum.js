@@ -2,9 +2,9 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getETFAUMSum } from '../../lib/etfdb/getETFAUMSum'
-import { aumSumCount } from '../../config/etf'
-import { getHost } from '../../lib/commonFunction'
+import { getETFAUMSum } from '../../../lib/etfdb/getETFAUMSum'
+import { aumSumCount } from '../../../config/etf'
+import { getHost } from '../../../lib/commonFunction'
 
 import percent from 'percent'
 const axios = require('axios').default
@@ -17,7 +17,7 @@ const getAUMSum = async (ticker) => {
   etfList.splice(aumSumCount)
 
   await axios.all(etfList.map((etf) => {
-    return axios.get(`${getHost()}/api/getETFDB?ticker=${etf.ticker}`).catch(err => console.log(err))
+    return axios.get(`${getHost()}/api/etfdb/getETFDB?ticker=${etf.ticker}`).catch(err => console.log(err))
   }))
     .catch(error => console.log(error))
     .then((responses) => {
@@ -56,9 +56,9 @@ export default async (req, res) => {
   const etfData = await getAUMSum(ticker)
 
   await axios.all([
-    axios.get(`${getHost()}/api/getYahooQuote?ticker=${ticker}`),
-    axios.get(`${getHost()}/api/getYahooKeyStatistics?ticker=${ticker}`),
-    axios.get(`${getHost()}/api/getStockETFCount?ticker=${ticker}`)
+    axios.get(`${getHost()}/api/yahoo/getYahooQuote?ticker=${ticker}`),
+    axios.get(`${getHost()}/api/yahoo/getYahooKeyStatistics?ticker=${ticker}`),
+    axios.get(`${getHost()}/api/etfdb/getStockETFCount?ticker=${ticker}`)
   ])
     .then((responses) => {
       const resDataSet = responses.map(item => item.data)

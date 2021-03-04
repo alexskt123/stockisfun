@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getETFAUMSum } from '../../lib/etfdb/getETFAUMSum'
+import { getETFAUMSum } from '../../../lib/etfdb/getETFAUMSum'
 
 export default async (req, res) => {
   const { ticker } = req.query

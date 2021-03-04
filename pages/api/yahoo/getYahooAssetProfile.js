@@ -2,9 +2,9 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooAssetProfile } from '../../lib/yahoo/getYahooAssetProfile'
-import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
-import { getYahooBalanceSheet } from '../../lib/yahoo/getYahooBalanceSheet'
+import { getYahooAssetProfile } from '../../../lib/yahoo/getYahooAssetProfile'
+import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
+import { getYahooBalanceSheet } from '../../../lib/yahoo/getYahooBalanceSheet'
 import millify from 'millify'
 import roundTo from 'round-to'
 

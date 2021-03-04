@@ -95,7 +95,7 @@ export default function Home() {
     const temp = []
 
     await axios.all([...newTickers].map(ticker => {
-      return axios(`/api/getYahooQuote?ticker=${ticker}`)
+      return axios(`/api/yahoo/getYahooQuote?ticker=${ticker}`)
     }))
       .catch(error => { console.log(error) })
       .then(responses => {

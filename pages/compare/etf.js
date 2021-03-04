@@ -67,8 +67,8 @@ export default function Home() {
     const temp = []
 
     for (const ticker of newTickers) {
-      outputItem = await axios(`/api/getETFDB?ticker=${ticker}`)
-      outputPerformance = await axios(`/api/getETFPerformance?ticker=${ticker}`)
+      outputItem = await axios(`/api/etfdb/getETFDB?ticker=${ticker}`)
+      outputPerformance = await axios(`/api/etfdb/getETFPerformance?ticker=${ticker}`)
       const etf = {}
       etf['ticker'] = ticker.toUpperCase()
       etf['info'] = { ...outputItem.data.basicInfo, ...outputPerformance.data }

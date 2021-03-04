@@ -67,8 +67,8 @@ export default function Home() {
     let moneyCnn = []
 
     for (const ticker of newTickers) {
-      outputItem = await axios(`/api/getETFAUMSum?ticker=${ticker}`)
-      moneyCnn = await axios(`/api/getMoneyCnn?ticker=${ticker}`)
+      outputItem = await axios(`/api/etfdb/getETFAUMSum?ticker=${ticker}`)
+      moneyCnn = await axios(`/api/forecast/getMoneyCnn?ticker=${ticker}`)
 
       const etf = {}
       etf['ticker'] = ticker.toUpperCase()

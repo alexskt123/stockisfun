@@ -2,10 +2,10 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooEarnings } from '../../lib/yahoo/getYahooEarnings'
-import { getYahooIncomeStatement } from '../../lib/yahoo/getYahooIncomeStatement'
-import { getYahooFinancialData } from '../../lib/yahoo/getYahooFinancialData'
-import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
+import { getYahooEarnings } from '../../../lib/yahoo/getYahooEarnings'
+import { getYahooIncomeStatement } from '../../../lib/yahoo/getYahooIncomeStatement'
+import { getYahooFinancialData } from '../../../lib/yahoo/getYahooFinancialData'
+import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
 import percent from 'percent'
 
 export default async (req, res) => {

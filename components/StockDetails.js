@@ -34,7 +34,7 @@ function StockDetails({ inputTicker }) {
 
     axios.all([
       axios
-        .get(`/api/getYahooAssetProfile?ticker=${ticker}`)
+        .get(`/api/yahoo/getYahooAssetProfile?ticker=${ticker}`)
         .then((response) => {
           const { basics, officers, balanceSheet } = getBasics(response)
           newSettings = { ...newSettings, basics, officers, balanceSheet }
@@ -44,7 +44,7 @@ function StockDetails({ inputTicker }) {
           })
         }),
       axios
-        .get(`/api/getETFListByTicker?ticker=${ticker}`)
+        .get(`/api/etfdb/getETFListByTicker?ticker=${ticker}`)
         .then((response) => {
           const { etfList } = getETFList(response)
           newSettings = { ...newSettings, etfList }
@@ -54,7 +54,7 @@ function StockDetails({ inputTicker }) {
           })
         }),
       axios
-        .get(`/api/getStockETFCount?ticker=${ticker}`)
+        .get(`/api/etfdb/getStockETFCount?ticker=${ticker}`)
         .then((response) => {
           const etfCount = response.data
           newSettings = { ...newSettings, etfCount }
@@ -64,7 +64,7 @@ function StockDetails({ inputTicker }) {
           })
         }),
       axios
-        .get(`/api/getYahooKeyStatistics?ticker=${ticker}`)
+        .get(`/api/yahoo/getYahooKeyStatistics?ticker=${ticker}`)
         .then((response) => {
 
           const keyRatio = response.data
@@ -79,7 +79,7 @@ function StockDetails({ inputTicker }) {
           })
         }),
       axios
-        .get(`/api/getYahooEarnings?ticker=${ticker}`)
+        .get(`/api/yahoo/getYahooEarnings?ticker=${ticker}`)
         .then((response) => {
           const { earnings } = getYahooEarnings(response)
           newSettings = { ...newSettings, earnings }

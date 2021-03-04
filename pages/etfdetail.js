@@ -62,7 +62,7 @@ export default function Home() {
 
     let holdingInfo = []
     const etfInfo = []
-    const etf = await axios(`/api/getETFDB?ticker=${ticker}`)
+    const etf = await axios(`/api/etfdb/getETFDB?ticker=${ticker}`)
 
     Object.keys(etf.data.basicInfo).forEach(item => {
       etfInfo.push([item, etf.data.basicInfo[item]])
@@ -73,7 +73,7 @@ export default function Home() {
     holdingInfo = [...etf.data.holdingInfo]
 
     await axios.all([...etf.data.holdingInfo].map(item => {
-      return axios.get(`/api/getYahooHistoryPrice?ticker=${item.find(x => x)}&year=3`).catch(err => console.log(err))
+      return axios.get(`/api/yahoo/getYahooHistoryPrice?ticker=${item.find(x => x)}&year=3`).catch(err => console.log(err))
     }))
       .catch(error => console.log(error))
       .then((responses) => {

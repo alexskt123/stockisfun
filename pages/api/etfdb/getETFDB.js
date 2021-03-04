@@ -2,12 +2,12 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooRecommendTrend } from '../../lib/yahoo/getYahooRecommendTrend'
+import { getETFDB } from '../../../lib/etfdb/getETFDB'
 
 export default async (req, res) => {
   const { ticker } = req.query
 
-  const data = await getYahooRecommendTrend(ticker)
+  const data = await getETFDB(ticker)
   
   res.statusCode = 200
   res.json(data)
