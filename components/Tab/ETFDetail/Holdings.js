@@ -7,8 +7,6 @@ import { sortTableItem } from '../../../lib/commonFunction'
 import StockInfoTable from '../../../components/Page/StockInfoTable'
 import { etfDetailsSettings } from '../../../config/etf'
 
-const axios = require('axios').default
-
 export default function Holdings({ inputSettings, cellClick }) {
     const [allowCheck, setAllowCheck] = useState(false)
     const [showAlert, setShowAlert] = useState(false)
@@ -24,7 +22,7 @@ export default function Holdings({ inputSettings, cellClick }) {
     }
 
     async function handleTicker(inputSettings) {
-        setAllowCheck(true)
+        setAllowCheck(settings.priceHref != '/' ? true : false)
         setSettings(inputSettings)
     }
 

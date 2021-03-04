@@ -42,7 +42,7 @@ export const NavItems = [
     label: 'ETF'
   },
   {
-    href: '/basics',
+    href: '/stockdetail',
     label: 'Stock'
   },
   {

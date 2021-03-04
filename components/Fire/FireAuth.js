@@ -116,7 +116,7 @@ function FireAuth() {
                 {user.stockList.map((item, idx) => {
                   return (
                     <Col key={`${item}${idx}`} xs={3} sm={3} md={3} lg={4}>
-                      <Badge className="ml-1" key={idx} variant="light"><Link href={`/basics?query=${item}`}>{item}</Link></Badge>
+                      <Badge className="ml-1" key={idx} variant="light"><Link href={`/stockdetail?query=${item}`}>{item}</Link></Badge>
                     </Col>
                   )
                 })}
