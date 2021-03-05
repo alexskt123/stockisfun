@@ -21,6 +21,7 @@ export const etfDetailsSettings = {
   selectedTab: 'Basics',
   priceHref: '/',
   forecastHref: '/',
+  watchlistHref: '/',
   disableSelectedStockTab: true
 }
 

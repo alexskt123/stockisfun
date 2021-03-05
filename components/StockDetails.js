@@ -1,6 +1,5 @@
 
 import { Fragment, useState, useEffect } from 'react'
-import Alert from 'react-bootstrap/Alert'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { Bar } from 'react-chartjs-2'
@@ -15,6 +14,7 @@ import PriceChange from '../components/Parts/PriceChange'
 import ForecastInfo from '../components/Parts/ForecastInfo'
 import FinancialsInfo from '../components/Parts/FinancialsInfo'
 import ETFList from './Tab/StockDetail/ETFList'
+import ValidTickerAlert from './Parts/ValidTickerAlert'
 
 const axios = require('axios').default
 
@@ -115,9 +115,7 @@ function StockDetails({ inputTicker }) {
                 }
                 <Price inputSettings={settings} />
               </Fragment>
-              : <Alert className="mt-2" key={'Alert-No-Stock-Info'} variant={'success'}>
-                {'Please enter a valid sticker!'}
-              </Alert>
+              : <ValidTickerAlert/>
           }
         </Tab>
         <Tab eventKey="Basics" title="Basics">

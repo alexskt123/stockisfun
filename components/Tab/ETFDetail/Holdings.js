@@ -8,6 +8,7 @@ import { Doughnut } from 'react-chartjs-2'
 import { sortTableItem } from '../../../lib/commonFunction'
 import StockInfoTable from '../../../components/Page/StockInfoTable'
 import { etfDetailsSettings } from '../../../config/etf'
+import { BsEye } from 'react-icons/bs'
 
 export default function Holdings({ inputSettings, cellClick }) {
   const [allowCheck, setAllowCheck] = useState(false)
@@ -38,6 +39,7 @@ export default function Holdings({ inputSettings, cellClick }) {
         {!showAlert && <Button size="sm" variant="warning" onClick={() => setShowAlert(true)}>{'Details?'}</Button>}
         <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.priceHref} variant="dark">{'All Price%'}</Button>
         <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.forecastHref} variant="outline-dark">{'All Forecast'}</Button>
+        <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.watchlistHref} variant="outline-success"><BsEye/></Button>
       </Row>
       <Row className="mt-1 ml-1">
         <Alert show={showAlert} variant="warning">
