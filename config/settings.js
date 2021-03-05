@@ -6,29 +6,37 @@ const Settings = {
 
 export default Settings
 
+export const iconConfig = {
+  alt: '',
+  src: Settings.LogoImgSrc,
+  width: '35',
+  height: '35',
+  className: 'd-inline-block align-top'
+}
+
 export const NavDropDown = [
   {
-    href: '/price',
+    href: '/compare/price',
     label: 'Price%',
     category: 'All'
   },
   {
-    href: '/forecast',
+    href: '/compare/forecast',
     label: 'Forecast',
     category: 'All'
   },
   {
-    href: '/etf',
+    href: '/compare/etf',
     label: 'ETF',
     category: 'ETF'
   },
   {
-    href: '/aum',
+    href: '/compare/aum',
     label: 'AUM',
     category: 'Stock'
   },
   {
-    href: '/financials',
+    href: '/compare/financials',
     label: 'Financials',
     category: 'Stock'
   }
@@ -42,7 +50,7 @@ export const NavItems = [
     label: 'ETF'
   },
   {
-    href: '/basics',
+    href: '/stockdetail',
     label: 'Stock'
   },
   {

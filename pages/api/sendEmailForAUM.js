@@ -27,7 +27,7 @@ export default async (req, res) => {
   }
 
   await axios.all(tickerArr.map(ticker => {
-    return axios.get(`${getHost()}/api/getETFAUMSum?ticker=${ticker}`).catch(err => console.log(err))
+    return axios.get(`${getHost()}/api/etfdb/getETFAUMSum?ticker=${ticker}`).catch(err => console.log(err))
   }))
     .catch(error => console.log(error))
     .then((responses) => {

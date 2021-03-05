@@ -1,7 +1,7 @@
 
 import { Fragment, useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
-import { Button } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
 import moment from 'moment-business-days'
 import millify from 'millify'
 
@@ -48,7 +48,7 @@ export default function Home() {
     setTickers([])
     setWatchList([])
 
-    router.replace("/watchlist")
+    router.replace('/watchlist')
   }
 
   const refreshItems = async () => {
@@ -95,7 +95,7 @@ export default function Home() {
     const temp = []
 
     await axios.all([...newTickers].map(ticker => {
-      return axios(`/api/getYahooQuote?ticker=${ticker}`)
+      return axios(`/api/yahoo/getYahooQuote?ticker=${ticker}`)
     }))
       .catch(error => { console.log(error) })
       .then(responses => {
@@ -119,19 +119,26 @@ export default function Home() {
         }
       })
 
+    const newTemp = temp.every(itemArr => itemArr.filter(x => x != undefined).length == 6) ? temp :
+      temp.filter(x => x.find(x => x) && x.find(x => x).label == 'Ticker').map(itemArr => {
+        return itemArr.map((item, idx) => {
+          return item == undefined ? { label: tableHeaderList[idx].label, item: 'N/A' } : item
+        })
+      })
+
     setTableHeader(
-      [...temp.find(x => x).filter(x => x).map(item => item.label)]
+      [...newTemp.find(x => x).filter(x => x).map(item => item.label)]
     )
 
     setTickers([...newTickers])
 
     setWatchList(
-      [...temp.map(item => {
+      [...newTemp.map(item => {
         return item.filter(x => x).map(jj => jj.item)
       })]
     )
 
-    router.replace("/watchlist", `/watchlist?query=${inputTickersWithComma.toUpperCase()}`)
+    router.replace('/watchlist', `/watchlist?query=${inputTickersWithComma.toUpperCase()}`)
 
     setClicked(false)
 

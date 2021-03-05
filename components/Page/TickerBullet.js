@@ -2,46 +2,21 @@
 import { Fragment } from 'react'
 import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
-// import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-// import Tooltip from 'react-bootstrap/Tooltip'
 import { BsFillXCircleFill } from 'react-icons/bs'
 
-const _getOverlayItems = (ticker, overlayItem) => {
-  const currentItem = overlayItem.filter(x => x.ticker == ticker).find(x => x) || {}
-  return (
-    <Fragment key={ticker}>
-      <div>
-        {Object.keys(currentItem).map((item, index) => {
-          return (
-            <p key={index}>
-              {item} : {currentItem[item]}
-            </p>
-          )
-        })}
-      </div>
-    </Fragment>
-  )
-}
-
-function TickerBullet({ tickers, _overlayItem, removeItem }) {
+function TickerBullet({ tickers, removeItem }) {
   return (
     <Fragment>
       <Row className="pl-3 pt-3">
         {
           tickers.map((item, index) => (
             <Fragment key={`${item}${index}`}>
-              {/* <OverlayTrigger
-                placement="bottom"
-                key={`${item}${index}`}
-                overlay={<Tooltip>{getOverlayItems(item, overlayItem)}</Tooltip>}
-              > */}
               <h6>
                 <Badge pill variant="success" className="ml-1">
                   {`${item}`}
                   <BsFillXCircleFill onClick={() => { removeItem(item) }} className="ml-1 mb-1" />
                 </Badge>
               </h6>
-              {/* </OverlayTrigger> */}
             </Fragment>
           ))
         }
