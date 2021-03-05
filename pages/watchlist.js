@@ -28,6 +28,7 @@ export default function Home() {
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
   const [ascSort, setAscSort] = useState(false)
+  const [seconds, setSeconds] = useState(0)
 
   const store = useContext(Store)
   const { state, dispatch } = store
@@ -89,8 +90,6 @@ export default function Home() {
 
   async function handleTickers(inputTickersWithComma) {
 
-    setClicked(true)
-
     const newTickers = inputTickersWithComma.split(',').map(item => item.toUpperCase())
     const temp = []
 
@@ -139,9 +138,6 @@ export default function Home() {
     )
 
     router.replace('/watchlist', `/watchlist?query=${inputTickersWithComma.toUpperCase()}`)
-
-    setClicked(false)
-
   }
 
   const handleSubmit = async (event) => {
@@ -165,10 +161,20 @@ export default function Home() {
 
   useEffect(() => {
     if (query) {
+      setClicked(true)
       handleTickers(query)
+      setClicked(false)
+    } else if (tickers.length > 0) {
+      handleTickers(tickers.join(','))
     }
+  }, [query, seconds])
 
-  }, [query])
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds(seconds => seconds + 1)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <Fragment>
