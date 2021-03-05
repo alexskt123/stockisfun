@@ -1,6 +1,6 @@
 
 import { Fragment, useState, useEffect } from 'react'
-import { Alert, Badge, Row } from 'react-bootstrap'
+import Alert from 'react-bootstrap/Alert'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { Bar } from 'react-chartjs-2'
@@ -8,12 +8,13 @@ import percent from 'percent'
 
 import { getBasics, getETFList, getYahooEarnings } from '../lib/stockDetailsFunction'
 import { stockDetailsSettings } from '../config/stock'
-import PriceTab from './Page/PriceTab'
+import Price from './Tab/StockDetail/Price'
 import LoadingSpinner from './Loading/LoadingSpinner'
 import StockInfoTable from '../components/Page/StockInfoTable'
-import PriceChange from '../components/PriceChange'
-import ForecastInfo from '../components/ForecastInfo'
-import FinancialsInfo from '../components/FinancialsInfo'
+import PriceChange from '../components/Parts/PriceChange'
+import ForecastInfo from '../components/Parts/ForecastInfo'
+import FinancialsInfo from '../components/Parts/FinancialsInfo'
+import ETFList from './Tab/StockDetail/ETFList'
 
 const axios = require('axios').default
 
@@ -21,10 +22,6 @@ function StockDetails({ inputTicker }) {
 
   const [settings, setSettings] = useState({ ...stockDetailsSettings })
   const [clicked, setClicked] = useState(false)
-
-  const cellClick = async (_item) => {
-
-  }
 
   async function handleTicker() {
     if (!inputTicker) return
@@ -37,7 +34,7 @@ function StockDetails({ inputTicker }) {
 
     axios.all([
       axios
-        .get(`/api/getYahooAssetProfile?ticker=${ticker}`)
+        .get(`/api/yahoo/getYahooAssetProfile?ticker=${ticker}`)
         .then((response) => {
           const { basics, officers, balanceSheet } = getBasics(response)
           newSettings = { ...newSettings, basics, officers, balanceSheet }
@@ -47,7 +44,7 @@ function StockDetails({ inputTicker }) {
           })
         }),
       axios
-        .get(`/api/getETFListByTicker?ticker=${ticker}`)
+        .get(`/api/etfdb/getETFListByTicker?ticker=${ticker}`)
         .then((response) => {
           const { etfList } = getETFList(response)
           newSettings = { ...newSettings, etfList }
@@ -57,7 +54,7 @@ function StockDetails({ inputTicker }) {
           })
         }),
       axios
-        .get(`/api/getStockETFCount?ticker=${ticker}`)
+        .get(`/api/etfdb/getStockETFCount?ticker=${ticker}`)
         .then((response) => {
           const etfCount = response.data
           newSettings = { ...newSettings, etfCount }
@@ -67,7 +64,7 @@ function StockDetails({ inputTicker }) {
           })
         }),
       axios
-        .get(`/api/getYahooKeyStatistics?ticker=${ticker}`)
+        .get(`/api/yahoo/getYahooKeyStatistics?ticker=${ticker}`)
         .then((response) => {
 
           const keyRatio = response.data
@@ -82,7 +79,7 @@ function StockDetails({ inputTicker }) {
           })
         }),
       axios
-        .get(`/api/getYahooEarnings?ticker=${ticker}`)
+        .get(`/api/yahoo/getYahooEarnings?ticker=${ticker}`)
         .then((response) => {
           const { earnings } = getYahooEarnings(response)
           newSettings = { ...newSettings, earnings }
@@ -102,21 +99,13 @@ function StockDetails({ inputTicker }) {
     inputTicker != '' ? handleTicker() : clearItems()
   }, [inputTicker])
 
-  const sortItem = async (_index) => {
-    // setSettings({
-    //     ...settings,
-    //     stockInfo: await sortTableItem(settings.stockInfo, index, settings.ascSort),
-    //     ascSort: !settings.ascSort
-    // })
-  }
-
   const clearItems = () => {
     setSettings({ ...stockDetailsSettings })
   }
 
   return (
     <Fragment>
-      <Tabs style={{ fontSize: '11px' }} className="mt-4" defaultActiveKey="Price" id="uncontrolled-tab-example">
+      <Tabs style={{ fontSize: '11px' }} className="mt-1" defaultActiveKey="Price" id="uncontrolled-tab-example">
         <Tab eventKey="Price" title="Price">
           {
             settings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
@@ -124,7 +113,7 @@ function StockDetails({ inputTicker }) {
                 {clicked ?
                   <LoadingSpinner /> : null
                 }
-                <PriceTab inputSettings={settings} />
+                <Price inputSettings={settings} />
               </Fragment>
               : <Alert className="mt-2" key={'Alert-No-Stock-Info'} variant={'success'}>
                 {'Please enter a valid sticker!'}
@@ -135,22 +124,14 @@ function StockDetails({ inputTicker }) {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <StockInfoTable tableSize="sm" tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} sortItem={sortItem} />
-          <StockInfoTable tableSize="sm" className='mt-2' tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} sortItem={sortItem} />
+          <StockInfoTable tableSize="sm" tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} />
+          <StockInfoTable tableSize="sm" className='mt-2' tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} />
         </Tab>
         <Tab eventKey="ETFList" title="ETF List">
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <Row className="ml-1 mt-3">
-            <h5>
-              <Badge variant="dark">{'No. of ETF Count: '}</Badge>
-            </h5>
-            <h5>
-              <Badge variant="light" className="ml-2">{settings.etfCount}</Badge>
-            </h5>
-          </Row>
-          <StockInfoTable tableSize="sm" cellClick={cellClick} striped={true} tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
+          <ETFList inputSettings={{ etfList: settings.etfList, etfCount: settings.etfCount }} />
         </Tab>
         <Tab eventKey="Price%" title="Price%">
           {clicked ?
@@ -162,14 +143,14 @@ function StockDetails({ inputTicker }) {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <StockInfoTable tableSize="sm" tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} sortItem={sortItem} />
+          <StockInfoTable tableSize="sm" tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} />
           <Bar data={settings.balanceSheet.chartData} />
         </Tab>
         <Tab eventKey="Earnings" title="Earnings">
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <StockInfoTable tableSize="sm" tableHeader={settings.earnings.tableHeader} tableData={settings.earnings.tableData} sortItem={sortItem} />
+          <StockInfoTable tableSize="sm" tableHeader={settings.earnings.tableHeader} tableData={settings.earnings.tableData} />
           <Bar data={settings.earnings.chartData} options={settings.earnings.chartOptions} />
         </Tab>
         <Tab eventKey="Forecast" title="Forecast">

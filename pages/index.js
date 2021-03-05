@@ -9,7 +9,7 @@ export default function CustomStep() {
   const router = useRouter()
 
   useEffect(() => {
-    router.push('/basics')
+    router.push('/stockdetail')
   }, [])
 
   //template
