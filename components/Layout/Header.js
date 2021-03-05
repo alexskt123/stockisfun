@@ -3,17 +3,16 @@ import { Fragment } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 // lib
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-// config
-import { NavItems, NavDropDown } from '../../config/settings'
-import Settings, { iconConfig } from '../../config/settings'
-import { Badge, NavDropdown } from 'react-bootstrap'
+import Badge from 'react-bootstrap/Badge'
+import NavDropdown from 'react-bootstrap/NavDropdown'
 import { IconContext } from 'react-icons'
 import { FaUserCircle } from 'react-icons/fa'
-
-import dynamic from 'next/dynamic'
+// config
+import { NavItems, NavDropDown, iconConfig } from '../../config/settings'
 
 const DynamicAuth = dynamic(
   () => {

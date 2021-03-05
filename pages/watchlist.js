@@ -1,7 +1,7 @@
 
 import { Fragment, useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
-import { Button } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
 import moment from 'moment-business-days'
 import millify from 'millify'
 
@@ -120,15 +120,15 @@ export default function Home() {
       })
 
     const newTemp = temp.every(itemArr => itemArr.filter(x => x != undefined).length == 6) ? temp :
-    temp.filter(x => x.find(x => x) && x.find(x => x).label == 'Ticker').map(itemArr => {
-      return itemArr.map((item, idx) => {
-        return item == undefined ? { label: tableHeaderList[idx].label, item: 'N/A' } : item
+      temp.filter(x => x.find(x => x) && x.find(x => x).label == 'Ticker').map(itemArr => {
+        return itemArr.map((item, idx) => {
+          return item == undefined ? { label: tableHeaderList[idx].label, item: 'N/A' } : item
+        })
       })
-    })
 
     setTableHeader(
-        [...newTemp.find(x => x).filter(x => x).map(item => item.label)]
-      )
+      [...newTemp.find(x => x).filter(x => x).map(item => item.label)]
+    )
 
     setTickers([...newTickers])
 

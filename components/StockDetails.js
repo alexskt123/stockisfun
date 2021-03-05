@@ -1,6 +1,6 @@
 
 import { Fragment, useState, useEffect } from 'react'
-import { Alert } from 'react-bootstrap'
+import Alert from 'react-bootstrap/Alert'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { Bar } from 'react-chartjs-2'

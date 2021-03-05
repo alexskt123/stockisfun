@@ -5,7 +5,7 @@ import { priceSchema, priceChartSettings, ma5ChartSettings, ma20ChartSettings, m
 import { Line } from 'react-chartjs-2'
 import LoadingSpinner from '../Loading/LoadingSpinner'
 import Form from 'react-bootstrap/Form'
-import { Badge } from 'react-bootstrap'
+import Badge from 'react-bootstrap/Badge'
 import { ma, ema } from 'moving-averages'
 
 const axios = require('axios').default

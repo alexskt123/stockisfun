@@ -8,7 +8,7 @@ import CustomContainer from '../components/Layout/CustomContainer'
 import TickerInput from '../components/Page/TickerInput'
 import StockDetails from '../components/StockDetails'
 import { handleDebounceChange } from '../lib/commonFunction'
-import { Badge } from 'react-bootstrap'
+import Badge from 'react-bootstrap/Badge'
 
 export default function Home() {
 

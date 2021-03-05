@@ -3,7 +3,8 @@ import { Fragment, useState, useEffect } from 'react'
 import { sortTableItem } from '../../../lib/commonFunction'
 import StockInfoTable from '../../Page/StockInfoTable'
 import { etfListSettings } from '../../../config/stock'
-import { Badge, Row } from 'react-bootstrap'
+import Badge from 'react-bootstrap/Badge'
+import Row from 'react-bootstrap/Row'
 
 function ETFList({ inputSettings }) {
 
