@@ -15,6 +15,7 @@ import ForecastInfo from '../components/Parts/ForecastInfo'
 import FinancialsInfo from '../components/Parts/FinancialsInfo'
 import ETFList from './Tab/StockDetail/ETFList'
 import ValidTickerAlert from './Parts/ValidTickerAlert'
+import { fireToast } from '../lib/toast'
 
 const axios = require('axios').default
 
@@ -38,6 +39,12 @@ function StockDetails({ inputTicker }) {
         .then((response) => {
           const { basics, officers, balanceSheet } = getBasics(response)
           newSettings = { ...newSettings, basics, officers, balanceSheet }
+
+          if (!basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x))
+            fireToast({
+              icon: 'error',
+              title: 'Invalid Ticker'
+            })
 
           setSettings({
             ...settings, ...newSettings
@@ -115,7 +122,7 @@ function StockDetails({ inputTicker }) {
                 }
                 <Price inputSettings={settings} />
               </Fragment>
-              : <ValidTickerAlert/>
+              : <ValidTickerAlert />
           }
         </Tab>
         <Tab eventKey="Basics" title="Basics">

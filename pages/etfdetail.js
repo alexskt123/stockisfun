@@ -15,6 +15,7 @@ import { handleDebounceChange, getETFDetail } from '../lib/commonFunction'
 import Holdings from '../components/Tab/ETFDetail/Holdings'
 import Stat from '../components/Tab/ETFDetail/Stat'
 import Basics from '../components/Tab/ETFDetail/Basics'
+import { fireToast } from '../lib/toast'
 
 export default function Home() {
 
@@ -48,7 +49,13 @@ export default function Home() {
 
     setClicked(true)
 
-    const newSettings = await getETFDetail(inputTicker)    
+    const newSettings = await getETFDetail(inputTicker)
+
+    if (!newSettings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x))
+      fireToast({
+        icon: 'error',
+        title: 'Invalid Ticker'
+      })
 
     router.replace('/etfdetail', `/etfdetail?query=${inputTicker.toUpperCase()}`)
     setSettings(newSettings)
@@ -97,7 +104,7 @@ export default function Home() {
             clearItems={clearItems}
           />
           {
-            settings.inputETFTicker.length > 0 ?
+            settings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x) > 0 ?
               <Alert variant='success' className="mt-3">
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <b>{settings.inputETFTicker}</b>
@@ -111,7 +118,7 @@ export default function Home() {
               {clicked ?
                 <LoadingSpinner /> : null
               }
-              <Basics inputSettings={settings}/>
+              <Basics inputSettings={settings} />
             </Tab>
             <Tab eventKey="Holdings" title="Holdings">
               {clicked ?
