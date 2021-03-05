@@ -14,7 +14,7 @@ export default function Home() {
 
   const [ticker, setTicker] = useState('')
   const [validated, setValidated] = useState(false)
-  const [formValue, setFormValue] = useState({})
+  const [formValue, setFormValue] = useState({formTicker: ''})
   const [clicked, setClicked] = useState(false)
 
   const handleChange = (e) => {
@@ -40,6 +40,7 @@ export default function Home() {
 
   const clearItems = async () => {
     setTicker('')
+    setFormValue({formTicker: ''})
     router.replace('/stockdetail')
   }
 
@@ -70,6 +71,7 @@ export default function Home() {
                     handleSubmit={handleSubmit}
                     placeholderText={'i.e. appl'}
                     handleChange={handleChange}
+                    formTicker={formValue.formTicker}
                     clicked={clicked}
                     clearItems={clearItems}
                   />

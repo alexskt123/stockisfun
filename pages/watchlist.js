@@ -126,7 +126,7 @@ export default function Home() {
       })
 
     setTableHeader(
-      [...newTemp.find(x => x).filter(x => x).map(item => item.label)]
+      [...(newTemp.find(x => x) || []).filter(x => x).map(item => item.label)]
     )
 
     setTickers([...newTickers])

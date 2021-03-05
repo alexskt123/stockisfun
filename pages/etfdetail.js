@@ -20,7 +20,7 @@ import { fireToast } from '../lib/toast'
 export default function Home() {
 
   const [validated, setValidated] = useState(false)
-  const [formValue, setFormValue] = useState({})
+  const [formValue, setFormValue] = useState({formTicker: ''})
   const [clicked, setClicked] = useState(false)
 
   const [settings, setSettings] = useState({ ...etfDetailsSettings })
@@ -41,6 +41,7 @@ export default function Home() {
 
   const clearItems = async () => {
     setSettings({ ...etfDetailsSettings })
+    setFormValue({formTicker: ''})
     router.replace('/etfdetail')
   }
 
@@ -100,11 +101,12 @@ export default function Home() {
             handleSubmit={handleSubmit}
             placeholderText={'i.e. arkk'}
             handleChange={handleChange}
+            formTicker={formValue.formTicker}
             clicked={clicked}
             clearItems={clearItems}
           />
           {
-            settings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x) > 0 ?
+            settings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x) ?
               <Alert variant='success' className="mt-3">
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <b>{settings.inputETFTicker}</b>
@@ -113,7 +115,7 @@ export default function Home() {
               </Alert>
               : null
           }
-          <Tabs style={{ fontSize: '11px' }} variant="pills" className="mt-1" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
+          <Tabs style={{ fontSize: '11px' }} className="mt-1" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
             <Tab eventKey="Basics" title="Basics">
               {clicked ?
                 <LoadingSpinner /> : null
