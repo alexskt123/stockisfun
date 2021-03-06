@@ -187,7 +187,7 @@ export const priceTabLabelPairs = [
     value: ''
   },
   {
-    name: '52W-Low-High',
+    name: '52W-L-H',
     value: ''
   },
   {

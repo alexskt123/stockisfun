@@ -52,7 +52,6 @@ export default async (req, res) => {
     return newItem
   })
 
-  console.log(quote.longName)
   const newData = {
     'Name': quote.longName,
     'Price': quote.regularMarketPrice,
