@@ -1,0 +1,18 @@
+{
+    "name": "Stock Is Fun",
+    "short_name": "StockIsFun",
+    "theme_color": "#9fd5ff",
+    "background_color": "#2196f3",
+    "display": "browser",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "icons/icon.png",
+            "sizes": "200x200",
+            "type": "image/png"
+        }
+    ],
+    "splash_pages": null
+}
