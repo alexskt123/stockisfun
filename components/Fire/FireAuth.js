@@ -17,6 +17,7 @@ import { fireToast } from '../../lib/toast'
 
 import 'firebaseui/dist/firebaseui.css'
 import Link from 'next/link'
+import ModalQuestion from '../Parts/ModalQuestion'
 
 function FireAuth() {
   const [show, setShow] = useState(false)
@@ -84,7 +85,14 @@ function FireAuth() {
     signInFlow: 'popup'
   }
 
-  //auth.onAuthStateChanged((user) => setUser(user))
+  const modalQuestionSettings = {
+    showCondition: showSignOut,
+    onHide: handleSignOutClose,
+    onClickYes: handleSignOut,
+    onClickNo: handleSignOutClose,
+    title: 'Sign Out',
+    body: 'Are you sure to sign out?'
+  }
 
   useEffect(async () => {
     if (show && document.querySelector('.firebaseui-auth-container'))
@@ -170,22 +178,7 @@ function FireAuth() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal centered size="sm" show={showSignOut} onHide={handleSignOutClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Sign Out</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure to sign out?
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="success" onClick={handleSignOut}>
-            Yes
-          </Button>
-          <Button variant="danger" onClick={handleSignOutClose}>
-            No
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalQuestion {...modalQuestionSettings} />
     </Fragment>
   )
 }
