@@ -3,7 +3,7 @@
     "short_name": "StockIsFun",
     "theme_color": "#9fd5ff",
     "background_color": "#2196f3",
-    "display": "fullscreen",
+    "display": "standalone",
     "orientation": "portrait",
     "scope": "/",
     "start_url": "/",
