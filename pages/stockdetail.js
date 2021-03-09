@@ -2,13 +2,11 @@
 import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import Accordion from 'react-bootstrap/Accordion'
-import Card from 'react-bootstrap/Card'
 import CustomContainer from '../components/Layout/CustomContainer'
 import TickerInput from '../components/Page/TickerInput'
 import StockDetails from '../components/StockDetails'
 import { handleDebounceChange } from '../lib/commonFunction'
-import Badge from 'react-bootstrap/Badge'
+import SearchAccordion from '../components/Page/SearchAccordion'
 
 export default function StockDetail() {
 
@@ -16,7 +14,15 @@ export default function StockDetail() {
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({ formTicker: '' })
   const [clicked, setClicked] = useState(false)
-  const [accordionActive, setAccordionActive] = useState('-1')
+
+  const router = useRouter()
+  const { query } = router.query
+
+  useEffect(() => {
+    if (query) {
+      setTicker(query)
+    }
+  }, [query])
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -45,44 +51,21 @@ export default function StockDetail() {
     router.replace('/stockdetail')
   }
 
-  const router = useRouter()
-  const { query } = router.query
-
-  useEffect(() => {
-    if (query) {
-      setTicker(query)
-      setAccordionActive('-1')
-    } else {
-      setAccordionActive('0')
-    }
-  }, [query])
-
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          <Accordion activeKey={accordionActive} onSelect={() => setAccordionActive(accordionActive == '-1' ? '0' : '-1')}>
-            <Card style={{ backgroundColor: '#f0f0f0' }}>
-              <Accordion.Toggle as={Card.Header} eventKey="0">
-                <b>
-                  <Badge variant="dark">{ticker == '' ? 'Click here to Search!' : ticker.toUpperCase()}</Badge>
-                </b>
-              </Accordion.Toggle>
-              <Accordion.Collapse eventKey="0">
-                <Card.Body>
-                  <TickerInput
-                    validated={validated}
-                    handleSubmit={handleSubmit}
-                    placeholderText={'i.e. appl'}
-                    handleChange={handleChange}
-                    formTicker={formValue.formTicker}
-                    clicked={clicked}
-                    clearItems={clearItems}
-                  />
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-          </Accordion>
+          <SearchAccordion inputTicker={ticker}>
+            <TickerInput
+              validated={validated}
+              handleSubmit={handleSubmit}
+              placeholderText={'i.e. aapl'}
+              handleChange={handleChange}
+              formTicker={formValue.formTicker}
+              clicked={clicked}
+              clearItems={clearItems}
+            />
+          </SearchAccordion>
           <StockDetails inputTicker={ticker} />
         </Fragment>
       </CustomContainer>
