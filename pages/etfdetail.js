@@ -17,7 +17,7 @@ import Stat from '../components/Tab/ETFDetail/Stat'
 import Basics from '../components/Tab/ETFDetail/Basics'
 import { fireToast } from '../lib/toast'
 
-export default function Home() {
+export default function ETFDetail() {
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({formTicker: ''})

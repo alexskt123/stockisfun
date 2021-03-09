@@ -11,7 +11,7 @@ import { aumTableHeader } from '../../config/etf'
 
 const axios = require('axios').default
 
-export default function Home() {
+export default function CompareAUM() {
 
   const [tickers, setTickers] = useState([])
   const [tableHeader, setTableHeader] = useState([])

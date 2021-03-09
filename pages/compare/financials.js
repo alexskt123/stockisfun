@@ -8,7 +8,7 @@ import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import FinancialsInfo from '../../components/Parts/FinancialsInfo'
 import { getFinancialsInfo, financialsSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
 
-export default function Home() {
+export default function CompareFinancials() {
 
   const [settings, setSettings] = useState(financialsSettingSchema)
 

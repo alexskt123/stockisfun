@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 import PageLoading from '../components/Loading/PageLoading'
 
 //export default component
-export default function CustomStep() {
+export default function Home() {
 
   const router = useRouter()
 

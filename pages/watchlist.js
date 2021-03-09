@@ -19,7 +19,7 @@ import ModalQuestion from '../components/Parts/ModalQuestion'
 
 const axios = require('axios').default
 
-export default function Home() {
+export default function WatchList() {
 
   const [tickers, setTickers] = useState([])
   const [tableHeader, setTableHeader] = useState([])
