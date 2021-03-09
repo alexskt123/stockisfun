@@ -11,7 +11,7 @@ import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import { useRouter } from 'next/router'
 import PriceChange from '../../components/Parts/PriceChange'
 
-export default function Home() {
+export default function ComparePrice() {
 
   const [settings, setSettings] = useState(priceSettingSchema)
   const [newDateRange, setNewDateRange] = useState(dateRange)

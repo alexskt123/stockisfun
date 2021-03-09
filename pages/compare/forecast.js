@@ -10,7 +10,7 @@ import { getForecastInfo, forecastSettingSchema, handleDebounceChange } from '..
 
 import { useRouter } from 'next/router'
 
-export default function Home() {
+export default function CompareForecast() {
 
   const [settings, setSettings] = useState(forecastSettingSchema)
 
