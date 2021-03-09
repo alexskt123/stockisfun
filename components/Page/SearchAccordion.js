@@ -24,10 +24,10 @@ export default function SearchAccordion({ children, inputTicker }) {
   return (
     <Fragment>
       <Accordion activeKey={accordionActive} onSelect={() => setAccordionActive(accordionActive == '-1' ? '0' : '-1')}>
-        <Card style={{ backgroundColor: '#f0f0f0' }}>
+        <Card style={{ backgroundColor: '#ebffe3' }}>
           <Accordion.Toggle as={Card.Header} eventKey="0">
             <b>
-              <Badge variant="dark">{inputTicker == '' ? 'Click here to Search!' : inputTicker.toUpperCase()}</Badge>
+              <Badge variant="dark">{inputTicker == '' || !inputTicker ? 'Click here to Search!' : inputTicker}</Badge>
             </b>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="0">

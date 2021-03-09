@@ -39,7 +39,7 @@ export default function StockDetail() {
     } else {
       const { formTicker } = formValue
       router.replace('/stockdetail', `/stockdetail?query=${formTicker.toUpperCase()}`)
-      setTicker(formTicker)
+      setTicker(formTicker.toUpperCase())
     }
     setValidated(true)
     setClicked(false)

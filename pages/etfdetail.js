@@ -3,12 +3,10 @@ import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import Alert from 'react-bootstrap/Alert'
 
 import CustomContainer from '../components/Layout/CustomContainer'
 import TickerInput from '../components/Page/TickerInput'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
-import AddDelStock from '../components/Fire/AddDelStock'
 import StockDetails from '../components/StockDetails'
 import { etfDetailsSettings } from '../config/etf'
 import { handleDebounceChange, getETFDetail } from '../lib/commonFunction'
@@ -16,11 +14,12 @@ import Holdings from '../components/Tab/ETFDetail/Holdings'
 import Stat from '../components/Tab/ETFDetail/Stat'
 import Basics from '../components/Tab/ETFDetail/Basics'
 import { fireToast } from '../lib/toast'
+import SearchAccordion from '../components/Page/SearchAccordion'
 
 export default function ETFDetail() {
 
   const [validated, setValidated] = useState(false)
-  const [formValue, setFormValue] = useState({formTicker: ''})
+  const [formValue, setFormValue] = useState({ formTicker: '' })
   const [clicked, setClicked] = useState(false)
 
   const [settings, setSettings] = useState({ ...etfDetailsSettings })
@@ -41,7 +40,7 @@ export default function ETFDetail() {
 
   const clearItems = async () => {
     setSettings({ ...etfDetailsSettings })
-    setFormValue({formTicker: ''})
+    setFormValue({ formTicker: '' })
     router.replace('/etfdetail')
   }
 
@@ -58,7 +57,6 @@ export default function ETFDetail() {
         title: 'Invalid Ticker'
       })
 
-    router.replace('/etfdetail', `/etfdetail?query=${inputTicker.toUpperCase()}`)
     setSettings(newSettings)
     setClicked(false)
   }
@@ -72,6 +70,7 @@ export default function ETFDetail() {
     } else {
       const { formTicker } = formValue
       await handleTicker(formTicker)
+      router.replace('/etfdetail', `/etfdetail?query=${formTicker.toUpperCase()}`)
     }
     setValidated(true)
   }
@@ -96,25 +95,17 @@ export default function ETFDetail() {
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          <TickerInput
-            validated={validated}
-            handleSubmit={handleSubmit}
-            placeholderText={'i.e. arkk'}
-            handleChange={handleChange}
-            formTicker={formValue.formTicker}
-            clicked={clicked}
-            clearItems={clearItems}
-          />
-          {
-            settings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x) ?
-              <Alert variant='success' className="mt-3">
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <b>{settings.inputETFTicker}</b>
-                  <AddDelStock inputTicker={settings.inputETFTicker.find(x => x)} handleList='etf' />
-                </div>
-              </Alert>
-              : null
-          }
+          <SearchAccordion inputTicker={settings.inputETFTicker.find(x => x)}>
+            <TickerInput
+              validated={validated}
+              handleSubmit={handleSubmit}
+              placeholderText={'i.e. arkk'}
+              handleChange={handleChange}
+              formTicker={formValue.formTicker}
+              clicked={clicked}
+              clearItems={clearItems}
+            />
+          </SearchAccordion>
           <Tabs style={{ fontSize: '11px' }} className="mt-1" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
             <Tab eventKey="Basics" title="Basics">
               {clicked ?
