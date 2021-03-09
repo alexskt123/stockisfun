@@ -14,8 +14,9 @@ export default function Home() {
 
   const [ticker, setTicker] = useState('')
   const [validated, setValidated] = useState(false)
-  const [formValue, setFormValue] = useState({formTicker: ''})
+  const [formValue, setFormValue] = useState({ formTicker: '' })
   const [clicked, setClicked] = useState(false)
+  const [accordionActive, setAccordionActive] = useState("-1")
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -40,7 +41,7 @@ export default function Home() {
 
   const clearItems = async () => {
     setTicker('')
-    setFormValue({formTicker: ''})
+    setFormValue({ formTicker: '' })
     router.replace('/stockdetail')
   }
 
@@ -50,6 +51,9 @@ export default function Home() {
   useEffect(() => {
     if (query) {
       setTicker(query)
+      setAccordionActive("-1")
+    } else {
+      setAccordionActive("0")
     }
   }, [query])
 
@@ -57,8 +61,8 @@ export default function Home() {
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          <Accordion>
-            <Card style={{ backgroundColor: '#dbffde' }}>
+          <Accordion activeKey={accordionActive} onSelect={() => setAccordionActive(accordionActive == "-1" ? "0" : "-1")}>
+            <Card style={{ backgroundColor: '#f0f0f0' }}>
               <Accordion.Toggle as={Card.Header} eventKey="0">
                 <b>
                   <Badge variant="dark">{ticker == '' ? 'Click here to Search!' : ticker.toUpperCase()}</Badge>

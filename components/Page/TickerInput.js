@@ -11,7 +11,7 @@ import { priceChangeDateRangeSelectAttr, buttonSettings } from '../../config/for
 
 const exportToFile = (tableHeader, tableData, exportFileName) => {
   if (tableHeader && tableData) {
-    const blob = new Blob([getCSVContent(tableHeader, tableData)], { type: 'application/json' })
+    const blob = new Blob([getCSVContent(tableHeader, tableData)], { type: 'text/csv;charset=utf-8;' })
     FileSaver.saveAs(blob, exportFileName)
   }
 }

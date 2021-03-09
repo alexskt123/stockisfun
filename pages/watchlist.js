@@ -15,6 +15,7 @@ import { sortTableItem, handleDebounceChange } from '../lib/commonFunction'
 import { updUserWatchList, getUserInfoByUID } from '../lib/firebaseResult'
 import { Store } from '../lib/store'
 import { fireToast } from '../lib/toast'
+import ModalQuestion from '../components/Parts/ModalQuestion'
 
 const axios = require('axios').default
 
@@ -29,6 +30,9 @@ export default function Home() {
   const [clicked, setClicked] = useState(false)
   const [ascSort, setAscSort] = useState(false)
   const [seconds, setSeconds] = useState(0)
+
+  const [showUpdate, setShowUpdate] = useState(false)
+  const handleUpdateClose = () => setShowUpdate(false)
 
   const store = useContext(Store)
   const { state, dispatch } = store
@@ -53,7 +57,8 @@ export default function Home() {
   }
 
   const refreshItems = async () => {
-    handleTickers(tickers.join(','))
+    if (tickers.length > 0)
+      handleTickers(tickers.join(','))
   }
 
   const handleDispatch = async () => {
@@ -75,6 +80,11 @@ export default function Home() {
       icon: 'success',
       title: 'Updated'
     })
+  }
+
+  const handleUpdate = async () => {
+    handleUpdateClose()
+    await updateWatchList()
   }
 
   const removeItem = async (value) => {
@@ -156,6 +166,15 @@ export default function Home() {
     setValidated(true)
   }
 
+  const modalQuestionSettings = {
+    showCondition: showUpdate,
+    onHide: handleUpdateClose,
+    onClickYes: handleUpdate,
+    onClickNo: handleUpdateClose,
+    title: 'Update Watch List',
+    body: 'Are you sure the update watch list?'
+  }
+
   const router = useRouter()
   const { query } = router.query
 
@@ -198,12 +217,13 @@ export default function Home() {
           <Button onClick={() => { refreshItems() }} size='sm' variant='outline-dark' >{'Refresh'}</Button>
           {
             user.id != ''
-              ? <Button className="ml-2" onClick={() => { updateWatchList() }} size='sm' variant='dark' >{'Update Watch List'}</Button>
+              ? <Button className="ml-2" onClick={() => { setShowUpdate(true) }} size='sm' variant='dark' >{'Update Watch List'}</Button>
               : null
           }
           <StockInfoTable striped={true} tableHeader={tableHeader} tableData={watchList} sortItem={sortItem} tableSize="sm" />
         </Fragment>
       </CustomContainer>
+      <ModalQuestion {...modalQuestionSettings} />
     </Fragment >
   )
 }
