@@ -6,7 +6,6 @@ import moment from 'moment-business-days'
 import millify from 'millify'
 
 import CustomContainer from '../components/Layout/CustomContainer'
-import StockInfoTable from '../components/Page/StockInfoTable'
 import TickerInput from '../components/Page/TickerInput'
 import TickerBullet from '../components/Page/TickerBullet'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
@@ -18,6 +17,8 @@ import { fireToast } from '../lib/toast'
 import ModalQuestion from '../components/Parts/ModalQuestion'
 import SearchAccordion from '../components/Page/SearchAccordion'
 import Row from 'react-bootstrap/Row'
+
+import SWRTable from '../components/Page/SWRTable'
 
 const axios = require('axios').default
 
@@ -31,7 +32,6 @@ export default function WatchList() {
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
   const [ascSort, setAscSort] = useState(false)
-  const [seconds, setSeconds] = useState(0)
 
   const [showUpdate, setShowUpdate] = useState(false)
   const handleUpdateClose = () => setShowUpdate(false)
@@ -51,14 +51,7 @@ export default function WatchList() {
     } else if (tickers.length > 0) {
       handleTickers(tickers.join(','))
     }
-  }, [query, seconds])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds(seconds => seconds + 1)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
+  }, [query])
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -124,6 +117,10 @@ export default function WatchList() {
 
     const newTickers = inputTickersWithComma.split(',').map(item => item.toUpperCase())
     const temp = []
+
+    setTickers([...newTickers])
+
+    return
 
     await axios.all([...newTickers].map(ticker => {
       return axios(`/api/yahoo/getYahooQuote?ticker=${ticker}`)
@@ -224,7 +221,12 @@ export default function WatchList() {
                 : null
             }
           </Row>
-          <StockInfoTable striped={true} tableHeader={tableHeader} tableData={watchList} sortItem={sortItem} tableSize="sm" />
+
+          <SWRTable
+            requests={tickers.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
+            options={{ striped: true, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 10000 } }}
+          />
+
         </Fragment>
       </CustomContainer>
       <ModalQuestion {...modalQuestionSettings} />
