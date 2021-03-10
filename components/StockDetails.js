@@ -16,6 +16,7 @@ import FinancialsInfo from '../components/Parts/FinancialsInfo'
 import ETFList from './Tab/StockDetail/ETFList'
 import ValidTickerAlert from './Parts/ValidTickerAlert'
 import { fireToast } from '../lib/toast'
+import { peersHeader } from '../config/peers'
 
 const axios = require('axios').default
 
@@ -90,6 +91,21 @@ function StockDetails({ inputTicker }) {
         .then((response) => {
           const { earnings } = getYahooEarnings(response)
           newSettings = { ...newSettings, earnings }
+
+          setSettings({
+            ...settings, ...newSettings
+          })
+        }),
+      axios
+        .get(`/api/moneycnn/getPeers?ticker=${ticker}`)
+        .then((response) => {
+          const data = response.data
+          const peers = data.reduce((acc, cur) => {
+            acc.peers.tableHeader = [...peersHeader]
+            acc.peers.tableData.push([...peersHeader.map(item => cur[item])])
+            return acc
+          }, { peers: { tableHeader: [], tableData: [] } })
+          newSettings = { ...newSettings, ...peers }
 
           setSettings({
             ...settings, ...newSettings
@@ -169,6 +185,12 @@ function StockDetails({ inputTicker }) {
             <LoadingSpinner /> : null
           }
           <FinancialsInfo inputTickers={settings.inputTickers} />
+        </Tab>
+        <Tab eventKey="Peers" title="Peers">
+          {clicked ?
+            <LoadingSpinner /> : null
+          }
+          <StockInfoTable tableSize="sm" tableHeader={settings.peers.tableHeader} tableData={settings.peers.tableData} />
         </Tab>
       </Tabs>
     </Fragment>
