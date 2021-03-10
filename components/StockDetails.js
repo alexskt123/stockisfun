@@ -96,7 +96,7 @@ function StockDetails({ inputTicker }) {
           })
         })
     ])
-      .then((_) => {
+      .finally(() => {
         setClicked(false)
       })
 
