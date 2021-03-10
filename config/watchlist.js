@@ -1,9 +1,10 @@
-
+const sticky = { backgroundColor: '#f0f0f0', left: 0, position: 'sticky', zIndex: 997 }
 
 export const tableHeaderList = [
   {
     label: 'Ticker',
-    item: 'symbol'
+    item: 'symbol',
+    style: sticky
   },
   {
     label: 'Pre Time',
