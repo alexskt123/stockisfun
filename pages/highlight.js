@@ -1,5 +1,5 @@
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useContext } from 'react'
 import CustomContainer from '../components/Layout/CustomContainer'
 import '../styles/ScrollMenu.module.css'
 import Price from '../components/Parts/Price'
@@ -12,9 +12,13 @@ import QuoteCard from '../components/Parts/QuoteCard'
 import TickerScrollMenu from '../components/Page/TickerScrollMenu'
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
+import { Store } from '../lib/store'
 
 export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
+  const store = useContext(Store)
+  const { state } = store
+  const { user } = state
 
   const headers = [{
     name: 'Price Changes',
@@ -27,6 +31,21 @@ export default function Highlight() {
     component: withQuoteCard(IndexQuote),
     props: {}
   }]
+
+  // const userTickerList = user.id === '' ? [] : [
+  //   {
+  //     name: 'Stock List',
+  //     eventKey: 'StockList',
+  //     inputList: user.stockList.map(item => ({ Ticker: item, Name: item })),
+  //     setSelectedTicker: setSelectedTicker
+  //   },
+  //   {
+  //     name: 'ETF List',
+  //     eventKey: 'ETFList',
+  //     inputList: user.etfList.map(item => ({ Ticker: item, Name: item })),
+  //     setSelectedTicker: setSelectedTicker
+  //   }
+  // ]
 
   const tickerList = [
     {
@@ -41,13 +60,30 @@ export default function Highlight() {
       inputList: stockFutureIndex,
       setSelectedTicker: setSelectedTicker
     }
+    // ,
+    // ...userTickerList
   ]
 
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          <Accordion defaultActiveKey="StockMarketIndex">
+          {
+            tickerList.map((item, idx) => {
+              return (
+                <Fragment>
+                  <Row className="justify-content-center">
+                    <h5>
+                      <Badge style={{ minWidth: '11rem' }} variant="dark">{item.name}</Badge>
+                    </h5>
+                  </Row>
+                  <TickerScrollMenu inputList={item.inputList} setSelectedTicker={item.setSelectedTicker} />
+                </Fragment>
+              )
+            })
+          }
+
+          {/* <Accordion defaultActiveKey="StockMarketIndex">
             {
               tickerList.map((item, idx) => {
                 return (
@@ -55,7 +91,7 @@ export default function Highlight() {
                     <Accordion.Toggle as={Card.Header} eventKey={item.eventKey}>
                       <Row className="justify-content-center">
                         <h5>
-                          <Badge variant="dark">{item.name}</Badge>
+                          <Badge style={{minWidth: '13rem'}} variant="dark">{item.name}</Badge>
                         </h5>
                       </Row>
                     </Accordion.Toggle>
@@ -68,7 +104,7 @@ export default function Highlight() {
                 )
               })
             }
-          </Accordion>
+          </Accordion> */}
           <CardDeck className="mt-3">
             {selectedTicker ? headers
               .map((header, idx) => (
