@@ -54,6 +54,7 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
         arrowRight={<AiFillRightCircle />}
         menuClass="justify-content-center"
         onSelect={onSelect}
+        wheel={false}
       />
     </Fragment >
   )
