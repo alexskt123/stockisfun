@@ -82,8 +82,8 @@ export const priceChartSettings = {
   label: '',
   data: [],
   fill: false,
-  backgroundColor: 'rgba(30,230,230,0.2)',
-  borderColor: 'rgba(30,230,230,1)',
+  backgroundColor: 'rgba(18,24,200)',
+  borderColor: 'rgba(18,24,200,0.8)',
   showLine: false,
   pointRadius: 3
 }
@@ -92,8 +92,8 @@ export const ma5ChartSettings = {
   label: '5-MA',
   data: [],
   fill: false,
-  backgroundColor: 'rgba(200,12,12,0.2)',
-  borderColor: 'rgba(200,12,12,1)',
+  backgroundColor: 'rgba(237,2,2)',
+  borderColor: 'rgba(237,2,2,0.5)',
   pointRadius: 0
 }
 
@@ -101,8 +101,8 @@ export const ma20ChartSettings = {
   label: '20-MA',
   data: [],
   fill: false,
-  backgroundColor: 'rgba(220,220,20,0.2)',
-  borderColor: 'rgba(220,220,20,1)',
+  backgroundColor: 'rgba(255,247,20)',
+  borderColor: 'rgba(255,247,20,0.8)',
   pointRadius: 0
 }
 
@@ -110,8 +110,8 @@ export const ma60ChartSettings = {
   label: '60-MA',
   data: [],
   fill: false,
-  backgroundColor: 'rgba(75,50,10,0.2)',
-  borderColor: 'rgba(75,50,10,1)',
+  backgroundColor: 'rgba(0,0,0)',
+  borderColor: 'rgba(0,0,0,0.8)',
   pointRadius: 0
 }
 
