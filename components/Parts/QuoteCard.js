@@ -2,12 +2,13 @@
 import { useState, useEffect, Fragment } from 'react'
 import Card from 'react-bootstrap/Card'
 import { RiCloseCircleFill } from 'react-icons/ri'
+import { IconContext } from 'react-icons'
 
 export default function QuoteCard({ children, header, inputTicker }) {
   const [showCard, setShowCard] = useState(true)
-  
+
   useEffect(() => {
-    setShowCard(true)    
+    setShowCard(true)
   }, [inputTicker])
 
   if (!showCard) return null
@@ -15,9 +16,8 @@ export default function QuoteCard({ children, header, inputTicker }) {
   return (
     <Fragment>
       <Card
-        bg={'Light'}
         text={'dark'}
-        border={'dark'}
+        border={'light'}
         style={{ ['minWidth']: '10rem' }}
       >
         <Card.Header>
@@ -26,7 +26,7 @@ export default function QuoteCard({ children, header, inputTicker }) {
               <span>
                 {header}
               </span>
-              <RiCloseCircleFill onClick={() => setShowCard(false)} />
+              <IconContext.Provider value={{ color: 'red', className: 'global-class-name' }}><RiCloseCircleFill onClick={() => setShowCard(false)} /></IconContext.Provider>
             </b>
           </div>
         </Card.Header>
