@@ -10,8 +10,6 @@ import { stockIndex, stockFutureIndex } from '../config/highlight'
 import IndexQuote from '../components/Parts/IndexQuote'
 import QuoteCard from '../components/Parts/QuoteCard'
 import TickerScrollMenu from '../components/Page/TickerScrollMenu'
-import Accordion from 'react-bootstrap/Accordion'
-import Card from 'react-bootstrap/Card'
 import { Store } from '../lib/store'
 
 export default function Highlight() {
@@ -32,20 +30,14 @@ export default function Highlight() {
     props: {}
   }]
 
-  // const userTickerList = user.id === '' ? [] : [
-  //   {
-  //     name: 'Stock List',
-  //     eventKey: 'StockList',
-  //     inputList: user.stockList.map(item => ({ Ticker: item, Name: item })),
-  //     setSelectedTicker: setSelectedTicker
-  //   },
-  //   {
-  //     name: 'ETF List',
-  //     eventKey: 'ETFList',
-  //     inputList: user.etfList.map(item => ({ Ticker: item, Name: item })),
-  //     setSelectedTicker: setSelectedTicker
-  //   }
-  // ]
+  const userTickerList = user.id === '' ? [] : [
+    {
+      name: 'Stock List',
+      eventKey: 'StockList',
+      inputList: user.stockList.map(item => ({ Ticker: item, Name: item })),
+      setSelectedTicker: setSelectedTicker
+    }
+  ]
 
   const tickerList = [
     {
@@ -60,8 +52,7 @@ export default function Highlight() {
       inputList: stockFutureIndex,
       setSelectedTicker: setSelectedTicker
     }
-    // ,
-    // ...userTickerList
+    ,...userTickerList
   ]
 
   return (
