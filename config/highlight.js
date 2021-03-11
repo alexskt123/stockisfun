@@ -18,11 +18,19 @@ export const stockIndex = [
   { Ticker: '^N225', Name: 'NKI' }
 ]
 
+
+export const stockFutureIndex = [
+  { Ticker: 'YM=F', Name: 'Dow Jones F.' },
+  { Ticker: 'ES=F', Name: 'S&P 500 F.' },
+  { Ticker: 'NQ=F', Name: 'NASDAQ F.' }
+]
+
 export const indexQuoteInfo = [
   {label: 'Name', field: 'shortName', value: null},
   {label: 'Day Change', field: 'regularMarketChange', value: null},
   {label: 'Day Range', field: 'regularMarketDayRange', value: null},
   {label: 'Prev. Close', field: 'regularMarketPreviousClose', value: null},
-  {label: 'Market', field: 'market', value: null}
+  {label: '52 Week High', field: 'fiftyTwoWeekHigh', value: null},
+  {label: '52 Week Low', field: 'fiftyTwoWeekLow', value: null}
 ]
 
