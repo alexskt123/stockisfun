@@ -11,6 +11,10 @@
   .menu-item.active {
     border: 1px green solid;
   }
+
+  .menu-wrapper {
+    width: '100%';
+  }
   
   .scroll-menu-arrow {
     padding: 20px;

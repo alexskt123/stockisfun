@@ -1,10 +1,10 @@
 export const extractYahooInfo = [
-    {
-        label: 'Price',
-        field: 'regularMarketPrice'
-    },
-    {
-        label: 'Percentage',
-        field: 'regularMarketChangePercent'
-    }
+  {
+    label: 'Price',
+    field: 'regularMarketPrice'
+  },
+  {
+    label: 'Percentage',
+    field: 'regularMarketChangePercent'
+  }
 ]
