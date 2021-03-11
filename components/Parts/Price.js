@@ -10,7 +10,7 @@ import { ma, ema } from 'moving-averages'
 
 const axios = require('axios').default
 
-function PriceInfo({ inputTicker }) {
+function PriceInfo({ inputTicker, inputMA }) {
 
   const [settings, setSettings] = useState(priceSchema)
   const [loading, setLoading] = useState(false)
@@ -82,7 +82,7 @@ function PriceInfo({ inputTicker }) {
   }
 
   useEffect(() => {
-    handleTicker(inputTicker, settings.days, settings.ma)
+    handleTicker(inputTicker, settings.days, inputMA == '' ? inputMA : settings.ma)
   }, [inputTicker, settings.days, settings.ma])
 
   return (
