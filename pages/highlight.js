@@ -74,7 +74,7 @@ export default function Highlight() {
           />
           <CardDeck className="mt-3">
             {selectedTicker ? <Fragment><QuoteCard header="Quote"><IndexQuote inputTicker={selectedTicker} /></QuoteCard></Fragment> : null}
-            {selectedTicker ? <Fragment><QuoteCard header="Price Changes"><Price inputTicker={selectedTicker} /></QuoteCard></Fragment> : null}
+            {selectedTicker ? <Fragment><QuoteCard header="Price Changes"><Price inputTicker={selectedTicker} inputMA={''} /></QuoteCard></Fragment> : null}
           </CardDeck>
         </Fragment>
       </CustomContainer>
