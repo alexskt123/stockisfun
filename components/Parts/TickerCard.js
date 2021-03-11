@@ -12,10 +12,10 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
       bg={'Light'}
       text={'dark'}
       border={'dark'}
-      style={{ ['minWidth']: '10rem', width: '10rem', fontSize: '12px' }}
+      style={{ ['minWidth']: '8rem', width: '8rem', fontSize: '12px' }}
       className="m-1"
     >
-      <Card.Header>
+      <Card.Header style={{ padding: '0.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <b>
             <span>
@@ -25,8 +25,8 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
           </b>
         </div>
       </Card.Header>
-      <Card.Body>
-        <Card.Text>
+      <Card.Body style={{ padding: '0.5rem' }}>
+        <Card.Text style={{ fontSize: '11px' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <b>
               <span>
@@ -36,10 +36,10 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
           </div>
           <Row className="mt-2">
             <Col xs={5} md={5}>
-              <Badge variant={Change >= 0 ? 'success' : 'danger'}>{Change >= 0 ? `+${Change}`: Change}</Badge>
+              <Badge variant={Change >= 0 ? 'success' : 'danger'}>{Change >= 0 ? `+${Change}` : Change}</Badge>
             </Col>
             <Col xs={4} md={4}>
-              <Badge variant={Percentage >= 0 ? 'success' : 'danger'} className="ml-1">{Percentage >= 0 ? `+${Percentage}%`: `${Percentage}%`}</Badge>
+              <Badge variant={Percentage >= 0 ? 'success' : 'danger'} className="ml-1">{Percentage >= 0 ? `+${Percentage}%` : `${Percentage}%`}</Badge>
             </Col>
           </Row>
         </Card.Text>
