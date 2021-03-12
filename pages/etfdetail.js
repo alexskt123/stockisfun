@@ -20,8 +20,16 @@ export default function ETFDetail() {
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({ formTicker: '' })
   const [clicked, setClicked] = useState(false)
-
   const [settings, setSettings] = useState({ ...etfDetailsSettings })
+
+  const router = useRouter()
+  const { query } = router.query
+
+  useEffect(() => {
+    if (query) {
+      handleTicker(query)
+    }
+  }, [query])
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -44,11 +52,10 @@ export default function ETFDetail() {
   }
 
   async function handleTicker(inputTicker) {
-    if (!inputTicker) return
     setClicked(true)
 
     const newSettings = {
-      ...settings,
+      ...etfDetailsSettings,
       inputETFTicker: inputTicker.toUpperCase()
     }
 
@@ -76,15 +83,6 @@ export default function ETFDetail() {
       selectedTab: key
     })
   }
-
-  const router = useRouter()
-  const { query } = router.query
-
-  useEffect(() => {
-    if (query) {
-      handleTicker(query)
-    }
-  }, [query])
 
   return (
     <Fragment>
