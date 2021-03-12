@@ -9,7 +9,7 @@ export default function Home() {
   const router = useRouter()
 
   useEffect(() => {
-    router.push('/stockdetail')
+    router.push('/highlight')
   }, [])
 
   //template
