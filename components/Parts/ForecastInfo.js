@@ -11,8 +11,11 @@ function ForecastInfo({ inputSettings, inputTickers }) {
   const [settings, setSettings] = useState(forecastSettingSchema)
   const [loading, setLoading] = useState(false)
 
-  async function handleTickers() {
+  useEffect(() => {
+    handleTickers()
+  }, [inputSettings, inputTickers])
 
+  async function handleTickers() {
     setLoading(true)
 
     if (inputSettings) {
@@ -44,10 +47,6 @@ function ForecastInfo({ inputSettings, inputTickers }) {
       stocInfo: []
     })
   }
-
-  useEffect(() => {
-    handleTickers()
-  }, [inputSettings, inputTickers])
 
   return (
     <Fragment>

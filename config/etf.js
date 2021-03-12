@@ -6,23 +6,25 @@ const selectedHeaders = 'Issuer,Expense Ratio,Inception,Index Tracked,Category,5
 export const selectedHeadersArr = selectedHeaders.split(',')
 
 export const etfDetailsSettings = {
-  basics: {
-    tableHeader: [],
-    tableData: []
-  },
-  holding: {
-    tableHeader: [],
-    tableData: []
-  },
-  pieData: {},
-  inputETFTicker: [],
-  selectedStockTicker: '',
+  inputETFTicker: null,
+  selectedStockTicker: null,
   selectedStockTitle: '',
   selectedTab: 'Basics',
+  disableSelectedStockTab: true
+}
+
+export const etfDetailsBasicSettings = {
+  tableHeader: [],
+  tableData: []
+}
+
+export const etfDetailsHoldingSettings = {
+  tableHeader: [],
+  tableData: [],
+  pieData: {},
   priceHref: '/',
   forecastHref: '/',
-  watchlistHref: '/',
-  disableSelectedStockTab: true
+  watchlistHref: '/'
 }
 
 export const etfHoldingHeader = ['Ticker', 'Name', 'Holding', 'YTD%', ...[...Array(3)].map((_item, idx) => `${moment().subtract(idx + 1, 'years').year()}%`)]

@@ -52,7 +52,7 @@ export default function Highlight() {
       inputList: stockFutureIndex,
       setSelectedTicker: setSelectedTicker
     }
-    ,...userTickerList
+    , ...userTickerList
   ]
 
   return (
@@ -62,7 +62,7 @@ export default function Highlight() {
           {
             tickerList.map((item, idx) => {
               return (
-                <Fragment>
+                <Fragment key={idx}>
                   <Row className="justify-content-center">
                     <h5>
                       <Badge style={{ minWidth: '11rem' }} variant="dark">{item.name}</Badge>
