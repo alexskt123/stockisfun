@@ -11,7 +11,6 @@ import { getFinancialsInfo, financialsSettingSchema, handleDebounceChange } from
 export default function CompareFinancials() {
 
   const [settings, setSettings] = useState(financialsSettingSchema)
-
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
@@ -41,13 +40,10 @@ export default function CompareFinancials() {
   }
 
   async function handleTickers(inputTickers) {
-    setClicked(true)
-    
+    setClicked(true)    
     const financials = await getFinancialsInfo(inputTickers, settings)
     setSettings(financials)
-
     setClicked(false)
-
   }
 
   const handleSubmit = async (event) => {
@@ -59,13 +55,9 @@ export default function CompareFinancials() {
     if (form.checkValidity() === false) {
       event.stopPropagation()
     } else {
-
       const { formTicker } = formValue
-
-      const inputTickers = formTicker.split(',')
-
+      const inputTickers = formTicker.toUpperCase().split(',')
       await handleTickers(inputTickers)
-
     }
     setValidated(true)
     setClicked(false)
