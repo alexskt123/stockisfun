@@ -6,23 +6,30 @@ import Tab from 'react-bootstrap/Tab'
 
 import CustomContainer from '../components/Layout/CustomContainer'
 import TickerInput from '../components/Page/TickerInput'
-import LoadingSpinner from '../components/Loading/LoadingSpinner'
 import StockDetails from '../components/StockDetails'
-import { etfDetailsSettings } from '../config/etf'
-import { handleDebounceChange, getETFDetail } from '../lib/commonFunction'
 import Holdings from '../components/Tab/ETFDetail/Holdings'
 import Stat from '../components/Tab/ETFDetail/Stat'
 import Basics from '../components/Tab/ETFDetail/Basics'
-import { fireToast } from '../lib/toast'
 import SearchAccordion from '../components/Page/SearchAccordion'
+
+import { etfDetailsSettings } from '../config/etf'
+import { handleDebounceChange } from '../lib/commonFunction'
 
 export default function ETFDetail() {
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({ formTicker: '' })
   const [clicked, setClicked] = useState(false)
-
   const [settings, setSettings] = useState({ ...etfDetailsSettings })
+
+  const router = useRouter()
+  const { query } = router.query
+
+  useEffect(() => {
+    if (query) {
+      handleTicker(query)
+    }
+  }, [query])
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -45,17 +52,12 @@ export default function ETFDetail() {
   }
 
   async function handleTicker(inputTicker) {
-    if (!inputTicker) return
-
     setClicked(true)
 
-    const newSettings = await getETFDetail(inputTicker)
-
-    if (!newSettings.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x))
-      fireToast({
-        icon: 'error',
-        title: 'Invalid Ticker'
-      })
+    const newSettings = {
+      ...etfDetailsSettings,
+      inputETFTicker: inputTicker.toUpperCase()
+    }
 
     setSettings(newSettings)
     setClicked(false)
@@ -82,20 +84,11 @@ export default function ETFDetail() {
     })
   }
 
-  const router = useRouter()
-  const { query } = router.query
-
-  useEffect(() => {
-    if (query) {
-      handleTicker(query)
-    }
-  }, [query])
-
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          <SearchAccordion inputTicker={settings.inputETFTicker.find(x => x)}>
+          <SearchAccordion inputTicker={settings.inputETFTicker}>
             <TickerInput
               validated={validated}
               handleSubmit={handleSubmit}
@@ -108,21 +101,12 @@ export default function ETFDetail() {
           </SearchAccordion>
           <Tabs style={{ fontSize: '11px' }} className="mt-1" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
             <Tab eventKey="Basics" title="Basics">
-              {clicked ?
-                <LoadingSpinner /> : null
-              }
-              <Basics inputSettings={settings} />
+              <Basics inputETFTicker={settings.inputETFTicker} />
             </Tab>
             <Tab eventKey="Holdings" title="Holdings">
-              {clicked ?
-                <LoadingSpinner /> : null
-              }
-              <Holdings inputSettings={settings} cellClick={cellClick} />
+              <Holdings inputETFTicker={settings.inputETFTicker} cellClick={cellClick} />
             </Tab>
             <Tab eventKey="Statistics" title="Stat.">
-              {clicked ?
-                <LoadingSpinner /> : null
-              }
               <Stat inputETFTicker={settings.inputETFTicker} />
             </Tab>
             <Tab eventKey="StockDetails" title={settings.selectedStockTitle} disabled={settings.disableSelectedStockTab}>
