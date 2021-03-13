@@ -45,7 +45,7 @@ export default async (req, res) => {
         response.response = 'OK'
 
         responses.forEach(item => {
-          if (item.data) {
+          if (item && item.data) {
             priceMADetails.asOfDate = priceMADetails.asOfDate == '' ? item.data.asOfDate : priceMADetails.asOfDate
             priceMADetails.fiveLowerTwenty.push(...item.data.fiveLowerTwenty)
             priceMADetails.fiveLowerTwentyChart.push(...item.data.fiveLowerTwentyChart)
@@ -66,32 +66,32 @@ export default async (req, res) => {
 
   const fiveLowerTwentyList = priceMADetails.fiveLowerTwenty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.fiveLowerTwentyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`
     return acc
   }, '')
   const fiveHigherTwentyList = priceMADetails.fiveHigherTwenty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.fiveHigherTwentyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`   
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`   
     return acc
   }, '')
   const fiveLowerSixtyList = priceMADetails.fiveLowerSixty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.fiveLowerSixtyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`
     return acc
   }, '')
   const fiveHigherSixtyList = priceMADetails.fiveHigherSixty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.fiveHigherSixtyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`  
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`  
     return acc
   }, '')
   const twentyLowerSixtyList = priceMADetails.twentyLowerSixty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.twentyLowerSixtyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`
     return acc
   }, '')
   const twentyHigherSixtyList = priceMADetails.twentyHigherSixty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.twentyHigherSixtyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`
     return acc
   }, '')
   const inputArrList = tickerArr.reduce((acc, cur) => {

@@ -1,9 +1,11 @@
 
 import { getYahooHistoryPrice } from '../../lib/yahoo/getYahooHistoryPrice'
+import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
 import moment from 'moment-business-days'
 import { ma } from 'moving-averages'
 import QuickChart from 'quickchart-js'
 import { getFormattedFromToDate } from '../../lib/commonFunction'
+import { priceChartSettings, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings} from '../../config/price'
 
 
 const handleDays = async (ticker, fromdate, todate) => {
@@ -16,6 +18,15 @@ const handleDays = async (ticker, fromdate, todate) => {
   }
 }
 
+const handleQuote = async (ticker) => {
+  const quote = await getYahooQuote(ticker)
+
+  return {
+    Name: quote.longName,
+    Price: quote.regularMarketPrice
+  }
+}
+
 const getImgUrl = async (ticker, dateprice, ma5, ma20, ma60) => {
   const newChart = new QuickChart()
 
@@ -25,33 +36,21 @@ const getImgUrl = async (ticker, dateprice, ma5, ma20, ma60) => {
       data: {
         'labels': [...dateprice.date.reverse().slice(60)],
         'datasets': [{
+          ...priceChartSettings,
           label: ticker,
           data: [...dateprice.price.slice(60)],
-          fill: false,
-          backgroundColor: 'rgba(30,230,230,0.2)',
-          borderColor: 'rgba(30,230,230,1)',
-          showLine: false
         }, {
+          ...ma5ChartSettings,
           label: '5-MA',
-          data: [...ma5.slice(60)],
-          fill: false,
-          backgroundColor: 'rgba(200,12,12,0.2)',
-          borderColor: 'rgba(200,12,12,1)',
-          pointRadius: 0
+          data: [...ma5.slice(60)]
         }, {
+          ...ma20ChartSettings,
           label: '20-MA',
-          data: [...ma20.slice(60)],
-          fill: false,
-          backgroundColor: 'rgba(220,220,20,0.2)',
-          borderColor: 'rgba(220,220,20,1)',
-          pointRadius: 0
+          data: [...ma20.slice(60)]
         }, {
+          ...ma60ChartSettings,
           label: '60-MA',
-          data: [...ma60.slice(60)],
-          fill: false,
-          backgroundColor: 'rgba(75,50,10,0.2)',
-          borderColor: 'rgba(75,50,10,1)',
-          pointRadius: 0
+          data: [...ma60.slice(60)]
         }]
       },
       options: {
@@ -92,6 +91,11 @@ export default async (req, res) => {
 
   const fromtodate = await getFormattedFromToDate(80)
   const dateprice = await handleDays(ticker, fromtodate.formattedFromDate, fromtodate.formattedToDate)
+  const quote = await handleQuote(ticker)
+  const tickerInfo = {
+    'Symbol': ticker,
+    ...quote
+  }
 
   const fiveLowerTwenty = []
   const fiveLowerTwentyChart = []
@@ -120,32 +124,32 @@ export default async (req, res) => {
 
   if (ma5filter.length == 2 && ma20filter.length == 2 && ma60filter.length == 2) {
     if (await chkLower(ma5filter, ma20filter)) {
-      fiveLowerTwenty.push(ticker)
+      fiveLowerTwenty.push(tickerInfo)
       if (isGenChart) fiveLowerTwentyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
 
     if (await chkHigher(ma5filter, ma20filter)) {
-      fiveHigherTwenty.push(ticker)
+      fiveHigherTwenty.push(tickerInfo)
       if (isGenChart) fiveHigherTwentyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
 
     if (await chkLower(ma5filter, ma60filter)) {
-      fiveLowerSixty.push(ticker)
+      fiveLowerSixty.push(tickerInfo)
       if (isGenChart) fiveLowerSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
 
     if (await chkHigher(ma5filter, ma60filter)) {
-      fiveHigherSixty.push(ticker)
+      fiveHigherSixty.push(tickerInfo)
       if (isGenChart) fiveHigherSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
 
     if (await chkLower(ma20filter, ma60filter)) {
-      twentyLowerSixty.push(ticker)
+      twentyLowerSixty.push(tickerInfo)
       if (isGenChart) twentyLowerSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
 
     if (await chkHigher(ma20filter, ma60filter)) {
-      twentyHigherSixty.push(ticker)
+      twentyHigherSixty.push(tickerInfo)
       if (isGenChart) twentyHigherSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
     }
   }
