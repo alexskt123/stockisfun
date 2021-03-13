@@ -43,31 +43,30 @@ export default async (req, res) => {
 
     if (item.totalCurrentLiabilities)
       newItem['Quick Ratio'] = ((item.cash ? item.cash.raw : 0
-                                + item.shortTermInvestments ? item.shortTermInvestments?.raw : 0
-                                + item.netReceivables ? item.netReceivables?.raw : 0) 
-                                /item.totalCurrentLiabilities?.raw).toFixed(2)
-    
+        + item.shortTermInvestments ? item.shortTermInvestments?.raw : 0
+          + item.netReceivables ? item.netReceivables?.raw : 0)
+        / item.totalCurrentLiabilities?.raw).toFixed(2)
+
     if (item.totalLiab && item.totalStockholderEquity)
       newItem['Total Debt/Equity'] = (item.totalLiab?.raw / item.totalStockholderEquity?.raw).toFixed(2)
     return newItem
   })
 
-
   const newData = {
     'Name': quote.longName,
     'Price': quote.regularMarketPrice,
-    '52W-Low-High': `${roundTo(parseFloat(quote.fiftyTwoWeekLow), 2)} - ${roundTo(parseFloat(quote.fiftyTwoWeekHigh), 2)}`,
+    '52W-L-H': quote.fiftyTwoWeekLow && quote.fiftyTwoWeekHigh ? `${roundTo(parseFloat(quote.fiftyTwoWeekLow), 2)} - ${roundTo(parseFloat(quote.fiftyTwoWeekHigh), 2)}` : undefined,
     'Website': data.website,
     'Industry': data.industry,
     'Sector': data.sector,
-    'Market Cap.': millify(quote.marketCap || 0),
+    'Market Cap.': quote.marketCap ? millify(quote.marketCap) : undefined,
     'Price To Book': quote.priceToBook,
     'Current EPS': quote.epsCurrentYear,
     'Trailing PE': quote.trailingPE?.toFixed(2),
     'Forward PE': quote.forwardPE?.toFixed(2),
-    'Dividend': `${quote.trailingAnnualDividendRate || 'N/A'}%`,
-    'Full Time Employees': millify(data.fullTimeEmployees || 0),
-    'Address': `${data.address1 || ''}, ${data.address2 || ''}, ${data.city || ''}, ${data.state || ''}, ${data.zip || ''}, ${data.country || ''}`.replace(', ,', ''),
+    'Dividend': quote.trailingAnnualDividendRate ?`${quote.trailingAnnualDividendRate}%` : undefined,
+    'Full Time Employees': data.fullTimeEmployees ? millify(data.fullTimeEmployees) : undefined,
+    'Address': quote.ticker ? `${data.address1 || ''}, ${data.address2 || ''}, ${data.city || ''}, ${data.state || ''}, ${data.zip || ''}, ${data.country || ''}`.replace(', ,', '') : undefined,
     'Business Summary': data.longBusinessSummary,
     'Company Officers': data.companyOfficers
   }
@@ -76,7 +75,7 @@ export default async (req, res) => {
 
   res.statusCode = 200
   res.json({
-    basics: {...newData},
+    basics: { ...newData },
     balanceSheet: [...balanceSheetExtract]
   })
 }

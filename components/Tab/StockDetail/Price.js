@@ -43,7 +43,7 @@ function PriceTab({ inputSettings }) {
           <Badge className="ml-3" variant="dark">{'52W-L-H: '}</Badge>
         </h6>
         <h6>
-          <Badge variant="light" className="ml-2">{labels.find(x => x.name == '52W-Low-High').value}</Badge>
+          <Badge variant="light" className="ml-2">{labels.find(x => x.name == '52W-L-H').value}</Badge>
         </h6>
       </Row>
       <Row className="ml-1">

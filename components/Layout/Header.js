@@ -44,12 +44,14 @@ function Header() {
         </IconContext.Provider>} id="nav-user">
           <DynamicAuth />
         </NavDropdown>
-        <Navbar.Brand>
-          <img
-            {...iconConfig}
-          />
-          {'Stock is Fun'}
-        </Navbar.Brand>
+        <Link href={'/highlight'} passHref>
+          <Navbar.Brand>
+            <img
+              {...iconConfig}
+            />
+            {'Stock is Fun'}
+          </Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">

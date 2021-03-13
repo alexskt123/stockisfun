@@ -11,7 +11,7 @@ import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 
 const axios = require('axios').default
 
-export default function Home() {
+export default function CompareETF() {
 
   const [tickers, setTickers] = useState([])
   const [tableHeader, setTableHeader] = useState([])

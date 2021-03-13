@@ -10,14 +10,21 @@ import { getForecastInfo, forecastSettingSchema, handleDebounceChange } from '..
 
 import { useRouter } from 'next/router'
 
-export default function Home() {
+export default function CompareForecast() {
 
   const [settings, setSettings] = useState(forecastSettingSchema)
-
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
 
+  const router = useRouter()
+  const { query } = router.query
+
+  useEffect(() => {
+    if (query) {
+      handleTickers(query.toUpperCase().split(','))
+    }
+  }, [query])
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -44,14 +51,12 @@ export default function Home() {
   }
 
   async function handleTickers(inputTickers) {
-
     setClicked(true)
     
     const forecastInfo = await getForecastInfo(inputTickers, settings)
     setSettings(forecastInfo)
 
     setClicked(false)
-
   }
 
   const handleSubmit = async (event) => {
@@ -61,25 +66,12 @@ export default function Home() {
     if (form.checkValidity() === false) {
       event.stopPropagation()
     } else {
-
       const { formTicker } = formValue
-
-      const inputTickers = formTicker.split(',')
-
+      const inputTickers = formTicker.toUpperCase().split(',')
       await handleTickers(inputTickers)
-
     }
     setValidated(true)
   }
-
-  const router = useRouter()
-  const { query } = router.query
-
-  useEffect(() => {
-    if (query) {
-      handleTickers(query.split(','))
-    }
-  }, [query])
 
   return (
     <Fragment>

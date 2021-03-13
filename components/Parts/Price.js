@@ -10,23 +10,18 @@ import { ma, ema } from 'moving-averages'
 
 const axios = require('axios').default
 
-function PriceInfo({ inputTicker }) {
+function PriceInfo({ inputTicker, inputMA }) {
 
   const [settings, setSettings] = useState(priceSchema)
   const [loading, setLoading] = useState(false)
 
-  const handleChange = async (e) => {
+  useEffect(() => {
+    handleTicker(inputTicker, settings.days, inputMA == '' ? inputMA : settings.ma)
+  }, [inputTicker, settings.days, settings.ma])
 
-    if (e.target.name == 'formYear' && parseInt(e.target.value) != parseInt(settings.days)) {
-      handleTicker(inputTicker, e.target.value, settings.ma)
-    }
-    else if (e.target.name == 'formma' && e.target.value != settings.ma) {
-      handleTicker(inputTicker, settings.days, e.target.value)
-    }
-  }
 
   const getPrice = async (inputTicker, inputDays, inputMA) => {
-    if (inputTicker == undefined) return
+    if (!inputTicker) return
 
     const dateprice = await axios(`/api/yahoo/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(inputDays) + 60}`)
     const date = dateprice.data?.date || []
@@ -63,8 +58,16 @@ function PriceInfo({ inputTicker }) {
     )
   }
 
-  async function handleTicker(inputTicker, inputDays, inputMA) {
+  const handleChange = async (e) => {
+    if (e.target.name == 'formYear' && parseInt(e.target.value) != parseInt(settings.days)) {
+      handleTicker(inputTicker, e.target.value, settings.ma)
+    }
+    else if (e.target.name == 'formma' && e.target.value != settings.ma) {
+      handleTicker(inputTicker, settings.days, e.target.value)
+    }
+  }
 
+  async function handleTicker(inputTicker, inputDays, inputMA) {
     setLoading(true)
     await clearItems()
     await getPrice(inputTicker, inputDays, inputMA)
@@ -80,10 +83,6 @@ function PriceInfo({ inputTicker }) {
       chartData: { 'labels': [], 'datasets': [] }
     })
   }
-
-  useEffect(() => {
-    handleTicker(inputTicker, settings.days, settings.ma)
-  }, [inputTicker, settings.days, settings.ma])
 
   return (
     <Fragment>

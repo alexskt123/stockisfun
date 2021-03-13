@@ -15,10 +15,13 @@ import { sortTableItem, handleDebounceChange } from '../lib/commonFunction'
 import { updUserWatchList, getUserInfoByUID } from '../lib/firebaseResult'
 import { Store } from '../lib/store'
 import { fireToast } from '../lib/toast'
+import ModalQuestion from '../components/Parts/ModalQuestion'
+import SearchAccordion from '../components/Page/SearchAccordion'
+import Row from 'react-bootstrap/Row'
 
 const axios = require('axios').default
 
-export default function Home() {
+export default function WatchList() {
 
   const [tickers, setTickers] = useState([])
   const [tableHeader, setTableHeader] = useState([])
@@ -28,10 +31,34 @@ export default function Home() {
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
   const [ascSort, setAscSort] = useState(false)
+  const [seconds, setSeconds] = useState(0)
+
+  const [showUpdate, setShowUpdate] = useState(false)
+  const handleUpdateClose = () => setShowUpdate(false)
 
   const store = useContext(Store)
   const { state, dispatch } = store
   const { user } = state
+
+  const router = useRouter()
+  const { query } = router.query
+
+  useEffect(() => {
+    if (query) {
+      setClicked(true)
+      handleTickers(query)
+      setClicked(false)
+    } else if (tickers.length > 0) {
+      handleTickers(tickers.join(','))
+    }
+  }, [query, seconds])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds(seconds => seconds + 1)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [])
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -52,7 +79,8 @@ export default function Home() {
   }
 
   const refreshItems = async () => {
-    handleTickers(tickers.join(','))
+    if (tickers.length > 0)
+      handleTickers(tickers.join(','))
   }
 
   const handleDispatch = async () => {
@@ -76,6 +104,11 @@ export default function Home() {
     })
   }
 
+  const handleUpdate = async () => {
+    handleUpdateClose()
+    await updateWatchList()
+  }
+
   const removeItem = async (value) => {
     if (clicked) return
 
@@ -88,8 +121,6 @@ export default function Home() {
   }
 
   async function handleTickers(inputTickersWithComma) {
-
-    setClicked(true)
 
     const newTickers = inputTickersWithComma.split(',').map(item => item.toUpperCase())
     const temp = []
@@ -127,7 +158,7 @@ export default function Home() {
       })
 
     setTableHeader(
-      [...newTemp.find(x => x).filter(x => x).map(item => item.label)]
+      [...(newTemp.find(x => x) || []).filter(x => x).map(item => item.label)]
     )
 
     setTickers([...newTickers])
@@ -137,10 +168,6 @@ export default function Home() {
         return item.filter(x => x).map(jj => jj.item)
       })]
     )
-
-    router.replace('/watchlist', `/watchlist?query=${inputTickersWithComma.toUpperCase()}`)
-
-    setClicked(false)
 
   }
 
@@ -152,52 +179,55 @@ export default function Home() {
     if (form.checkValidity() === false) {
       event.stopPropagation()
     } else {
-
       const { formTicker } = formValue
       await handleTickers(formTicker)
-
+      router.replace('/watchlist', `/watchlist?query=${formTicker.toUpperCase()}`)
     }
     setValidated(true)
   }
 
-  const router = useRouter()
-  const { query } = router.query
-
-  useEffect(() => {
-    if (query) {
-      handleTickers(query)
-    }
-
-  }, [query])
+  const modalQuestionSettings = {
+    showCondition: showUpdate,
+    onHide: handleUpdateClose,
+    onClickYes: handleUpdate,
+    onClickNo: handleUpdateClose,
+    title: 'Update Watch List',
+    body: 'Are you sure the update watch list?'
+  }
 
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh' }}>
         <Fragment>
-          <TickerInput
-            validated={validated}
-            handleSubmit={handleSubmit}
-            placeholderText={'Single:  voo /  Mulitple:  voo,arkk,smh'}
-            handleChange={handleChange}
-            clicked={clicked}
-            clearItems={clearItems}
-            tableHeader={tableHeader}
-            tableData={watchList}
-            exportFileName={'Stock_watch_list.csv'}
-          />
-          <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
+          <SearchAccordion inputTicker={tickers.join(',')}>
+            <TickerInput
+              validated={validated}
+              handleSubmit={handleSubmit}
+              placeholderText={'Single:  voo /  Mulitple:  voo,arkk,smh'}
+              handleChange={handleChange}
+              clicked={clicked}
+              clearItems={clearItems}
+              tableHeader={tableHeader}
+              tableData={watchList}
+              exportFileName={'Stock_watch_list.csv'}
+            />
+            <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
+          </SearchAccordion>
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <Button onClick={() => { refreshItems() }} size='sm' variant='outline-dark' >{'Refresh'}</Button>
-          {
-            user.id != ''
-              ? <Button className="ml-2" onClick={() => { updateWatchList() }} size='sm' variant='dark' >{'Update Watch List'}</Button>
-              : null
-          }
+          <Row className="ml-1 mt-3">
+            <Button onClick={() => { refreshItems() }} size='sm' variant='outline-dark' >{'Refresh'}</Button>
+            {
+              user.id != ''
+                ? <Button className="ml-2" onClick={() => { setShowUpdate(true) }} size='sm' variant='dark' >{'Update Watch List'}</Button>
+                : null
+            }
+          </Row>
           <StockInfoTable striped={true} tableHeader={tableHeader} tableData={watchList} sortItem={sortItem} tableSize="sm" />
         </Fragment>
       </CustomContainer>
+      <ModalQuestion {...modalQuestionSettings} />
     </Fragment >
   )
 }

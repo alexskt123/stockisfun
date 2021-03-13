@@ -79,10 +79,14 @@ const handleDays = async (ticker, days) => {
   const { formattedFromDate, formattedToDate } = await getFormattedFromToDate(days)
 
   const outputItem = await getYahooHistoryPrice(ticker, formattedFromDate, formattedToDate)
+  const allDate = (outputItem.timestamp || []).map(item => moment.unix(item).format('DD MMM YYYY'))
+  const allPrice = outputItem.indicators.quote.find(x => x).close  
+  const price = parseInt(days) != allPrice.length ? allPrice.slice(Math.abs(allPrice.length - parseInt(days))) : allPrice
+  const date = parseInt(days) != allPrice.length ? allDate.slice(Math.abs(allPrice.length - parseInt(days))) : allDate
 
   return {
-    date: (outputItem.timestamp || []).map(item => moment.unix(item).format('DD MMM YYYY')),
-    price: outputItem.indicators.quote.find(x => x).close
+    date,
+    price
   }
 }
 

@@ -3,26 +3,33 @@ import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import Alert from 'react-bootstrap/Alert'
 
 import CustomContainer from '../components/Layout/CustomContainer'
 import TickerInput from '../components/Page/TickerInput'
-import LoadingSpinner from '../components/Loading/LoadingSpinner'
-import AddDelStock from '../components/Fire/AddDelStock'
 import StockDetails from '../components/StockDetails'
-import { etfDetailsSettings } from '../config/etf'
-import { handleDebounceChange, getETFDetail } from '../lib/commonFunction'
 import Holdings from '../components/Tab/ETFDetail/Holdings'
 import Stat from '../components/Tab/ETFDetail/Stat'
 import Basics from '../components/Tab/ETFDetail/Basics'
+import SearchAccordion from '../components/Page/SearchAccordion'
 
-export default function Home() {
+import { etfDetailsSettings } from '../config/etf'
+import { handleDebounceChange } from '../lib/commonFunction'
+
+export default function ETFDetail() {
 
   const [validated, setValidated] = useState(false)
-  const [formValue, setFormValue] = useState({})
+  const [formValue, setFormValue] = useState({ formTicker: '' })
   const [clicked, setClicked] = useState(false)
-
   const [settings, setSettings] = useState({ ...etfDetailsSettings })
+
+  const router = useRouter()
+  const { query } = router.query
+
+  useEffect(() => {
+    if (query) {
+      handleTicker(query)
+    }
+  }, [query])
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -40,17 +47,18 @@ export default function Home() {
 
   const clearItems = async () => {
     setSettings({ ...etfDetailsSettings })
+    setFormValue({ formTicker: '' })
     router.replace('/etfdetail')
   }
 
   async function handleTicker(inputTicker) {
-    if (!inputTicker) return
-
     setClicked(true)
 
-    const newSettings = await getETFDetail(inputTicker)    
+    const newSettings = {
+      ...etfDetailsSettings,
+      inputETFTicker: inputTicker.toUpperCase()
+    }
 
-    router.replace('/etfdetail', `/etfdetail?query=${inputTicker.toUpperCase()}`)
     setSettings(newSettings)
     setClicked(false)
   }
@@ -64,6 +72,7 @@ export default function Home() {
     } else {
       const { formTicker } = formValue
       await handleTicker(formTicker)
+      router.replace('/etfdetail', `/etfdetail?query=${formTicker.toUpperCase()}`)
     }
     setValidated(true)
   }
@@ -75,54 +84,29 @@ export default function Home() {
     })
   }
 
-  const router = useRouter()
-  const { query } = router.query
-
-  useEffect(() => {
-    if (query) {
-      handleTicker(query)
-    }
-  }, [query])
-
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          <TickerInput
-            validated={validated}
-            handleSubmit={handleSubmit}
-            placeholderText={'i.e. arkk'}
-            handleChange={handleChange}
-            clicked={clicked}
-            clearItems={clearItems}
-          />
-          {
-            settings.inputETFTicker.length > 0 ?
-              <Alert variant='success' className="mt-3">
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <b>{settings.inputETFTicker}</b>
-                  <AddDelStock inputTicker={settings.inputETFTicker.find(x => x)} handleList='etf' />
-                </div>
-              </Alert>
-              : null
-          }
-          <Tabs style={{ fontSize: '11px' }} variant="pills" className="mt-1" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
+          <SearchAccordion inputTicker={settings.inputETFTicker}>
+            <TickerInput
+              validated={validated}
+              handleSubmit={handleSubmit}
+              placeholderText={'i.e. arkk'}
+              handleChange={handleChange}
+              formTicker={formValue.formTicker}
+              clicked={clicked}
+              clearItems={clearItems}
+            />
+          </SearchAccordion>
+          <Tabs style={{ fontSize: '11px' }} className="mt-1" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
             <Tab eventKey="Basics" title="Basics">
-              {clicked ?
-                <LoadingSpinner /> : null
-              }
-              <Basics inputSettings={settings}/>
+              <Basics inputETFTicker={settings.inputETFTicker} />
             </Tab>
             <Tab eventKey="Holdings" title="Holdings">
-              {clicked ?
-                <LoadingSpinner /> : null
-              }
-              <Holdings inputSettings={settings} cellClick={cellClick} />
+              <Holdings inputETFTicker={settings.inputETFTicker} cellClick={cellClick} />
             </Tab>
             <Tab eventKey="Statistics" title="Stat.">
-              {clicked ?
-                <LoadingSpinner /> : null
-              }
               <Stat inputETFTicker={settings.inputETFTicker} />
             </Tab>
             <Tab eventKey="StockDetails" title={settings.selectedStockTitle} disabled={settings.disableSelectedStockTab}>

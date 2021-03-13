@@ -11,17 +11,17 @@ import { priceChangeDateRangeSelectAttr, buttonSettings } from '../../config/for
 
 const exportToFile = (tableHeader, tableData, exportFileName) => {
   if (tableHeader && tableData) {
-    const blob = new Blob([getCSVContent(tableHeader, tableData)], { type: 'application/json' })
+    const blob = new Blob([getCSVContent(tableHeader, tableData)], { type: 'text/csv;charset=utf-8;' })
     FileSaver.saveAs(blob, exportFileName)
   }
 }
 
-function TickerInput({ validated, handleSubmit, placeholderText, handleChange, clicked, clearItems, tableHeader, tableData, exportFileName, yearControl }) {
+function TickerInput({ validated, handleSubmit, placeholderText, handleChange, formTicker, clicked, clearItems, tableHeader, tableData, exportFileName, yearControl }) {
   return (
     <Fragment>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group controlId="exampleForm.ControlInput1">
-          <Form.Control required type="formTicker" name="formTicker" placeholder={placeholderText} onKeyUp={(e) => handleChange(e)} />
+          <Form.Control required type="formTicker" name="formTicker" value={formTicker} placeholder={placeholderText} onChange={(e) => handleChange(e)} />
         </Form.Group>
         {
           yearControl ?

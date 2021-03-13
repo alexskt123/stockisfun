@@ -33,6 +33,10 @@ export const stockDetailsSettings = {
       
     }
   },
+  peers: {
+    tableHeader: [],
+    tableData: []
+  },
   inputTickers: [],
   ...etfListSettings
 }

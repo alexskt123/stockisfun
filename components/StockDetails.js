@@ -1,6 +1,5 @@
 
 import { Fragment, useState, useEffect } from 'react'
-import Alert from 'react-bootstrap/Alert'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { Bar } from 'react-chartjs-2'
@@ -15,6 +14,9 @@ import PriceChange from '../components/Parts/PriceChange'
 import ForecastInfo from '../components/Parts/ForecastInfo'
 import FinancialsInfo from '../components/Parts/FinancialsInfo'
 import ETFList from './Tab/StockDetail/ETFList'
+import ValidTickerAlert from './Parts/ValidTickerAlert'
+import { fireToast } from '../lib/toast'
+import { peersHeader } from '../config/peers'
 
 const axios = require('axios').default
 
@@ -38,6 +40,12 @@ function StockDetails({ inputTicker }) {
         .then((response) => {
           const { basics, officers, balanceSheet } = getBasics(response)
           newSettings = { ...newSettings, basics, officers, balanceSheet }
+
+          if (!basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x))
+            fireToast({
+              icon: 'error',
+              title: 'Invalid Ticker'
+            })
 
           setSettings({
             ...settings, ...newSettings
@@ -87,6 +95,21 @@ function StockDetails({ inputTicker }) {
           setSettings({
             ...settings, ...newSettings
           })
+        }),
+      axios
+        .get(`/api/moneycnn/getPeers?ticker=${ticker}`)
+        .then((response) => {
+          const data = response.data
+          const peers = data.reduce((acc, cur) => {
+            acc.peers.tableHeader = [...peersHeader]
+            acc.peers.tableData.push([...peersHeader.map(item => cur[item])])
+            return acc
+          }, { peers: { tableHeader: [], tableData: [] } })
+          newSettings = { ...newSettings, ...peers }
+
+          setSettings({
+            ...settings, ...newSettings
+          })
         })
     ])
       .then((_) => {
@@ -115,9 +138,7 @@ function StockDetails({ inputTicker }) {
                 }
                 <Price inputSettings={settings} />
               </Fragment>
-              : <Alert className="mt-2" key={'Alert-No-Stock-Info'} variant={'success'}>
-                {'Please enter a valid sticker!'}
-              </Alert>
+              : <ValidTickerAlert />
           }
         </Tab>
         <Tab eventKey="Basics" title="Basics">
@@ -164,6 +185,12 @@ function StockDetails({ inputTicker }) {
             <LoadingSpinner /> : null
           }
           <FinancialsInfo inputTickers={settings.inputTickers} />
+        </Tab>
+        <Tab eventKey="Peers" title="Peers">
+          {clicked ?
+            <LoadingSpinner /> : null
+          }
+          <StockInfoTable tableSize="sm" tableHeader={settings.peers.tableHeader} tableData={settings.peers.tableData} />
         </Tab>
       </Tabs>
     </Fragment>
