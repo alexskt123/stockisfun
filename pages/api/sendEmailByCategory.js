@@ -11,16 +11,13 @@ export default async (req, res) => {
   const emails = await getEmailsByCategory(category)
 
   const response = {
-    response: 'NOT OK'
+    response: 'OK'
   }
 
-  await axios.all(emails.map(email => {
+  axios.all(emails.map(email => {
     return axios.get(`${getHost()}/api/sendEmailFor${category}?id=${email.id}`).catch(err => console.log(err))
   }))
     .catch(error => console.log(error))
-    .then((_) => {
-      response.response = 'OK'
-    })
 
   res.statusCode = 200
   res.json(response)
