@@ -1,12 +1,14 @@
 
 import { getYahooHistoryPrice } from '../../lib/yahoo/getYahooHistoryPrice'
 import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
+import { getYahooAssetProfile } from '../../lib/yahoo/getYahooAssetProfile'
 import moment from 'moment-business-days'
 import { ma } from 'moving-averages'
 import QuickChart from 'quickchart-js'
 import { getFormattedFromToDate } from '../../lib/commonFunction'
-import { priceChartSettings, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings} from '../../config/price'
-
+import { priceChartSettings, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings } from '../../config/price'
+import { priceMAList } from '../../config/email'
+import millify from 'millify'
 
 const handleDays = async (ticker, fromdate, todate) => {
 
@@ -20,11 +22,13 @@ const handleDays = async (ticker, fromdate, todate) => {
 
 const handleQuote = async (ticker) => {
   const quote = await getYahooQuote(ticker)
+  const assetProfile = await getYahooAssetProfile(ticker)
 
   return {
     Name: quote.longName,
     Price: quote.regularMarketPrice,
-    MarketCap: quote.marketCap
+    MarketCap: millify(quote.marketCap),
+    Industry: assetProfile.industry
   }
 }
 
@@ -71,16 +75,16 @@ const getImgUrl = async (ticker, dateprice, ma5, ma20, ma60) => {
   return newChart.getUrl()
 }
 
-const chkLower = async (trackArr, refArr) => {
+const chkLower = (trackArr, refArr) => {
   if (trackArr[trackArr.length - 1] >= refArr[refArr.length - 1]
-        && trackArr.find(x => x) < refArr.find(x => x)) {
+    && trackArr.find(x => x) < refArr.find(x => x)) {
     return true
   } else return false
 }
 
-const chkHigher = async (trackArr, refArr) => {
+const chkHigher = (trackArr, refArr) => {
   if (trackArr[trackArr.length - 1] <= refArr[refArr.length - 1]
-        && trackArr.find(x => x) > refArr.find(x => x)) {
+    && trackArr.find(x => x) > refArr.find(x => x)) {
     return true
   } else return false
 }
@@ -92,83 +96,47 @@ export default async (req, res) => {
 
   const fromtodate = await getFormattedFromToDate(80)
   const dateprice = await handleDays(ticker, fromtodate.formattedFromDate, fromtodate.formattedToDate)
-  const quote = await handleQuote(ticker)
-  const tickerInfo = {
-    'Symbol': ticker,
-    ...quote
-  }
-
-  const fiveLowerTwenty = []
-  const fiveLowerTwentyChart = []
-  const fiveHigherTwenty = []
-  const fiveHigherTwentyChart = []
-
-  const fiveLowerSixty = []
-  const fiveLowerSixtyChart = []
-  const fiveHigherSixty = []
-  const fiveHigherSixtyChart = []
-
-  const twentyLowerSixty = []
-  const twentyLowerSixtyChart = []
-  const twentyHigherSixty = []
-  const twentyHigherSixtyChart = []
 
   const asOfDate = dateprice.date.reverse().find(x => x)
-
   const ma5 = ma([...dateprice.price], 5)
   const ma20 = ma([...dateprice.price], 20)
   const ma60 = ma([...dateprice.price], 60)
-
   const ma5filter = [...ma5].reverse().slice(0, 2)
   const ma20filter = [...ma20].reverse().slice(0, 2)
   const ma60filter = [...ma60].reverse().slice(0, 2)
 
-  if (ma5filter.length == 2 && ma20filter.length == 2 && ma60filter.length == 2) {
-    if (await chkLower(ma5filter, ma20filter)) {
-      fiveLowerTwenty.push(tickerInfo)
-      if (isGenChart) fiveLowerTwentyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
-    }
+  const newPriceMAList = !(ma5filter.length == 2 && ma20filter.length == 2 && ma60filter.length == 2)
+    ? [...priceMAList]
+    : await Promise.all([...priceMAList].map(async item => {
+      const matches = item.id === '5<20' ? chkLower(ma5filter, ma20filter)
+        : item.id === '5>20' ? chkHigher(ma5filter, ma20filter)
+          : item.id === '5<60' ? chkLower(ma5filter, ma60filter)
+            : item.id === '5>60' ? chkHigher(ma5filter, ma60filter)
+              : item.id === '20<60' ? chkLower(ma20filter, ma60filter)
+                : item.id === '20>60' ? chkHigher(ma20filter, ma60filter)
+                  : false
 
-    if (await chkHigher(ma5filter, ma20filter)) {
-      fiveHigherTwenty.push(tickerInfo)
-      if (isGenChart) fiveHigherTwentyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
-    }
+      const newItem = { ...item, tickerInfo: [], tickersChart: [] }
+      if (matches) {
+        const quote = await handleQuote(ticker)
+        const tickerInfo = {
+          'Symbol': ticker.toUpperCase(),
+          ...quote
+        }
 
-    if (await chkLower(ma5filter, ma60filter)) {
-      fiveLowerSixty.push(tickerInfo)
-      if (isGenChart) fiveLowerSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
-    }
+        newItem.tickersInfo = [tickerInfo]
 
-    if (await chkHigher(ma5filter, ma60filter)) {
-      fiveHigherSixty.push(tickerInfo)
-      if (isGenChart) fiveHigherSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
-    }
-
-    if (await chkLower(ma20filter, ma60filter)) {
-      twentyLowerSixty.push(tickerInfo)
-      if (isGenChart) twentyLowerSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
-    }
-
-    if (await chkHigher(ma20filter, ma60filter)) {
-      twentyHigherSixty.push(tickerInfo)
-      if (isGenChart) twentyHigherSixtyChart.push(await getImgUrl(ticker, dateprice, ma5, ma20, ma60))
-    }
-  }
+        if (isGenChart) {
+          const imgUrl = await getImgUrl(ticker, dateprice, ma5, ma20, ma60)
+          newItem.tickersChart = [imgUrl]
+        }
+      }
+      return newItem
+    }))
 
   res.statusCode = 200
   res.json({
     asOfDate,
-    fiveLowerTwenty,
-    fiveLowerTwentyChart,
-    fiveHigherTwenty,
-    fiveHigherTwentyChart,
-    fiveLowerSixty,
-    fiveLowerSixtyChart,
-    fiveHigherSixty,
-    fiveHigherSixtyChart,
-    twentyLowerSixty,
-    twentyLowerSixtyChart,
-    twentyHigherSixty,
-    twentyHigherSixtyChart
+    priceMAList: [...newPriceMAList]
   })
 }
