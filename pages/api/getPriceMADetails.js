@@ -23,7 +23,8 @@ const handleQuote = async (ticker) => {
 
   return {
     Name: quote.longName,
-    Price: quote.regularMarketPrice
+    Price: quote.regularMarketPrice,
+    MarketCap: quote.marketCap
   }
 }
 

@@ -2,6 +2,7 @@
 import sendEmail from '../../lib/sendEmail'
 import { getEmailByID } from '../../lib/firebaseResult'
 import { getHost } from '../../lib/commonFunction'
+import millify from 'millify'
 
 const axios = require('axios').default
 
@@ -66,32 +67,32 @@ export default async (req, res) => {
 
   const fiveLowerTwentyList = priceMADetails.fiveLowerTwenty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.fiveLowerTwentyChart[index]}/>` : ''
-    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p><p>Market Cap.: ${millify(cur.MarketCap)}</p>${imgElement}</li>`
     return acc
   }, '')
   const fiveHigherTwentyList = priceMADetails.fiveHigherTwenty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.fiveHigherTwentyChart[index]}/>` : ''
-    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`   
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p><p>Market Cap.: ${millify(cur.MarketCap)}</p>${imgElement}</li>`   
     return acc
   }, '')
   const fiveLowerSixtyList = priceMADetails.fiveLowerSixty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.fiveLowerSixtyChart[index]}/>` : ''
-    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p><p>Market Cap.: ${millify(cur.MarketCap)}</p>${imgElement}</li>`
     return acc
   }, '')
   const fiveHigherSixtyList = priceMADetails.fiveHigherSixty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.fiveHigherSixtyChart[index]}/>` : ''
-    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`  
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p><p>Market Cap.: ${millify(cur.MarketCap)}</p>${imgElement}</li>`  
     return acc
   }, '')
   const twentyLowerSixtyList = priceMADetails.twentyLowerSixty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.twentyLowerSixtyChart[index]}/>` : ''
-    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p><p>Market Cap.: ${millify(cur.MarketCap)}</p>${imgElement}</li>`
     return acc
   }, '')
   const twentyHigherSixtyList = priceMADetails.twentyHigherSixty.reduce((acc, cur, index) => {
     const imgElement = genChart ? `<img src=${priceMADetails.twentyHigherSixtyChart[index]}/>` : ''
-    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>${imgElement}</li>`
+    acc += `<li><p>Symbol: <a href="${getHost()}/stockdetail?query=${cur.Symbol}">${cur.Symbol}</a></p><p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p><p>Market Cap.: ${millify(cur.MarketCap)}</p>${imgElement}</li>`
     return acc
   }, '')
   const inputArrList = tickerArr.reduce((acc, cur) => {
