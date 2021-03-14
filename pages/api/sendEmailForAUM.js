@@ -1,7 +1,7 @@
 
 import sendEmail from '../../lib/sendEmail'
 import { getEmailByID } from '../../lib/firebaseResult'
-import { getCSVContent, getHost } from '../../lib/commonFunction'
+import { getCSVContent, getHostForETFDb } from '../../lib/commonFunction'
 import moment from 'moment-business-days'
 import { aumTableHeader } from '../../config/etf'
 
@@ -27,7 +27,7 @@ export default async (req, res) => {
   }
 
   await axios.all(tickerArr.map(ticker => {
-    return axios.get(`${getHost()}/api/etfdb/getETFAUMSum?ticker=${ticker}`).catch(err => console.log(err))
+    return axios.get(`${getHostForETFDb()}/api/etfdb/getETFAUMSum?ticker=${ticker}`).catch(err => console.log(err))
   }))
     .catch(error => console.log(error))
     .then((responses) => {
