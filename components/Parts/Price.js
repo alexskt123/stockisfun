@@ -81,7 +81,7 @@ function PriceInfo({ inputTicker, inputMA }) {
       ticker: '',
       tableData: [],
       tableHeader: [],
-      chartData: { 'labels': [], 'datasets': [] }
+      chartData: {}
     })
   }
 

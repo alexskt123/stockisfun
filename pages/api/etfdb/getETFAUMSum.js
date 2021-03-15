@@ -21,16 +21,15 @@ const getAUMSum = async (ticker) => {
   }))
     .catch(error => console.log(error))
     .then((responses) => {
-      if (responses)
-        responses.forEach((item, index) => {
-          if (item) {
-            const etfInfo = item.data
-            const etfWeight = (etfList[index].weight || '').replace('%', '')
-            const etfSummary = `${etfList[index].ticker}: ${etfWeight}% AUM: ${etfInfo.basicInfo.AUM}`
-            aumSum += (parseFloat((etfInfo.basicInfo.AUM || '').replace(/\$|M|,| /gi, '')) * parseFloat(etfWeight) / 100)
-            etfData.push(etfSummary)
-          }
-        })
+      responses.forEach((item, index) => {
+        if (item) {
+          const etfInfo = item.data
+          const etfWeight = (etfList[index].weight || '').replace('%', '')
+          const etfSummary = `${etfList[index].ticker}: ${etfWeight}% AUM: ${etfInfo.basicInfo.AUM}`
+          aumSum += (parseFloat((etfInfo.basicInfo.AUM || '').replace(/\$|M|,| /gi, '')) * parseFloat(etfWeight) / 100)
+          etfData.push(etfSummary)
+        }
+      })
     })
 
   aumSum.toFixed(2)

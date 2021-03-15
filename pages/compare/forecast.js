@@ -1,7 +1,6 @@
 
 import { Fragment, useState, useEffect } from 'react'
 import CustomContainer from '../../components/Layout/CustomContainer'
-
 import ForecastInfo from '../../components/Parts/ForecastInfo'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'

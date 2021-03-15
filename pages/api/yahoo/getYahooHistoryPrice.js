@@ -11,13 +11,9 @@ import moment from 'moment-business-days'
 
 const handleYearPcnt = async (ticker, year) => {
 
-  const inputItems = []
-
-  let newDateRange = dateRange
-  if (year) newDateRange = await dateRangeByNoOfYears(year)
-
-  newDateRange.forEach(item => {
-    inputItems.push(
+  const newDateRange = year ? await dateRangeByNoOfYears(year) : dateRange
+  const inputItems = newDateRange.map(item => {
+    return(
       {
         'ticker': ticker.toUpperCase(),
         ...item
@@ -74,15 +70,13 @@ const handleYearPcnt = async (ticker, year) => {
 }
 
 const handleDays = async (ticker, days) => {
-  if (ticker === 'undefined' || days === 'undefined') return { date: [], price: [] }
-
   const { formattedFromDate, formattedToDate } = await getFormattedFromToDate(days)
 
   const outputItem = await getYahooHistoryPrice(ticker, formattedFromDate, formattedToDate)
   const allDate = (outputItem.timestamp || []).map(item => moment.unix(item).format('DD MMM YYYY'))
   const allPrice = outputItem.indicators.quote.find(x => x).close  
-  const price = parseInt(days) != allPrice.length ? allPrice.slice(Math.abs(allPrice.length - parseInt(days))) : allPrice
-  const date = parseInt(days) != allPrice.length ? allDate.slice(Math.abs(allPrice.length - parseInt(days))) : allDate
+  const price = parseInt(days) != allPrice?.length ? allPrice?.slice(Math.abs(allPrice?.length - parseInt(days))) : allPrice
+  const date = parseInt(days) != allPrice?.length ? allDate?.slice(Math.abs(allPrice?.length - parseInt(days))) : allDate
 
   return {
     date,
@@ -93,13 +87,8 @@ const handleDays = async (ticker, days) => {
 export default async (req, res) => {
   const { ticker, year, days } = req.query
 
-  let temp = {}
-
-  if (year)
-    temp = await handleYearPcnt(ticker, year)
-  else
-    temp = await handleDays(ticker, days)
-
+  let temp = year ? await handleYearPcnt(ticker, year) : await handleDays(ticker, days)
+  
   res.statusCode = 200
   res.json(temp)
 }

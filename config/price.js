@@ -72,10 +72,7 @@ export const priceSchema = {
   ticker: '',
   days: 30,
   ma: 'ma',
-  chartData: {
-    'labels': [],
-    'datasets': []
-  }
+  chartData: {}
 }
 
 export const priceChartSettings = {
