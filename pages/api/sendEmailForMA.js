@@ -100,29 +100,29 @@ export default async (req, res) => {
               <b>As of ${priceMADetails.asOfDate}:</b>
           </p>
           ${priceMADetails.priceMAList.map(priceMA => {
-      return (
-        `<hr>
+    return (
+      `<hr>
                 <p>
                     <b>${priceMA.name}</b>
                     <ol>
                       ${priceMA.tickersInfo.map((cur, idx) => {
-          const imgElement = genChart ? `<img src=${priceMA.tickersChart[idx]}/>` : ''
-          return (
-            `<li>
+        const imgElement = genChart ? `<img src=${priceMA.tickersChart[idx]}/>` : ''
+        return (
+          `<li>
                             <p>Symbol: ${getUrlItem(cur.Symbol)}</p>
                             <p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>
                             <p>Market Cap.: ${cur.MarketCap}</p>
                             <p>Industry: ${cur.Industry}</p>
                             <p>${imgElement}</p>
                           </li>`
-          )
-        }).join('')}
+        )
+      }).join('')}
                     </ol>
                 </p>
                 `
-      )
-    }).join('')
-      }
+    )
+  }).join('')
+}
           <hr>       
           <p>
               <b>Grabbing Ticker List:</b>
