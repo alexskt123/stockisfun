@@ -26,7 +26,6 @@ function StockDetails({ inputTicker }) {
   const [clicked, setClicked] = useState(false)
 
   async function handleTicker() {
-    if (!inputTicker) return
     setClicked(true)
 
     const ticker = inputTicker.toUpperCase()

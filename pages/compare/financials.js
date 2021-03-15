@@ -6,7 +6,7 @@ import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import FinancialsInfo from '../../components/Parts/FinancialsInfo'
-import { getFinancialsInfo, financialsSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
+import {financialsSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
 
 export default function CompareFinancials() {
 
@@ -36,13 +36,6 @@ export default function CompareFinancials() {
     )
   }
 
-  async function handleTickers(inputTickers) {
-    setClicked(true)    
-    const financials = await getFinancialsInfo(inputTickers, settings)
-    setSettings(financials)
-    setClicked(false)
-  }
-
   const handleSubmit = async (event) => {
     event.preventDefault()
     const form = event.currentTarget
@@ -54,7 +47,10 @@ export default function CompareFinancials() {
     } else {
       const { formTicker } = formValue
       const inputTickers = formTicker.toUpperCase().split(',')
-      await handleTickers(inputTickers)
+      setSettings({
+        ...settings,
+        tickers: inputTickers
+      })
     }
     setValidated(true)
     setClicked(false)
@@ -79,7 +75,7 @@ export default function CompareFinancials() {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <FinancialsInfo inputSettings={settings} />
+          <FinancialsInfo inputTickers={settings.tickers} />
         </Fragment>
       </CustomContainer>
     </Fragment >

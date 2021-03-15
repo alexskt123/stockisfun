@@ -6,7 +6,7 @@ import ForecastInfo from '../../components/Parts/ForecastInfo'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import { getForecastInfo, forecastSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
+import { forecastSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
 
 import { useRouter } from 'next/router'
 
@@ -48,11 +48,13 @@ export default function CompareForecast() {
     )
   }
 
-  async function handleTickers(inputTickers) {
+  const handleTickers = (inputTickers) => {
     setClicked(true)
     
-    const forecastInfo = await getForecastInfo(inputTickers, settings)
-    setSettings(forecastInfo)
+    setSettings({
+      ...settings,
+      tickers: inputTickers
+    })
 
     setClicked(false)
   }
@@ -66,7 +68,7 @@ export default function CompareForecast() {
     } else {
       const { formTicker } = formValue
       const inputTickers = formTicker.toUpperCase().split(',')
-      await handleTickers(inputTickers)
+      handleTickers(inputTickers)
     }
     setValidated(true)
   }
@@ -90,7 +92,7 @@ export default function CompareForecast() {
           {clicked ?
             <LoadingSpinner/> : null
           }
-          <ForecastInfo inputSettings={settings} />
+          <ForecastInfo inputTickers={settings.tickers} />
         </Fragment >
       </CustomContainer>
     </Fragment >

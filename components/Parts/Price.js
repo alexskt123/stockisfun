@@ -23,7 +23,6 @@ function PriceInfo({ inputTicker, inputMA }) {
 
 
   const getPrice = async (inputTicker, inputDays, inputMA) => {
-    if (!inputTicker) return
 
     const dateprice = await axios(`/api/yahoo/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(inputDays) + 60}`)
     const date = dateprice.data?.date || []
