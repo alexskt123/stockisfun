@@ -71,14 +71,14 @@ export default function WatchList() {
     )
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setTickers([])
     setWatchList([])
 
     router.replace('/watchlist')
   }
 
-  const refreshItems = async () => {
+  const refreshItems = () => {
     if (tickers.length > 0)
       handleTickers(tickers.join(','))
   }

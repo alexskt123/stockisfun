@@ -28,7 +28,7 @@ export default function StockDetail() {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
     const form = event.currentTarget
 
@@ -45,7 +45,7 @@ export default function StockDetail() {
     setClicked(false)
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setTicker('')
     setFormValue({ formTicker: '' })
     router.replace('/stockdetail')

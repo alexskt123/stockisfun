@@ -25,11 +25,13 @@ export default function Holdings({ inputETFTicker, cellClick }) {
   const { query } = router.query
 
   useEffect(async () => {
+    const abortController = new AbortController()
     if (query) {
       await handleTicker(query.toUpperCase())
     } else if (inputETFTicker) {
       await handleTicker(inputETFTicker.toUpperCase())
     }
+    return () => abortController.abort() 
   }, [query, inputETFTicker])
 
   const sortItem = async (index) => {

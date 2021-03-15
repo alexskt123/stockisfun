@@ -35,7 +35,7 @@ export default function ETFDetail() {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-  const cellClick = async (item) => {
+  const cellClick = (item) => {
     setSettings({
       ...settings,
       selectedTab: 'StockDetails',
@@ -45,13 +45,13 @@ export default function ETFDetail() {
     })
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({ ...etfDetailsSettings })
     setFormValue({ formTicker: '' })
     router.replace('/etfdetail')
   }
 
-  async function handleTicker(inputTicker) {
+  const handleTicker = (inputTicker) => {
     setClicked(true)
 
     const newSettings = {
@@ -63,7 +63,7 @@ export default function ETFDetail() {
     setClicked(false)
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
     const form = event.currentTarget
 
@@ -71,7 +71,7 @@ export default function ETFDetail() {
       event.stopPropagation()
     } else {
       const { formTicker } = formValue
-      await handleTicker(formTicker)
+      handleTicker(formTicker)
       router.replace('/etfdetail', `/etfdetail?query=${formTicker.toUpperCase()}`)
     }
     setValidated(true)
