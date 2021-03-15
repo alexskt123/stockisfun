@@ -19,7 +19,7 @@ export default function CompareFinancials() {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       tickers: [],
@@ -27,12 +27,11 @@ export default function CompareFinancials() {
     })
   }
 
-  const removeItem = async (value) => {
+  const removeItem = (value) => {
     if (clicked) return
 
     setSettings(
-      {
-        ...settings,
+      {...settings,
         tickers: [...settings.tickers.filter(x => x !== value)],
         stockInfo: [...settings.stockInfo.filter(x => x.find(x => x) !== value)]
       }

@@ -36,25 +36,19 @@ export default function CompareAUM() {
     )
   }
 
-  const clearItems = async () => {
-    setTickers(
-      []
-    )
-    setEtfInfo(
-      []
-    )
+  const clearItems = () => {
+    setTickers([])
+    setEtfInfo([])
   }
 
-  const removeItem = async (value) => {
+  const removeItem = (value) => {
     if (clicked) return
 
     setTickers(
       [...tickers.filter(x => x !== value)]
     )
     setEtfInfo(
-      [
-        ...etfInfo.filter(x => x.find(x => x) !== value)
-      ]
+      [...etfInfo.filter(x => x.find(x => x) !== value)]
     )
   }
 

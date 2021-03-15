@@ -20,17 +20,14 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
     }))
       .catch(error => { console.log(error) })
       .then(responses => {
-        if (responses) {
-          responses.forEach((response) => {
-            if (response && response.data) {
-              extractYahooInfo.forEach(info => {
-                const curData = stockInfoAdd.find(x => x.Ticker === response.data.symbol)
-                if (curData)
-                  curData[info.label] = typeof response.data[info.field] === 'number' ? roundTo(response.data[info.field], 2) : response.data[info.field]
-              })
-            }
+        responses.forEach((response) => {
+          const { data } = response
+          extractYahooInfo.forEach(info => {
+            const curData = stockInfoAdd.find(x => x.Ticker === data.symbol)
+            if (curData)
+              curData[info.label] = typeof data[info.field] === 'number' ? roundTo(data[info.field], 2) : data[info.field]
           })
-        }
+        })
       })
 
     setStockInfo(stockInfoAdd)

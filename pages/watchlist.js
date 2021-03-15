@@ -130,24 +130,20 @@ export default function WatchList() {
     }))
       .catch(error => { console.log(error) })
       .then(responses => {
-        if (responses) {
-
-          responses.forEach((response) => {
-            if (response && response.data) {
-              temp.push(tableHeaderList.map(header => {
-                if (response.data[header.item])
-                  return {
-                    'label': header.label,
-                    'item': header.format && header.format == '%' ? { style: 'green-red', data: `${response.data[header.item]?.toFixed(2)}%` }
-                      : header.format && header.format == 'H:mm:ss' ? moment(response.data[header.item] * 1000).format('H:mm:ss')
-                        : header.format && header.format == 'millify' ? millify(response.data[header.item] || 0)
-                          : response.data[header.item]
-                  }
-              })
-              )
-            }
+        responses.forEach(response => {
+          const { data } = response
+          temp.push(tableHeaderList.map(header => {
+            if (data && data[header.item])
+              return {
+                'label': header.label,
+                'item': header.format && header.format == '%' ? { style: 'green-red', data: `${data[header.item]?.toFixed(2)}%` }
+                  : header.format && header.format == 'H:mm:ss' ? moment(data[header.item] * 1000).format('H:mm:ss')
+                    : header.format && header.format == 'millify' ? millify(data[header.item] || 0)
+                      : data[header.item]
+              }
           })
-        }
+          )
+        })
       })
 
     const newTemp = temp.every(itemArr => itemArr.filter(x => x != undefined).length == 6) ? temp :

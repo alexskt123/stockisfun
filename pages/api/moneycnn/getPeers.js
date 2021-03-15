@@ -12,20 +12,19 @@ export default async (req, res) => {
   const { ticker } = req.query
 
   const data = await getPeers(ticker)
-  const newData = [...data]
 
-  await axios.all(data.map(item => axios.get(`${getHost()}/api/yahoo/getYahooQuote?ticker=${item.Ticker}`)))
-    .then((responses) => {
-      responses.forEach(response => {
-        if (response && response.data) {          
-          extractYahooInfo.forEach(info => {
-            const curData = newData.find(x => x.Ticker === response.data.symbol)
-            if (curData)
-              curData[info.label] = response.data[info.field]
-          })
-        }
-      })
+  const responses = await axios.all(data.map(item => axios.get(`${getHost()}/api/yahoo/getYahooQuote?ticker=${item.Ticker}`)))
+
+  const newData = [...data].map(item => {
+    const data = responses.find(x => x.data && x.data.symbol === item.Ticker)?.data
+
+    const newItem = { ...item }
+    extractYahooInfo.forEach(info => {
+      newItem[info.label] = (data ? data : {})[info.field]
     })
+
+    return newItem
+  })
 
   res.statusCode = 200
   res.json(newData)

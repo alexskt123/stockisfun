@@ -33,7 +33,7 @@ function FinancialsInfo({ inputSettings, inputTickers }) {
     })
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       tickers: [],
