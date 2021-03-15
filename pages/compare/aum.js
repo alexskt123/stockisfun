@@ -42,8 +42,6 @@ export default function CompareAUM() {
   }
 
   const removeItem = (value) => {
-    if (clicked) return
-
     setTickers(
       [...tickers.filter(x => x !== value)]
     )

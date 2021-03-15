@@ -16,7 +16,9 @@ function PriceInfo({ inputTicker, inputMA }) {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    const abortController = new AbortController()
     handleTicker(inputTicker, settings.days, inputMA == '' ? inputMA : settings.ma)
+    return () => abortController.abort()
   }, [inputTicker, settings.days, settings.ma])
 
 
@@ -69,12 +71,12 @@ function PriceInfo({ inputTicker, inputMA }) {
 
   async function handleTicker(inputTicker, inputDays, inputMA) {
     setLoading(true)
-    await clearItems()
+    clearItems()
     await getPrice(inputTicker, inputDays, inputMA)
     setLoading(false)
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       ticker: '',

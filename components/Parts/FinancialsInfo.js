@@ -17,7 +17,7 @@ function FinancialsInfo({ inputSettings, inputTickers }) {
     if (inputSettings) {
       setSettings(inputSettings)
     } else if (inputTickers) {
-      await clearItems()
+      clearItems()
       const financialsInfo = await getFinancialsInfo(inputTickers, financialsSettingSchema)
       setSettings(financialsInfo)
     }

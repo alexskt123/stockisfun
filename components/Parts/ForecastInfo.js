@@ -21,11 +21,11 @@ function ForecastInfo({ inputSettings, inputTickers }) {
     if (inputSettings) {
       setSettings(inputSettings)
     } else if (inputTickers) {
-      await clearItems()
+      clearItems()
       const forecastInfo = await getForecastInfo(inputTickers, forecastSettingSchema)
       setSettings(forecastInfo)
     } else if (inputTickers.length <= 0) {
-      await clearItems()
+      clearItems()
     }
 
     setLoading(false)
@@ -39,7 +39,7 @@ function ForecastInfo({ inputSettings, inputTickers }) {
     })
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       tickers: [],

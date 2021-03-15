@@ -30,7 +30,7 @@ export default function CompareForecast() {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       tickers: [],
@@ -38,9 +38,7 @@ export default function CompareForecast() {
     })
   }
 
-  const removeItem = async (value) => {
-    if (clicked) return
-
+  const removeItem = (value) => {
     setSettings(
       {
         ...settings,

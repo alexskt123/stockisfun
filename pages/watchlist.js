@@ -109,9 +109,7 @@ export default function WatchList() {
     await updateWatchList()
   }
 
-  const removeItem = async (value) => {
-    if (clicked) return
-
+  const removeItem = (value) => {
     setTickers(
       [...tickers.filter(x => x !== value)]
     )

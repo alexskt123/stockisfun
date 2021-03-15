@@ -28,8 +28,6 @@ export default function CompareFinancials() {
   }
 
   const removeItem = (value) => {
-    if (clicked) return
-
     setSettings(
       {...settings,
         tickers: [...settings.tickers.filter(x => x !== value)],
