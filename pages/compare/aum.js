@@ -54,22 +54,16 @@ export default function CompareAUM() {
 
     const newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
 
-    let outputItem
-    const temp = []
-    let moneyCnn = []
-
-    for (const ticker of newTickers) {
-      outputItem = await axios(`/api/etfdb/getETFAUMSum?ticker=${ticker}`)
-      moneyCnn = await axios(`/api/forecast/getMoneyCnn?ticker=${ticker}`)
-
-      const etf = {}
-      etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = [...outputItem.data, ...moneyCnn.data]
-      temp.push(
-        etf
-      )
-
-    }
+    const temp = await Promise.all(newTickers.map(async ticker => {
+      const etf = await axios(`/api/etfdb/getETFAUMSum?ticker=${ticker}`)
+      const cnn = await axios(`/api/forecast/getMoneyCnn?ticker=${ticker}`)
+      const { data: etfData } = etf
+      const { data: cnnData } = cnn
+      return ({
+        ticker: ticker.toUpperCase(),
+        info: [...etfData, ...cnnData]
+      })
+    }))
 
     setTickers([
       ...tickers,
@@ -81,15 +75,14 @@ export default function CompareAUM() {
     )
 
     setEtfInfo(
-      [
-        ...etfInfo,
-        ...temp.map(item => {
-          const newItem = [
-            item.ticker,
-            ...item.info
-          ]
-          return newItem
-        })
+      [...etfInfo,
+      ...temp.map(item => {
+        const newItem = [
+          item.ticker,
+          ...item.info
+        ]
+        return newItem
+      })
       ]
     )
 
@@ -104,13 +97,9 @@ export default function CompareAUM() {
     if (form.checkValidity() === false) {
       event.stopPropagation()
     } else {
-
       const { formTicker } = formValue
-
       const inputTickers = formTicker.split(',')
-
       await handleTickers(inputTickers)
-
     }
     setValidated(true)
     setClicked(false)
@@ -131,7 +120,7 @@ export default function CompareAUM() {
             tableData={etfInfo}
             exportFileName={'Stock_aum_sum.csv'}
           />
-          <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
+          <TickerBullet tickers={tickers} removeItem={removeItem} />
           {clicked ?
             <LoadingSpinner /> : null
           }
