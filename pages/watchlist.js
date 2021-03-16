@@ -3,7 +3,6 @@ import { Fragment, useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
 import Button from 'react-bootstrap/Button'
 import moment from 'moment-business-days'
-import millify from 'millify'
 
 import CustomContainer from '../components/Layout/CustomContainer'
 import StockInfoTable from '../components/Page/StockInfoTable'
@@ -11,7 +10,7 @@ import TickerInput from '../components/Page/TickerInput'
 import TickerBullet from '../components/Page/TickerBullet'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 import { tableHeaderList } from '../config/watchlist'
-import { sortTableItem, handleDebounceChange } from '../lib/commonFunction'
+import { sortTableItem, handleDebounceChange, millify } from '../lib/commonFunction'
 import { updUserWatchList, getUserInfoByUID } from '../lib/firebaseResult'
 import { Store } from '../lib/store'
 import { fireToast } from '../lib/toast'
@@ -136,7 +135,7 @@ export default function WatchList() {
                 'label': header.label,
                 'item': header.format && header.format == '%' ? { style: 'green-red', data: `${data[header.item]?.toFixed(2)}%` }
                   : header.format && header.format == 'H:mm:ss' ? moment(data[header.item] * 1000).format('H:mm:ss')
-                    : header.format && header.format == 'millify' ? millify(data[header.item] || 0)
+                    : header.format && header.format == 'millify' ? millify(data[header.item])
                       : data[header.item]
               }
           })

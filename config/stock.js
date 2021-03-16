@@ -21,7 +21,8 @@ export const stockDetailsSettings = {
     tableData: [],
     chartData: {
 
-    }
+    },
+    chartOptions: {}
   },
   earnings: {
     tableHeader: [],

@@ -166,7 +166,7 @@ function StockDetails({ inputTicker }) {
             <LoadingSpinner /> : null
           }
           <StockInfoTable tableSize="sm" tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} />
-          <Bar data={settings.balanceSheet.chartData} />
+          <Bar data={settings.balanceSheet.chartData} options={settings.balanceSheet.chartOptions} />
         </Tab>
         <Tab eventKey="Earnings" title="Earnings">
           {clicked ?

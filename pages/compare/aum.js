@@ -76,13 +76,13 @@ export default function CompareAUM() {
 
     setEtfInfo(
       [...etfInfo,
-      ...temp.map(item => {
-        const newItem = [
-          item.ticker,
-          ...item.info
-        ]
-        return newItem
-      })
+        ...temp.map(item => {
+          const newItem = [
+            item.ticker,
+            ...item.info
+          ]
+          return newItem
+        })
       ]
     )
 

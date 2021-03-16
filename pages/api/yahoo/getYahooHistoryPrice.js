@@ -87,7 +87,7 @@ const handleDays = async (ticker, days) => {
 export default async (req, res) => {
   const { ticker, year, days } = req.query
 
-  let temp = year ? await handleYearPcnt(ticker, year) : await handleDays(ticker, days)
+  const temp = year ? await handleYearPcnt(ticker, year) : await handleDays(ticker, days)
   
   res.statusCode = 200
   res.json(temp)
