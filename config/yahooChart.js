@@ -18,14 +18,11 @@ export const chartResponse = {
 }
 
 export const quoteResponse = {
-  'data': {
-    'quoteResponse': {
-      'result': [
-      ],
-      'error': null
-    }
+  'quoteResponse': {
+    'result': [
+    ],
+    'error': null
   }
-
 }
 
 export const keyStatResponse = {
@@ -122,7 +119,7 @@ export const balanceSheetRespsone = {
       'result': [
         {
           'balanceSheetHistory': {
-            'balanceSheetStatements' : []
+            'balanceSheetStatements': []
           }
         }
       ]
