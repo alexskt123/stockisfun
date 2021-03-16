@@ -32,11 +32,8 @@ const handleYearPcnt = async (ticker, year) => {
 
   for (const item of inputItems) {
 
-    let formattedFromDate = new Date(item.fromDate)
-    formattedFromDate = formattedFromDate.getTime() / 1000
-
-    let formattedToDate = new Date(item.toDate)
-    formattedToDate = formattedToDate.getTime() / 1000
+    const formattedFromDate = new Date(item.fromDate).getTime() / 1000
+    const formattedToDate = new Date(item.toDate).getTime() / 1000
 
     const outputItem = await getYahooHistoryPrice(item.ticker, formattedFromDate, formattedToDate)
     const quote = await getYahooQuote(item.ticker)
@@ -48,7 +45,6 @@ const handleYearPcnt = async (ticker, year) => {
       newQuote[item.label] = quote[item.column]
     })
     temp.quote = newQuote
-
 
     if (allData && allData.length > 0) {
       const opening = allData.find(x => x)

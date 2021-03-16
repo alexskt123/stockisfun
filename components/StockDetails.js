@@ -77,10 +77,7 @@ function StockDetails({ inputTicker }) {
         .then((response) => {
 
           const keyRatio = response.data
-          let floatingShareRatio = 'N/A'
-          if (keyRatio && keyRatio.floatShares) {
-            floatingShareRatio = percent.calc(keyRatio.floatShares.raw, keyRatio.sharesOutstanding.raw, 2, true)
-          }
+          const floatingShareRatio = keyRatio && keyRatio.floatShares ? percent.calc(keyRatio.floatShares.raw, keyRatio.sharesOutstanding.raw, 2, true) : 'N/A'
           newSettings = { ...newSettings, floatingShareRatio }
 
           setSettings({
