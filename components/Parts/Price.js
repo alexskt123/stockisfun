@@ -15,9 +15,9 @@ function PriceInfo({ inputTicker, inputMA }) {
   const [settings, setSettings] = useState(priceSchema)
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
+  useEffect(async () => {
     const abortController = new AbortController()
-    handleTicker(inputTicker, settings.days, inputMA == '' ? inputMA : settings.ma)
+    await handleTicker(inputTicker, settings.days, inputMA == '' ? inputMA : settings.ma)
     return () => abortController.abort()
   }, [inputTicker, settings.days, settings.ma])
 
@@ -61,10 +61,10 @@ function PriceInfo({ inputTicker, inputMA }) {
 
   const handleChange = async (e) => {
     if (e.target.name == 'formYear' && parseInt(e.target.value) != parseInt(settings.days)) {
-      handleTicker(inputTicker, e.target.value, settings.ma)
+      await handleTicker(inputTicker, e.target.value, settings.ma)
     }
     else if (e.target.name == 'formma' && e.target.value != settings.ma) {
-      handleTicker(inputTicker, settings.days, e.target.value)
+      await handleTicker(inputTicker, settings.days, e.target.value)
     }
   }
 
