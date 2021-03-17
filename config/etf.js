@@ -30,6 +30,7 @@ export const etfDetailsHoldingSettings = {
 export const etfHoldingHeader = ['Ticker', 'Name', 'Holding', 'YTD%', ...[...Array(3)].map((_item, idx) => `${moment().subtract(idx + 1, 'years').year()}%`)]
 
 export const aumSumCount = 10
+export const etfListByTickerCount = 15
 
 export const aumTableHeader = [
   'Ticker',

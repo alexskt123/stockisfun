@@ -67,7 +67,7 @@ export default function Basics({ inputETFTicker }) {
               <AddDelStock inputTicker={ticker} handleList='etf' />
             </Row>
             <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} />
-            <Price inputTicker={ticker} inputDays={90} />
+            <Price inputTicker={ticker} />
           </Fragment>
           : <ValidTickerAlert />
       }

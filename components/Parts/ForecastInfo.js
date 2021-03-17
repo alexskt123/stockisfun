@@ -4,29 +4,23 @@ import { Fragment, useState, useEffect } from 'react'
 import { getForecastInfo, sortTableItem, forecastSettingSchema } from '../../lib/commonFunction'
 import LoadingSpinner from '../Loading/LoadingSpinner'
 import StockInfoTable from '../../components/Page/StockInfoTable'
-import {forecastTableFirstHeader} from '../../config/forecast'
+import { forecastTableFirstHeader } from '../../config/forecast'
 
-function ForecastInfo({ inputSettings, inputTickers }) {
+function ForecastInfo({ inputTickers }) {
 
   const [settings, setSettings] = useState(forecastSettingSchema)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     handleTickers()
-  }, [inputSettings, inputTickers])
+  }, [inputTickers])
 
   async function handleTickers() {
     setLoading(true)
 
-    if (inputSettings) {
-      setSettings(inputSettings)
-    } else if (inputTickers) {
-      await clearItems()
-      const forecastInfo = await getForecastInfo(inputTickers, forecastSettingSchema)
-      setSettings(forecastInfo)
-    } else if (inputTickers.length <= 0) {
-      await clearItems()
-    }
+    clearItems()
+    const forecastInfo = await getForecastInfo(inputTickers, forecastSettingSchema)
+    setSettings(forecastInfo)
 
     setLoading(false)
   }
@@ -39,7 +33,7 @@ function ForecastInfo({ inputSettings, inputTickers }) {
     })
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       tickers: [],
