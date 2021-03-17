@@ -6,7 +6,7 @@ import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import FinancialsInfo from '../../components/Parts/FinancialsInfo'
-import { getFinancialsInfo, financialsSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
+import {financialsSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
 
 export default function CompareFinancials() {
 
@@ -19,7 +19,7 @@ export default function CompareFinancials() {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       tickers: [],
@@ -27,23 +27,13 @@ export default function CompareFinancials() {
     })
   }
 
-  const removeItem = async (value) => {
-    if (clicked) return
-
+  const removeItem = (value) => {
     setSettings(
-      {
-        ...settings,
+      {...settings,
         tickers: [...settings.tickers.filter(x => x !== value)],
         stockInfo: [...settings.stockInfo.filter(x => x.find(x => x) !== value)]
       }
     )
-  }
-
-  async function handleTickers(inputTickers) {
-    setClicked(true)    
-    const financials = await getFinancialsInfo(inputTickers, settings)
-    setSettings(financials)
-    setClicked(false)
   }
 
   const handleSubmit = async (event) => {
@@ -57,7 +47,10 @@ export default function CompareFinancials() {
     } else {
       const { formTicker } = formValue
       const inputTickers = formTicker.toUpperCase().split(',')
-      await handleTickers(inputTickers)
+      setSettings({
+        ...settings,
+        tickers: inputTickers
+      })
     }
     setValidated(true)
     setClicked(false)
@@ -82,7 +75,7 @@ export default function CompareFinancials() {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <FinancialsInfo inputSettings={settings} />
+          <FinancialsInfo inputTickers={settings.tickers} />
         </Fragment>
       </CustomContainer>
     </Fragment >

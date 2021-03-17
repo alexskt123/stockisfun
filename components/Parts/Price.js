@@ -15,13 +15,14 @@ function PriceInfo({ inputTicker, inputMA }) {
   const [settings, setSettings] = useState(priceSchema)
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    handleTicker(inputTicker, settings.days, inputMA == '' ? inputMA : settings.ma)
+  useEffect(async () => {
+    const abortController = new AbortController()
+    await handleTicker(inputTicker, settings.days, inputMA == '' ? inputMA : settings.ma)
+    return () => abortController.abort()
   }, [inputTicker, settings.days, settings.ma])
 
 
   const getPrice = async (inputTicker, inputDays, inputMA) => {
-    if (!inputTicker) return
 
     const dateprice = await axios(`/api/yahoo/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(inputDays) + 60}`)
     const date = dateprice.data?.date || []
@@ -60,27 +61,27 @@ function PriceInfo({ inputTicker, inputMA }) {
 
   const handleChange = async (e) => {
     if (e.target.name == 'formYear' && parseInt(e.target.value) != parseInt(settings.days)) {
-      handleTicker(inputTicker, e.target.value, settings.ma)
+      await handleTicker(inputTicker, e.target.value, settings.ma)
     }
     else if (e.target.name == 'formma' && e.target.value != settings.ma) {
-      handleTicker(inputTicker, settings.days, e.target.value)
+      await handleTicker(inputTicker, settings.days, e.target.value)
     }
   }
 
   async function handleTicker(inputTicker, inputDays, inputMA) {
     setLoading(true)
-    await clearItems()
+    clearItems()
     await getPrice(inputTicker, inputDays, inputMA)
     setLoading(false)
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       ticker: '',
       tableData: [],
       tableHeader: [],
-      chartData: { 'labels': [], 'datasets': [] }
+      chartData: {}
     })
   }
 

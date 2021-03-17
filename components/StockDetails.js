@@ -26,10 +26,11 @@ function StockDetails({ inputTicker }) {
   const [clicked, setClicked] = useState(false)
 
   async function handleTicker() {
-    if (!inputTicker) return
+    if(!inputTicker) return
+    
     setClicked(true)
 
-    const ticker = inputTicker.toUpperCase()
+    const ticker = (inputTicker || '').toUpperCase()
     let newSettings = { ...stockDetailsSettings, inputTickers: [ticker] }
 
     setSettings(newSettings)
@@ -76,10 +77,7 @@ function StockDetails({ inputTicker }) {
         .then((response) => {
 
           const keyRatio = response.data
-          let floatingShareRatio = 'N/A'
-          if (keyRatio && keyRatio.floatShares) {
-            floatingShareRatio = percent.calc(keyRatio.floatShares.raw, keyRatio.sharesOutstanding.raw, 2, true)
-          }
+          const floatingShareRatio = keyRatio && keyRatio.floatShares ? percent.calc(keyRatio.floatShares.raw, keyRatio.sharesOutstanding.raw, 2, true) : 'N/A'
           newSettings = { ...newSettings, floatingShareRatio }
 
           setSettings({
@@ -165,7 +163,7 @@ function StockDetails({ inputTicker }) {
             <LoadingSpinner /> : null
           }
           <StockInfoTable tableSize="sm" tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} />
-          <Bar data={settings.balanceSheet.chartData} />
+          <Bar data={settings.balanceSheet.chartData} options={settings.balanceSheet.chartOptions} />
         </Tab>
         <Tab eventKey="Earnings" title="Earnings">
           {clicked ?

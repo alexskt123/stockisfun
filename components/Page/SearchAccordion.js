@@ -14,11 +14,7 @@ export default function SearchAccordion({ children, inputTicker }) {
   const { query } = router.query
 
   useEffect(() => {
-    if (query) {
-      setAccordionActive('-1')
-    } else {
-      setAccordionActive('0')
-    }
+    setAccordionActive(query ? '-1' : '0')
   }, [query])
 
   return (

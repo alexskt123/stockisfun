@@ -5,23 +5,16 @@ import { getFinancialsInfo, sortTableItem, financialsSettingSchema } from '../..
 import LoadingSpinner from '../Loading/LoadingSpinner'
 import StockInfoTable from '../Page/StockInfoTable'
 
-function FinancialsInfo({ inputSettings, inputTickers }) {
+function FinancialsInfo({ inputTickers }) {
 
   const [settings, setSettings] = useState(financialsSettingSchema)
   const [loading, setLoading] = useState(false)
 
   async function handleTickers() {
-
     setLoading(true)
-
-    if (inputSettings) {
-      setSettings(inputSettings)
-    } else if (inputTickers) {
-      await clearItems()
-      const financialsInfo = await getFinancialsInfo(inputTickers, financialsSettingSchema)
-      setSettings(financialsInfo)
-    }
-
+    clearItems()
+    const financialsInfo = await getFinancialsInfo(inputTickers, financialsSettingSchema)
+    setSettings(financialsInfo)
     setLoading(false)
   }
 
@@ -33,7 +26,7 @@ function FinancialsInfo({ inputSettings, inputTickers }) {
     })
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       tickers: [],
@@ -44,7 +37,7 @@ function FinancialsInfo({ inputSettings, inputTickers }) {
 
   useEffect(() => {
     handleTickers()
-  }, [inputSettings, inputTickers])
+  }, [inputTickers])
 
   return (
     <Fragment>

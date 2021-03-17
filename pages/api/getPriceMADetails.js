@@ -5,10 +5,9 @@ import { getYahooAssetProfile } from '../../lib/yahoo/getYahooAssetProfile'
 import moment from 'moment-business-days'
 import { ma } from 'moving-averages'
 import QuickChart from 'quickchart-js'
-import { getFormattedFromToDate } from '../../lib/commonFunction'
+import { getFormattedFromToDate, millify } from '../../lib/commonFunction'
 import { priceChartSettings, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings } from '../../config/price'
 import { priceMAList } from '../../config/email'
-import millify from 'millify'
 
 const handleDays = async (ticker, fromdate, todate) => {
 

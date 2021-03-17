@@ -11,13 +11,13 @@ function ETFList({ inputSettings }) {
   const [settings, setSettings] = useState({ ...etfListSettings })
   const [ascSort, setAscSort] = useState(false)
 
-  async function handleSettings(inputSettings) {
+  const handleSettings = (inputSettings) => {
     setSettings(inputSettings)
   }
 
-  useEffect(async () => {
-    await clearItems()
-    await handleSettings(inputSettings)
+  useEffect(() => {
+    clearItems()
+    handleSettings(inputSettings)
   }, [inputSettings])
 
   const sortItem = async (index) => {
@@ -28,7 +28,7 @@ function ETFList({ inputSettings }) {
     setAscSort(!ascSort)
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({ ...etfListSettings })
   }
 
