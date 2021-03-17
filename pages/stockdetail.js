@@ -3,7 +3,7 @@ import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import CustomContainer from '../components/Layout/CustomContainer'
-import TickerInput from '../components/Page/TickerInput'
+import TypeAhead from '../components/Page/TypeAhead'
 import StockDetails from '../components/StockDetails'
 import { handleDebounceChange } from '../lib/commonFunction'
 import SearchAccordion from '../components/Page/SearchAccordion'
@@ -25,7 +25,16 @@ export default function StockDetail() {
   }, [query])
 
   const handleChange = (e) => {
-    handleDebounceChange(e, formValue, setFormValue)
+    const input = e.find(x => x)
+    input ? setTicker(input.symbol) : null
+    input ? router.replace('/stockdetail', `/stockdetail?query=${input.symbol}`) : null
+    // console.log(e)
+    // const form = {
+    //   ...formValue,
+    //   [e.target.name]: e.target.value
+    // }
+    // const formChange = setFormValue(form)
+    //handleDebounceChange(e, formValue, setFormValue)
   }
 
   const handleSubmit = (event) => {
@@ -56,15 +65,15 @@ export default function StockDetail() {
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
           <SearchAccordion inputTicker={ticker}>
-            <TickerInput
-              validated={validated}
-              handleSubmit={handleSubmit}
-              placeholderText={'i.e. aapl'}
-              handleChange={handleChange}
-              formTicker={formValue.formTicker}
-              clicked={clicked}
-              clearItems={clearItems}
-            />
+          <TypeAhead
+            validated={validated}
+            handleSubmit={handleSubmit}
+            placeholderText={'i.e. aapl'}
+            handleChange={handleChange}
+            formTicker={formValue.formTicker}
+            clicked={clicked}
+            clearItems={clearItems}
+          />
           </SearchAccordion>
           <StockDetails inputTicker={ticker} />
         </Fragment>

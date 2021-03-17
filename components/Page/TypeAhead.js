@@ -1,12 +1,15 @@
-import { Fragment } from 'react'
+
+import { Fragment, useState } from 'react'
 
 import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import FileSaver from 'file-saver'
 import { getCSVContent } from '../../lib/commonFunction'
 import { priceChangeDateRangeSelectAttr, buttonSettings } from '../../config/form'
+import { AsyncTypeahead } from 'react-bootstrap-typeahead'
 
 const exportToFile = (tableHeader, tableData, exportFileName) => {
   if (tableHeader && tableData) {
@@ -15,12 +18,57 @@ const exportToFile = (tableHeader, tableData, exportFileName) => {
   }
 }
 
-function TickerInput({ validated, handleSubmit, placeholderText, handleChange, formTicker, clicked, clearItems, tableHeader, tableData, exportFileName, yearControl }) {
+function TypeAhead({ validated, handleSubmit, placeholderText, handleChange, formTicker, clicked, clearItems, tableHeader, tableData, exportFileName, yearControl }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [options, setOptions] = useState([]);
+
+  const handleSearch = (query) => {
+    setIsLoading(true);
+
+    fetch(`/api/yahoo/getTickerSuggestions?query=${query}`)
+      .then((resp) => resp.json())
+      .then((items) => {
+        setOptions(items)
+        setIsLoading(false)
+      })
+  }
+
+  // Bypass client-side filtering by returning `true`. Results are already
+  // filtered by the search endpoint, so no need to do it again.
+  const filterBy = () => true
+
   return (
     <Fragment>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Form.Group controlId="exampleForm.ControlInput1">
-          <Form.Control required type="formTicker" name="formTicker" value={formTicker} placeholder={placeholderText} onChange={(e) => handleChange(e)} />
+        <Form.Group controlId="exampleForm.ControlInput1" style={{ position: 'relative' }}>
+          <AsyncTypeahead
+            type="formTicker"
+            name="formTicker"
+            placeholder={placeholderText}
+            onChange={(e) => handleChange(e)}
+            value={formTicker}
+            filterBy={filterBy}
+            id="sevenHead"
+            isLoading={isLoading}
+            labelKey="symbol"
+            minLength={1}
+            onSearch={handleSearch}
+            options={options}
+            positionFixed={true}
+            renderMenuItemChildren={(option) => (
+              <Fragment>
+                <Row>
+                  <Col xs={2} md={3} lg={3}>
+                    <Badge variant="dark">{option.symbol}</Badge>
+                  </Col>
+                  <Col xs={4} md={6} lg={9}>
+                    <Badge variant="light" className="ml-1">{option.name}</Badge>
+                  </Col>
+                </Row>
+              </Fragment>
+            )}
+          />
+          {/* <Form.Control required type="formTicker" name="formTicker" value={formTicker} placeholder={placeholderText} onChange={(e) => handleChange(e)} /> */}
         </Form.Group>
         {
           yearControl ?
@@ -72,4 +120,4 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, f
   )
 }
 
-export default TickerInput
+export default TypeAhead
