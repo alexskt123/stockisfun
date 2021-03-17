@@ -10,10 +10,7 @@ export default async (req, res) => {
 
   const data = await getStockFairValue(ticker)
   const yahooData = await getYahooRecommendTrend(ticker)
-  let yahooDataArr = [...Object.values(yahooData.find(x => x) || {}).slice(1)]
 
-  yahooDataArr = yahooDataArr.length == 0 ? ['N/A','N/A','N/A','N/A','N/A'] : yahooDataArr
-  
   res.statusCode = 200
-  res.json([...data, ...yahooDataArr])
+  res.json([...data, ...yahooData])
 }

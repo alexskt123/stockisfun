@@ -16,9 +16,6 @@ export default async (req, res) => {
   const financialData = await getYahooFinancialData(ticker)
   const quote = await getYahooQuote(ticker)
 
-  const revenueArr = []
-  const netIncomeArr = []
-
   const earningsExtract = earnings.map(item => {
     return {
       'revenue': item.revenue.raw,
@@ -26,38 +23,34 @@ export default async (req, res) => {
     }
   })
 
-  earningsExtract.forEach((item,index) => {
+  const incomeStmtDefault = {
+    revenueArr: [],
+    netIncomeArr: []
+  }
+
+  const incomeStmt = earningsExtract.reduce((acc, cur, index, org) => {
     if (index > 0) {
-      const revenuePcnt = percent.calc((item.revenue - earningsExtract[index - 1].revenue), earningsExtract[index - 1].revenue, 2, true)
-      const netIncomePcnt = percent.calc((item.netIncome - earningsExtract[index - 1].netIncome), earningsExtract[index - 1].netIncome, 2, true)
-      revenueArr.push(revenuePcnt)
-      netIncomeArr.push(netIncomePcnt)
+
+      const revenuePcnt = percent.calc((cur.revenue - org[index - 1].revenue), org[index - 1].revenue, 2, true)
+      const netIncomePcnt = percent.calc((cur.netIncome - org[index - 1].netIncome), org[index - 1].netIncome, 2, true)
+
+      acc = {
+        revenueArr: [...acc.revenueArr, revenuePcnt],
+        netIncomeArr: [...acc.netIncomeArr, netIncomePcnt]
+      }
     }
-  })
 
-  const latestIncome = income.find(x => x)
+    return acc
+  }, { ...incomeStmtDefault })
 
-  let grossMargin = 'N/A'
-  let returnOnEquity = 'N/A'
-  let returnOnAssets = 'N/A'
-  let trailingPE = 'N/A'
-
-  if (latestIncome)
-    grossMargin = percent.calc(latestIncome.grossProfit.raw, latestIncome.totalRevenue.raw, 2, true)
-
-
-  if (financialData.returnOnEquity)
-    returnOnEquity = financialData.returnOnEquity.fmt
-  
-  if (financialData.returnOnAssets)
-    returnOnAssets = financialData.returnOnAssets.fmt
-
-  if (quote.trailingPE)
-    trailingPE = quote.trailingPE.toFixed(2)
+  const grossMargin = percent.calc(income.find(x => x)?.grossProfit?.raw, income.find(x => x)?.totalRevenue?.raw, 2, true)
+  const returnOnEquity = financialData?.returnOnEquity?.fmt
+  const returnOnAssets = financialData?.returnOnAssets?.fmt
+  const trailingPE = quote?.trailingPE?.toFixed(2)
 
   const data = [
-    ...revenueArr.reverse(),
-    ...netIncomeArr.reverse(),
+    ...incomeStmt.revenueArr.reverse(),
+    ...incomeStmt.netIncomeArr.reverse(),
     trailingPE,
     returnOnEquity,
     grossMargin,

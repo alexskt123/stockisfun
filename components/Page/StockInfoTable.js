@@ -5,11 +5,9 @@ import Link from 'next/link'
 
 const getCellColor = (item) => {
   const itemData = typeof item == 'object' && item && item.data ? item.data : item
-  if (item && item.style) {
-    if (item.style == 'green-red') {
-      const cur = (item.data || '').toString().replace(/%/, '')
-      return cur < 0 ? { color: 'red' } : cur > 0 ? { color: 'green' } : { color: 'black' }
-    }
+  if (item && item.style && item.style === 'green-red') {
+    const cur = (item.data || '').toString().replace(/%/, '')
+    return cur < 0 ? { color: 'red' } : cur > 0 ? { color: 'green' } : { color: 'black' }
   }
   else if ((itemData || '').toString().replace(/%/, '') < 0) return { color: 'red' }
   else return { color: 'black' }
