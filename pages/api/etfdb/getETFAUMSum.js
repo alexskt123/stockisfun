@@ -64,8 +64,8 @@ export default async (req, res) => {
   const keyRatio = resDataSet[1]
   const etfCountData = resDataSet[2]
 
-  const marketCap = !!quote.marketCap ? millify(quote.marketCap) : 'N/A'
-  const regularMarketPrice = !!quote.regularMarketPrice ? quote.regularMarketPrice : 'N/A'
+  const marketCap = quote.marketCap ? millify(quote.marketCap) : 'N/A'
+  const regularMarketPrice = quote.regularMarketPrice ? quote.regularMarketPrice : 'N/A'
   const floatingShareRatio = keyRatio && keyRatio.floatShares ? percent.calc(keyRatio.floatShares.raw, keyRatio.sharesOutstanding.raw, 2, true) : 'N/A'
   const etfCount = etfCountData ? etfCountData : 'N/A'
 
