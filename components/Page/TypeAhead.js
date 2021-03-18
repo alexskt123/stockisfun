@@ -1,5 +1,5 @@
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useRef } from 'react'
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -19,11 +19,12 @@ const exportToFile = (tableHeader, tableData, exportFileName) => {
 }
 
 function TypeAhead({ validated, handleSubmit, placeholderText, handleChange, formTicker, clicked, clearItems, tableHeader, tableData, exportFileName, yearControl }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [options, setOptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
+  const [options, setOptions] = useState([])
+  const ref = useRef()
 
   const handleSearch = (query) => {
-    setIsLoading(true);
+    setIsLoading(true)
 
     fetch(`/api/yahoo/getTickerSuggestions?query=${query}`)
       .then((resp) => resp.json())
@@ -45,7 +46,11 @@ function TypeAhead({ validated, handleSubmit, placeholderText, handleChange, for
             type="formTicker"
             name="formTicker"
             placeholder={placeholderText}
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => {
+              ref.current.blur()
+              handleChange(e)
+            }}
+            ref={ref}
             value={formTicker}
             filterBy={filterBy}
             id="sevenHead"

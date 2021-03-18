@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import CustomContainer from '../components/Layout/CustomContainer'
 import TypeAhead from '../components/Page/TypeAhead'
 import StockDetails from '../components/StockDetails'
-import { handleDebounceChange } from '../lib/commonFunction'
+// import { handleDebounceChange } from '../lib/commonFunction'
 import SearchAccordion from '../components/Page/SearchAccordion'
 
 export default function StockDetail() {
@@ -65,15 +65,15 @@ export default function StockDetail() {
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
           <SearchAccordion inputTicker={ticker}>
-          <TypeAhead
-            validated={validated}
-            handleSubmit={handleSubmit}
-            placeholderText={'i.e. aapl'}
-            handleChange={handleChange}
-            formTicker={formValue.formTicker}
-            clicked={clicked}
-            clearItems={clearItems}
-          />
+            <TypeAhead
+              validated={validated}
+              handleSubmit={handleSubmit}
+              placeholderText={'i.e. aapl'}
+              handleChange={handleChange}
+              formTicker={formValue.formTicker}
+              clicked={clicked}
+              clearItems={clearItems}
+            />
           </SearchAccordion>
           <StockDetails inputTicker={ticker} />
         </Fragment>
