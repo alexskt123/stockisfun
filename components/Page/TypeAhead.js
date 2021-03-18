@@ -8,22 +8,16 @@ import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import { buttonSettings } from '../../config/form'
 import { AsyncTypeahead } from 'react-bootstrap-typeahead'
-import LoadingSpinner from '../Loading/LoadingSpinner'
 
-function TypeAhead({ placeholderText, handleChange, clearItems, ticker}) {
+function TypeAhead({ placeholderText, handleChange, clearItems, filter}) {
   const [isLoading, setIsLoading] = useState(false)
   const [options, setOptions] = useState([])
-  //const [searchValue, setSearchValue] = useState('')
   const ref = useRef()
-
-  // useEffect(() => {
-  //   setSearchValue(ticker)
-  // }, [])
 
   const handleSearch = (query) => {
     setIsLoading(true)
 
-    fetch(`/api/yahoo/getTickerSuggestions?query=${query}`)
+    fetch(`/api/yahoo/getTickerSuggestions?query=${query}&filter=${filter}`)
       .then((resp) => resp.json())
       .then((items) => {
         setOptions(items)
@@ -57,8 +51,6 @@ function TypeAhead({ placeholderText, handleChange, clearItems, ticker}) {
             onSearch={handleSearch}
             options={options}
             positionFixed={true}
-            searchText={<LoadingSpinner/>}
-            //selected={[searchValue]}
             renderMenuItemChildren={(option) => (
               <Fragment>
                 <Row>
@@ -72,7 +64,6 @@ function TypeAhead({ placeholderText, handleChange, clearItems, ticker}) {
               </Fragment>
             )}
           />
-          {/* <Form.Control required type="formTicker" name="formTicker" value={formTicker} placeholder={placeholderText} onChange={(e) => handleChange(e)} /> */}
         </Form.Group>
         <Row className="mt-2">
           <Button {...buttonSettings.ClearAll.attr} onClick={() => { clearItems() }}>

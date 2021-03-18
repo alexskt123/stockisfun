@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import CustomContainer from '../components/Layout/CustomContainer'
 import TypeAhead from '../components/Page/TypeAhead'
 import StockDetails from '../components/StockDetails'
-// import { handleDebounceChange } from '../lib/commonFunction'
 import SearchAccordion from '../components/Page/SearchAccordion'
 
 export default function StockDetail() {
@@ -36,8 +35,8 @@ export default function StockDetail() {
             <TypeAhead
               placeholderText={'i.e. aapl'}
               handleChange={handleChange}
-              ticker={ticker}
               clearItems={clearItems}
+              filter={'Equity'}
             />
           </SearchAccordion>
           <StockDetails inputTicker={ticker} />
