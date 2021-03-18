@@ -40,7 +40,6 @@ export default function ETFDetail() {
   }
 
   const clearItems = () => {
-    setSettings({ ...etfDetailsSettings })
     router.push('/etfdetail')
   }
 

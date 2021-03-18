@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import { Doughnut } from 'react-chartjs-2'
 import { BsEye } from 'react-icons/bs'
-import { useRouter } from 'next/router'
 
 import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
 import StockInfoTable from '../../../components/Page/StockInfoTable'
@@ -21,18 +20,9 @@ export default function Holdings({ inputETFTicker, cellClick }) {
   const [loading, setLoading] = useState(false)
   const [settings, setSettings] = useState({ ...etfDetailsHoldingSettings })
 
-  const router = useRouter()
-  const { query } = router.query
-
   useEffect(async () => {
-    const abortController = new AbortController()
-    if (query) {
-      await handleTicker(query.toUpperCase())
-    } else if (inputETFTicker) {
-      await handleTicker(inputETFTicker.toUpperCase())
-    }
-    return () => abortController.abort() 
-  }, [query, inputETFTicker])
+    await handleTicker(inputETFTicker)
+  }, [inputETFTicker])
 
   const sortItem = async (index) => {
     setSettings({
