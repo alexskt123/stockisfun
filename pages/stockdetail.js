@@ -11,53 +11,21 @@ import SearchAccordion from '../components/Page/SearchAccordion'
 export default function StockDetail() {
 
   const [ticker, setTicker] = useState('')
-  const [validated, setValidated] = useState(false)
-  const [formValue, setFormValue] = useState({ formTicker: '' })
-  const [clicked, setClicked] = useState(false)
 
   const router = useRouter()
   const { query } = router.query
 
   useEffect(() => {
-    if (query) {
-      setTicker(query)
-    }
+    setTicker(query || '')
   }, [query])
 
   const handleChange = (e) => {
     const input = e.find(x => x)
-    input ? setTicker(input.symbol) : null
-    input ? router.replace('/stockdetail', `/stockdetail?query=${input.symbol}`) : null
-    // console.log(e)
-    // const form = {
-    //   ...formValue,
-    //   [e.target.name]: e.target.value
-    // }
-    // const formChange = setFormValue(form)
-    //handleDebounceChange(e, formValue, setFormValue)
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-
-    setClicked(true)
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-      const { formTicker } = formValue
-      router.replace('/stockdetail', `/stockdetail?query=${formTicker.toUpperCase()}`)
-      setTicker(formTicker.toUpperCase())
-    }
-    setValidated(true)
-    setClicked(false)
+    input ? router.push(`/stockdetail?query=${input.symbol}`) : null
   }
 
   const clearItems = () => {
-    setTicker('')
-    setFormValue({ formTicker: '' })
-    router.replace('/stockdetail')
+    router.push('/stockdetail')
   }
 
   return (
@@ -66,12 +34,9 @@ export default function StockDetail() {
         <Fragment>
           <SearchAccordion inputTicker={ticker}>
             <TypeAhead
-              validated={validated}
-              handleSubmit={handleSubmit}
               placeholderText={'i.e. aapl'}
               handleChange={handleChange}
-              formTicker={formValue.formTicker}
-              clicked={clicked}
+              ticker={ticker}
               clearItems={clearItems}
             />
           </SearchAccordion>

@@ -26,7 +26,7 @@ export default function SearchAccordion({ children, inputTicker }) {
               <Badge variant="dark">{inputTicker == '' || !inputTicker ? 'Click here to Search!' : inputTicker}</Badge>
             </b>
           </Accordion.Toggle>
-          <Accordion.Collapse eventKey="0" style={{position: 'relative'}}>
+          <Accordion.Collapse eventKey="0">
             <Card.Body>
               {children}
             </Card.Body>
