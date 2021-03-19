@@ -2,7 +2,6 @@
 import { Fragment, useState, useEffect } from 'react'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
-import { useRouter } from 'next/router'
 
 import Price from '../../../components/Parts/Price'
 import StockInfoTable from '../../../components/Page/StockInfoTable'
@@ -19,16 +18,9 @@ export default function Basics({ inputETFTicker }) {
   const [loading, setLoading] = useState(false)
   const [ticker, setTicker] = useState(null)
 
-  const router = useRouter()
-  const { query } = router.query
-
   useEffect(async () => {
-    if (query) {
-      await handleTicker(query.toUpperCase())
-    } else if (inputETFTicker) {
-      await handleTicker(inputETFTicker.toUpperCase())
-    }
-  }, [query, inputETFTicker])
+    await handleTicker(inputETFTicker)
+  }, [inputETFTicker])
 
 
   const handleTicker = async (inputETFTicker) => {

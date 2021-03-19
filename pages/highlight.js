@@ -1,5 +1,5 @@
 
-import { Fragment, useState, useContext } from 'react'
+import { Fragment, useState } from 'react'
 import CustomContainer from '../components/Layout/CustomContainer'
 import '../styles/ScrollMenu.module.css'
 import Price from '../components/Parts/Price'
@@ -10,13 +10,13 @@ import { stockIndex, stockFutureIndex } from '../config/highlight'
 import IndexQuote from '../components/Parts/IndexQuote'
 import QuoteCard from '../components/Parts/QuoteCard'
 import TickerScrollMenu from '../components/Page/TickerScrollMenu'
-import { Store } from '../lib/store'
+//import { Store } from '../lib/store'
 
 export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
-  const store = useContext(Store)
-  const { state } = store
-  const { user } = state
+  //const store = useContext(Store)
+  // const { state } = store
+  // const { user } = state
 
   const headers = [{
     name: 'Price Changes',
@@ -30,29 +30,29 @@ export default function Highlight() {
     props: {}
   }]
 
-  const userTickerList = user.id === '' ? [] : [
-    {
-      name: 'Stock List',
-      eventKey: 'StockList',
-      inputList: user.stockList.map(item => ({ Ticker: item, Name: item })),
-      setSelectedTicker: setSelectedTicker
-    }
-  ]
+  // const userTickerList = user.id === '' ? [] : [
+  //   {
+  //     name: 'Stock List',
+  //     eventKey: 'StockList',
+  //     inputList: user.stockList.map(item => ({ Ticker: item, Name: item })),
+  //     setSelectedTicker: setSelectedTicker
+  //   }
+  // ]
 
   const tickerList = [
-    {
-      name: 'Stock Market Index',
-      eventKey: 'StockMarketIndex',
-      inputList: stockIndex,
-      setSelectedTicker: setSelectedTicker
-    },
     {
       name: 'Stock Market Futures',
       eventKey: 'StockMarketFutureIndex',
       inputList: stockFutureIndex,
       setSelectedTicker: setSelectedTicker
+    },
+    {
+      name: 'Stock Market Index',
+      eventKey: 'StockMarketIndex',
+      inputList: stockIndex,
+      setSelectedTicker: setSelectedTicker
     }
-    , ...userTickerList
+    //, ...userTickerList
   ]
 
   return (
