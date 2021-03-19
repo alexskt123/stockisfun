@@ -1,12 +1,12 @@
 
 import sendEmail from '../../lib/sendEmail'
 import { getEmailByID } from '../../lib/firebaseResult'
-import { getHost } from '../../lib/commonFunction'
+import { getHost, getHostForETFDb } from '../../lib/commonFunction'
 
 const axios = require('axios').default
 
 const getUrlItem = (item) => {
-  return `<u><a href="${getHost()}/stockdetail?query=${item}">${item}</a></u>`
+  return `<u><a href="${getHostForETFDb()}/stockdetail?query=${item}">${item}</a></u>`
 }
 
 export default async (req, res) => {
