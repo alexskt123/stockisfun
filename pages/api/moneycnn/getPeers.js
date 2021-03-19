@@ -18,10 +18,16 @@ export default async (req, res) => {
   const newData = [...data].map(item => {
     const data = responses.find(x => x.data && x.data.symbol === item.Ticker)?.data
 
-    const newItem = { ...item }
-    extractYahooInfo.forEach(info => {
-      newItem[info.label] = (data ? data : {})[info.field]
-    })
+    const newItem = {
+      ...item,
+      ...extractYahooInfo.reduce((acc, cur) => {        
+        const newAcc = {
+          ...acc,
+          [cur.label]: (data ? data : {})[cur.field]
+        }
+        return newAcc
+      }, {})
+    }
 
     return newItem
   })
