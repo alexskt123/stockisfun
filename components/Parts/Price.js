@@ -1,7 +1,7 @@
 
 import { Fragment, useState, useEffect } from 'react'
 
-import { priceSchema, priceChartSettings, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings, dateRangeSelectAttr, maSelectAttr } from '../../config/price'
+import { priceSchema, priceChartSettings, priceChartOptions, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings, dateRangeSelectAttr, maSelectAttr } from '../../config/price'
 import { Line } from 'react-chartjs-2'
 import LoadingSpinner from '../Loading/LoadingSpinner'
 import Form from 'react-bootstrap/Form'
@@ -125,7 +125,7 @@ function PriceInfo({ inputTicker, inputMA }) {
           }
         </Form.Control>
       </div>
-      <Line data={settings.chartData} />
+      <Line data={settings.chartData} options={priceChartOptions} />
     </Fragment>
   )
 }
