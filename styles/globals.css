@@ -14,3 +14,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+canvas {
+  background-color: rgba(227, 243, 252, 0.1);
+}
