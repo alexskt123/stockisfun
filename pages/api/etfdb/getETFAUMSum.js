@@ -5,12 +5,17 @@
 import { getETFAUMSum } from '../../../lib/etfdb/getETFAUMSum'
 import { aumSumCount } from '../../../config/etf'
 import { getHost, getHostForETFDb, millify } from '../../../lib/commonFunction'
+import Quote from '../../../lib/quote'
 
 import percent from 'percent'
 const axios = require('axios').default
 
 const getAUMSum = async (ticker) => {
-  const etfList = await getETFAUMSum(ticker)
+  const quote = new Quote(ticker)
+  await quote.request()
+  const validTicker = quote.valid
+
+  const etfList = !validTicker ? [] : await getETFAUMSum(ticker)
 
   const etf = {
     etfList: [],
