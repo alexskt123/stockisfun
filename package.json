@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --fix **/*.js"
+    "lint": "eslint --fix **/*.js",
+    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha -r jsdom-global/register",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "@18f/us-federal-holidays": "^1.4.0",
@@ -46,7 +48,18 @@
   },
   "proxy": "http://localhost:3000/",
   "devDependencies": {
+    "@babel/register": "^7.13.8",
+    "chai": "^4.3.4",
+    "chai-enzyme": "^1.0.0-beta.1",
+    "coveralls": "^3.1.0",
+    "cross-env": "^7.0.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.21.0",
-    "eslint-plugin-react": "^7.22.0"
+    "eslint-plugin-react": "^7.22.0",
+    "jsdom": "^16.5.1",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^8.3.2",
+    "nyc": "^15.1.0"
   }
 }
