@@ -4,13 +4,13 @@ export default function CustomSpinner () {
 
   const spinnerConfig = {
     as:'span',
-    animation:'grow',
+    animation:'border',
     size:'sm',
     role:'status',
     ['aria-hidden']: 'true'
   }
 
   return (
-    <Spinner {...spinnerConfig}  />
+    <Spinner className="ml-2" {...spinnerConfig}  />
   )
 }

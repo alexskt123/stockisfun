@@ -48,11 +48,11 @@ const handleYearPcnt = async (ticker, year) => {
 
   const newTemp = historyPriceRes.reduce((acc, cur, idx) => {
     const opening = cur?.find(x => x)
-    const closing = [...cur].reverse()?.find(x => x)
+    const closing = [...(cur || [])].reverse()?.find(x => x)
 
     const newAcc = {
       ...acc,
-      data: [...acc.data, opening && closing ? percent.calc((closing - opening), opening, 2, true) : 'N/A'],
+      data: [...(acc.data || []), opening && closing ? percent.calc((closing - opening), opening, 2, true) : 'N/A'],
       endPrice: idx === 0 && closing ? closing : acc.endPrice,
       startPrice: opening ? opening : acc.startPrice
     }

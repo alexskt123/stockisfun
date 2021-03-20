@@ -22,6 +22,8 @@ function PriceInfo({ inputTicker, inputMA }) {
   }, [inputTicker, settings.days, settings.ma])
 
   const getPrice = async (inputTicker, inputDays, inputMA) => {
+    //temp solution to fix the warnings - [react-chartjs-2] Warning: Each dataset needs a unique key.
+    if(!inputTicker)return
 
     const dateprice = await axios(`/api/yahoo/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(inputDays) + 60}`)
     const date = dateprice.data?.date || []
