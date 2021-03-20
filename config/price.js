@@ -86,7 +86,6 @@ export const priceChartOptions = {
         }
       },
       ticks: {
-        autoSkip: true,
         maxTicksLimit: 5,
         fontColor: '#2c2c2c',
         fontStyle: 'bold'
@@ -97,6 +96,7 @@ export const priceChartOptions = {
     }],
     yAxes: [{
       ticks: {
+        maxTicksLimit: 7,
         fontColor: '#2c2c2c',
         fontStyle: 'bold'
       },
