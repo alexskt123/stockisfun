@@ -12,15 +12,14 @@ const axios = require('axios').default
 
 function PriceInfo({ inputTicker, inputMA }) {
 
-  const [settings, setSettings] = useState(priceSchema)
+  const [settings, setSettings] = useState({...priceSchema, ma: inputMA})
   const [loading, setLoading] = useState(false)
 
   useEffect(async () => {
     const abortController = new AbortController()
-    await handleTicker(inputTicker, settings.days, inputMA == '' ? inputMA : settings.ma)
+    await handleTicker(inputTicker, settings.days, settings.ma)
     return () => abortController.abort()
   }, [inputTicker, settings.days, settings.ma])
-
 
   const getPrice = async (inputTicker, inputDays, inputMA) => {
 

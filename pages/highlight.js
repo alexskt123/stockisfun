@@ -100,7 +100,7 @@ export default function Highlight() {
             {selectedTicker ? headers
               .map((header, idx) => (
                 <Fragment key={idx}>
-                  <header.component header={header.name} inputTicker={selectedTicker} {...header.props}></header.component>
+                  <header.component header={header.name} inputTicker={selectedTicker.ticker} isShow={selectedTicker.show} {...header.props}></header.component>
                 </Fragment>
               )) : null}
           </CardDeck>
@@ -111,9 +111,9 @@ export default function Highlight() {
 }
 
 function withQuoteCard(CardComponent) {
-  return function QuoteCardComponent({ header, inputTicker, ...props }) {
+  return function QuoteCardComponent({ header, inputTicker, isShow, ...props }) {
     return (
-      <QuoteCard header={header} inputTicker={inputTicker}>
+      <QuoteCard header={header} inputTicker={inputTicker} isShow={isShow}>
         <CardComponent inputTicker={inputTicker} {...props} />
       </QuoteCard>
     )

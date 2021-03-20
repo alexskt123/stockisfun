@@ -99,9 +99,6 @@ export const priceChartOptions = {
         maxTicksLimit: 7,
         fontColor: '#2c2c2c',
         fontStyle: 'bold'
-      },
-      gridLines: {
-        display: false
       }
     }]
   }
