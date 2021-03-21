@@ -35,6 +35,7 @@ export const stockFutureIndex = [
 
 export const indexQuoteInfo = [
   { label: 'Name', field: 'shortName', value: null },
+  { label: 'Price', field: 'regularMarketPrice', value: null },
   { label: 'Day Change', field: 'regularMarketChange', value: null },
   { label: 'Day Range', field: 'regularMarketDayRange', value: null },
   { label: 'Prev. Close', field: 'regularMarketPreviousClose', value: null },

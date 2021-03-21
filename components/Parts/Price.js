@@ -1,7 +1,7 @@
 
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect, useRef } from 'react'
 
-import { priceSchema, priceChartSettings, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings, dateRangeSelectAttr, maSelectAttr } from '../../config/price'
+import { priceSchema, priceChartSettings, priceChartOptions, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings, dateRangeSelectAttr, maSelectAttr } from '../../config/price'
 import { Line } from 'react-chartjs-2'
 import LoadingSpinner from '../Loading/LoadingSpinner'
 import Form from 'react-bootstrap/Form'
@@ -12,17 +12,18 @@ const axios = require('axios').default
 
 function PriceInfo({ inputTicker, inputMA }) {
 
-  const [settings, setSettings] = useState(priceSchema)
+  const _isMounted = useRef(true)
+  const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
   const [loading, setLoading] = useState(false)
 
   useEffect(async () => {
-    const abortController = new AbortController()
-    await handleTicker(inputTicker, settings.days, inputMA == '' ? inputMA : settings.ma)
-    return () => abortController.abort()
+    _isMounted.current ? await handleTicker(inputTicker, settings.days, settings.ma) : false
+    return () => _isMounted.current = false
   }, [inputTicker, settings.days, settings.ma])
 
-
   const getPrice = async (inputTicker, inputDays, inputMA) => {
+    //temp solution to fix the warnings - [react-chartjs-2] Warning: Each dataset needs a unique key.
+    if (!inputTicker) return
 
     const dateprice = await axios(`/api/yahoo/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(inputDays) + 60}`)
     const date = dateprice.data?.date || []
@@ -125,7 +126,7 @@ function PriceInfo({ inputTicker, inputMA }) {
           }
         </Form.Control>
       </div>
-      <Line data={settings.chartData} />
+      <Line data={settings.chartData} options={priceChartOptions} />
     </Fragment>
   )
 }

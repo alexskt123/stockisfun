@@ -1,5 +1,5 @@
 
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect, useRef } from 'react'
 
 import { getPriceInfo, sortTableItem, priceSettingSchema } from '../../lib/commonFunction'
 import StockInfoTable from '../Page/StockInfoTable'
@@ -7,6 +7,7 @@ import { Line } from 'react-chartjs-2'
 import LoadingSpinner from '../Loading/LoadingSpinner'
 
 function PriceChange({ inputSettings, inputTickers, inputYear }) {
+  const _isMounted = useRef(true)
 
   const [settings, setSettings] = useState(inputTickers ? priceSettingSchema : inputSettings)
   const [loading, setLoading] = useState(false)
@@ -37,10 +38,9 @@ function PriceChange({ inputSettings, inputTickers, inputYear }) {
     })
   }
 
-  useEffect(() => {
-    const abortController = new AbortController()
-    handleTickers()
-    return () => abortController.abort() 
+  useEffect(async () => {
+    _isMounted.current ? await handleTickers() : null
+    return () => _isMounted.current = false
   }, [inputSettings, inputTickers])
 
   const clearItems = () => {

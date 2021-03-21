@@ -5,18 +5,16 @@ import '../styles/ScrollMenu.module.css'
 import Price from '../components/Parts/Price'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import CardDeck from 'react-bootstrap/CardDeck'
 import { stockIndex, stockFutureIndex } from '../config/highlight'
 import IndexQuote from '../components/Parts/IndexQuote'
 import QuoteCard from '../components/Parts/QuoteCard'
 import TickerScrollMenu from '../components/Page/TickerScrollMenu'
-//import { Store } from '../lib/store'
+import TypeAhead from '../components/Page/TypeAhead'
 
 export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
-  //const store = useContext(Store)
-  // const { state } = store
-  // const { user } = state
 
   const headers = [{
     name: 'Price Changes',
@@ -29,15 +27,6 @@ export default function Highlight() {
     component: withQuoteCard(IndexQuote),
     props: {}
   }]
-
-  // const userTickerList = user.id === '' ? [] : [
-  //   {
-  //     name: 'Stock List',
-  //     eventKey: 'StockList',
-  //     inputList: user.stockList.map(item => ({ Ticker: item, Name: item })),
-  //     setSelectedTicker: setSelectedTicker
-  //   }
-  // ]
 
   const tickerList = [
     {
@@ -52,8 +41,12 @@ export default function Highlight() {
       inputList: stockIndex,
       setSelectedTicker: setSelectedTicker
     }
-    //, ...userTickerList
   ]
+
+  const handleChange = (e) => {
+    const input = e.find(x => x)
+    input ? setSelectedTicker({ ticker: input.symbol, show: true }) : null
+  }
 
   return (
     <Fragment>
@@ -73,34 +66,20 @@ export default function Highlight() {
               )
             })
           }
-
-          {/* <Accordion defaultActiveKey="StockMarketIndex">
-            {
-              tickerList.map((item, idx) => {
-                return (
-                  <Card key={idx}>
-                    <Accordion.Toggle as={Card.Header} eventKey={item.eventKey}>
-                      <Row className="justify-content-center">
-                        <h5>
-                          <Badge style={{minWidth: '13rem'}} variant="dark">{item.name}</Badge>
-                        </h5>
-                      </Row>
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey={item.eventKey}>
-                      <Card.Body>
-                        <TickerScrollMenu inputList={item.inputList} setSelectedTicker={item.setSelectedTicker} />
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
-                )
-              })
-            }
-          </Accordion> */}
-          <CardDeck className="mt-3">
+          <Row className="mt-3">
+            <Col>
+              <TypeAhead
+                placeholderText={'i.e. ARKK / AAPL / AMZN'}
+                handleChange={handleChange}
+                filter={'ETF,Equity'}
+              />
+            </Col>
+          </Row>
+          <CardDeck>
             {selectedTicker ? headers
               .map((header, idx) => (
                 <Fragment key={idx}>
-                  <header.component header={header.name} inputTicker={selectedTicker} {...header.props}></header.component>
+                  <header.component header={header.name} inputTicker={selectedTicker.ticker} isShow={selectedTicker.show} {...header.props}></header.component>
                 </Fragment>
               )) : null}
           </CardDeck>
@@ -111,9 +90,9 @@ export default function Highlight() {
 }
 
 function withQuoteCard(CardComponent) {
-  return function QuoteCardComponent({ header, inputTicker, ...props }) {
+  return function QuoteCardComponent({ header, inputTicker, isShow, ...props }) {
     return (
-      <QuoteCard header={header} inputTicker={inputTicker}>
+      <QuoteCard header={header} inputTicker={inputTicker} isShow={isShow}>
         <CardComponent inputTicker={inputTicker} {...props} />
       </QuoteCard>
     )

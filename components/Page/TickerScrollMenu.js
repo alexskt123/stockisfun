@@ -13,28 +13,32 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
   const [stockInfo, setStockInfo] = useState([])
 
   async function getStockInfo(inputList) {
-    const stockInfoAdd = [...inputList]
 
-    await axios.all([...inputList].map(item => {
-      return axios(`/api/yahoo/getYahooQuote?ticker=${item.Ticker}`)
-    }))
-      .catch(error => { console.log(error) })
-      .then(responses => {
-        responses.forEach((response) => {
-          const { data } = response
-          extractYahooInfo.forEach(info => {
-            const curData = stockInfoAdd.find(x => x.Ticker === data.symbol)
-            if (curData)
-              curData[info.label] = typeof data[info.field] === 'number' ? roundTo(data[info.field], 2) : data[info.field]
-          })
-        })
-      })
+    const responses = await axios.all([...inputList].map(item => axios(`/api/yahoo/getYahooQuote?ticker=${item.Ticker}`)))
+
+    const stockInfoAdd = [...inputList].map((stock) => {
+      const response = responses.find(x => x && x.data && x.data.symbol === stock.Ticker)
+      const { data } = response
+      const info = extractYahooInfo.reduce((acc, cur) => {
+        const newAcc = {
+          ...acc,
+          [cur.label]: typeof data[cur.field] === 'number' ? roundTo(data[cur.field], 2) : data[cur.field]
+        }
+
+        return newAcc
+      }, {})
+
+      return {...stock, ...info}
+    })
 
     setStockInfo(stockInfoAdd)
   }
 
   const onSelect = (key) => {
-    setSelectedTicker(inputList[key].Ticker)
+    setSelectedTicker({
+      ticker: inputList[key].Ticker,
+      show: true
+    })
   }
 
   useEffect(async () => {

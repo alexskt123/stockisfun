@@ -74,6 +74,36 @@ export const priceSchema = {
   chartData: {}
 }
 
+export const priceChartOptions = {
+  scales: {
+    xAxes: [{
+      type: 'time',
+      time: {
+        unit: 'day',
+        unitStepSize: 1,
+        displayFormats: {
+          'day': 'D/M/YY'
+        }
+      },
+      ticks: {
+        maxTicksLimit: 5,
+        fontColor: '#2c2c2c',
+        fontStyle: 'bold'
+      },
+      gridLines: {
+        display: false
+      }
+    }],
+    yAxes: [{
+      ticks: {
+        maxTicksLimit: 7,
+        fontColor: '#2c2c2c',
+        fontStyle: 'bold'
+      }
+    }]
+  }
+}
+
 export const priceChartSettings = {
   label: '',
   data: [],

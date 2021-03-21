@@ -4,12 +4,12 @@ import Card from 'react-bootstrap/Card'
 import { RiCloseCircleFill } from 'react-icons/ri'
 import { IconContext } from 'react-icons'
 
-export default function QuoteCard({ children, header, inputTicker }) {
+export default function QuoteCard({ children, header, inputTicker, isShow }) {
   const [showCard, setShowCard] = useState(true)
 
   useEffect(() => {
-    setShowCard(true)
-  }, [inputTicker])
+    setShowCard(isShow)
+  }, [inputTicker, isShow])
 
   if (!showCard) return null
 
