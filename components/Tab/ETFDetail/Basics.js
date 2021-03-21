@@ -2,6 +2,7 @@
 import { Fragment, useState, useEffect } from 'react'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 import Price from '../../../components/Parts/Price'
 import StockInfoTable from '../../../components/Page/StockInfoTable'
@@ -54,12 +55,16 @@ export default function Basics({ inputETFTicker }) {
       {
         settings.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
           ? <Fragment>
-            <Row className="ml-2 mt-3">
-              <Badge variant={'success'}>{ticker}</Badge>
-              <AddDelStock inputTicker={ticker} handleList='etf' />
+            <Row>
+              <Col>
+                <Badge className="ml-3" variant={'success'}>{ticker}</Badge>
+                <AddDelStock inputTicker={ticker} handleList='etf' />
+                <Price inputTicker={ticker} inputMA={'ma'} />
+              </Col>
+              <Col>
+                <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} />
+              </Col>
             </Row>
-            <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} />
-            <Price inputTicker={ticker} inputMA={'ma'} />
           </Fragment>
           : <ValidTickerAlert />
       }
