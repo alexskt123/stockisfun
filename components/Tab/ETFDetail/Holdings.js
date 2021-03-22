@@ -3,6 +3,8 @@ import { Fragment, useState, useEffect } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Badge from 'react-bootstrap/Badge'
 import { Doughnut } from 'react-chartjs-2'
 import { BsEye } from 'react-icons/bs'
 
@@ -54,26 +56,33 @@ export default function Holdings({ inputETFTicker, cellClick }) {
     <Fragment>
       {loading ? <LoadingSpinner /> : null}
       <Row className="mt-3 ml-1">
-        {!showAlert && <Button size="sm" variant="warning" onClick={() => setShowAlert(true)}>{'Details?'}</Button>}
-        <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.priceHref} variant="dark">{'All Price%'}</Button>
-        <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.forecastHref} variant="outline-dark">{'All Forecast'}</Button>
-        <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.watchlistHref} variant="outline-success"><BsEye /></Button>
+        <Col>
+          <h5><Badge variant="light">{'Chart'}</Badge></h5>
+          <Doughnut data={settings.pieData} />
+        </Col>
+        <Col>
+          <Row className="mt-2 ml-1">
+            {!showAlert && <Button size="sm" variant="warning" onClick={() => setShowAlert(true)}>{'Details?'}</Button>}
+            <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.priceHref} variant="dark">{'All Price%'}</Button>
+            <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.forecastHref} variant="outline-dark">{'All Forecast'}</Button>
+            <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.watchlistHref} variant="outline-success"><BsEye /></Button>
+          </Row>
+          <Row className="mt-1 ml-1">
+            <Alert show={showAlert} variant="warning">
+              <Alert.Heading>{'How to get Stock Details?'}</Alert.Heading>
+              <p>
+                {'Click the below table row to get!'}
+              </p>
+              <div className="d-flex justify-content-end">
+                <Button onClick={() => setShowAlert(false)} variant="outline-success">
+                  {'Close!'}
+                </Button>
+              </div>
+            </Alert>
+          </Row>
+          <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} sortItem={sortItem} cellClick={cellClick} />
+        </Col>
       </Row>
-      <Row className="mt-1 ml-1">
-        <Alert show={showAlert} variant="warning">
-          <Alert.Heading>{'How to get Stock Details?'}</Alert.Heading>
-          <p>
-            {'Click the below table row to get!'}
-          </p>
-          <div className="d-flex justify-content-end">
-            <Button onClick={() => setShowAlert(false)} variant="outline-success">
-              {'Close!'}
-            </Button>
-          </div>
-        </Alert>
-      </Row>
-      <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} sortItem={sortItem} cellClick={cellClick} />
-      <Doughnut data={settings.pieData} />
     </Fragment >
   )
 }

@@ -71,7 +71,7 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
               {buttonSettings.ClearAll.label}
             </Button>
           </Row>
-          : null
+            : null
         }
       </Form>
     </Fragment>

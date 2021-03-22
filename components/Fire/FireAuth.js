@@ -94,7 +94,7 @@ function FireAuth() {
     body: 'Are you sure to sign out?'
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     if (show && document.querySelector('.firebaseui-auth-container'))
       authUI.start('.firebaseui-auth-container', uiConfig)
   }, [show])

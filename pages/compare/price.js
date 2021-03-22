@@ -109,7 +109,7 @@ export default function ComparePrice() {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <PriceChange inputSettings={settings} inputDateRange={formValue.formYear} />
+          <PriceChange inputSettings={settings} />
         </Fragment>
       </CustomContainer>
     </Fragment >
