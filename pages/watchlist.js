@@ -224,7 +224,7 @@ export default function WatchList() {
 
           <SWRTable
             requests={tickers.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
-            options={{ striped: true, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 10000 } }}
+            options={{ striped: true, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
           />
 
         </Fragment>

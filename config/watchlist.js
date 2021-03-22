@@ -4,42 +4,51 @@ export const tableHeaderList = [
   {
     label: 'Ticker',
     item: 'symbol',
-    style: sticky
+    style: sticky,
+    show: true
   },
   {
     label: 'Pre Time',
     item: 'preMarketTime',
-    format: 'H:mm:ss'
+    format: 'H:mm:ss',
+    show: true
   },
   {
     label: 'Pre Market',
-    item: 'preMarketPrice'
+    item: 'preMarketPrice',
+    show: true
   },
   {
     label: 'Pre Market%',
     item: 'preMarketChangePercent',
-    format: '%'
+    format: '%',
+    show: true
   },
   {
     label: 'Market',
-    item: 'regularMarketPrice'
+    item: 'regularMarketPrice',
+    show: true
   },
   {
     label: 'Day Chg%',
     item: 'regularMarketChangePercent',
-    format: '%'
+    format: '%',
+    show: true
   },
   {
     label: 'Volume',
     item: 'regularMarketVolume',
-    format: 'millify'
+    format: 'millify',
+    show: true
   },
   {
     label: 'Day Range',
-    item: 'regularMarketDayRange'
+    item: 'regularMarketDayRange',
+    show: true
   },
   {
     label: 'Prev. Close',
-    item: 'regularMarketPreviousClose'
+    item: 'regularMarketPreviousClose',
+    show: true
   }
 ]
