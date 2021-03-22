@@ -55,7 +55,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
   return (
     <Fragment>
       {loading ? <LoadingSpinner /> : null}
-      <Row className="mt-3 ml-1">
+      <Row className="mt-3">
         <Col>
           <h5><Badge variant="light">{'Chart'}</Badge></h5>
           <Doughnut data={settings.pieData} />
