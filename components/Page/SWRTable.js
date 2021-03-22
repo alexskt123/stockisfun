@@ -4,12 +4,25 @@ import useSWR from 'swr'
 import Table from 'react-bootstrap/Table'
 
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
+import moment from 'moment'
+
+const useTimestamp = (trigger) => {
+  const [timestamp, setTimestamp] = useState('')
+
+  useEffect(() => {
+    setTimestamp(() => moment().format('H:mm:ss'))
+  }, [trigger])
+
+  return timestamp
+}
 
 export default function SWRTable({ requests, options }) {
   const { tableHeader, tableSize, striped, SWROptions } = options
 
   const [tableData, setTableData] = useState([])
   const [reactiveTableHeader, setReactiveTableHeader] = useState(tableHeader)
+
+  const timestamp = useTimestamp(tableData)
 
   const handleTableData = data => {
     const newData = { ...data }
@@ -38,6 +51,7 @@ export default function SWRTable({ requests, options }) {
 
   return (
     <Fragment>
+      <h3>Last Update: {timestamp}</h3>
       <Table
         striped={striped ? true : false}
         bordered
