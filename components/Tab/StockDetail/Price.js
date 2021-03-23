@@ -11,7 +11,7 @@ function PriceTab({ inputSettings }) {
   const [settings, setSettings] = useState({ ...inputSettings })
   const [labels, setLabels] = useState([...priceTabLabelPairs])
 
-  useEffect(async () => {
+  useEffect(() => {
     setSettings(inputSettings)
     setLabels(priceTabLabelPairs.map(item => {
       return {
