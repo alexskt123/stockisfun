@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import useSWR from 'swr'
 
 import Table from 'react-bootstrap/Table'
+import Badge from 'react-bootstrap/Badge'
 
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import moment from 'moment'
@@ -52,13 +53,13 @@ export default function SWRTable({ requests, options }) {
 
   return (
     <Fragment>
-      <h3>Last Update: {timestamp}</h3>
+      <h4><Badge className="mt-3" variant="light">{`Last Update: ${timestamp}`}</Badge></h4>
       <Table
         striped={striped ? true : false}
         bordered
         hover
         size={tableSize ? tableSize : 'md'}
-        className="pl-3 mt-3"
+        className="pl-3 mt-1"
         responsive
       >
         <thead>
