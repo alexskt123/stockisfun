@@ -1,5 +1,5 @@
 
-import { Fragment, useState, useEffect, useRef } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 
 import { priceSchema, priceChartSettings, priceChartOptions, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings, dateRangeSelectAttr, maSelectAttr } from '../../config/price'
 import { Line } from 'react-chartjs-2'
@@ -12,13 +12,12 @@ const axios = require('axios').default
 
 function PriceInfo({ inputTicker, inputMA }) {
 
-  const _isMounted = useRef(true)
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
   const [loading, setLoading] = useState(false)
 
-  useEffect(async () => {
-    _isMounted.current ? await handleTicker(inputTicker, settings.days, settings.ma) : false
-    return () => _isMounted.current = false
+  useEffect(() => {
+    handleTicker(inputTicker, settings.days, settings.ma)
+    return () => setSettings(null)
   }, [inputTicker, settings.days, settings.ma])
 
   const getPrice = async (inputTicker, inputDays, inputMA) => {

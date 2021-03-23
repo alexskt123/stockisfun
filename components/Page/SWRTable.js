@@ -109,9 +109,9 @@ function getCellColor (property, value) {
 
 function getFormattedValue (format, value) {
   return format && format == '%' ? `${convertToPercentage(value / 100)}`
-    : format && format == 'H:mm:ss' ? moment(value * 1000).format('H:mm:ss')
+    : format && format == 'H:mm:ss' && value ? moment(value * 1000).format('H:mm:ss')
       : format && format == 'millify' ? millify(value)
-        : value
+        : value ? value : 'N/A'
 }
 
 function getCell(data, header) {
