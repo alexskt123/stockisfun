@@ -12,7 +12,7 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
       bg={'Light'}
       text={'dark'}
       border={'dark'}
-      style={{ ['minWidth']: '7.7rem', width: '7.7rem', fontSize: 'x-small' }}
+      style={{ ['minWidth']: '6.5rem', fontSize: 'x-small' }}
       className="m-1"
     >
       <Card.Header style={{ padding: '0.2rem' }}>
