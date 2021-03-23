@@ -11,78 +11,66 @@ import moment from 'moment-business-days'
 
 const handleYearPcnt = async (ticker, year) => {
 
-  const inputItems = []
-
-  let newDateRange = dateRange
-  if (year) newDateRange = await dateRangeByNoOfYears(year)
-
-  newDateRange.forEach(item => {
-    inputItems.push(
-      {
-        'ticker': ticker.toUpperCase(),
-        ...item
-      }
-    )
+  const newDateRange = year ? await dateRangeByNoOfYears(year) : dateRange
+  const inputItems = newDateRange.map(item => {
+    return ({
+      'ticker': ticker.toUpperCase(),
+      ...item
+    })
   })
+
+  const quoteRes = await getYahooQuote(ticker.toUpperCase())
+  const quote = {
+    ticker: ticker.toUpperCase(),
+    ...quoteFilterList.reduce((acc, item) => {
+      return ({
+        ...acc,
+        [item.label]: quoteRes[item.column]
+      })
+    }, {})
+  }
 
   const temp = {
     'ticker': ticker.toUpperCase(),
     'startPrice': null,
     'endPrice': null,
-    'yearCnt': 0,
     'data': [],
-    'quote': {}
+    'quote': quote
   }
 
-  for (const item of inputItems) {
-
-    let formattedFromDate = new Date(item.fromDate)
-    formattedFromDate = formattedFromDate.getTime() / 1000
-
-    let formattedToDate = new Date(item.toDate)
-    formattedToDate = formattedToDate.getTime() / 1000
+  const historyPriceRes = await Promise.all(inputItems.map(async item => {
+    const formattedFromDate = new Date(item.fromDate).getTime() / 1000
+    const formattedToDate = new Date(item.toDate).getTime() / 1000
 
     const outputItem = await getYahooHistoryPrice(item.ticker, formattedFromDate, formattedToDate)
-    const quote = await getYahooQuote(item.ticker)
-    const allData = outputItem.indicators.quote.find(x => x).close
+    return outputItem.indicators.quote.find(x => x).close
+  }))
 
-    const newQuote = {}
-    newQuote['ticker'] = ticker.toUpperCase()
-    quoteFilterList.forEach(item => {
-      newQuote[item.label] = quote[item.column]
-    })
-    temp.quote = newQuote
+  const newTemp = historyPriceRes.reduce((acc, cur, idx) => {
+    const opening = cur?.find(x => x)
+    const closing = [...(cur || [])].reverse()?.find(x => x)
 
-
-    if (allData && allData.length > 0) {
-      const opening = allData.find(x => x)
-      const closing = allData[allData.length - 1]
-
-      temp.data.push(percent.calc((closing - opening), opening, 2, true))
-
-      if (!temp.endPrice) {
-        temp.endPrice = closing
-      }
-      temp.startPrice = opening
-      temp.yearCnt += 1
+    const newAcc = {
+      ...acc,
+      data: [...(acc.data || []), opening && closing ? percent.calc((closing - opening), opening, 2, true) : 'N/A'],
+      endPrice: idx === 0 && closing ? closing : acc.endPrice,
+      startPrice: opening ? opening : acc.startPrice
     }
-    else temp.data.push('N/A')
 
-  }
+    return newAcc
+  }, { ...temp })
 
-  return temp
+  return newTemp
 }
 
 const handleDays = async (ticker, days) => {
-  if (ticker === 'undefined' || days === 'undefined') return { date: [], price: [] }
-
   const { formattedFromDate, formattedToDate } = await getFormattedFromToDate(days)
 
   const outputItem = await getYahooHistoryPrice(ticker, formattedFromDate, formattedToDate)
   const allDate = (outputItem.timestamp || []).map(item => moment.unix(item).format('DD MMM YYYY'))
-  const allPrice = outputItem.indicators.quote.find(x => x).close  
-  const price = parseInt(days) != allPrice.length ? allPrice.slice(Math.abs(allPrice.length - parseInt(days))) : allPrice
-  const date = parseInt(days) != allPrice.length ? allDate.slice(Math.abs(allPrice.length - parseInt(days))) : allDate
+  const allPrice = outputItem.indicators.quote.find(x => x).close
+  const price = parseInt(days) != allPrice?.length ? allPrice?.slice(Math.abs(allPrice?.length - parseInt(days))) : allPrice
+  const date = parseInt(days) != allPrice?.length ? allDate?.slice(Math.abs(allPrice?.length - parseInt(days))) : allDate
 
   return {
     date,
@@ -93,12 +81,7 @@ const handleDays = async (ticker, days) => {
 export default async (req, res) => {
   const { ticker, year, days } = req.query
 
-  let temp = {}
-
-  if (year)
-    temp = await handleYearPcnt(ticker, year)
-  else
-    temp = await handleDays(ticker, days)
+  const temp = year ? await handleYearPcnt(ticker, year) : await handleDays(ticker, days)
 
   res.statusCode = 200
   res.json(temp)

@@ -3,59 +3,86 @@ import { Fragment, useState, useEffect } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Badge from 'react-bootstrap/Badge'
 import { Doughnut } from 'react-chartjs-2'
-
-import { sortTableItem } from '../../../lib/commonFunction'
-import StockInfoTable from '../../../components/Page/StockInfoTable'
-import { etfDetailsSettings } from '../../../config/etf'
 import { BsEye } from 'react-icons/bs'
 
-export default function Holdings({ inputSettings, cellClick }) {
+import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
+import StockInfoTable from '../../../components/Page/StockInfoTable'
+
+import { etfDetailsHoldingSettings } from '../../../config/etf'
+import { getETFDetailHoldings } from '../../../lib/commonFunction'
+import { sortTableItem } from '../../../lib/commonFunction'
+
+export default function Holdings({ inputETFTicker, cellClick }) {
   const [allowCheck, setAllowCheck] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const [ascSort, setAscSort] = useState(false)
-  const [settings, setSettings] = useState({ ...etfDetailsSettings })
+  const [loading, setLoading] = useState(false)
+  const [settings, setSettings] = useState({ ...etfDetailsHoldingSettings })
+
+  useEffect(async () => {
+    await handleTicker(inputETFTicker)
+  }, [inputETFTicker])
 
   const sortItem = async (index) => {
     setSettings({
       ...settings,
-      holding: { ...settings.holding, tableData: await sortTableItem(settings.holding.tableData, index, ascSort) }
+      tableData: await sortTableItem(settings.tableData, index, ascSort)
     })
     setAscSort(!ascSort)
   }
 
-  async function handleTicker(inputSettings) {
-    setAllowCheck(settings.priceHref != '/' ? true : false)
-    setSettings(inputSettings)
+  async function handleTicker(inputETFTicker) {
+    setLoading(true)
+    setAllowCheck(false)
+    clearItems()
+
+    const newSettings = await getETFDetailHoldings(inputETFTicker)
+    setSettings({
+      ...etfDetailsHoldingSettings,
+      ...newSettings
+    })
+    setAllowCheck(newSettings.priceHref != '/' ? true : false)
+    setLoading(false)
   }
 
-  useEffect(() => {
-    handleTicker(inputSettings)
-  }, [inputSettings])
+  const clearItems = () => {
+    setSettings({ ...etfDetailsHoldingSettings })
+  }
 
   return (
     <Fragment>
-      <Row className="mt-3 ml-1">
-        {!showAlert && <Button size="sm" variant="warning" onClick={() => setShowAlert(true)}>{'Details?'}</Button>}
-        <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.priceHref} variant="dark">{'All Price%'}</Button>
-        <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.forecastHref} variant="outline-dark">{'All Forecast'}</Button>
-        <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.watchlistHref} variant="outline-success"><BsEye/></Button>
+      {loading ? <LoadingSpinner /> : null}
+      <Row className="mt-3">
+        <Col>
+          <h5><Badge variant="light">{'Chart'}</Badge></h5>
+          <Doughnut data={settings.pieData} />
+        </Col>
+        <Col>
+          <Row className="mt-2 ml-1">
+            {!showAlert && <Button size="sm" variant="warning" onClick={() => setShowAlert(true)}>{'Details?'}</Button>}
+            <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.priceHref} variant="dark">{'All Price%'}</Button>
+            <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.forecastHref} variant="outline-dark">{'All Forecast'}</Button>
+            <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.watchlistHref} variant="outline-success"><BsEye /></Button>
+          </Row>
+          <Row className="mt-1 ml-1">
+            <Alert show={showAlert} variant="warning">
+              <Alert.Heading>{'How to get Stock Details?'}</Alert.Heading>
+              <p>
+                {'Click the below table row to get!'}
+              </p>
+              <div className="d-flex justify-content-end">
+                <Button onClick={() => setShowAlert(false)} variant="outline-success">
+                  {'Close!'}
+                </Button>
+              </div>
+            </Alert>
+          </Row>
+          <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} sortItem={sortItem} cellClick={cellClick} />
+        </Col>
       </Row>
-      <Row className="mt-1 ml-1">
-        <Alert show={showAlert} variant="warning">
-          <Alert.Heading>{'How to get Stock Details?'}</Alert.Heading>
-          <p>
-            {'Click the below table row to get!'}
-          </p>
-          <div className="d-flex justify-content-end">
-            <Button onClick={() => setShowAlert(false)} variant="outline-success">
-              {'Close!'}
-            </Button>
-          </div>
-        </Alert>
-      </Row>
-      <StockInfoTable tableSize="sm" tableHeader={settings.holding.tableHeader} tableData={settings.holding.tableData} sortItem={sortItem} cellClick={cellClick} />
-      <Doughnut data={settings.pieData} />
     </Fragment >
   )
 }

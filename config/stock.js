@@ -21,7 +21,8 @@ export const stockDetailsSettings = {
     tableData: [],
     chartData: {
 
-    }
+    },
+    chartOptions: {}
   },
   earnings: {
     tableHeader: [],
@@ -32,6 +33,10 @@ export const stockDetailsSettings = {
     chartOptions: {
       
     }
+  },
+  peers: {
+    tableHeader: [],
+    tableData: []
   },
   inputTickers: [],
   ...etfListSettings

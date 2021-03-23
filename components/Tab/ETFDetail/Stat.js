@@ -11,9 +11,9 @@ export default function Stat({ inputETFTicker }) {
   const [ticker, setTicker] = useState([])
 
   useEffect(() => {
-    setTicker(inputETFTicker)
+    setTicker([inputETFTicker])
   }, [inputETFTicker])
-
+  
   return (
     <Fragment>
       <Row className="ml-1">

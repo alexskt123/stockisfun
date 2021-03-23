@@ -1,13 +1,16 @@
 
 import sendEmail from '../../lib/sendEmail'
 import { getEmailByID } from '../../lib/firebaseResult'
-import { getHost } from '../../lib/commonFunction'
+import { getHost, getHostForETFDb } from '../../lib/commonFunction'
 
 const axios = require('axios').default
 
+const getUrlItem = (item) => {
+  return `<u><a href="${getHostForETFDb()}/stockdetail?query=${item}">${item}</a></u>`
+}
+
 export default async (req, res) => {
 
-    
   const response = {
     response: 'NOT OK'
   }
@@ -20,20 +23,48 @@ export default async (req, res) => {
   const tickerArr = curEmailTemplate.stock.split(',').map(item => item.toUpperCase())
   const genChart = curEmailTemplate.genChart ? true : false
 
+  // no idea why cannot use spread priceMAlist here
   const priceMADetails = {
     asOfDate: '',
-    fiveLowerTwenty: [],
-    fiveLowerTwentyChart: [],
-    fiveHigherTwenty: [],
-    fiveHigherTwentyChart: [],
-    fiveLowerSixty: [],
-    fiveLowerSixtyChart: [],
-    fiveHigherSixty: [],
-    fiveHigherSixtyChart: [],
-    twentyLowerSixty: [],
-    twentyLowerSixtyChart: [],
-    twentyHigherSixty: [],
-    twentyHigherSixtyChart: [],
+    priceMAList: [
+      {
+        id: '5<20',
+        name: '5-MA lower than 20-MA',
+        tickersInfo: [],
+        tickersChart: []
+      },
+      {
+        id: '5>20',
+        name: '5-MA higher than 20-MA',
+        tickersInfo: [],
+        tickersChart: []
+      },
+      {
+        id: '5<60',
+        name: '5-MA lower than 60-MA',
+        tickersInfo: [],
+        tickersChart: []
+      },
+      {
+        id: '5>60',
+        name: '5-MA higher than 60-MA',
+        tickersInfo: [],
+        tickersChart: []
+      },
+      {
+        id: '20<60',
+        name: '20-MA lower than 60-MA',
+        tickersInfo: [],
+        tickersChart: []
+      },
+      {
+        id: '20>60',
+        name: '20-MA higher than 60-MA',
+        tickersInfo: [],
+        tickersChart: []
+      }
+
+    ]
   }
 
   await axios.all(tickerArr.map(ticker => {
@@ -45,123 +76,62 @@ export default async (req, res) => {
         response.response = 'OK'
 
         responses.forEach(item => {
-          if (item.data) {
+          if (item && item.data) {
             priceMADetails.asOfDate = priceMADetails.asOfDate == '' ? item.data.asOfDate : priceMADetails.asOfDate
-            priceMADetails.fiveLowerTwenty.push(...item.data.fiveLowerTwenty)
-            priceMADetails.fiveLowerTwentyChart.push(...item.data.fiveLowerTwentyChart)
-            priceMADetails.fiveHigherTwenty.push(...item.data.fiveHigherTwenty)
-            priceMADetails.fiveHigherTwentyChart.push(...item.data.fiveHigherTwentyChart)
-            priceMADetails.fiveLowerSixty.push(...item.data.fiveLowerSixty)
-            priceMADetails.fiveLowerSixtyChart.push(...item.data.fiveLowerSixtyChart)
-            priceMADetails.fiveHigherSixty.push(...item.data.fiveHigherSixty)
-            priceMADetails.fiveHigherSixtyChart.push(...item.data.fiveHigherSixtyChart)
-            priceMADetails.twentyLowerSixty.push(...item.data.twentyLowerSixty)
-            priceMADetails.twentyLowerSixtyChart.push(...item.data.twentyLowerSixtyChart)
-            priceMADetails.twentyHigherSixty.push(...item.data.twentyHigherSixty)
-            priceMADetails.twentyHigherSixtyChart.push(...item.data.twentyHigherSixtyChart)
+            priceMADetails.priceMAList.forEach(cur => {
+              const priceMA = item.data.priceMAList.find(x => x.id === cur.id)
+              cur.tickersInfo.push(...priceMA.tickersInfo)
+              cur.tickersChart.push(...priceMA.tickersChart)
+            })
           }
-        })                
+        })
       }
     })
-
-  const fiveLowerTwentyList = priceMADetails.fiveLowerTwenty.reduce((acc, cur, index) => {
-    const imgElement = genChart ? `<img src=${priceMADetails.fiveLowerTwentyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`
-    return acc
-  }, '')
-  const fiveHigherTwentyList = priceMADetails.fiveHigherTwenty.reduce((acc, cur, index) => {
-    const imgElement = genChart ? `<img src=${priceMADetails.fiveHigherTwentyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`   
-    return acc
-  }, '')
-  const fiveLowerSixtyList = priceMADetails.fiveLowerSixty.reduce((acc, cur, index) => {
-    const imgElement = genChart ? `<img src=${priceMADetails.fiveLowerSixtyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`
-    return acc
-  }, '')
-  const fiveHigherSixtyList = priceMADetails.fiveHigherSixty.reduce((acc, cur, index) => {
-    const imgElement = genChart ? `<img src=${priceMADetails.fiveHigherSixtyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`  
-    return acc
-  }, '')
-  const twentyLowerSixtyList = priceMADetails.twentyLowerSixty.reduce((acc, cur, index) => {
-    const imgElement = genChart ? `<img src=${priceMADetails.twentyLowerSixtyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`
-    return acc
-  }, '')
-  const twentyHigherSixtyList = priceMADetails.twentyHigherSixty.reduce((acc, cur, index) => {
-    const imgElement = genChart ? `<img src=${priceMADetails.twentyHigherSixtyChart[index]}/>` : ''
-    acc += `<li><p>${cur}</p>${imgElement}</li>`
-    return acc
-  }, '')
-  const inputArrList = tickerArr.reduce((acc, cur) => {
-    acc += `<li>${cur}</li>`
-    return acc
-  }, '')
 
   const mailOptions = {
     from: process.env.EMAIL,
     bcc: curEmailTemplate.to,
     subject: `Moving Average Highlight - As of ${priceMADetails.asOfDate}`,
     html: `
-        <p>
-            <h5>${curEmailTemplate.name}</h5>
-        </p>        
-        <p>
-            <b>As of ${priceMADetails.asOfDate}:</b>
-        </p>
-        <hr>
-        <p>
-            <b>5-MA lower than 20-MA</b>
-            <ol>
-                ${fiveLowerTwentyList}
-            </ol>
-        </p>
-        <hr>
-        <p>
-            <b>5-MA higher than 20-MA</b>
-            <ol>
-                ${fiveHigherTwentyList}
-            </ol>
-        </p>
-        <hr>
-        <p>
-            <b>5-MA lower than 60-MA</b>
-            <ol>
-                ${fiveLowerSixtyList}
-            </ol>
-        </p>
-        <hr>
-        <p>
-            <b>5-MA higher than 60-MA</b>
-            <ol>
-                ${fiveHigherSixtyList}
-            </ol>
-        </p>
-        <hr> 
-        <p>
-            <b>20-MA lower than 60-MA</b>
-            <ol>
-                ${twentyLowerSixtyList}
-            </ol>
-        </p>
-        <hr>
-        <p>
-            <b>20-MA higher than 60-MA</b>
-            <ol>
-                ${twentyHigherSixtyList}
-            </ol>
-        </p>
-        <hr>       
-        <p>
-            <b>Grabbing Ticker List:</b>
-            <ol>
-                ${inputArrList}
-            </ol>
-        </p>
-        `
+          <p>
+              <h5>${curEmailTemplate.name}</h5>
+          </p>        
+          <p>
+              <b>As of ${priceMADetails.asOfDate}:</b>
+          </p>
+          ${priceMADetails.priceMAList.map(priceMA => {
+    return (
+      `<hr>
+                <p>
+                    <b>${priceMA.name}</b>
+                    <ol>
+                      ${priceMA.tickersInfo.map((cur, idx) => {
+        const imgElement = genChart ? `<img src=${priceMA.tickersChart[idx]}/>` : ''
+        return (
+          `<li>
+                            <p>Symbol: ${getUrlItem(cur.Symbol)}</p>
+                            <p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>
+                            <p>Market Cap.: ${cur.MarketCap}</p>
+                            <p>Industry: ${cur.Industry}</p>
+                            <p>${imgElement}</p>
+                          </li>`
+        )
+      }).join('')}
+                    </ol>
+                </p>
+                `
+    )
+  }).join('')
+}
+          <hr>       
+          <p>
+              <b>Grabbing Ticker List:</b>
+              <ol>
+                  ${tickerArr.map(item=>`<li>${getUrlItem(item)}</li>`).join('')}
+              </ol>
+          </p>
+          `
   }
-
 
   await sendEmail(mailOptions)
 

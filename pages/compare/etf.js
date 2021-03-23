@@ -36,47 +36,34 @@ export default function CompareETF() {
     )
   }
 
-  const clearItems = async () => {
-    setTickers(
-      []
-    )
-    setEtfInfo(
-      []
-    )
+  const clearItems = () => {
+    setTickers([])
+    setEtfInfo([])
   }
 
-  const removeItem = async (value) => {
-    if (clicked) return
-
+  const removeItem = (value) => {
     setTickers(
       [...tickers.filter(x => x !== value)]
     )
     setEtfInfo(
-      [
-        ...etfInfo.filter(x => x.find(x => x) !== value)
-      ]
+      [...etfInfo.filter(x => x.find(x => x) !== value)]
     )
   }
 
   async function handleTickers(inputTickers) {
 
     const newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
+    const temp = await Promise.all(newTickers.map(async ticker => {
+      const etf = await axios(`/api/etfdb/getETFDB?ticker=${ticker}`)
+      const performance = await axios(`/api/etfdb/getETFPerformance?ticker=${ticker}`)
+      const { data: etfData } = etf
+      const { data: performanceData } = performance
 
-    let outputItem
-    let outputPerformance
-    const temp = []
-
-    for (const ticker of newTickers) {
-      outputItem = await axios(`/api/etfdb/getETFDB?ticker=${ticker}`)
-      outputPerformance = await axios(`/api/etfdb/getETFPerformance?ticker=${ticker}`)
-      const etf = {}
-      etf['ticker'] = ticker.toUpperCase()
-      etf['info'] = { ...outputItem.data.basicInfo, ...outputPerformance.data }
-      temp.push(
-        etf
-      )
-
-    }
+      return ({
+        ticker: ticker.toUpperCase(),
+        info: { ...etfData.basicInfo, ...performanceData }
+      })
+    }))
 
     setTickers([
       ...tickers,

@@ -15,29 +15,30 @@ export default function ComparePrice() {
 
   const [settings, setSettings] = useState(priceSettingSchema)
   const [newDateRange, setNewDateRange] = useState(dateRange)
-
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
 
+  const router = useRouter()
+  const { query } = router.query
+
+  useEffect(() => {
+    if (query) {
+      handleTickers(query.split(','))
+    }
+  }, [query])
+
+
   const handleChange = async (e) => {
     if (e.target.name == 'formYear') {
-
-      const newDateArr = await dateRangeByNoOfYears(e.target.value)
-      
+      const newDateArr = await dateRangeByNoOfYears(e.target.value)      
       setNewDateRange(newDateArr)
       setSettings({...priceSettingSchema, chartData: { 'labels': [...newDateArr.map(item => item.fromDate.substring(0, 4))].reverse(), 'datasets': [] }})
-
-      // setSettings({
-      //   ...settings,
-      //   chartData: { 'labels': [...newDateArr.map(item => item.fromDate.substring(0, 4))].reverse(), 'datasets': [...settings.chartData.datasets] }
-      // })
     }
-
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       tickers: [],
@@ -47,9 +48,7 @@ export default function ComparePrice() {
     })
   }
 
-  const removeItem = async (value) => {
-    if (clicked) return
-
+  const removeItem = (value) => {
     setSettings(
       {
         ...settings,
@@ -90,16 +89,6 @@ export default function ComparePrice() {
     setValidated(true)
   }
 
-  const router = useRouter()
-  const { query } = router.query
-
-  useEffect(() => {
-    if (query) {
-      handleTickers(query.split(','))
-    }
-  }, [query])
-
-
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh' }}>
@@ -120,7 +109,7 @@ export default function ComparePrice() {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <PriceChange inputSettings={settings} inputDateRange={formValue.formYear} />
+          <PriceChange inputSettings={settings} />
         </Fragment>
       </CustomContainer>
     </Fragment >

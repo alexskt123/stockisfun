@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 import Button from 'react-bootstrap/Button'
+import Badge from 'react-bootstrap/Badge'
 import CustomSpinner from './CustomSpinner'
 
 function LoadingSpinner() {
@@ -8,12 +9,14 @@ function LoadingSpinner() {
 
   return (
     <Fragment>
-      <Button variant="dark" disabled>
-        {spinners.map((item, idx) => {
+      <Button variant="light" disabled>
+        {spinners.map((_item, idx) => {
           return <CustomSpinner key={`${idx}`} />
         })}
-        {'Loading'}
-        {spinners.map((item, idx) => {
+        <Badge variant="dark" className="ml-2">
+          {'Loading'}
+        </Badge>
+        {spinners.map((_item, idx) => {
           return <CustomSpinner key={`${idx}`} />
         })}
       </Button>

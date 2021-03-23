@@ -1,7 +1,7 @@
 
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect, useRef } from 'react'
 
-import { priceSchema, priceChartSettings, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings, dateRangeSelectAttr, maSelectAttr } from '../../config/price'
+import { priceSchema, priceChartSettings, priceChartOptions, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings, dateRangeSelectAttr, maSelectAttr } from '../../config/price'
 import { Line } from 'react-chartjs-2'
 import LoadingSpinner from '../Loading/LoadingSpinner'
 import Form from 'react-bootstrap/Form'
@@ -10,23 +10,20 @@ import { ma, ema } from 'moving-averages'
 
 const axios = require('axios').default
 
-function PriceInfo({ inputTicker }) {
+function PriceInfo({ inputTicker, inputMA }) {
 
-  const [settings, setSettings] = useState(priceSchema)
+  const _isMounted = useRef(true)
+  const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
   const [loading, setLoading] = useState(false)
 
-  const handleChange = async (e) => {
-
-    if (e.target.name == 'formYear' && parseInt(e.target.value) != parseInt(settings.days)) {
-      handleTicker(inputTicker, e.target.value, settings.ma)
-    }
-    else if (e.target.name == 'formma' && e.target.value != settings.ma) {
-      handleTicker(inputTicker, settings.days, e.target.value)
-    }
-  }
+  useEffect(async () => {
+    _isMounted.current ? await handleTicker(inputTicker, settings.days, settings.ma) : false
+    return () => _isMounted.current = false
+  }, [inputTicker, settings.days, settings.ma])
 
   const getPrice = async (inputTicker, inputDays, inputMA) => {
-    if (inputTicker == undefined) return
+    //temp solution to fix the warnings - [react-chartjs-2] Warning: Each dataset needs a unique key.
+    if (!inputTicker) return
 
     const dateprice = await axios(`/api/yahoo/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(inputDays) + 60}`)
     const date = dateprice.data?.date || []
@@ -63,27 +60,31 @@ function PriceInfo({ inputTicker }) {
     )
   }
 
-  async function handleTicker(inputTicker, inputDays, inputMA) {
+  const handleChange = async (e) => {
+    if (e.target.name == 'formYear' && parseInt(e.target.value) != parseInt(settings.days)) {
+      await handleTicker(inputTicker, e.target.value, settings.ma)
+    }
+    else if (e.target.name == 'formma' && e.target.value != settings.ma) {
+      await handleTicker(inputTicker, settings.days, e.target.value)
+    }
+  }
 
+  async function handleTicker(inputTicker, inputDays, inputMA) {
     setLoading(true)
-    await clearItems()
+    clearItems()
     await getPrice(inputTicker, inputDays, inputMA)
     setLoading(false)
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       ticker: '',
       tableData: [],
       tableHeader: [],
-      chartData: { 'labels': [], 'datasets': [] }
+      chartData: {}
     })
   }
-
-  useEffect(() => {
-    handleTicker(inputTicker, settings.days, settings.ma)
-  }, [inputTicker, settings.days, settings.ma])
 
   return (
     <Fragment>
@@ -125,7 +126,7 @@ function PriceInfo({ inputTicker }) {
           }
         </Form.Control>
       </div>
-      <Line data={settings.chartData} />
+      <Line data={settings.chartData} options={priceChartOptions} />
     </Fragment>
   )
 }

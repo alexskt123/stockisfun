@@ -1,36 +1,30 @@
 
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect, useRef } from 'react'
 
 import { getPriceInfo, sortTableItem, priceSettingSchema } from '../../lib/commonFunction'
 import StockInfoTable from '../Page/StockInfoTable'
 import { Line } from 'react-chartjs-2'
-import { dateRange, dateRangeByNoOfYears } from '../../config/price'
 import LoadingSpinner from '../Loading/LoadingSpinner'
 
-function PriceInfo({ inputSettings, inputTickers, inputYear }) {
+function PriceChange({ inputSettings, inputTickers, inputYear }) {
+  const _isMounted = useRef(true)
 
   const [settings, setSettings] = useState(inputTickers ? priceSettingSchema : inputSettings)
-  const [newDateRange, setNewDateRange] = useState(dateRange)
   const [loading, setLoading] = useState(false)
 
   async function handleTickers() {
-
-    let noOfYears = 15
-    if (inputYear) noOfYears = inputYear
-        
-    const newDateRange = await dateRangeByNoOfYears(inputYear)
-    setNewDateRange(newDateRange)
-
     setLoading(true)
 
-    if (inputSettings) {
+    const noOfYears = inputYear ? inputYear : 15
+
+    if (inputSettings) {      
       setSettings(inputSettings)
     } else if (inputTickers) {
-      await clearItems()
+      clearItems()
       const priceInfo = await getPriceInfo(inputTickers, noOfYears, priceSettingSchema)
       setSettings(priceInfo)
     } else if (inputTickers.length <= 0) {
-      await clearItems()
+      clearItems()
     }
 
     setLoading(false)
@@ -44,17 +38,18 @@ function PriceInfo({ inputSettings, inputTickers, inputYear }) {
     })
   }
 
-  useEffect(() => {
-    handleTickers()
+  useEffect(async () => {
+    _isMounted.current ? await handleTickers() : null
+    return () => _isMounted.current = false
   }, [inputSettings, inputTickers])
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       tickers: [],
       yearlyPcnt: [],
       quote: [],
-      chartData: { 'labels': [...newDateRange.map(item => item.fromDate.substring(0, 4))].reverse(), 'datasets': [] }
+      chartData: {}
     })
   }
 
@@ -69,4 +64,4 @@ function PriceInfo({ inputSettings, inputTickers, inputYear }) {
   )
 }
 
-export default PriceInfo
+export default PriceChange

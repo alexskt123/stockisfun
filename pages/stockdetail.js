@@ -3,52 +3,28 @@ import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import CustomContainer from '../components/Layout/CustomContainer'
-import TickerInput from '../components/Page/TickerInput'
+import TypeAhead from '../components/Page/TypeAhead'
 import StockDetails from '../components/StockDetails'
-import { handleDebounceChange } from '../lib/commonFunction'
 import SearchAccordion from '../components/Page/SearchAccordion'
 
 export default function StockDetail() {
 
   const [ticker, setTicker] = useState('')
-  const [validated, setValidated] = useState(false)
-  const [formValue, setFormValue] = useState({ formTicker: '' })
-  const [clicked, setClicked] = useState(false)
 
   const router = useRouter()
   const { query } = router.query
 
   useEffect(() => {
-    if (query) {
-      setTicker(query)
-    }
+    setTicker(query || '')
   }, [query])
 
   const handleChange = (e) => {
-    handleDebounceChange(e, formValue, setFormValue)
+    const input = e.find(x => x)
+    input ? router.push(`/stockdetail?query=${input.symbol}`) : null
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-
-    setClicked(true)
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-      const { formTicker } = formValue
-      router.replace('/stockdetail', `/stockdetail?query=${formTicker.toUpperCase()}`)
-      setTicker(formTicker.toUpperCase())
-    }
-    setValidated(true)
-    setClicked(false)
-  }
-
-  const clearItems = async () => {
-    setTicker('')
-    setFormValue({ formTicker: '' })
-    router.replace('/stockdetail')
+  const clearItems = () => {
+    router.push('/stockdetail')
   }
 
   return (
@@ -56,14 +32,11 @@ export default function StockDetail() {
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
           <SearchAccordion inputTicker={ticker}>
-            <TickerInput
-              validated={validated}
-              handleSubmit={handleSubmit}
+            <TypeAhead
               placeholderText={'i.e. aapl'}
               handleChange={handleChange}
-              formTicker={formValue.formTicker}
-              clicked={clicked}
               clearItems={clearItems}
+              filter={'Equity'}
             />
           </SearchAccordion>
           <StockDetails inputTicker={ticker} />

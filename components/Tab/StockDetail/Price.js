@@ -11,7 +11,7 @@ function PriceTab({ inputSettings }) {
   const [settings, setSettings] = useState({ ...inputSettings })
   const [labels, setLabels] = useState([...priceTabLabelPairs])
 
-  useEffect(async () => {
+  useEffect(() => {
     setSettings(inputSettings)
     setLabels(priceTabLabelPairs.map(item => {
       return {
@@ -68,7 +68,7 @@ function PriceTab({ inputSettings }) {
           <Badge variant="light" className="ml-2">{labels.find(x => x.name == 'Industry').value}</Badge>
         </h6>
       </Row>
-      <Price inputTicker={settings.inputTickers.find(x => x)} />
+      <Price inputTicker={settings.inputTickers.find(x => x)} inputMA={'ma'} />
 
     </Fragment>
   )

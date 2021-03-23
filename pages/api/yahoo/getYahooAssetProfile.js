@@ -5,7 +5,7 @@
 import { getYahooAssetProfile } from '../../../lib/yahoo/getYahooAssetProfile'
 import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
 import { getYahooBalanceSheet } from '../../../lib/yahoo/getYahooBalanceSheet'
-import millify from 'millify'
+import { millify } from '../../../lib/commonFunction'
 import roundTo from 'round-to'
 
 export default async (req, res) => {
@@ -24,8 +24,8 @@ export default async (req, res) => {
 
     newItem[' '] = ' '
 
-    newItem['Total Non-Current Assets'] = millify(item.totalAssets?.raw - item.totalCurrentAssets?.raw || 0)
-    newItem['Total Non-Current Liability'] = millify(item.totalLiab?.raw - item.totalCurrentLiabilities?.raw || 0)
+    newItem['Total Non-Current Assets'] = millify(item.totalAssets?.raw - item.totalCurrentAssets?.raw)
+    newItem['Total Non-Current Liability'] = millify(item.totalLiab?.raw - item.totalCurrentLiabilities?.raw)
 
     newItem['  '] = '  '
 
@@ -64,7 +64,7 @@ export default async (req, res) => {
     'Current EPS': quote.epsCurrentYear,
     'Trailing PE': quote.trailingPE?.toFixed(2),
     'Forward PE': quote.forwardPE?.toFixed(2),
-    'Dividend': quote.trailingAnnualDividendRate ?`${quote.trailingAnnualDividendRate}%` : undefined,
+    'Dividend': quote.trailingAnnualDividendRate ? `${quote.trailingAnnualDividendRate}%` : undefined,
     'Full Time Employees': data.fullTimeEmployees ? millify(data.fullTimeEmployees) : undefined,
     'Address': quote.ticker ? `${data.address1 || ''}, ${data.address2 || ''}, ${data.city || ''}, ${data.state || ''}, ${data.zip || ''}, ${data.country || ''}`.replace(', ,', '') : undefined,
     'Business Summary': data.longBusinessSummary,

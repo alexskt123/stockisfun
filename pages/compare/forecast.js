@@ -1,29 +1,35 @@
 
 import { Fragment, useState, useEffect } from 'react'
 import CustomContainer from '../../components/Layout/CustomContainer'
-
 import ForecastInfo from '../../components/Parts/ForecastInfo'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import { getForecastInfo, forecastSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
+import { forecastSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
 
 import { useRouter } from 'next/router'
 
 export default function CompareForecast() {
 
   const [settings, setSettings] = useState(forecastSettingSchema)
-
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
 
+  const router = useRouter()
+  const { query } = router.query
+
+  useEffect(() => {
+    if (query) {
+      handleTickers(query.toUpperCase().split(','))
+    }
+  }, [query])
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-  const clearItems = async () => {
+  const clearItems = () => {
     setSettings({
       ...settings,
       tickers: [],
@@ -31,9 +37,7 @@ export default function CompareForecast() {
     })
   }
 
-  const removeItem = async (value) => {
-    if (clicked) return
-
+  const removeItem = (value) => {
     setSettings(
       {
         ...settings,
@@ -43,15 +47,15 @@ export default function CompareForecast() {
     )
   }
 
-  async function handleTickers(inputTickers) {
-
+  const handleTickers = (inputTickers) => {
     setClicked(true)
     
-    const forecastInfo = await getForecastInfo(inputTickers, settings)
-    setSettings(forecastInfo)
+    setSettings({
+      ...settings,
+      tickers: inputTickers
+    })
 
     setClicked(false)
-
   }
 
   const handleSubmit = async (event) => {
@@ -61,25 +65,12 @@ export default function CompareForecast() {
     if (form.checkValidity() === false) {
       event.stopPropagation()
     } else {
-
       const { formTicker } = formValue
-
-      const inputTickers = formTicker.split(',')
-
-      await handleTickers(inputTickers)
-
+      const inputTickers = formTicker.toUpperCase().split(',')
+      handleTickers(inputTickers)
     }
     setValidated(true)
   }
-
-  const router = useRouter()
-  const { query } = router.query
-
-  useEffect(() => {
-    if (query) {
-      handleTickers(query.split(','))
-    }
-  }, [query])
 
   return (
     <Fragment>
@@ -100,7 +91,7 @@ export default function CompareForecast() {
           {clicked ?
             <LoadingSpinner/> : null
           }
-          <ForecastInfo inputSettings={settings} />
+          <ForecastInfo inputTickers={settings.tickers} />
         </Fragment >
       </CustomContainer>
     </Fragment >

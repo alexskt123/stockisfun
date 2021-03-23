@@ -5,10 +5,9 @@ import Link from 'next/link'
 
 const getCellColor = (item) => {
   const itemData = typeof item == 'object' && item && item.data ? item.data : item
-  if (item && item.style) {
-    if (item.style == 'green-red') {
-      return (item.data || '').toString().replace(/%/, '') < 0 ? { color: 'red' } : { color: 'green' }
-    }
+  if (item && item.style && item.style === 'green-red') {
+    const cur = (item.data || '').toString().replace(/%/, '')
+    return cur < 0 ? { color: 'red' } : cur > 0 ? { color: 'green' } : { color: 'black' }
   }
   else if ((itemData || '').toString().replace(/%/, '') < 0) return { color: 'red' }
   else return { color: 'black' }
@@ -19,7 +18,7 @@ const getCellItem = (item) => {
   if ((itemData || '').toString().match(/http:/gi))
     return <a href={itemData} target='_blank' rel="noopener noreferrer">{itemData}</a>
   else if (typeof item == 'object' && item && item.data && item.link) {
-    return <Link href={item.link} ><a>{itemData}</a></Link>
+    return <Link href={item.link} ><a><u>{itemData}</u></a></Link>
   }
   else return itemData
 }

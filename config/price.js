@@ -18,8 +18,7 @@ const year = new Date().getFullYear()
 export const dateRange = [...Array(16)].map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`]).map(x => ({ 'fromDate': x[0], 'toDate': x[1] }))
 
 export const dateRangeByNoOfYears = async (inputYears) => {
-  let noOfYears = 15
-  noOfYears = !inputYears ? noOfYears : inputYears
+  const noOfYears = !inputYears ? 15 : inputYears
 
   //return Array.from({length: noOfYears + 1}, (x, i) => [`${year-i}-01-01`,`${year-i}-12-31`]).map(x=>({"fromDate":x[0],"toDate":x[1]}))
   return [...Array(parseInt(noOfYears) + 1)].map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`]).map(x => ({ 'fromDate': x[0], 'toDate': x[1] }))
@@ -72,9 +71,36 @@ export const priceSchema = {
   ticker: '',
   days: 30,
   ma: 'ma',
-  chartData: {
-    'labels': [],
-    'datasets': []
+  chartData: {}
+}
+
+export const priceChartOptions = {
+  scales: {
+    xAxes: [{
+      type: 'time',
+      time: {
+        unit: 'day',
+        unitStepSize: 1,
+        displayFormats: {
+          'day': 'D/M/YY'
+        }
+      },
+      ticks: {
+        maxTicksLimit: 5,
+        fontColor: '#2c2c2c',
+        fontStyle: 'bold'
+      },
+      gridLines: {
+        display: false
+      }
+    }],
+    yAxes: [{
+      ticks: {
+        maxTicksLimit: 7,
+        fontColor: '#2c2c2c',
+        fontStyle: 'bold'
+      }
+    }]
   }
 }
 
@@ -82,8 +108,8 @@ export const priceChartSettings = {
   label: '',
   data: [],
   fill: false,
-  backgroundColor: 'rgba(30,230,230,0.2)',
-  borderColor: 'rgba(30,230,230,1)',
+  backgroundColor: 'rgba(18,24,200)',
+  borderColor: 'rgba(18,24,200,0.8)',
   showLine: false,
   pointRadius: 3
 }
@@ -92,8 +118,8 @@ export const ma5ChartSettings = {
   label: '5-MA',
   data: [],
   fill: false,
-  backgroundColor: 'rgba(200,12,12,0.2)',
-  borderColor: 'rgba(200,12,12,1)',
+  backgroundColor: 'rgba(237,2,2)',
+  borderColor: 'rgba(237,2,2,0.5)',
   pointRadius: 0
 }
 
@@ -101,8 +127,8 @@ export const ma20ChartSettings = {
   label: '20-MA',
   data: [],
   fill: false,
-  backgroundColor: 'rgba(220,220,20,0.2)',
-  borderColor: 'rgba(220,220,20,1)',
+  backgroundColor: 'rgba(255,247,20)',
+  borderColor: 'rgba(255,247,20,0.8)',
   pointRadius: 0
 }
 
@@ -110,8 +136,8 @@ export const ma60ChartSettings = {
   label: '60-MA',
   data: [],
   fill: false,
-  backgroundColor: 'rgba(75,50,10,0.2)',
-  borderColor: 'rgba(75,50,10,1)',
+  backgroundColor: 'rgba(0,0,0)',
+  borderColor: 'rgba(0,0,0,0.8)',
   pointRadius: 0
 }
 
