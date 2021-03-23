@@ -13,6 +13,7 @@ function ForecastInfo({ inputTickers }) {
 
   useEffect(() => {
     handleTickers()
+    return () => setSettings(null)
   }, [inputTickers])
 
   async function handleTickers() {

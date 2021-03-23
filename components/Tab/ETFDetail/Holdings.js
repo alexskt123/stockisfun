@@ -24,6 +24,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
 
   useEffect(async () => {
     await handleTicker(inputETFTicker)
+    return () => setSettings(null)
   }, [inputETFTicker])
 
   const sortItem = async (index) => {

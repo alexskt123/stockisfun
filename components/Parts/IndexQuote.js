@@ -9,7 +9,7 @@ const axios = require('axios').default
 function IndexQuote({ inputTicker }) {
   const [quoteData, setQuoteData] = useState([])
 
-  useEffect(async () => {
+  async function getIndexQuote () {
     const quoteResponse = await axios(`/api/yahoo/getYahooQuote?ticker=${inputTicker}`)
     const quoteData = indexQuoteInfo.map(item => {
       return ({
@@ -17,7 +17,12 @@ function IndexQuote({ inputTicker }) {
         value: quoteResponse.data[item.field]
       })
     })
-    setQuoteData(quoteData)
+    setQuoteData(quoteData)    
+  }
+
+  useEffect(() => {
+    getIndexQuote()
+    return () => setQuoteData(null)
   }, [inputTicker])
 
   return (
