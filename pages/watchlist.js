@@ -2,14 +2,13 @@
 import { Fragment, useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
 import Button from 'react-bootstrap/Button'
-import moment from 'moment-business-days'
 
 import CustomContainer from '../components/Layout/CustomContainer'
 import TickerInput from '../components/Page/TickerInput'
 import TickerBullet from '../components/Page/TickerBullet'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
 import { tableHeaderList } from '../config/watchlist'
-import { sortTableItem, handleDebounceChange, millify } from '../lib/commonFunction'
+import { handleDebounceChange } from '../lib/commonFunction'
 import { updUserWatchList, getUserInfoByUID } from '../lib/firebaseResult'
 import { Store } from '../lib/store'
 import { fireToast } from '../lib/toast'
@@ -19,18 +18,13 @@ import Row from 'react-bootstrap/Row'
 
 import SWRTable from '../components/Page/SWRTable'
 
-const axios = require('axios').default
-
 export default function WatchList() {
 
   const [tickers, setTickers] = useState([])
-  const [tableHeader, setTableHeader] = useState([])
-  const [watchList, setWatchList] = useState([])
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
-  const [ascSort, setAscSort] = useState(false)
 
   const [showUpdate, setShowUpdate] = useState(false)
   const handleUpdateClose = () => setShowUpdate(false)
@@ -56,18 +50,11 @@ export default function WatchList() {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-  const sortItem = async (index) => {
-    setAscSort(!ascSort)
-    setWatchList(
-      await sortTableItem(watchList, index, ascSort)
-    )
-  }
 
   const clearItems = () => {
     setTickers([])
-    setWatchList([])
 
-    router.replace('/watchlist')
+    router.push('/watchlist')
   }
 
   const refreshItems = () => {
@@ -87,7 +74,7 @@ export default function WatchList() {
   }
 
   const updateWatchList = async () => {
-    await updUserWatchList(user.uid, watchList.map(item => item.find(x => x)))
+    await updUserWatchList(user.uid, tickers)
     await handleDispatch()
 
     fireToast({
@@ -105,60 +92,11 @@ export default function WatchList() {
     setTickers(
       [...tickers.filter(x => x !== value)]
     )
-    setWatchList(
-      [...watchList.filter(x => x.find(x => x) !== value)]
-    )
   }
 
   async function handleTickers(inputTickersWithComma) {
-
     const newTickers = inputTickersWithComma.split(',').map(item => item.toUpperCase())
-    const temp = []
-
     setTickers([...newTickers])
-
-    return
-
-    await axios.all([...newTickers].map(ticker => {
-      return axios(`/api/yahoo/getYahooQuote?ticker=${ticker}`)
-    }))
-      .catch(error => { console.log(error) })
-      .then(responses => {
-        responses.forEach(response => {
-          const { data } = response
-          temp.push(tableHeaderList.map(header => {
-            if (data && data[header.item])
-              return {
-                'label': header.label,
-                'item': header.format && header.format == '%' ? { style: 'green-red', data: `${data[header.item]?.toFixed(2)}%` }
-                  : header.format && header.format == 'H:mm:ss' ? moment(data[header.item] * 1000).format('H:mm:ss')
-                    : header.format && header.format == 'millify' ? millify(data[header.item])
-                      : data[header.item]
-              }
-          })
-          )
-        })
-      })
-
-    const newTemp = temp.every(itemArr => itemArr.filter(x => x != undefined).length == 6) ? temp :
-      temp.filter(x => x.find(x => x) && x.find(x => x).label == 'Ticker').map(itemArr => {
-        return itemArr.map((item, idx) => {
-          return item == undefined ? { label: tableHeaderList[idx].label, item: 'N/A' } : item
-        })
-      })
-
-    setTableHeader(
-      [...(newTemp.find(x => x) || []).filter(x => x).map(item => item.label)]
-    )
-
-    setTickers([...newTickers])
-
-    setWatchList(
-      [...newTemp.map(item => {
-        return item.filter(x => x).map(jj => jj.item)
-      })]
-    )
-
   }
 
   const handleSubmit = async (event) => {
@@ -197,8 +135,6 @@ export default function WatchList() {
               handleChange={handleChange}
               clicked={clicked}
               clearItems={clearItems}
-              tableHeader={tableHeader}
-              tableData={watchList}
               exportFileName={'Stock_watch_list.csv'}
             />
             <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />

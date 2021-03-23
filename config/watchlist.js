@@ -22,6 +22,7 @@ export const tableHeaderList = [
     label: 'Pre Market%',
     item: 'preMarketChangePercent',
     format: '%',
+    property: 'netChange',
     show: true
   },
   {
@@ -33,6 +34,7 @@ export const tableHeaderList = [
     label: 'Day Chg%',
     item: 'regularMarketChangePercent',
     format: '%',
+    property: 'netChange',
     show: true
   },
   {
