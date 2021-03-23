@@ -6,7 +6,7 @@ import Badge from 'react-bootstrap/Badge'
 
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import moment from 'moment'
-import { millify, convertToPercentage } from '../../lib/commonFunction'
+import { millify, convertToPercentage, randVariant } from '../../lib/commonFunction'
 
 const useTimestamp = (trigger) => {
   const [timestamp, setTimestamp] = useState('')
@@ -103,15 +103,16 @@ function SWRTableRow({ request, tableHeader, handleTableData, options = {} }) {
   )
 }
 
-function getCellColor (property, value) {
+function getCellColor(property, value) {
   return property === 'netChange' ? value < 0 ? 'red' : value > 0 ? 'green' : 'black' : 'black'
 }
 
-function getFormattedValue (format, value) {
+function getFormattedValue(format, value) {
   return format && format == '%' ? `${convertToPercentage(value / 100)}`
     : format && format == 'H:mm:ss' && value ? moment(value * 1000).format('H:mm:ss')
       : format && format == 'millify' ? millify(value)
-        : value ? value : 'N/A'
+        : format && format == 'Badge' ? <Badge variant={randVariant()}>{value}</Badge>
+          : value ? value : 'N/A'
 }
 
 function getCell(data, header) {
@@ -122,5 +123,5 @@ function getCell(data, header) {
     format: header.format
   }
 
-  return <Fragment><span style={{color: getCellColor(newData.property, newData.value)}}>{getFormattedValue(newData.format, newData.value)}</span></Fragment>
+  return <Fragment><span style={{ color: getCellColor(newData.property, newData.value) }}>{getFormattedValue(newData.format, newData.value)}</span></Fragment>
 }
