@@ -1,44 +1,56 @@
-
+const sticky = { backgroundColor: '#f0f0f0', left: 0, position: 'sticky', zIndex: 997 }
 
 export const tableHeaderList = [
   {
     label: 'Ticker',
-    item: 'symbol'
+    item: 'symbol',
+    style: sticky,
+    show: true
   },
   {
     label: 'Pre Time',
     item: 'preMarketTime',
-    format: 'H:mm:ss'
+    format: 'H:mm:ss',
+    show: true
   },
   {
     label: 'Pre Market',
-    item: 'preMarketPrice'
+    item: 'preMarketPrice',
+    show: true
   },
   {
     label: 'Pre Market%',
     item: 'preMarketChangePercent',
-    format: '%'
+    format: '%',
+    property: 'netChange',
+    show: true
   },
   {
     label: 'Market',
-    item: 'regularMarketPrice'
+    item: 'regularMarketPrice',
+    show: true
   },
   {
     label: 'Day Chg%',
     item: 'regularMarketChangePercent',
-    format: '%'
+    format: '%',
+    property: 'netChange',
+    show: true
   },
   {
     label: 'Volume',
     item: 'regularMarketVolume',
-    format: 'millify'
+    format: 'millify',
+    show: true
   },
   {
     label: 'Day Range',
-    item: 'regularMarketDayRange'
+    item: 'regularMarketDayRange',
+    show: true
   },
   {
     label: 'Prev. Close',
-    item: 'regularMarketPreviousClose'
+    item: 'regularMarketPreviousClose',
+    show: true
   }
 ]
