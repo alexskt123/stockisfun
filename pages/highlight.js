@@ -101,15 +101,20 @@ export default function Highlight() {
                 </Fragment>
               )) : null}
           </CardDeck>
-          <Row className="justify-content-center">
-            <h6>
-              <Badge style={{ minWidth: '5rem' }} variant="dark">{'Watch List'}</Badge>
-            </h6>
-          </Row>
-          <SWRTable
-            requests={watchList.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
-            options={{ striped: true, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
-          />
+          {
+            user.id != '' ? <Fragment>
+              <Row className="justify-content-center">
+                <h6>
+                  <Badge style={{ minWidth: '5rem' }} variant="dark">{'Watch List'}</Badge>
+                </h6>
+              </Row>
+              <SWRTable
+                requests={watchList.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
+                options={{ striped: true, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
+              />
+            </Fragment>
+            : null
+          }
         </Fragment>
       </CustomContainer>
     </Fragment >
