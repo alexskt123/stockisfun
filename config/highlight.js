@@ -54,6 +54,11 @@ export const tableHeaderList = [
     format: 'Badge'
   },
   {
+    label: 'Name',
+    item: 'shortName',
+    show: true
+  },
+  {
     label: 'Market',
     item: 'regularMarketPrice',
     show: true

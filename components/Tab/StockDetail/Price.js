@@ -5,6 +5,7 @@ import { priceTabLabelPairs } from '../../../config/price'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 import AddDelStock from '../../Fire/AddDelStock'
+import { convertToPercentage } from '../../../lib/commonFunction'
 
 function PriceTab({ inputSettings }) {
 
@@ -23,7 +24,7 @@ function PriceTab({ inputSettings }) {
 
   return (
     <Fragment>
-      <Row className="ml-1 mt-1" style={{display: 'flex', alignItems: 'baseline'}}>
+      <Row className="ml-1 mt-1" style={{ display: 'flex', alignItems: 'baseline' }}>
         <h6>
           <Badge variant="dark">{'Name: '}</Badge>
         </h6>
@@ -38,6 +39,9 @@ function PriceTab({ inputSettings }) {
         </h6>
         <h6>
           <Badge variant="light" className="ml-2">{labels.find(x => x.name == 'Price').value}</Badge>
+        </h6>
+        <h6>
+          <Badge variant={labels.find(x => x.name == 'Price%').value >= 0 ? 'success' : 'danger'}>{convertToPercentage(labels.find(x => x.name == 'Price%').value / 100)}</Badge>
         </h6>
         <h6>
           <Badge className="ml-3" variant="dark">{'52W-L-H: '}</Badge>

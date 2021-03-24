@@ -71,7 +71,7 @@ export default function Highlight() {
                 <Fragment key={idx}>
                   <Row className="justify-content-center">
                     <h6>
-                      <Badge style={{ minWidth: '10rem' }} variant="dark">{item.name}</Badge>
+                      <Badge style={{ minWidth: '9rem' }} variant="dark">{item.name}</Badge>
                     </h6>
                   </Row>
                   <TickerScrollMenu inputList={item.inputList} setSelectedTicker={item.setSelectedTicker} />
@@ -110,10 +110,10 @@ export default function Highlight() {
               </Row>
               <SWRTable
                 requests={watchList.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
-                options={{ striped: true, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
+                options={{ tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
               />
             </Fragment>
-            : null
+              : null
           }
         </Fragment>
       </CustomContainer>

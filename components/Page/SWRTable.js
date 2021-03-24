@@ -19,7 +19,7 @@ const useTimestamp = (trigger) => {
 }
 
 export default function SWRTable({ requests, options }) {
-  const { tableHeader, tableSize, striped, SWROptions } = options
+  const { tableHeader, tableSize, striped, bordered, SWROptions } = options
 
   const [tableData, setTableData] = useState([])
   const [reactiveTableHeader, setReactiveTableHeader] = useState(tableHeader)
@@ -56,7 +56,7 @@ export default function SWRTable({ requests, options }) {
       <h4><Badge className="mt-3" variant="light">{`Last Update: ${timestamp}`}</Badge></h4>
       <Table
         striped={striped ? true : false}
-        bordered
+        bordered={bordered ? true : false}
         hover
         size={tableSize ? tableSize : 'md'}
         className="pl-3 mt-1"

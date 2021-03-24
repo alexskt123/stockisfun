@@ -213,6 +213,10 @@ export const priceTabLabelPairs = [
     value: ''
   },
   {
+    name: 'Price%',
+    value: ''
+  },
+  {
     name: '52W-L-H',
     value: ''
   },
