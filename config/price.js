@@ -92,7 +92,7 @@ export const priceChartOptions = {
       },
       gridLines: {
         display: false
-      }
+      },
     }],
     yAxes: [{
       ticks: {
