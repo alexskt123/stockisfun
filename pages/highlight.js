@@ -1,5 +1,5 @@
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect, useContext } from 'react'
 import CustomContainer from '../components/Layout/CustomContainer'
 import '../styles/ScrollMenu.module.css'
 import Price from '../components/Parts/Price'
@@ -7,14 +7,22 @@ import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardDeck from 'react-bootstrap/CardDeck'
-import { stockIndex, stockFutureIndex } from '../config/highlight'
+import { stockIndex, stockFutureIndex, tableHeaderList } from '../config/highlight'
 import IndexQuote from '../components/Parts/IndexQuote'
 import QuoteCard from '../components/Parts/QuoteCard'
 import TickerScrollMenu from '../components/Page/TickerScrollMenu'
 import TypeAhead from '../components/Page/TypeAhead'
+import SWRTable from '../components/Page/SWRTable'
+import { Store } from '../lib/store'
+import { getUserInfoByUID } from '../lib/firebaseResult'
 
 export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
+  const [watchList, setwatchList] = useState([])
+
+  const store = useContext(Store)
+  const { state } = store
+  const { user } = state
 
   const headers = [{
     name: 'Price Changes',
@@ -48,6 +56,11 @@ export default function Highlight() {
     input ? setSelectedTicker({ ticker: input.symbol, show: true }) : null
   }
 
+  useEffect(async () => {
+    const { watchList } = await getUserInfoByUID(user == null ? '' : user.uid)
+    setwatchList(watchList)
+  }, [user])
+
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
@@ -57,16 +70,21 @@ export default function Highlight() {
               return (
                 <Fragment key={idx}>
                   <Row className="justify-content-center">
-                    <h5>
-                      <Badge style={{ minWidth: '11rem' }} variant="dark">{item.name}</Badge>
-                    </h5>
+                    <h6>
+                      <Badge style={{ minWidth: '10rem' }} variant="dark">{item.name}</Badge>
+                    </h6>
                   </Row>
                   <TickerScrollMenu inputList={item.inputList} setSelectedTicker={item.setSelectedTicker} />
                 </Fragment>
               )
             })
           }
-          <Row className="mt-3">
+          <Row className="justify-content-center mt-1">
+            <h6>
+              <Badge style={{ minWidth: '5rem' }} variant="dark">{'Search'}</Badge>
+            </h6>
+          </Row>
+          <Row>
             <Col>
               <TypeAhead
                 placeholderText={'i.e. ARKK / AAPL / AMZN'}
@@ -83,6 +101,20 @@ export default function Highlight() {
                 </Fragment>
               )) : null}
           </CardDeck>
+          {
+            user.id != '' ? <Fragment>
+              <Row className="justify-content-center">
+                <h6>
+                  <Badge style={{ minWidth: '5rem' }} variant="dark">{'Watch List'}</Badge>
+                </h6>
+              </Row>
+              <SWRTable
+                requests={watchList.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
+                options={{ striped: true, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
+              />
+            </Fragment>
+            : null
+          }
         </Fragment>
       </CustomContainer>
     </Fragment >

@@ -43,3 +43,26 @@ export const indexQuoteInfo = [
   { label: '52 Week Low', field: 'fiftyTwoWeekLow', value: null }
 ]
 
+const sticky = { backgroundColor: '#f0f0f0', left: 0, position: 'sticky', zIndex: 997 }
+
+export const tableHeaderList = [
+  {
+    label: 'Ticker',
+    item: 'symbol',
+    style: sticky,
+    show: true,
+    format: 'Badge'
+  },
+  {
+    label: 'Market',
+    item: 'regularMarketPrice',
+    show: true
+  },
+  {
+    label: 'Day Chg%',
+    item: 'regularMarketChangePercent',
+    format: '%',
+    property: 'netChange',
+    show: true
+  }
+]
