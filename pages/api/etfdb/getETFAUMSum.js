@@ -45,7 +45,7 @@ const getAUMSum = async (ticker) => {
   }, { ...etf })
 
 
-  if (etfList.length < aumSumCount) {
+  if (newETF.etfList.length < aumSumCount) {
     newETF.etfList = [...newETF.etfList, ...Array.from({ length: aumSumCount - newETF.etfList.length }, (_) => 'N/A')]
   }
 
