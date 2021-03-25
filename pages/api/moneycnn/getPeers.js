@@ -13,7 +13,7 @@ export default async (req, res) => {
 
   const data = await getPeers(ticker)
 
-  const responses = await axios.all(data.map(item => axios.get(`${getHost()}/api/yahoo/getYahooQuote?ticker=${item.Ticker}`)))
+  const responses = await Promise.all(data.map(async item => axios.get(`${getHost()}/api/yahoo/getYahooQuote?ticker=${item.Ticker}`)))
 
   const newData = [...data].map(item => {
     const data = responses.find(x => x.data && x.data.symbol === item.Ticker)?.data
