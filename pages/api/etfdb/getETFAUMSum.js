@@ -46,7 +46,7 @@ const getAUMSum = async (ticker) => {
 
 
   if (etfList.length < aumSumCount) {
-    newETF.etfList = [...newETF.etfList, ...Array.from({ length: aumSumCount - etfList.length }, (_) => 'N/A')]
+    newETF.etfList = [...newETF.etfList, ...Array.from({ length: aumSumCount - newETF.etfList.length }, (_) => 'N/A')]
   }
 
   newETF.etfList.push(millify(newETF.aumSum))
