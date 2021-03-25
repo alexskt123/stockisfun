@@ -2,7 +2,6 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getETFAUMSum } from '../../../lib/etfdb/getETFAUMSum'
 import { aumSumCount } from '../../../config/etf'
 import { getHost, getHostForETFDb, millify } from '../../../lib/commonFunction'
 import Quote from '../../../lib/quote'
@@ -15,7 +14,10 @@ const getAUMSum = async (ticker) => {
   await quote.request()
   const validTicker = quote.valid
 
-  const etfList = !validTicker ? [] : await getETFAUMSum(ticker)
+  const etfInfo = !validTicker ? null : await axios.get(`${getHostForETFDb()}/api/etfdb/getETFListByTicker?ticker=${ticker}`)
+  const data = etfInfo && etfInfo.data ? etfInfo.data : { etfList: [], etfCount: 'N/A' }
+
+  const { etfList, etfCount } = data
 
   const etf = {
     etfList: [],
@@ -26,7 +28,7 @@ const getAUMSum = async (ticker) => {
 
   const responses = await Promise.all(etfList.map(async etf => {
     return await axios.get(`${getHostForETFDb()}/api/etfdb/getETFDB?ticker=${etf.ticker}`).catch(err => console.log(err))
-  }))    
+  }))
 
   const newETF = responses.reduce((acc, item, index) => {
     if (item) {
@@ -38,7 +40,7 @@ const getAUMSum = async (ticker) => {
       acc.aumSum += aum
     }
     return acc
-  }, {...etf})
+  }, { ...etf })
 
 
   newETF.aumSum.toFixed(2)
@@ -49,7 +51,7 @@ const getAUMSum = async (ticker) => {
 
   newETF.etfList.push(`$${newETF.aumSum.toFixed(2)} M`)
 
-  return newETF.etfList
+  return { etfList: newETF.etfList, etfCount }
 }
 
 export default async (req, res) => {
@@ -59,21 +61,18 @@ export default async (req, res) => {
 
   const responses = await Promise.all([
     axios.get(`${getHost()}/api/yahoo/getYahooQuote?ticker=${ticker}`),
-    axios.get(`${getHost()}/api/yahoo/getYahooKeyStatistics?ticker=${ticker}`),
-    axios.get(`${getHostForETFDb()}/api/etfdb/getStockETFCount?ticker=${ticker}`)
+    axios.get(`${getHost()}/api/yahoo/getYahooKeyStatistics?ticker=${ticker}`)
   ])
 
   const resDataSet = responses.map(item => item.data)
   const quote = resDataSet[0]
   const keyRatio = resDataSet[1]
-  const etfCountData = resDataSet[2]
 
   const marketCap = quote.marketCap ? millify(quote.marketCap) : 'N/A'
   const regularMarketPrice = quote.regularMarketPrice ? quote.regularMarketPrice : 'N/A'
   const floatingShareRatio = keyRatio && keyRatio.floatShares ? percent.calc(keyRatio.floatShares.raw, keyRatio.sharesOutstanding.raw, 2, true) : 'N/A'
-  const etfCount = etfCountData ? etfCountData : 'N/A'
 
-  const data = [...etfData, regularMarketPrice, marketCap, floatingShareRatio, etfCount]
+  const data = [...etfData.etfList, regularMarketPrice, marketCap, floatingShareRatio, etfData.etfCount]
 
   res.statusCode = 200
   res.json(data)
