@@ -7,7 +7,11 @@ import { getHost, getHostForETFDb, millify } from '../../../lib/commonFunction'
 import Quote from '../../../lib/quote'
 
 import percent from 'percent'
+import axiosRetry from 'axios-retry'
+ 
 const axios = require('axios').default
+
+axiosRetry(axios, { retries: 3 })
 
 const getAUMSum = async (ticker) => {
   const quote = new Quote(ticker)
