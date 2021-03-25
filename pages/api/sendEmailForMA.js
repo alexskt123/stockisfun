@@ -67,7 +67,7 @@ export default async (req, res) => {
     ]
   }
 
-  await axios.all(tickerArr.map(ticker => {
+  await Promise.all(tickerArr.map(ticker => {
     return axios.get(`${getHost()}/api/getPriceMADetails?ticker=${ticker}&genChart=${genChart}`).catch(err => console.log(err))
   }))
     .catch(error => console.log(error))

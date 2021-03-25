@@ -35,7 +35,7 @@ function StockDetails({ inputTicker }) {
 
     setSettings(newSettings)
 
-    axios.all([
+    Promise.all([
       axios
         .get(`/api/yahoo/getYahooAssetProfile?ticker=${ticker}`)
         .then((response) => {

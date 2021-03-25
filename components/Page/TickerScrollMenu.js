@@ -14,7 +14,7 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
 
   async function getStockInfo(inputList) {
 
-    const responses = await axios.all([...inputList].map(item => axios(`/api/yahoo/getYahooQuote?ticker=${item.Ticker}`)))
+    const responses = await Promise.all([...inputList].map(async item => axios(`/api/yahoo/getYahooQuote?ticker=${item.Ticker}`)))
 
     const stockInfoAdd = [...inputList].map((stock) => {
       const response = responses.find(x => x && x.data && x.data.symbol === stock.Ticker)

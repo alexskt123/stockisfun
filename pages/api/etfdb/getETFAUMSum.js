@@ -24,10 +24,9 @@ const getAUMSum = async (ticker) => {
 
   etfList.splice(aumSumCount)
 
-  const responses = await axios.all(etfList.map((etf) => {
-    return axios.get(`${getHostForETFDb()}/api/etfdb/getETFDB?ticker=${etf.ticker}`).catch(err => console.log(err))
-  }))
-    .catch(error => console.log(error))
+  const responses = await Promise.all(etfList.map(async etf => {
+    return await axios.get(`${getHostForETFDb()}/api/etfdb/getETFDB?ticker=${etf.ticker}`).catch(err => console.log(err))
+  }))    
 
   const newETF = responses.reduce((acc, item, index) => {
     if (item) {
@@ -58,7 +57,7 @@ export default async (req, res) => {
 
   const etfData = await getAUMSum(ticker)
 
-  const responses = await axios.all([
+  const responses = await Promise.all([
     axios.get(`${getHost()}/api/yahoo/getYahooQuote?ticker=${ticker}`),
     axios.get(`${getHost()}/api/yahoo/getYahooKeyStatistics?ticker=${ticker}`),
     axios.get(`${getHostForETFDb()}/api/etfdb/getStockETFCount?ticker=${ticker}`)
