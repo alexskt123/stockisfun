@@ -28,18 +28,16 @@ const getAUMSum = async (ticker) => {
     aumSum: 0
   }
 
-  etfList.splice(aumSumCount)
-
   const responses = await Promise.all(etfList.map(async etf => {
-    return await axios.get(`${getHostForETFDb()}/api/etfdb/getETFDB?ticker=${etf.ticker}`).catch(err => console.log(err))
+    return await axios.get(`${getHost()}/api/yahoo/getYahooKeyStatistics?ticker=${etf.ticker}`).catch(err => console.log(err))
   }))
 
   const newETF = responses.reduce((acc, item, index) => {
-    if (item) {
-      const etfInfo = item.data
+    if (item && item?.data?.totalAssets?.raw && acc.etfList.length < aumSumCount) {
+      const aumInfo = item.data
       const etfWeight = (etfList[index].weight || '').replace('%', '')
-      const etfSummary = `${etfList[index].ticker}: ${etfWeight}% AUM: ${etfInfo.basicInfo.AUM}`
-      const aum = (parseFloat((etfInfo.basicInfo.AUM || '').replace(/\$|M|,| /gi, '')) * parseFloat(etfWeight) / 100)
+      const etfSummary = `${etfList[index].ticker}: ${etfWeight}% AUM: ${aumInfo?.totalAssets?.fmt}`
+      const aum = parseFloat((aumInfo?.totalAssets?.raw || '')) * parseFloat(etfWeight) / 100
       acc.etfList.push(etfSummary)
       acc.aumSum += aum
     }
@@ -47,13 +45,11 @@ const getAUMSum = async (ticker) => {
   }, { ...etf })
 
 
-  newETF.aumSum.toFixed(2)
-
   if (etfList.length < aumSumCount) {
     newETF.etfList = [...newETF.etfList, ...Array.from({ length: aumSumCount - etfList.length }, (_) => 'N/A')]
   }
 
-  newETF.etfList.push(`$${newETF.aumSum.toFixed(2)} M`)
+  newETF.etfList.push(millify(newETF.aumSum))
 
   return { etfList: newETF.etfList, etfCount }
 }
