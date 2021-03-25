@@ -37,10 +37,9 @@ function PriceChange({ inputSettings, inputTickers, inputYear }) {
     })
   }
 
-  useEffect(() => {
-    const abortController = new AbortController()
-    handleTickers()
-    return () => abortController.abort() 
+  useEffect(async () => {
+    await handleTickers()
+    return () => setSettings(null)
   }, [inputSettings, inputTickers])
 
   const clearItems = () => {

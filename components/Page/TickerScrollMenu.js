@@ -35,7 +35,10 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
   }
 
   const onSelect = (key) => {
-    setSelectedTicker(inputList[key].Ticker)
+    setSelectedTicker({
+      ticker: inputList[key].Ticker,
+      show: true
+    })
   }
 
   useEffect(async () => {

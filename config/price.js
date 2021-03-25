@@ -86,22 +86,19 @@ export const priceChartOptions = {
         }
       },
       ticks: {
-        autoSkip: true,
         maxTicksLimit: 5,
         fontColor: '#2c2c2c',
         fontStyle: 'bold'
       },
       gridLines: {
         display: false
-      }
+      },
     }],
     yAxes: [{
       ticks: {
+        maxTicksLimit: 7,
         fontColor: '#2c2c2c',
         fontStyle: 'bold'
-      },
-      gridLines: {
-        display: false
       }
     }]
   }
@@ -213,6 +210,10 @@ export const priceTabLabelPairs = [
   },
   {
     name: 'Price',
+    value: ''
+  },
+  {
+    name: 'Price%',
     value: ''
   },
   {

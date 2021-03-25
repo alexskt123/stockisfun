@@ -37,6 +37,7 @@ function FinancialsInfo({ inputTickers }) {
 
   useEffect(() => {
     handleTickers()
+    return () => setSettings(null)
   }, [inputTickers])
 
   return (

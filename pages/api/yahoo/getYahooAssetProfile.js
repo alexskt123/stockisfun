@@ -55,6 +55,7 @@ export default async (req, res) => {
   const newData = {
     'Name': quote.longName,
     'Price': quote.regularMarketPrice,
+    'Price%': quote.regularMarketChangePercent,
     '52W-L-H': quote.fiftyTwoWeekLow && quote.fiftyTwoWeekHigh ? `${roundTo(parseFloat(quote.fiftyTwoWeekLow), 2)} - ${roundTo(parseFloat(quote.fiftyTwoWeekHigh), 2)}` : undefined,
     'Website': data.website,
     'Industry': data.industry,

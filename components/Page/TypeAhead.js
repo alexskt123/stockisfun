@@ -9,7 +9,7 @@ import Badge from 'react-bootstrap/Badge'
 import { buttonSettings } from '../../config/form'
 import { AsyncTypeahead } from 'react-bootstrap-typeahead'
 
-function TypeAhead({ placeholderText, handleChange, clearItems, filter}) {
+function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
   const [isLoading, setIsLoading] = useState(false)
   const [options, setOptions] = useState([])
   const ref = useRef()
@@ -37,7 +37,7 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter}) {
             type="formTicker"
             name="formTicker"
             placeholder={placeholderText}
-            onChange={(e) => {               
+            onChange={(e) => {
               ref.current.blur()
               ref.current.clear()
               handleChange(e)
@@ -65,11 +65,14 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter}) {
             )}
           />
         </Form.Group>
-        <Row className="mt-2">
-          <Button {...buttonSettings.ClearAll.attr} onClick={() => { clearItems() }}>
-            {buttonSettings.ClearAll.label}
-          </Button>
-        </Row>
+        {
+          clearItems ? <Row className="mt-2">
+            <Button {...buttonSettings.ClearAll.attr} onClick={() => { clearItems() }}>
+              {buttonSettings.ClearAll.label}
+            </Button>
+          </Row>
+            : null
+        }
       </Form>
     </Fragment>
   )

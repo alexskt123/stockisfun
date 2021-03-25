@@ -35,6 +35,7 @@ export const stockFutureIndex = [
 
 export const indexQuoteInfo = [
   { label: 'Name', field: 'shortName', value: null },
+  { label: 'Price', field: 'regularMarketPrice', value: null },
   { label: 'Day Change', field: 'regularMarketChange', value: null },
   { label: 'Day Range', field: 'regularMarketDayRange', value: null },
   { label: 'Prev. Close', field: 'regularMarketPreviousClose', value: null },
@@ -42,3 +43,31 @@ export const indexQuoteInfo = [
   { label: '52 Week Low', field: 'fiftyTwoWeekLow', value: null }
 ]
 
+const sticky = { backgroundColor: '#f0f0f0', left: 0, position: 'sticky', zIndex: 997 }
+
+export const tableHeaderList = [
+  {
+    label: 'Ticker',
+    item: 'symbol',
+    style: sticky,
+    show: true,
+    format: 'Badge'
+  },
+  {
+    label: 'Name',
+    item: 'shortName',
+    show: true
+  },
+  {
+    label: 'Market',
+    item: 'regularMarketPrice',
+    show: true
+  },
+  {
+    label: 'Day Chg%',
+    item: 'regularMarketChangePercent',
+    format: '%',
+    property: 'netChange',
+    show: true
+  }
+]
