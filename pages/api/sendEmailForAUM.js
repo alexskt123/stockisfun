@@ -1,7 +1,7 @@
 
 import sendEmail from '../../lib/sendEmail'
 import { getEmailByID } from '../../lib/firebaseResult'
-import { getCSVContent, getHostForETFDb } from '../../lib/commonFunction'
+import { getCSVContent, getHostForETFDb, getHost } from '../../lib/commonFunction'
 import moment from 'moment-business-days'
 import { aumTableHeader } from '../../config/etf'
 
@@ -28,14 +28,19 @@ export default async (req, res) => {
 
   response.response = 'OK'
 
-  const responses = await axios.all(tickerArr.map(ticker => {
-    return axios.get(`${getHostForETFDb()}/api/etfdb/getETFAUMSum?ticker=${ticker}`).catch(err => console.log(err))
-  })).catch(error => console.log(error))
+  const temp = await Promise.all(tickerArr.map(async ticker => {
+    const etf = await axios(`${getHostForETFDb()}/api/etfdb/getETFAUMSum?ticker=${ticker}`)
+    const cnn = await axios(`${getHost()}/api/forecast/getMoneyCnn?ticker=${ticker}`)
+    const { data: etfData } = etf
+    const { data: cnnData } = cnn
+    return ({
+      ticker: ticker.toUpperCase(),
+      info: [...etfData, ...cnnData]
+    })
+  }))
 
-  responses.forEach((item, index) => {
-    if (item && item.data) {
-      csvFile.tableData.push([tickerArr[index], ...item.data])
-    }
+  temp.forEach((item) => {
+    csvFile.tableData.push([item.ticker, ...item.info])
   })
 
   const inputArrList = tickerArr.reduce((acc, cur) => {
