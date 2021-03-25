@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import useSWR from 'swr'
 
+import Row from 'react-bootstrap/Row'
 import Table from 'react-bootstrap/Table'
 import Badge from 'react-bootstrap/Badge'
 
@@ -53,7 +54,9 @@ export default function SWRTable({ requests, options }) {
 
   return (
     <Fragment>
-      <h4><Badge className="mt-3" variant="light">{`Last Update: ${timestamp}`}</Badge></h4>
+      <Row className="justify-content-center">
+        <h5><Badge className="mt-3" variant="info">{`Last Update: ${timestamp}`}</Badge></h5>
+      </Row>
       <Table
         striped={striped ? true : false}
         bordered={bordered ? true : false}

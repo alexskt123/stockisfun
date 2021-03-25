@@ -59,6 +59,24 @@ export const tableHeaderList = [
     show: true
   },
   {
+    label: 'Pre Time',
+    item: 'preMarketTime',
+    format: 'H:mm:ss',
+    show: true
+  },
+  {
+    label: 'Pre Market',
+    item: 'preMarketPrice',
+    show: true
+  },
+  {
+    label: 'Pre Market%',
+    item: 'preMarketChangePercent',
+    format: '%',
+    property: 'netChange',
+    show: true
+  },
+  {
     label: 'Market',
     item: 'regularMarketPrice',
     show: true
