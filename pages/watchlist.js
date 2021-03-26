@@ -109,7 +109,7 @@ export default function WatchList() {
     } else {
       const { formTicker } = formValue
       await handleTickers(formTicker)
-      router.replace('/watchlist', `/watchlist?query=${formTicker.toUpperCase()}`)
+      router.push('/watchlist', `/watchlist?query=${formTicker.toUpperCase()}`)
     }
     setValidated(true)
   }
@@ -151,11 +151,12 @@ export default function WatchList() {
             }
           </Row>
 
-          <SWRTable
-            requests={tickers.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
-            options={{ striped: true, bordered: true, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
-          />
-
+          {
+            tickers.length > 0 ? <SWRTable
+              requests={tickers.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
+              options={{ striped: true, bordered: true, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
+            /> : null
+          }
         </Fragment>
       </CustomContainer>
       <ModalQuestion {...modalQuestionSettings} />
