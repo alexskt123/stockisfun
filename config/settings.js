@@ -9,8 +9,8 @@ export default Settings
 export const iconConfig = {
   alt: '',
   src: Settings.LogoImgSrc,
-  width: '35',
-  height: '35',
+  width: '30',
+  height: '30',
   className: 'd-inline-block align-top'
 }
 

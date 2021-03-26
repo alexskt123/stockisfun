@@ -3,21 +3,35 @@ import { Fragment, useState, useEffect } from 'react'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 import { indexQuoteInfo } from '../../config/highlight'
+import { convertToPercentage, convertToPriceChange } from '../../lib/commonFunction'
 
 const axios = require('axios').default
 
 function IndexQuote({ inputTicker }) {
   const [quoteData, setQuoteData] = useState([])
 
-  async function getIndexQuote () {
+  async function getIndexQuote() {
     const quoteResponse = await axios(`/api/yahoo/getYahooQuote?ticker=${inputTicker}`)
     const quoteData = indexQuoteInfo.map(item => {
-      return ({
-        label: item.label,
-        value: quoteResponse.data[item.field]
+      return item.map(data => {
+        return ({
+          label: data.label,
+          format: data.format,
+          value: quoteResponse.data[data.field]
+        })
       })
     })
-    setQuoteData(quoteData)    
+    setQuoteData(quoteData)
+  }
+
+  const getValueBadge = (variant, value) => {
+    return <Badge variant={variant} className="ml-2">{value}</Badge>
+  }
+
+  const getFormattedValue = (format, value) => {
+    return format && format === 'PriceChange' ? value ? getValueBadge(value >= 0 ? "success" : "danger", convertToPriceChange(value)) : null
+      : format && format === 'PriceChange%' ? value ? getValueBadge(value >= 0 ? "success" : "danger", convertToPercentage(value / 100)) : null
+        : getValueBadge("light", value)
   }
 
   useEffect(() => {
@@ -28,16 +42,24 @@ function IndexQuote({ inputTicker }) {
   return (
     <Fragment>
       {
-        quoteData.map((item, idx) => {
+        (quoteData || []).map((dataRow, idx) => {
           return (
             <Fragment key={idx}>
               <Row className="ml-1 mt-1" style={{ display: 'flex', alignItems: 'baseline' }}>
-                <h6>
-                  <Badge variant="dark">{item.label}</Badge>
-                </h6>
-                <h6>
-                  <Badge variant="light" className="ml-2">{item.value}</Badge>
-                </h6>
+                {
+                  dataRow.map((data, dataIdx) => {
+                    return (
+                      <Fragment key={dataIdx}>
+                        <h6>
+                          <Badge variant="dark">{data.label}</Badge>
+                        </h6>
+                        <h6>
+                          {getFormattedValue(data.format, data.value)}
+                        </h6>
+                      </Fragment>
+                    )
+                  })
+                }
               </Row>
             </Fragment>
           )

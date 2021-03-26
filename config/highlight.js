@@ -34,13 +34,12 @@ export const stockFutureIndex = [
 ]
 
 export const indexQuoteInfo = [
-  { label: 'Name', field: 'shortName', value: null },
-  { label: 'Price', field: 'regularMarketPrice', value: null },
-  { label: 'Day Change', field: 'regularMarketChange', value: null },
-  { label: 'Day Range', field: 'regularMarketDayRange', value: null },
-  { label: 'Prev. Close', field: 'regularMarketPreviousClose', value: null },
-  { label: '52 Week High', field: 'fiftyTwoWeekHigh', value: null },
-  { label: '52 Week Low', field: 'fiftyTwoWeekLow', value: null }
+  [{ label: 'Name', field: 'shortName', value: null }],
+  [{ label: 'Pre', field: 'preMarketPrice', value: null }, { field: 'preMarketChange', value: null, format: 'PriceChange' }, { field: 'preMarketChangePercent', value: null, format: 'PriceChange%' }],
+  [{ label: 'Price', field: 'regularMarketPrice', value: null }, { field: 'regularMarketChange', value: null, format: 'PriceChange' }, { field: 'regularMarketChangePercent', value: null, format: 'PriceChange%' }],
+  [{ label: 'Day Range', field: 'regularMarketDayRange', value: null }],
+  [{ label: 'Prev. Close', field: 'regularMarketPreviousClose', value: null }],
+  [{ label: '52 Week Low', field: 'fiftyTwoWeekLow', value: null }, { label: '52 Week High', field: 'fiftyTwoWeekHigh', value: null }]
 ]
 
 const sticky = { backgroundColor: '#f0f0f0', left: 0, position: 'sticky', zIndex: 997 }

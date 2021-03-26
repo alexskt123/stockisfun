@@ -36,6 +36,8 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
           <AsyncTypeahead
             type="formTicker"
             name="formTicker"
+            allowNew={true}
+            newSelectionPrefix={''}
             placeholder={placeholderText}
             onChange={(e) => {
               ref.current.blur()
