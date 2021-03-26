@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Modal from 'react-bootstrap/Modal'
 import Row from 'react-bootstrap/Row'
-import NavDropdown from 'react-bootstrap/NavDropdown'
+import Dropdown from 'react-bootstrap/Dropdown'
 import { FaUserCircle, FaList } from 'react-icons/fa'
 import { BiTime } from 'react-icons/bi'
 import { CgViewList } from 'react-icons/cg'
@@ -103,12 +103,12 @@ function FireAuth() {
     <Fragment>
       {
         user.id == '' ?
-          <NavDropdown.Item onClick={handleShow}>
+          <Dropdown.Item onClick={handleShow}>
             <Badge variant="success">{'Sign In'}</Badge>
-          </NavDropdown.Item>
+          </Dropdown.Item>
           :
           <Fragment>
-            <NavDropdown.Item >
+            <Dropdown.Item >
               <FaUserCircle />
               <Badge className="ml-1" variant="dark">
                 {user.displayName}
@@ -117,8 +117,8 @@ function FireAuth() {
               <Badge variant="light">
                 {`${user.loginTime}`}
               </Badge>
-            </NavDropdown.Item>
-            <NavDropdown.Divider />
+            </Dropdown.Item>
+            <Dropdown.Divider />
             <div className="container">
               <p style={{ width: 'inherit' }}>
                 <FaList />
@@ -134,7 +134,7 @@ function FireAuth() {
                 })}
               </Row>
             </div>
-            <NavDropdown.Divider />
+            <Dropdown.Divider />
             <div className="container">
               <p style={{ width: 'inherit' }}>
                 <RiFundsBoxLine />
@@ -150,7 +150,7 @@ function FireAuth() {
                 })}
               </Row>
             </div>
-            <NavDropdown.Divider />
+            <Dropdown.Divider />
             <div className="container">
               <Row>
                 <Col>
@@ -159,10 +159,10 @@ function FireAuth() {
                 </Col>
               </Row>
             </div>
-            <NavDropdown.Divider />
-            <NavDropdown.Item onClick={() => setShowSignOut(true)}>
+            <Dropdown.Divider />
+            <Dropdown.Item onClick={() => setShowSignOut(true)}>
               <Badge variant="danger">{'Sign Out'}</Badge>
-            </NavDropdown.Item>
+            </Dropdown.Item>
           </Fragment>
       }
       <Modal centered size="sm" show={show} onHide={handleClose}>

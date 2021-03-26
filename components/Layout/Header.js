@@ -9,6 +9,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Badge from 'react-bootstrap/Badge'
 import NavDropdown from 'react-bootstrap/NavDropdown'
+import Dropdown from 'react-bootstrap/Dropdown'
 import { IconContext } from 'react-icons'
 import { FaUserCircle } from 'react-icons/fa'
 // config
@@ -39,13 +40,18 @@ function Header() {
       </Head>
       <FireUser />
       <Navbar collapseOnSelect fixed="top" bg="dark" variant="dark" expand="md" style={{ zIndex: '998!important' }}>
-        <NavDropdown title={<IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
-          <FaUserCircle />
-        </IconContext.Provider>} id="nav-user">
-          <DynamicAuth />
-        </NavDropdown>
+        <Dropdown>
+          <Dropdown.Toggle variant="dark" id="dropdown-basic">
+            <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
+              <FaUserCircle />
+            </IconContext.Provider>
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <DynamicAuth />
+          </Dropdown.Menu>
+        </Dropdown>
         <Link href={'/highlight'} passHref>
-          <Navbar.Brand>
+          <Navbar.Brand style={{ display: 'flex', alignItems: 'center' }}>
             <img
               {...iconConfig}
             />
@@ -93,6 +99,16 @@ function Header() {
             })}
           </Nav>
         </Navbar.Collapse>
+        {/* <Nav>
+          <NavDropdown
+            title={
+              <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
+                <FaUserCircle />
+              </IconContext.Provider>}
+            id="nav-user">
+            <DynamicAuth />
+          </NavDropdown>
+        </Nav> */}
       </Navbar>
     </Fragment >
   )

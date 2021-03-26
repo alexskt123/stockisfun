@@ -92,7 +92,7 @@ export const priceChartOptions = {
       },
       gridLines: {
         display: false
-      }
+      },
     }],
     yAxes: [{
       ticks: {
@@ -210,6 +210,10 @@ export const priceTabLabelPairs = [
   },
   {
     name: 'Price',
+    value: ''
+  },
+  {
+    name: 'Price%',
     value: ''
   },
   {

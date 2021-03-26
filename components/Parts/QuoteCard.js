@@ -20,7 +20,7 @@ export default function QuoteCard({ children, header, inputTicker, isShow }) {
         border={'light'}
         style={{ ['minWidth']: '10rem' }}
       >
-        <Card.Header>
+        <Card.Header style={{ padding: '0.2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <b>
               <span>
@@ -30,7 +30,7 @@ export default function QuoteCard({ children, header, inputTicker, isShow }) {
             </b>
           </div>
         </Card.Header>
-        <Card.Body>
+        <Card.Body style={{ padding: '0.2rem' }}>
           {children}
         </Card.Body>
       </Card>

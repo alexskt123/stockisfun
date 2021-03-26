@@ -14,7 +14,7 @@ export default async (req, res) => {
     response: 'OK'
   }
 
-  axios.all(emails.map(email => {
+  await Promise.all(emails.map(email => {
     return axios.get(`${getHost()}/api/sendEmailFor${category}?id=${email.id}`).catch(err => console.log(err))
   }))
     .catch(error => console.log(error))
