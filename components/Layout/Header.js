@@ -55,7 +55,7 @@ function Header() {
             <img
               {...iconConfig}
             />
-            {'Stock is Fun'}
+            <Badge variant="dark">{'Stock is Fun'}</Badge>
           </Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
