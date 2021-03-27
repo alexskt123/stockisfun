@@ -42,7 +42,7 @@ export const indexQuoteInfo = [
   [{ label: '52 Week Low', field: 'fiftyTwoWeekLow', value: null }, { label: '52 Week High', field: 'fiftyTwoWeekHigh', value: null }]
 ]
 
-const sticky = { backgroundColor: '#f0f0f0', left: 0, position: 'sticky', zIndex: 997 }
+const sticky = { left: 0, position: 'sticky', zIndex: 997 }
 
 export const tableHeaderList = [
   {

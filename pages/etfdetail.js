@@ -66,7 +66,7 @@ export default function ETFDetail() {
         <Fragment>
           <SearchAccordion inputTicker={settings.inputETFTicker}>
             <TypeAhead
-              placeholderText={'i.e. arkk'}
+              placeholderText={'i.e. ARKK'}
               handleChange={handleChange}
               clearItems={clearItems}
               filter={'ETF'}

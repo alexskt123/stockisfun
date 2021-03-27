@@ -114,7 +114,7 @@ function getFormattedValue(format, value) {
   return format && format == '%' ? `${convertToPercentage(value / 100)}`
     : format && format == 'H:mm:ss' && value ? moment(value * 1000).format('H:mm:ss')
       : format && format == 'millify' ? millify(value)
-        : format && format == 'Badge' ? <Badge variant={randVariant()}>{value}</Badge>
+        : format && format == 'Badge' ? <Badge style={{['minWidth']: '3rem'}} variant={randVariant()}>{value}</Badge>
           : value ? value : 'N/A'
 }
 

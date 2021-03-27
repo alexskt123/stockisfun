@@ -1,9 +1,11 @@
 
 import { Fragment, useState, useEffect, useContext } from 'react'
+import { useRouter } from 'next/router'
 import CustomContainer from '../components/Layout/CustomContainer'
 import '../styles/ScrollMenu.module.css'
 import Price from '../components/Parts/Price'
 import Badge from 'react-bootstrap/Badge'
+import Alert from 'react-bootstrap/Alert'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardDeck from 'react-bootstrap/CardDeck'
@@ -15,6 +17,9 @@ import TypeAhead from '../components/Page/TypeAhead'
 import SWRTable from '../components/Page/SWRTable'
 import { Store } from '../lib/store'
 import { getUserInfoByUID } from '../lib/firebaseResult'
+import { fireToast } from '../lib/toast'
+
+const axios = require('axios').default
 
 export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
@@ -23,6 +28,8 @@ export default function Highlight() {
   const store = useContext(Store)
   const { state } = store
   const { user } = state
+
+  const router = useRouter()
 
   const headers = [{
     name: 'Price Changes',
@@ -54,6 +61,21 @@ export default function Highlight() {
   const handleChange = (e) => {
     const input = e.find(x => x)
     input ? setSelectedTicker({ ticker: input.symbol, show: true }) : null
+  }
+
+  const viewTickerDetail = async () => {
+    const response = await axios.get(`/api/quote?ticker=${selectedTicker.ticker}`)
+    const { data } = response || { data: null }
+
+    if (data && data.valid) {
+      const hyperlink = data.type === 'ETF' ? '/etfdetail' : data.type === 'EQUITY' ? '/stockdetail' : null
+      hyperlink ? router.push(`${hyperlink}?query=${selectedTicker.ticker}`)
+        : fireToast({
+          icon: 'error',
+          title: 'Only Stock/ETF can be viewed!'
+        })
+    }
+
   }
 
   useEffect(async () => {
@@ -93,6 +115,15 @@ export default function Highlight() {
               />
             </Col>
           </Row>
+          {
+            selectedTicker ?
+              <Alert style={{ backgroundColor: "#f5f5f5", padding: '.3rem .3rem' }}>
+                <strong>{'Current Search:'}</strong>
+                <Badge className="ml-2" variant="info">{selectedTicker.ticker}</Badge>
+                <Badge as="button" className="ml-4" variant="success" onClick={() => viewTickerDetail()}>{'View Detail'}</Badge>
+              </Alert>
+              : null
+          }
           <CardDeck>
             {selectedTicker ? headers
               .map((header, idx) => (
