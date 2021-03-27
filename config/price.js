@@ -82,11 +82,11 @@ export const priceChartOptions = {
         unit: 'day',
         unitStepSize: 1,
         displayFormats: {
-          'day': 'D/M/YY'
+          'day': 'D MMM YY'
         }
       },
       ticks: {
-        maxTicksLimit: 5,
+        maxTicksLimit: 6,
         fontColor: '#2c2c2c',
         fontStyle: 'bold'
       },

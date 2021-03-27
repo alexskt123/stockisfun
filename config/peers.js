@@ -7,15 +7,18 @@ export const extractYahooInfo = [
   },
   {
     label: 'Market Cap.',
-    field: 'marketCap'
+    field: 'marketCap',
+    format: 'millify'
   },
   {
     label: 'P/B',
-    field: 'priceToBook'
+    field: 'priceToBook',
+    format: 'millify'
   },
   {
     label: 'Trailing PE',
-    field: 'trailingPE'
+    field: 'trailingPE',
+    format: 'millify'
   }
 ]
 
