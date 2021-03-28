@@ -108,16 +108,21 @@ function FireAuth() {
           </Dropdown.Item>
           :
           <Fragment>
-            <Dropdown.Item >
-              <FaUserCircle />
-              <Badge className="ml-1" variant="dark">
-                {user.displayName}
-              </Badge>
-              <BiTime className="ml-2" />
-              <Badge variant="light">
-                {`${user.loginTime}`}
-              </Badge>
-            </Dropdown.Item>
+
+            <div className="container" style={{ minWidth: '18rem' }}>
+              <Link href={'/admin'}>
+                <div>
+                  <FaUserCircle />
+                  <Badge className="ml-1" variant="dark">
+                    {user.displayName}
+                  </Badge>
+                  <BiTime className="ml-2" />
+                  <Badge variant="light">
+                    {`${user.loginTime}`}
+                  </Badge>
+                </div>
+              </Link>
+            </div>
             <Dropdown.Divider />
             <div className="container">
               <p style={{ width: 'inherit' }}>
