@@ -9,6 +9,8 @@ import Badge from 'react-bootstrap/Badge'
 import { buttonSettings } from '../../config/form'
 import { AsyncTypeahead } from 'react-bootstrap-typeahead'
 
+import 'react-bootstrap-typeahead/css/Typeahead.css'
+
 function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
   const [isLoading, setIsLoading] = useState(false)
   const [options, setOptions] = useState([])
