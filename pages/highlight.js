@@ -63,17 +63,22 @@ export default function Highlight() {
     input ? setSelectedTicker({ ticker: input.symbol, show: true }) : null
   }
 
-  const viewTickerDetail = async () => {
-    const response = await axios.get(`/api/quote?ticker=${selectedTicker.ticker}`)
+  const viewTickerDetail = async (dataObj) => {
+    const response = await axios.get(`/api/quote?ticker=${dataObj.symbol || dataObj.ticker}`)
     const { data } = response || { data: null }
 
     if (data && data.valid) {
       const hyperlink = data.type === 'ETF' ? '/etfdetail' : data.type === 'EQUITY' ? '/stockdetail' : null
-      hyperlink ? router.push(`${hyperlink}?query=${selectedTicker.ticker}`)
+      hyperlink ? router.push(`${hyperlink}?query=${dataObj.symbol || dataObj.ticker}`)
         : fireToast({
           icon: 'error',
           title: 'Only Stock/ETF can be viewed!'
         })
+    } else {
+      fireToast({
+        icon: 'error',
+        title: 'Please enter a valid symbol!'
+      })
     }
 
   }
@@ -120,7 +125,7 @@ export default function Highlight() {
               <Alert style={{ backgroundColor: "#f5f5f5", padding: '.3rem .3rem' }}>
                 <strong>{'Current Search:'}</strong>
                 <Badge className="ml-2" variant="info">{selectedTicker.ticker}</Badge>
-                <Badge as="button" className="ml-4" variant="success" onClick={() => viewTickerDetail()}>{'View Detail'}</Badge>
+                <Badge as="button" className="ml-4" variant="success" onClick={() => viewTickerDetail(selectedTicker)}>{'View Detail'}</Badge>
               </Alert>
               : null
           }
@@ -141,7 +146,7 @@ export default function Highlight() {
               </Row>
               <SWRTable
                 requests={watchList.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
-                options={{ tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
+                options={{ tableHeader: tableHeaderList, tableSize: 'sm', viewTickerDetail: viewTickerDetail, SWROptions: { refreshInterval: 3000 } }}
               />
             </Fragment>
               : null
