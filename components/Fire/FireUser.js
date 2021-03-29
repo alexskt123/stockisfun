@@ -21,6 +21,7 @@ function FireUser() {
         id,
         uid: user.uid,
         displayName: user.displayName ? user.displayName : 'Anonymous',
+        email: user.email ? user.email : 'Anonymous',
         loginTime: moment().format('HH:mm:ss DD/MM/YYYY'),
         stockList,
         etfList,
