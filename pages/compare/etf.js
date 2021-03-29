@@ -88,7 +88,7 @@ export default function CompareETF() {
         ...temp.map(item => {
           const newItem = [
             item.ticker,
-            ...Object.values(item.info)
+            ...Object.values(item.info).filter((_x, idx) => Object.keys(item.info)[idx] !== 'Analyst Report')
           ]
           return newItem
         })

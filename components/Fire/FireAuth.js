@@ -8,9 +8,9 @@ import Modal from 'react-bootstrap/Modal'
 import Row from 'react-bootstrap/Row'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { FaUserCircle, FaList } from 'react-icons/fa'
-import { BiTime } from 'react-icons/bi'
+import { HiOutlineMail } from 'react-icons/hi'
 import { CgViewList } from 'react-icons/cg'
-import { RiFundsBoxLine } from 'react-icons/ri'
+import { RiFundsBoxLine, RiProfileLine } from 'react-icons/ri'
 import { Store } from '../../lib/store'
 import { defaultUserConfig } from '../../config/settings'
 import { fireToast } from '../../lib/toast'
@@ -108,20 +108,47 @@ function FireAuth() {
           </Dropdown.Item>
           :
           <Fragment>
-
             <div className="container" style={{ minWidth: '18rem' }}>
-              <Link href={'/admin'}>
-                <div>
-                  <FaUserCircle />
-                  <Badge className="ml-1" variant="dark">
-                    {user.displayName}
+              <Row
+                style={{ width: 'inherit' }}
+                className="ml-1"
+              >
+                <FaUserCircle />
+                <Badge variant="light">
+                  {user.displayName}
+                </Badge>
+              </Row>
+              <Row
+                style={{ width: 'inherit', display: 'flex', alignItems: 'center' }}
+                className="ml-1"
+              >
+                <HiOutlineMail />
+                <Badge variant="light">
+                  {`${user.email}`}
+                </Badge>
+              </Row>
+            </div>
+            <Dropdown.Divider />
+            <div className="container">
+              <Row>
+                <Col>
+                  <RiProfileLine />
+                  <Badge className="ml-1" variant="light">
+                    <Link href={'/admin'}>
+                      {'Profile'}
+                    </Link>
                   </Badge>
-                  <BiTime className="ml-2" />
-                  <Badge variant="light">
-                    {`${user.loginTime}`}
-                  </Badge>
-                </div>
-              </Link>
+                </Col>
+              </Row>
+            </div>
+            <Dropdown.Divider />
+            <div className="container">
+              <Row>
+                <Col>
+                  <CgViewList />
+                  <Badge className="ml-1" variant="light"><Link href={`/watchlist?query=${user.watchList.join(',')}`}>{'Watch List'}</Link></Badge>
+                </Col>
+              </Row>
             </div>
             <Dropdown.Divider />
             <div className="container">
@@ -157,17 +184,10 @@ function FireAuth() {
             </div>
             <Dropdown.Divider />
             <div className="container">
-              <Row>
-                <Col>
-                  <CgViewList />
-                  <Badge className="ml-1" variant="light"><Link href={`/watchlist?query=${user.watchList.join(',')}`}>{'Watch List'}</Link></Badge>
-                </Col>
-              </Row>
+              <p style={{ width: 'inherit' }}>
+                <Badge as="button" onClick={() => setShowSignOut(true)} variant="danger">{'Sign Out'}</Badge>
+              </p>
             </div>
-            <Dropdown.Divider />
-            <Dropdown.Item onClick={() => setShowSignOut(true)}>
-              <Badge variant="danger">{'Sign Out'}</Badge>
-            </Dropdown.Item>
           </Fragment>
       }
       <Modal centered size="sm" show={show} onHide={handleClose}>

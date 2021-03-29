@@ -30,6 +30,7 @@ export default function Highlight() {
   const { user } = state
 
   const router = useRouter()
+  const { query } = router.query
 
   const headers = [{
     name: 'Price Changes',
@@ -60,7 +61,8 @@ export default function Highlight() {
 
   const handleChange = (e) => {
     const input = e.find(x => x)
-    input ? setSelectedTicker({ ticker: input.symbol, show: true }) : null
+    //input ? setSelectedTicker({ ticker: input.symbol, show: true }) : null
+    input ? router.push(`/highlight?query=${input.symbol}`) : null
   }
 
   const viewTickerDetail = async (dataObj) => {
@@ -87,6 +89,10 @@ export default function Highlight() {
     const { watchList } = await getUserInfoByUID(user == null ? '' : user.uid)
     setwatchList(watchList)
   }, [user])
+
+  useEffect(() => {
+    setSelectedTicker({ ticker: query, show: true })
+  }, [query])
 
   return (
     <Fragment>
@@ -121,8 +127,8 @@ export default function Highlight() {
             </Col>
           </Row>
           {
-            selectedTicker ?
-              <Alert style={{ backgroundColor: "#f5f5f5", padding: '.3rem .3rem' }}>
+            selectedTicker && selectedTicker.ticker ?
+              <Alert style={{ backgroundColor: '#f5f5f5', padding: '.3rem .3rem' }}>
                 <strong>{'Current Search:'}</strong>
                 <Badge className="ml-2" variant="info">{selectedTicker.ticker}</Badge>
                 <Badge as="button" className="ml-4" variant="success" onClick={() => viewTickerDetail(selectedTicker)}>{'View Detail'}</Badge>
@@ -130,7 +136,7 @@ export default function Highlight() {
               : null
           }
           <CardDeck>
-            {selectedTicker ? headers
+            {selectedTicker && selectedTicker.ticker ? headers
               .map((header, idx) => (
                 <Fragment key={idx}>
                   <header.component header={header.name} inputTicker={selectedTicker.ticker} isShow={selectedTicker.show} {...header.props}></header.component>

@@ -29,9 +29,9 @@ function IndexQuote({ inputTicker }) {
   }
 
   const getFormattedValue = (format, value) => {
-    return format && format === 'PriceChange' ? value ? getValueBadge(value >= 0 ? "success" : "danger", convertToPriceChange(value)) : null
-      : format && format === 'PriceChange%' ? value ? getValueBadge(value >= 0 ? "success" : "danger", convertToPercentage(value / 100)) : null
-        : getValueBadge("light", value)
+    return format && format === 'PriceChange' ? value ? getValueBadge(value >= 0 ? 'success' : 'danger', convertToPriceChange(value)) : null
+      : format && format === 'PriceChange%' ? value ? getValueBadge(value >= 0 ? 'success' : 'danger', convertToPercentage(value / 100)) : null
+        : getValueBadge('light', value)
   }
 
   useEffect(() => {
