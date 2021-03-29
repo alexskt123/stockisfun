@@ -6,6 +6,7 @@ import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 import AddDelStock from '../../Fire/AddDelStock'
 import { convertToPercentage } from '../../../lib/commonFunction'
+import HappyShare from '../../Parts/HappyShare'
 
 function PriceTab({ inputSettings }) {
 
@@ -32,6 +33,7 @@ function PriceTab({ inputSettings }) {
           <Badge variant="light" className="ml-2">{labels.find(x => x.name == 'Name').value}</Badge>
         </h6>
         <AddDelStock inputTicker={settings.inputTickers.find(x => x)} handleList='stock' />
+        <HappyShare/>
       </Row>
       <Row className="ml-1">
         <h6>
