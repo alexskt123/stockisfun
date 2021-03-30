@@ -17,6 +17,7 @@ import SearchAccordion from '../components/Page/SearchAccordion'
 import Row from 'react-bootstrap/Row'
 
 import SWRTable from '../components/Page/SWRTable'
+import HappyShare from '../components/Parts/HappyShare'
 
 export default function WatchList() {
 
@@ -142,13 +143,14 @@ export default function WatchList() {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <Row className="ml-1 mt-3">
+          <Row className="ml-1 mt-3" style={{display: 'flex', alignItems: 'center'}}>
             <Button onClick={() => { refreshItems() }} size='sm' variant='outline-dark' >{'Refresh'}</Button>
             {
               user.id != ''
                 ? <Button className="ml-2" onClick={() => { setShowUpdate(true) }} size='sm' variant='dark' >{'Update Watch List'}</Button>
                 : null
             }
+            <HappyShare inputStyle={{ color: 'blue', size: '25px' }}/>
           </Row>
 
           {
