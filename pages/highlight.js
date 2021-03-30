@@ -12,6 +12,7 @@ import CardDeck from 'react-bootstrap/CardDeck'
 import { stockIndex, stockFutureIndex, tableHeaderList } from '../config/highlight'
 import IndexQuote from '../components/Parts/IndexQuote'
 import QuoteCard from '../components/Parts/QuoteCard'
+import HappyShare from '../components/Parts/HappyShare'
 import TickerScrollMenu from '../components/Page/TickerScrollMenu'
 import TypeAhead from '../components/Page/TypeAhead'
 import SWRTable from '../components/Page/SWRTable'
@@ -44,18 +45,22 @@ export default function Highlight() {
     props: {}
   }]
 
+  const selectScrollMenuItem = (item) => {
+    item && item.ticker ? router.push(`/highlight?query=${item.ticker}`) : null
+  }
+
   const tickerList = [
     {
       name: 'Stock Market Futures',
       eventKey: 'StockMarketFutureIndex',
       inputList: stockFutureIndex,
-      setSelectedTicker: setSelectedTicker
+      selectScrollMenuItem: selectScrollMenuItem
     },
     {
       name: 'Stock Market Index',
       eventKey: 'StockMarketIndex',
       inputList: stockIndex,
-      setSelectedTicker: setSelectedTicker
+      selectScrollMenuItem: selectScrollMenuItem
     }
   ]
 
@@ -107,7 +112,7 @@ export default function Highlight() {
                       <Badge style={{ minWidth: '9rem' }} variant="dark">{item.name}</Badge>
                     </h6>
                   </Row>
-                  <TickerScrollMenu inputList={item.inputList} setSelectedTicker={item.setSelectedTicker} />
+                  <TickerScrollMenu inputList={item.inputList} setSelectedTicker={item.selectScrollMenuItem} />
                 </Fragment>
               )
             })
@@ -131,6 +136,7 @@ export default function Highlight() {
               <Alert style={{ backgroundColor: '#f5f5f5', padding: '.3rem .3rem' }}>
                 <strong>{'Current Search:'}</strong>
                 <Badge className="ml-2" variant="info">{selectedTicker.ticker}</Badge>
+                {query ? <HappyShare /> : null}
                 <Badge as="button" className="ml-4" variant="success" onClick={() => viewTickerDetail(selectedTicker)}>{'View Detail'}</Badge>
               </Alert>
               : null
