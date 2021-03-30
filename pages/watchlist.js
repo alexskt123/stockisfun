@@ -150,7 +150,7 @@ export default function WatchList() {
                 ? <Button className="ml-2" onClick={() => { setShowUpdate(true) }} size='sm' variant='dark' >{'Update Watch List'}</Button>
                 : null
             }
-            <HappyShare inputStyle={{ color: 'blue', size: '25px' }}/>
+            { query ? <HappyShare inputStyle={{ color: 'blue', size: '25px' , style:{backgroundColor: 'black'}}}/> : null}
           </Row>
 
           {
