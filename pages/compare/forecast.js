@@ -87,7 +87,7 @@ export default function CompareForecast() {
             tableData={settings.stockInfo}
             exportFileName={'Stock_forecast.csv'}
           />
-          <TickerBullet tickers={settings.tickers} overlayItem={[]} removeItem={removeItem} />
+          <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
           {clicked ?
             <LoadingSpinner/> : null
           }

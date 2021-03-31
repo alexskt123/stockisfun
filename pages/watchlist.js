@@ -138,7 +138,7 @@ export default function WatchList() {
               clearItems={clearItems}
               exportFileName={'Stock_watch_list.csv'}
             />
-            <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
+            <TickerBullet tickers={tickers} removeItem={removeItem} />
           </SearchAccordion>
           {clicked ?
             <LoadingSpinner /> : null

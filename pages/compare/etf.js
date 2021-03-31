@@ -133,7 +133,7 @@ export default function CompareETF() {
             tableData={etfInfo}
             exportFileName={'Stock_etf.csv'}
           />
-          <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
+          <TickerBullet tickers={tickers} removeItem={removeItem} />
           {clicked ?
             <LoadingSpinner /> : null
           }

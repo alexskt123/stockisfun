@@ -71,7 +71,7 @@ export default function CompareFinancials() {
             tableData={settings.stockInfo}
             exportFileName={'Stock_financial.csv'}
           />
-          <TickerBullet tickers={settings.tickers} overlayItem={[]} removeItem={removeItem} />
+          <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
           {clicked ?
             <LoadingSpinner /> : null
           }
