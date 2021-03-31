@@ -25,7 +25,7 @@ function PriceTab({ inputSettings }) {
 
   return (
     <Fragment>
-      <Row className="ml-1 mt-1" style={{ display: 'flex', alignItems: 'baseline' }}>
+      <Row className="ml-1 mt-1" style={{ display: 'flex', alignItems: 'end' }}>
         <h6>
           <Badge variant="dark">{'Name: '}</Badge>
         </h6>

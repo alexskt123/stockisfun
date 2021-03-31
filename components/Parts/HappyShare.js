@@ -19,7 +19,7 @@ export default function HappyShare({ inputStyle }) {
     setShow(true)
   }
 
-  const defaultStyle = { color: 'black', size: '13px' }
+  const defaultStyle = { color: 'black', size: '15px' }
 
   const defaultParams = {
     url: `${getShareUrl()}${router.asPath}`,
@@ -47,11 +47,13 @@ export default function HappyShare({ inputStyle }) {
 
   return (
     <Fragment>
-      <IconContext.Provider
-        value={{ ...newStyle }}
-      >
-        <BiShareAlt onClick={() => handleClick()} className="ml-1" />
-      </IconContext.Provider>
+      <Badge>
+        <IconContext.Provider
+          value={{ ...newStyle }}
+        >
+          <BiShareAlt onClick={() => handleClick()} />
+        </IconContext.Provider>
+      </Badge>
       <Modal centered size="sm" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title><Badge variant="light">{'Share to your friends!'}</Badge></Modal.Title>
