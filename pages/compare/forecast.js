@@ -29,6 +29,7 @@ export default function CompareForecast() {
       tickers: [],
       stockInfo: []
     })
+    router.push(router.pathname)
   }
 
   const removeItem = (value) => {
