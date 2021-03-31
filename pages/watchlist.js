@@ -1,25 +1,28 @@
 
-import { Fragment, useState, useEffect, useContext } from 'react'
+import { Fragment, useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
 
+import { tableHeaderList } from '../config/watchlist'
 import CustomContainer from '../components/Layout/CustomContainer'
 import TickerInput from '../components/Page/TickerInput'
 import TickerBullet from '../components/Page/TickerBullet'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
-import { tableHeaderList } from '../config/watchlist'
-import { handleDebounceChange } from '../lib/commonFunction'
-import { updUserWatchList, getUserInfoByUID } from '../lib/firebaseResult'
-import { Store } from '../lib/store'
-import { fireToast } from '../lib/toast'
 import ModalQuestion from '../components/Parts/ModalQuestion'
 import SearchAccordion from '../components/Page/SearchAccordion'
-import Row from 'react-bootstrap/Row'
-
 import SWRTable from '../components/Page/SWRTable'
 import HappyShare from '../components/Parts/HappyShare'
 
+import { handleDebounceChange, concatCommaLists } from '../lib/commonFunction'
+import { updUserWatchList, getUserInfoByUID } from '../lib/firebaseResult'
+import { Store } from '../lib/store'
+import { fireToast } from '../lib/toast'
+import { useQuery } from '../lib/hooks/useQuery'
+
 export default function WatchList() {
+  const router = useRouter()
+  const { query } = router.query
 
   const [tickers, setTickers] = useState([])
 
@@ -33,17 +36,6 @@ export default function WatchList() {
   const store = useContext(Store)
   const { state, dispatch } = store
   const { user } = state
-
-  const router = useRouter()
-  const { query } = router.query
-
-  useEffect(() => {
-    if (query) {
-      setClicked(true)
-      handleTickers(query)
-      setClicked(false)
-    }
-  }, [query])
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -87,8 +79,10 @@ export default function WatchList() {
   }
 
   async function handleTickers(inputTickersWithComma) {
-    const newTickers = inputTickersWithComma.split(',').map(item => item.toUpperCase())
+    setClicked(true)
+    const newTickers = inputTickersWithComma.map(item => item.toUpperCase())
     setTickers([...newTickers])
+    setClicked(false)
   }
 
   const handleSubmit = async (event) => {
@@ -100,8 +94,8 @@ export default function WatchList() {
       event.stopPropagation()
     } else {
       const { formTicker } = formValue
-      await handleTickers(formTicker)
-      router.push('/watchlist', `/watchlist?query=${formTicker.toUpperCase()}`)
+      const list = concatCommaLists([query, formTicker])
+      router.push(`${router.pathname}?query=${list}`)  
     }
     setValidated(true)
   }
@@ -114,6 +108,8 @@ export default function WatchList() {
     title: 'Update Watch List',
     body: 'Are you sure the update watch list?'
   }
+
+  useQuery(handleTickers, query)
 
   return (
     <Fragment>
