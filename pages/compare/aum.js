@@ -1,44 +1,44 @@
 
 import { Fragment, useState } from 'react'
+import { useRouter } from 'next/router'
 
 import StockInfoTable from '../../components/Page/StockInfoTable'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
-import { sortTableItem, handleDebounceChange } from '../../lib/commonFunction'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import CustomContainer from '../../components/Layout/CustomContainer'
 import { aumTableHeader } from '../../config/etf'
+import { sortTableItem, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
+import { useQuery } from '../../lib/hooks/useQuery'
 
 const axios = require('axios').default
 
 export default function CompareAUM() {
+  const router = useRouter()
+  const { query } = router.query
 
   const [tickers, setTickers] = useState([])
   const [tableHeader, setTableHeader] = useState([])
   const [etfInfo, setEtfInfo] = useState([])
-
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
   const [ascSort, setAscSort] = useState(false)
 
-
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-
   const sortItem = async (index) => {
     setAscSort(!ascSort)
-    setEtfInfo(
-      await sortTableItem(etfInfo, index, ascSort)
-    )
+    setEtfInfo(await sortTableItem(etfInfo, index, ascSort))
   }
 
   const clearItems = () => {
     setTickers([])
     setEtfInfo([])
+    router.push(router.pathname)
   }
 
   const removeItem = (value) => {
@@ -51,6 +51,7 @@ export default function CompareAUM() {
   }
 
   async function handleTickers(inputTickers) {
+    setClicked(true)
 
     const newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
 
@@ -75,35 +76,17 @@ export default function CompareAUM() {
     )
 
     setEtfInfo(
-      [...etfInfo,
-        ...temp.map(item => {
-          const newItem = [
-            item.ticker,
-            ...item.info
-          ]
-          return newItem
-        })
-      ]
+      [...etfInfo, ...temp.map(item => [item.ticker, ...item.info])]
     )
 
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-
-    setClicked(true)
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-      const { formTicker } = formValue
-      const inputTickers = formTicker.split(',')
-      await handleTickers(inputTickers)
-    }
-    setValidated(true)
     setClicked(false)
   }
+
+  const handleSubmit = (event) => {
+    handleFormSubmit(event, formValue, { query }, router, setValidated)
+  }
+
+  useQuery(handleTickers, { query })
 
   return (
     <Fragment>

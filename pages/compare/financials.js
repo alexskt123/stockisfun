@@ -1,14 +1,18 @@
 
 import { Fragment, useState } from 'react'
-import CustomContainer from '../../components/Layout/CustomContainer'
+import { useRouter } from 'next/router'
 
+import CustomContainer from '../../components/Layout/CustomContainer'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import FinancialsInfo from '../../components/Parts/FinancialsInfo'
-import {financialsSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
+import { financialsSettingSchema, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
+import { useQuery } from '../../lib/hooks/useQuery'
 
 export default function CompareFinancials() {
+  const router = useRouter()
+  const { query } = router.query
 
   const [settings, setSettings] = useState(financialsSettingSchema)
   const [validated, setValidated] = useState(false)
@@ -20,41 +24,35 @@ export default function CompareFinancials() {
   }
 
   const clearItems = () => {
-    setSettings({
-      ...settings,
-      tickers: [],
-      stockInfo: []
-    })
+    router.push(router.pathname)
   }
 
   const removeItem = (value) => {
     setSettings(
-      {...settings,
+      {
+        ...settings,
         tickers: [...settings.tickers.filter(x => x !== value)],
         stockInfo: [...settings.stockInfo.filter(x => x.find(x => x) !== value)]
       }
     )
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-
+  const handleTickers = (inputTickers) => {
     setClicked(true)
 
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-      const { formTicker } = formValue
-      const inputTickers = formTicker.toUpperCase().split(',')
-      setSettings({
-        ...settings,
-        tickers: inputTickers
-      })
-    }
-    setValidated(true)
+    setSettings({
+      ...settings,
+      tickers: inputTickers
+    })
+
     setClicked(false)
   }
+
+  const handleSubmit = (event) => {
+    handleFormSubmit(event, formValue, { query }, router, setValidated)
+  }
+
+  useQuery(handleTickers, { query })
 
   return (
     <Fragment>
@@ -71,7 +69,7 @@ export default function CompareFinancials() {
             tableData={settings.stockInfo}
             exportFileName={'Stock_financial.csv'}
           />
-          <TickerBullet tickers={settings.tickers} overlayItem={[]} removeItem={removeItem} />
+          <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
           {clicked ?
             <LoadingSpinner /> : null
           }
