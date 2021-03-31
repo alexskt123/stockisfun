@@ -16,15 +16,9 @@ function PriceChange({ inputSettings, inputTickers, inputYear }) {
 
     const noOfYears = inputYear ? inputYear : 15
 
-    if (inputSettings) {      
-      setSettings(inputSettings)
-    } else if (inputTickers) {
-      clearItems()
-      const priceInfo = await getPriceInfo(inputTickers, noOfYears, priceSettingSchema)
-      setSettings(priceInfo)
-    } else if (inputTickers.length <= 0) {
-      clearItems()
-    }
+    clearItems()
+    const priceInfo = inputSettings ? inputSettings : await getPriceInfo(inputTickers, noOfYears, priceSettingSchema)
+    setSettings(priceInfo)
 
     setLoading(false)
   }

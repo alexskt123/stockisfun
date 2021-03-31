@@ -42,8 +42,6 @@ export default function WatchList() {
       setClicked(true)
       handleTickers(query)
       setClicked(false)
-    } else if (tickers.length > 0) {
-      handleTickers(tickers.join(','))
     }
   }, [query])
 
@@ -51,16 +49,9 @@ export default function WatchList() {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-
   const clearItems = () => {
     setTickers([])
-
     router.push('/watchlist')
-  }
-
-  const refreshItems = () => {
-    if (tickers.length > 0)
-      handleTickers(tickers.join(','))
   }
 
   const handleDispatch = async () => {
@@ -143,8 +134,7 @@ export default function WatchList() {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <Row className="ml-1 mt-3" style={{display: 'flex', alignItems: 'center'}}>
-            <Button onClick={() => { refreshItems() }} size='sm' variant='outline-dark' >{'Refresh'}</Button>
+          <Row className="ml-1 mt-3" style={{display: 'flex', alignItems: 'center'}}>            
             {
               user.id != ''
                 ? <Button className="ml-2" onClick={() => { setShowUpdate(true) }} size='sm' variant='dark' >{'Update Watch List'}</Button>

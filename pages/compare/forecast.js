@@ -1,29 +1,23 @@
 
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState } from 'react'
+import { useRouter } from 'next/router'
+
 import CustomContainer from '../../components/Layout/CustomContainer'
 import ForecastInfo from '../../components/Parts/ForecastInfo'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import { forecastSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
-
-import { useRouter } from 'next/router'
+import { forecastSettingSchema, handleDebounceChange, concatCommaLists } from '../../lib/commonFunction'
+import { useQuery } from '../../lib/hooks/useQuery'
 
 export default function CompareForecast() {
+  const router = useRouter()
+  const { query } = router.query
 
   const [settings, setSettings] = useState(forecastSettingSchema)
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
-
-  const router = useRouter()
-  const { query } = router.query
-
-  useEffect(() => {
-    if (query) {
-      handleTickers(query.toUpperCase().split(','))
-    }
-  }, [query])
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -49,7 +43,7 @@ export default function CompareForecast() {
 
   const handleTickers = (inputTickers) => {
     setClicked(true)
-    
+
     setSettings({
       ...settings,
       tickers: inputTickers
@@ -66,11 +60,14 @@ export default function CompareForecast() {
       event.stopPropagation()
     } else {
       const { formTicker } = formValue
-      const inputTickers = formTicker.toUpperCase().split(',')
-      handleTickers(inputTickers)
+      const list = concatCommaLists([query, formTicker])
+      router.push(`${router.pathname}?query=${list}`)
     }
+
     setValidated(true)
   }
+
+  useQuery(handleTickers, query)
 
   return (
     <Fragment>
@@ -89,7 +86,7 @@ export default function CompareForecast() {
           />
           <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
           {clicked ?
-            <LoadingSpinner/> : null
+            <LoadingSpinner /> : null
           }
           <ForecastInfo inputTickers={settings.tickers} />
         </Fragment >
