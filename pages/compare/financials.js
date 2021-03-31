@@ -7,7 +7,7 @@ import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import FinancialsInfo from '../../components/Parts/FinancialsInfo'
-import { financialsSettingSchema, handleDebounceChange, concatCommaLists } from '../../lib/commonFunction'
+import { financialsSettingSchema, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
 import { useQuery } from '../../lib/hooks/useQuery'
 
 export default function CompareFinancials() {
@@ -24,11 +24,7 @@ export default function CompareFinancials() {
   }
 
   const clearItems = () => {
-    setSettings({
-      ...settings,
-      tickers: [],
-      stockInfo: []
-    })
+    router.push(router.pathname)
   }
 
   const removeItem = (value) => {
@@ -52,21 +48,11 @@ export default function CompareFinancials() {
     setClicked(false)
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-      const { formTicker } = formValue      
-      const list = concatCommaLists([query, formTicker])
-      router.push(`${router.pathname}?query=${list}`)
-    }
-    setValidated(true)
+  const handleSubmit = (event) => {
+    handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
 
-  useQuery(handleTickers, query)
+  useQuery(handleTickers, { query })
 
   return (
     <Fragment>

@@ -8,7 +8,7 @@ import StockInfoTable from '../../components/Page/StockInfoTable'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import { sortTableItem, handleDebounceChange, concatCommaLists } from '../../lib/commonFunction'
+import { sortTableItem, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
 import { useQuery } from '../../lib/hooks/useQuery'
 
 const axios = require('axios').default
@@ -41,6 +41,7 @@ export default function CompareETF() {
   const clearItems = () => {
     setTickers([])
     setEtfInfo([])
+    router.push(router.pathname)
   }
 
   const removeItem = (value) => {
@@ -97,21 +98,11 @@ export default function CompareETF() {
     setClicked(false)
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = event.currentTarget    
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-      const { formTicker } = formValue
-      const list = concatCommaLists([query, formTicker])
-      router.push(`${router.pathname}?query=${list}`)      
-    }
-    setValidated(true)
+  const handleSubmit = (event) => {
+    handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
 
-  useQuery(handleTickers, query)
+  useQuery(handleTickers, { query })
 
   return (
     <Fragment>

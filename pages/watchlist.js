@@ -14,7 +14,7 @@ import SearchAccordion from '../components/Page/SearchAccordion'
 import SWRTable from '../components/Page/SWRTable'
 import HappyShare from '../components/Parts/HappyShare'
 
-import { handleDebounceChange, concatCommaLists } from '../lib/commonFunction'
+import { handleDebounceChange, handleFormSubmit } from '../lib/commonFunction'
 import { updUserWatchList, getUserInfoByUID } from '../lib/firebaseResult'
 import { Store } from '../lib/store'
 import { fireToast } from '../lib/toast'
@@ -42,8 +42,7 @@ export default function WatchList() {
   }
 
   const clearItems = () => {
-    setTickers([])
-    router.push('/watchlist')
+    router.push(router.pathname)
   }
 
   const handleDispatch = async () => {
@@ -85,19 +84,8 @@ export default function WatchList() {
     setClicked(false)
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-      const { formTicker } = formValue
-      const list = concatCommaLists([query, formTicker])
-      router.push(`${router.pathname}?query=${list}`)  
-    }
-    setValidated(true)
+  const handleSubmit = (event) => {
+    handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
 
   const modalQuestionSettings = {
@@ -109,7 +97,7 @@ export default function WatchList() {
     body: 'Are you sure the update watch list?'
   }
 
-  useQuery(handleTickers, query)
+  useQuery(handleTickers, { query })
 
   return (
     <Fragment>
@@ -130,13 +118,13 @@ export default function WatchList() {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <Row className="ml-1 mt-3" style={{display: 'flex', alignItems: 'center'}}>            
+          <Row className="ml-1 mt-3" style={{ display: 'flex', alignItems: 'center' }}>
             {
               user.id != ''
                 ? <Button className="ml-2" onClick={() => { setShowUpdate(true) }} size='sm' variant='dark' >{'Update Watch List'}</Button>
                 : null
             }
-            { tickers.length > 0 ? <HappyShare inputStyle={{ color: 'blue', size: '25px' }}/> : null}
+            {tickers.length > 0 ? <HappyShare inputStyle={{ color: 'blue', size: '25px' }} /> : null}
           </Row>
 
           {

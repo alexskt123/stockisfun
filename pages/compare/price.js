@@ -1,33 +1,26 @@
 
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState } from 'react'
+import { useRouter } from 'next/router'
 
 import { dateRange, dateRangeByNoOfYears } from '../../config/price'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
-import { getPriceInfo, priceSettingSchema, handleDebounceChange } from '../../lib/commonFunction'
 import CustomContainer from '../../components/Layout/CustomContainer'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-
-import { useRouter } from 'next/router'
 import PriceChange from '../../components/Parts/PriceChange'
 
+import { getPriceInfo, priceSettingSchema, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
+import { useQuery } from '../../lib/hooks/useQuery'
+
 export default function ComparePrice() {
+  const router = useRouter()
+  const { query, year } = router.query
 
   const [settings, setSettings] = useState(priceSettingSchema)
   const [newDateRange, setNewDateRange] = useState(dateRange)
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
-
-  const router = useRouter()
-  const { query } = router.query
-
-  useEffect(() => {
-    if (query) {
-      handleTickers(query.split(','))
-    }
-  }, [query])
-
 
   const handleChange = async (e) => {
     if (e.target.name == 'formYear') {
@@ -46,6 +39,7 @@ export default function ComparePrice() {
       quote: [],
       chartData: { 'labels': [...newDateRange.map(item => item.fromDate.substring(0, 4))].reverse(), 'datasets': [] }
     })
+    router.push(router.pathname)
   }
 
   const removeItem = (value) => {
@@ -73,21 +67,10 @@ export default function ComparePrice() {
   }
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-
-      const { formTicker, formYear} = formValue
-      const inputTickers = formTicker.split(',')
-
-      await handleTickers(inputTickers, formYear)
-
-    }
-    setValidated(true)
+    handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
+
+  useQuery(handleTickers, { query , year})
 
   return (
     <Fragment>

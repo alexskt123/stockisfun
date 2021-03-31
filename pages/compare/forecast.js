@@ -7,7 +7,7 @@ import ForecastInfo from '../../components/Parts/ForecastInfo'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import { forecastSettingSchema, handleDebounceChange, concatCommaLists } from '../../lib/commonFunction'
+import { forecastSettingSchema, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
 import { useQuery } from '../../lib/hooks/useQuery'
 
 export default function CompareForecast() {
@@ -52,22 +52,11 @@ export default function CompareForecast() {
     setClicked(false)
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-      const { formTicker } = formValue
-      const list = concatCommaLists([query, formTicker])
-      router.push(`${router.pathname}?query=${list}`)
-    }
-
-    setValidated(true)
+  const handleSubmit = (event) => {
+    handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
 
-  useQuery(handleTickers, query)
+  useQuery(handleTickers, { query })
 
   return (
     <Fragment>

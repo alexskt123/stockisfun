@@ -8,7 +8,7 @@ import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import CustomContainer from '../../components/Layout/CustomContainer'
 import { aumTableHeader } from '../../config/etf'
-import { sortTableItem, handleDebounceChange, concatCommaLists } from '../../lib/commonFunction'
+import { sortTableItem, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
 import { useQuery } from '../../lib/hooks/useQuery'
 
 const axios = require('axios').default
@@ -38,6 +38,7 @@ export default function CompareAUM() {
   const clearItems = () => {
     setTickers([])
     setEtfInfo([])
+    router.push(router.pathname)
   }
 
   const removeItem = (value) => {
@@ -81,21 +82,11 @@ export default function CompareAUM() {
     setClicked(false)
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = event.currentTarget    
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-      const { formTicker } = formValue
-      const list = concatCommaLists([query, formTicker])
-      router.push(`${router.pathname}?query=${list}`)  
-    }
-    setValidated(true)
+  const handleSubmit = (event) => {
+    handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
 
-  useQuery(handleTickers, query)
+  useQuery(handleTickers, { query })
 
   return (
     <Fragment>
