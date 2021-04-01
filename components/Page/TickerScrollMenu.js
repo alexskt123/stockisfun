@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import TickerCard from '../../components/Parts/TickerCard'
 import { extractYahooInfo } from '../../config/highlight'
-import roundTo from 'round-to'
+import { roundTo } from '../../lib/commonFunction'
 import ScrollMenu from 'react-horizontal-scrolling-menu'
 import { AiFillLeftCircle, AiFillRightCircle } from 'react-icons/ai'
 import '../../styles/ScrollMenu.module.css'
@@ -28,7 +28,7 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
         return newAcc
       }, {})
 
-      return {...stock, ...info}
+      return { ...stock, ...info }
     })
 
     setStockInfo(stockInfoAdd)

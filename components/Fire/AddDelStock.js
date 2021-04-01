@@ -1,4 +1,5 @@
 import { Fragment, useContext } from 'react'
+import Badge from 'react-bootstrap/Badge'
 import { addToUserList, delFromUserList, getUserInfoByUID } from '../../lib/firebaseResult'
 import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
 import { IconContext } from 'react-icons'
@@ -47,12 +48,16 @@ function AddDelStock({ inputTicker, handleList }) {
       {
         user.id != ''
           ? handleList == 'stock' && user.stockList.includes(inputTicker) || handleList == 'etf' && user.etfList.includes(inputTicker)
-            ? <IconContext.Provider value={{ color: 'red', className: 'global-class-name' }}>
-              <MdRemoveCircleOutline onClick={handleRemove} />
-            </IconContext.Provider>
-            : <IconContext.Provider value={{ color: 'green', className: 'global-class-name' }}>
-              <MdAddCircleOutline onClick={handleAdd} />
-            </IconContext.Provider>
+            ? <Badge>
+              <IconContext.Provider value={{ color: 'red', size: '15px' }}>
+                <MdRemoveCircleOutline onClick={handleRemove} />
+              </IconContext.Provider>
+            </Badge>
+            : <Badge>
+              <IconContext.Provider value={{ color: 'green', size: '15px' }}>
+                <MdAddCircleOutline onClick={handleAdd} />
+              </IconContext.Provider>
+            </Badge>
           : null
       }
     </Fragment>

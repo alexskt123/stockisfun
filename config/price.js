@@ -118,8 +118,8 @@ export const ma5ChartSettings = {
   label: '5-MA',
   data: [],
   fill: false,
-  backgroundColor: 'rgba(237,2,2)',
-  borderColor: 'rgba(237,2,2,0.5)',
+  backgroundColor: 'rgba(255,2,2)',
+  borderColor: 'rgba(255,2,2,0.5)',
   pointRadius: 0
 }
 
@@ -127,8 +127,8 @@ export const ma20ChartSettings = {
   label: '20-MA',
   data: [],
   fill: false,
-  backgroundColor: 'rgba(255,247,20)',
-  borderColor: 'rgba(255,247,20,0.8)',
+  backgroundColor: 'rgba(255,255,0)',
+  borderColor: 'rgba(255,255,0,0.8)',
   pointRadius: 0
 }
 

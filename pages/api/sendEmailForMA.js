@@ -67,26 +67,24 @@ export default async (req, res) => {
     ]
   }
 
-  await Promise.all(tickerArr.map(ticker => {
+  response.response = 'OK'
+
+  const responses = await Promise.all(tickerArr.map(ticker => {
     return axios.get(`${getHost()}/api/getPriceMADetails?ticker=${ticker}&genChart=${genChart}`).catch(err => console.log(err))
   }))
     .catch(error => console.log(error))
-    .then((responses) => {
-      if (responses) {
-        response.response = 'OK'
 
-        responses.forEach(item => {
-          if (item && item.data) {
-            priceMADetails.asOfDate = priceMADetails.asOfDate == '' ? item.data.asOfDate : priceMADetails.asOfDate
-            priceMADetails.priceMAList.forEach(cur => {
-              const priceMA = item.data.priceMAList.find(x => x.id === cur.id)
-              cur.tickersInfo.push(...priceMA.tickersInfo)
-              cur.tickersChart.push(...priceMA.tickersChart)
-            })
-          }
-        })
-      }
-    })
+  const responsesArr = responses || []
+  responsesArr.forEach(item => {
+    if (item && item.data) {
+      priceMADetails.asOfDate = priceMADetails.asOfDate == '' ? item.data.asOfDate : priceMADetails.asOfDate
+      priceMADetails.priceMAList.forEach(cur => {
+        const priceMA = item.data.priceMAList.find(x => x.id === cur.id)
+        cur.tickersInfo.push(...priceMA.tickersInfo)
+        cur.tickersChart.push(...priceMA.tickersChart)
+      })
+    }
+  })
 
   const mailOptions = {
     from: process.env.EMAIL,
@@ -127,7 +125,7 @@ export default async (req, res) => {
           <p>
               <b>Grabbing Ticker List:</b>
               <ol>
-                  ${tickerArr.map(item=>`<li>${getUrlItem(item)}</li>`).join('')}
+                  ${tickerArr.map(item => `<li>${getUrlItem(item)}</li>`).join('')}
               </ol>
           </p>
           `

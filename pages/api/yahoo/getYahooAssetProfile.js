@@ -5,8 +5,7 @@
 import { getYahooAssetProfile } from '../../../lib/yahoo/getYahooAssetProfile'
 import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
 import { getYahooBalanceSheet } from '../../../lib/yahoo/getYahooBalanceSheet'
-import { millify } from '../../../lib/commonFunction'
-import roundTo from 'round-to'
+import { millify, roundTo } from '../../../lib/commonFunction'
 
 export default async (req, res) => {
   const { ticker } = req.query

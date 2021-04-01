@@ -58,7 +58,8 @@ export default function Holdings({ inputETFTicker, cellClick }) {
       {loading ? <LoadingSpinner /> : null}
       <Row className="mt-3">
         <Col>
-          <h5><Badge variant="light">{'Chart'}</Badge></h5>
+          <h5><Badge variant="light">{'No. of Holdings: '}</Badge><Badge variant="dark">{settings.noOfHoldings}</Badge></h5>
+          <h5><Badge variant="light" className="mt-1">{'Chart:'}</Badge></h5>
           <Doughnut data={settings.pieData} />
         </Col>
         <Col>

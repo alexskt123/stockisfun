@@ -13,6 +13,7 @@ import AddDelStock from '../../../components/Fire/AddDelStock'
 import { etfDetailsBasicSettings } from '../../../config/etf'
 import { getETFDetailBasics } from '../../../lib/commonFunction'
 import { fireToast } from '../../../lib/toast'
+import HappyShare from '../../Parts/HappyShare'
 
 export default function Basics({ inputETFTicker }) {
   const [settings, setSettings] = useState({ ...etfDetailsBasicSettings })
@@ -59,6 +60,7 @@ export default function Basics({ inputETFTicker }) {
               <Col>
                 <Badge className="ml-3" variant={'success'}>{ticker}</Badge>
                 <AddDelStock inputTicker={ticker} handleList='etf' />
+                <HappyShare/>
                 <Price inputTicker={ticker} inputMA={'ma'} />
               </Col>
               <Col>

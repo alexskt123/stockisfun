@@ -3,8 +3,12 @@ import { Fragment } from 'react'
 import Table from 'react-bootstrap/Table'
 import Link from 'next/link'
 
+const getItemData = (item) => {
+  return typeof item == 'object' && item && item.data ? item.data : item
+}
+
 const getCellColor = (item) => {
-  const itemData = typeof item == 'object' && item && item.data ? item.data : item
+  const itemData = getItemData(item)
   if (item && item.style && item.style === 'green-red') {
     const cur = (item.data || '').toString().replace(/%/, '')
     return cur < 0 ? { color: 'red' } : cur > 0 ? { color: 'green' } : { color: 'black' }
@@ -14,7 +18,7 @@ const getCellColor = (item) => {
 }
 
 const getCellItem = (item) => {
-  const itemData = typeof item == 'object' && item && item.data ? item.data : item
+  const itemData = getItemData(item)
   if ((itemData || '').toString().match(/http:/gi))
     return <a href={itemData} target='_blank' rel="noopener noreferrer">{itemData}</a>
   else if (typeof item == 'object' && item && item.data && item.link) {
@@ -24,7 +28,7 @@ const getCellItem = (item) => {
 }
 
 const checkCanClick = (item, cellClick) => {
-  const itemData = typeof item == 'object' && item && item.data ? item.data : item
+  const itemData = getItemData(item)
   if (cellClick) {
     cellClick(itemData)
   }
