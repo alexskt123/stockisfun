@@ -8,7 +8,7 @@ import Quote from '../../../lib/quote'
 
 import percent from 'percent'
 import axiosRetry from 'axios-retry'
- 
+
 const axios = require('axios').default
 
 axiosRetry(axios, { retries: 3 })
@@ -45,9 +45,9 @@ const getAUMSum = async (ticker) => {
   }, { ...etf })
 
 
-  if (newETF.etfList.length < aumSumCount) {
-    newETF.etfList = [...newETF.etfList, ...Array.from({ length: aumSumCount - newETF.etfList.length }, (_) => 'N/A')]
-  }
+  newETF.etfList = newETF.etfList.length < aumSumCount
+    ? [...newETF.etfList, ...Array.from({ length: aumSumCount - newETF.etfList.length }, (_) => 'N/A')]
+    : newETF.etfList
 
   newETF.etfList.push(millify(newETF.aumSum))
 
