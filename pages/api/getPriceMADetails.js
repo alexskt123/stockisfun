@@ -75,17 +75,17 @@ const getImgUrl = async (ticker, dateprice, ma5, ma20, ma60) => {
 }
 
 const chkLower = (trackArr, refArr) => {
-  if (trackArr[trackArr.length - 1] >= refArr[refArr.length - 1]
-    && trackArr.find(x => x) < refArr.find(x => x)) {
-    return true
-  } else return false
+  return (trackArr[trackArr.length - 1] >= refArr[refArr.length - 1]
+    && trackArr.find(x => x) < refArr.find(x => x))
+    ? true
+    : false
 }
 
 const chkHigher = (trackArr, refArr) => {
-  if (trackArr[trackArr.length - 1] <= refArr[refArr.length - 1]
-    && trackArr.find(x => x) > refArr.find(x => x)) {
-    return true
-  } else return false
+  return (trackArr[trackArr.length - 1] <= refArr[refArr.length - 1]
+    && trackArr.find(x => x) > refArr.find(x => x))
+    ? true
+    : false
 }
 
 export default async (req, res) => {
