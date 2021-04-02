@@ -33,7 +33,7 @@ export default function StockDetail() {
         <Fragment>
           <SearchAccordion inputTicker={ticker}>
             <TypeAhead
-              placeholderText={'i.e. aapl'}
+              placeholderText={'i.e. AAPL'}
               handleChange={handleChange}
               clearItems={clearItems}
               filter={'Equity'}

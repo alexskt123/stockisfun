@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import useSWR from 'swr'
 
+import Row from 'react-bootstrap/Row'
 import Table from 'react-bootstrap/Table'
 import Badge from 'react-bootstrap/Badge'
 
@@ -19,7 +20,7 @@ const useTimestamp = (trigger) => {
 }
 
 export default function SWRTable({ requests, options }) {
-  const { tableHeader, tableSize, striped, bordered, SWROptions } = options
+  const { tableHeader, tableSize, striped, bordered, viewTickerDetail, SWROptions } = options
 
   const [tableData, setTableData] = useState([])
   const [reactiveTableHeader, setReactiveTableHeader] = useState(tableHeader)
@@ -53,7 +54,9 @@ export default function SWRTable({ requests, options }) {
 
   return (
     <Fragment>
-      <h4><Badge className="mt-3" variant="light">{`Last Update: ${timestamp}`}</Badge></h4>
+      <Row className="justify-content-center">
+        <h5><Badge className="mt-3" variant="info">{`Last Update: ${timestamp}`}</Badge></h5>
+      </Row>
       <Table
         striped={striped ? true : false}
         bordered={bordered ? true : false}
@@ -74,7 +77,7 @@ export default function SWRTable({ requests, options }) {
         <tbody>
           {requests.map(x => (
             <tr key={x.key}>
-              < SWRTableRow request={x.request} tableHeader={reactiveTableHeader} handleTableData={handleTableData} options={SWROptions} ></SWRTableRow>
+              < SWRTableRow request={x.request} tableHeader={reactiveTableHeader} handleTableData={handleTableData} viewTickerDetail={viewTickerDetail} options={SWROptions} ></SWRTableRow>
             </tr>
           ))}
         </tbody>
@@ -83,7 +86,7 @@ export default function SWRTable({ requests, options }) {
   )
 }
 
-function SWRTableRow({ request, tableHeader, handleTableData, options = {} }) {
+function SWRTableRow({ request, tableHeader, handleTableData, viewTickerDetail, options = {} }) {
   const fetcher = (input) => fetch(input).then(res => res.json())
 
   const { data } = useSWR(request, fetcher, options)
@@ -97,7 +100,7 @@ function SWRTableRow({ request, tableHeader, handleTableData, options = {} }) {
   return (
     <Fragment>
       {tableHeader.map(header => (
-        <td style={header.style} key={header.item}>{getCell(data, header)}</td>
+        <td style={header.style} key={header.item} onClick={() => viewTickerDetail ? viewTickerDetail(data) : null }>{getCell(data, header)}</td>
       ))}
     </Fragment>
   )
@@ -111,12 +114,11 @@ function getFormattedValue(format, value) {
   return format && format == '%' ? `${convertToPercentage(value / 100)}`
     : format && format == 'H:mm:ss' && value ? moment(value * 1000).format('H:mm:ss')
       : format && format == 'millify' ? millify(value)
-        : format && format == 'Badge' ? <Badge variant={randVariant()}>{value}</Badge>
+        : format && format == 'Badge' ? <Badge style={{ ['minWidth']: '3rem' }} variant={randVariant()}>{value}</Badge>
           : value ? value : 'N/A'
 }
 
 function getCell(data, header) {
-
   const newData = {
     value: data[header.item],
     property: header.property,

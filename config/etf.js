@@ -21,6 +21,7 @@ export const etfDetailsBasicSettings = {
 export const etfDetailsHoldingSettings = {
   tableHeader: [],
   tableData: [],
+  noOfHoldings: 'N/A',
   pieData: {},
   priceHref: '/',
   forecastHref: '/',

@@ -1,22 +1,25 @@
 
 import { Fragment, useState } from 'react'
-import CustomContainer from '../../components/Layout/CustomContainer'
+import { useRouter } from 'next/router'
 
 import { selectedHeadersArr } from '../../config/etf'
+import CustomContainer from '../../components/Layout/CustomContainer'
 import StockInfoTable from '../../components/Page/StockInfoTable'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
-import { sortTableItem, handleDebounceChange } from '../../lib/commonFunction'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
+import { sortTableItem, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
+import { useQuery } from '../../lib/hooks/useQuery'
 
 const axios = require('axios').default
 
 export default function CompareETF() {
+  const router = useRouter()
+  const { query } = router.query
 
   const [tickers, setTickers] = useState([])
   const [tableHeader, setTableHeader] = useState([])
   const [etfInfo, setEtfInfo] = useState([])
-
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
@@ -28,7 +31,6 @@ export default function CompareETF() {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-
   const sortItem = async (index) => {
     setAscSort(!ascSort)
     setEtfInfo(
@@ -39,18 +41,16 @@ export default function CompareETF() {
   const clearItems = () => {
     setTickers([])
     setEtfInfo([])
+    router.push(router.pathname)
   }
 
   const removeItem = (value) => {
-    setTickers(
-      [...tickers.filter(x => x !== value)]
-    )
-    setEtfInfo(
-      [...etfInfo.filter(x => x.find(x => x) !== value)]
-    )
+    setTickers([...tickers.filter(x => x !== value)])
+    setEtfInfo([...etfInfo.filter(x => x.find(x => x) !== value)])
   }
 
   async function handleTickers(inputTickers) {
+    setClicked(true)
 
     const newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
     const temp = await Promise.all(newTickers.map(async ticker => {
@@ -88,35 +88,21 @@ export default function CompareETF() {
         ...temp.map(item => {
           const newItem = [
             item.ticker,
-            ...Object.values(item.info)
+            ...Object.values(item.info).filter((_x, idx) => Object.keys(item.info)[idx] !== 'Analyst Report')
           ]
           return newItem
         })
       ]
     )
 
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-
-    setClicked(true)
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-
-      const { formTicker } = formValue
-
-      const inputTickers = formTicker.split(',')
-
-      await handleTickers(inputTickers)
-
-    }
-    setValidated(true)
     setClicked(false)
   }
+
+  const handleSubmit = (event) => {
+    handleFormSubmit(event, formValue, { query }, router, setValidated)
+  }
+
+  useQuery(handleTickers, { query })
 
   return (
     <Fragment>
@@ -133,7 +119,7 @@ export default function CompareETF() {
             tableData={etfInfo}
             exportFileName={'Stock_etf.csv'}
           />
-          <TickerBullet tickers={tickers} overlayItem={[]} removeItem={removeItem} />
+          <TickerBullet tickers={tickers} removeItem={removeItem} />
           {clicked ?
             <LoadingSpinner /> : null
           }

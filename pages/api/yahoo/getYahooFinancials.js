@@ -7,6 +7,7 @@ import { getYahooIncomeStatement } from '../../../lib/yahoo/getYahooIncomeStatem
 import { getYahooFinancialData } from '../../../lib/yahoo/getYahooFinancialData'
 import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
 import percent from 'percent'
+import { roundTo } from '../../../lib/commonFunction'
 
 export default async (req, res) => {
   const { ticker } = req.query
@@ -46,7 +47,7 @@ export default async (req, res) => {
   const grossMargin = percent.calc(income.find(x => x)?.grossProfit?.raw, income.find(x => x)?.totalRevenue?.raw, 2, true)
   const returnOnEquity = financialData?.returnOnEquity?.fmt
   const returnOnAssets = financialData?.returnOnAssets?.fmt
-  const trailingPE = quote?.trailingPE?.toFixed(2)
+  const trailingPE = quote?.trailingPE ? roundTo(quote?.trailingPE) : ''
 
   const data = [
     ...incomeStmt.revenueArr.reverse(),

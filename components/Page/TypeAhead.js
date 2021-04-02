@@ -9,6 +9,8 @@ import Badge from 'react-bootstrap/Badge'
 import { buttonSettings } from '../../config/form'
 import { AsyncTypeahead } from 'react-bootstrap-typeahead'
 
+import 'react-bootstrap-typeahead/css/Typeahead.css'
+
 function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
   const [isLoading, setIsLoading] = useState(false)
   const [options, setOptions] = useState([])
@@ -34,8 +36,11 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
       <Form noValidate>
         <Form.Group controlId="exampleForm.ControlInput1">
           <AsyncTypeahead
+            className="shadow p-1 bg-white rounded"
             type="formTicker"
             name="formTicker"
+            allowNew={true}
+            newSelectionPrefix={''}
             placeholder={placeholderText}
             onChange={(e) => {
               ref.current.blur()

@@ -7,13 +7,13 @@ export default function Footer() {
   const footerConfig = {
     sticky: 'bottom',
     bg: 'dark',
-    ariant: 'dark'
+    variant: 'dark'
   }
 
   return (
     <Navbar {...footerConfig}>
       <Navbar.Brand className="mx-auto">
-        <Alert variant="secondary">
+        <Alert style={{padding: '0.1rem'}} variant="secondary">
           {Settings.Copyright}
         </Alert>
       </Navbar.Brand>
