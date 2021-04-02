@@ -14,11 +14,12 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
 
   async function getStockInfo(inputList) {
 
-    const responses = await Promise.all([...inputList].map(async item => axios(`/api/yahoo/getYahooQuote?ticker=${item.Ticker}`)))
+    const quoteResponses = await axios(`/api/yahoo/getYahooQuote?ticker=${[...inputList].map(item => item.Ticker)}`)
+    const { data: responses } = quoteResponses
 
     const stockInfoAdd = [...inputList].map((stock) => {
-      const response = responses.find(x => x && x.data && x.data.symbol === stock.Ticker)
-      const { data } = response
+      const data = responses.find(x => x && x.symbol === stock.Ticker)
+
       const info = extractYahooInfo.reduce((acc, cur) => {
         const newAcc = {
           ...acc,

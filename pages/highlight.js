@@ -8,6 +8,7 @@ import Badge from 'react-bootstrap/Badge'
 import Alert from 'react-bootstrap/Alert'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button'
 import CardDeck from 'react-bootstrap/CardDeck'
 import { stockIndex, stockFutureIndex, tableHeaderList } from '../config/highlight'
 import IndexQuote from '../components/Parts/IndexQuote'
@@ -25,6 +26,7 @@ const axios = require('axios').default
 export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
   const [watchList, setwatchList] = useState([])
+  const [showWatchList, setShowWatchList] = useState(false)
 
   const store = useContext(Store)
   const { state } = store
@@ -150,17 +152,25 @@ export default function Highlight() {
               )) : null}
           </CardDeck>
           {
-            user.id != '' ? <Fragment>
+            user.id != '' ? showWatchList ? <Fragment>
               <Row className="justify-content-center">
                 <h6>
                   <Badge style={{ minWidth: '5rem' }} variant="dark">{'Watch List'}</Badge>
                 </h6>
               </Row>
+              <Row className="justify-content-center">
+                <Button size="sm" variant="danger" onClick={() => setShowWatchList(false)}>{'Stop Watching!'}</Button>
+              </Row>
               <SWRTable
                 requests={watchList.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
-                options={{ tableHeader: tableHeaderList, tableSize: 'sm', viewTickerDetail: viewTickerDetail, SWROptions: { refreshInterval: 3000 } }}
+                options={{ tableHeader: tableHeaderList, tableSize: 'sm', viewTickerDetail: viewTickerDetail, SWROptions: { refreshInterval: 5000 } }}
               />
             </Fragment>
+              : <Fragment>
+                <Row className="justify-content-center">
+                  <Button size="sm" variant="success" onClick={() => setShowWatchList(true)}>{'Start Watching!'}</Button>
+                </Row>
+              </Fragment>
               : null
           }
         </Fragment>
