@@ -162,7 +162,7 @@ function StockDetails({ inputTicker }) {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <StockInfoTable tableSize="sm" tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} />
+          <StockInfoTable tableSize="sm" tableHeader={settings.balanceSheet.tableHeader} tableData={settings.balanceSheet.tableData} tableDataSkipRow={settings.balanceSheet.tableDataSkipRow} />
           <Bar data={settings.balanceSheet.chartData} options={settings.balanceSheet.chartOptions} />
         </Tab>
         <Tab eventKey="Earnings" title="Earnings">

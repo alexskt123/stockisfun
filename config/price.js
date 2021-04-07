@@ -59,8 +59,7 @@ export const quoteFilterList = [
   {
     'column': 'fiftyDayAverage',
     'label': '50 Day Avg'
-  }
-  ,
+  },
   {
     'column': 'twoHundredDayAverage',
     'label': '200 Day Avg'
