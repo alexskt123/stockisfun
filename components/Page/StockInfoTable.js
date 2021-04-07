@@ -36,7 +36,7 @@ const checkCanClick = (item, cellClick) => {
 
 const sticky = { backgroundColor: '#f0f0f0', left: 0, position: 'sticky', zIndex: '997' }
 
-function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, cellClick, tableSize, striped }) {
+function StockInfoTable({ tableFirstHeader, tableHeader, tableData, tableDataSkipRow, sortItem, cellClick, tableSize, striped }) {
 
   return (
     <Fragment>
@@ -67,9 +67,20 @@ function StockInfoTable({ tableFirstHeader, tableHeader, tableData, sortItem, ce
         <tbody>
           {tableData ?
             tableData.map((item, index) => (
-              <tr key={index}>
-                {item.map((xx, yy) => <td onClick={() => { if (cellClick) checkCanClick(item, cellClick) }} style={(yy == 0 ? sticky : {})} key={`${index}${yy}`}><span style={getCellColor(xx)}>{getCellItem(xx)}</span></td>)}
-              </tr>
+              <Fragment key={index}>
+                <tr>
+                  {item.map((xx, yy) => <td onClick={() => { if (cellClick) checkCanClick(item, cellClick) }} style={(yy == 0 ? sticky : {})} key={`${index}${yy}`}><span style={getCellColor(xx)}>{getCellItem(xx)}</span></td>)}
+                </tr>
+                {
+                  tableDataSkipRow ?
+                    tableDataSkipRow.filter(x => item.find(xx => xx.includes(x))).map((_item, idx) => {
+                      return <tr key={idx}>
+                        <td/>
+                      </tr>
+                    })
+                    : null
+                }
+              </Fragment>
             ))
             : null}
         </tbody>

@@ -17,25 +17,14 @@ export default async (req, res) => {
   const balanceSheetExtract = balanceSheet.map(item => {
     const newItem = {}
     newItem['Date'] = item.endDate?.fmt
-    //newItem['Cash'] = item.cash.fmt
+
     newItem['Total Current Assets'] = item.totalCurrentAssets?.fmt
     newItem['Total Current Liability'] = item.totalCurrentLiabilities?.fmt
-
-    newItem[' '] = ' '
-
     newItem['Total Non-Current Assets'] = millify(item.totalAssets?.raw - item.totalCurrentAssets?.raw)
     newItem['Total Non-Current Liability'] = millify(item.totalLiab?.raw - item.totalCurrentLiabilities?.raw)
-
-    newItem['  '] = '  '
-
     newItem['Total Assets'] = item.totalAssets?.fmt
     newItem['Total Liability'] = item.totalLiab?.fmt
-
-    newItem['   '] = '   '
-
     newItem['Total Stock Holder Equity'] = item.totalStockholderEquity?.fmt
-
-    newItem['    '] = '    '
 
     if (item.totalCurrentAssets && item.totalCurrentLiabilities)
       newItem['Current Ratio'] = (item.totalCurrentAssets?.raw / item.totalCurrentLiabilities?.raw).toFixed(2)

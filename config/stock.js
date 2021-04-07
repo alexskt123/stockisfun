@@ -19,6 +19,7 @@ export const stockDetailsSettings = {
   balanceSheet: {
     tableHeader: [],
     tableData: [],
+    tableDataSkipRow: [],
     chartData: {
 
     },
@@ -31,7 +32,7 @@ export const stockDetailsSettings = {
 
     },
     chartOptions: {
-      
+
     }
   },
   peers: {
