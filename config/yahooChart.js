@@ -74,6 +74,19 @@ export const incomeResponse = {
   }
 }
 
+export const cashflowResponse = {
+  'quoteSummary': {
+    'result': [
+      {
+        'cashflowStatementHistory': {
+          'cashflowStatements': []
+        }
+      }
+    ]
+
+  }
+}
+
 export const financialDataResponse = {
   'quoteSummary': {
     'result': [
