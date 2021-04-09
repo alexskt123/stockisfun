@@ -9,7 +9,7 @@ import { getYahooBalanceSheet } from '../../../lib/yahoo/getYahooBalanceSheet'
 import { getYahooFinancialData } from '../../../lib/yahoo/getYahooFinancialData'
 import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
 import percent from 'percent'
-import { roundTo, getAnnualizedPcnt } from '../../../lib/commonFunction'
+import { roundTo, getAnnualizedPcnt, getRevenueIndicator } from '../../../lib/commonFunction'
 
 export default async (req, res) => {
   const { ticker } = req.query
@@ -68,6 +68,7 @@ export default async (req, res) => {
   })
 
   const revenueAnnualized = getAnnualizedPcnt(revenueArr)
+  const revenueIndicator = getRevenueIndicator(revenueAnnualized.raw)
 
   const netIncomeArr = [...Array(3)].map((_item, idx) => {
     const netIncomeItem = incomeStmt.netIncomeArr[idx]
@@ -75,12 +76,15 @@ export default async (req, res) => {
   })
 
   const incomeAnnualized = getAnnualizedPcnt(netIncomeArr)
+  const incomeIndicator = getRevenueIndicator(incomeAnnualized.raw)
 
   const data = [
     ...revenueArr,
     revenueAnnualized.fmt,
+    revenueIndicator,
     ...netIncomeArr,
     incomeAnnualized.fmt,
+    incomeIndicator,
     debtClearance,
     trailingPE,
     returnOnEquity ? returnOnEquity : 'N/A',
