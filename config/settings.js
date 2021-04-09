@@ -56,6 +56,10 @@ export const NavItems = [
   {
     href: '/watchlist',
     label: 'Watch List'
+  },
+  {
+    href: '/formula',
+    label: 'Formula'
   }
 ]
 
