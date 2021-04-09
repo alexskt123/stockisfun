@@ -47,5 +47,8 @@
   "devDependencies": {
     "eslint": "^7.23.0",
     "eslint-plugin-react": "^7.23.1"
+  },
+  "resolutions": {
+    "webpack": "5.21.2"
   }
 }
