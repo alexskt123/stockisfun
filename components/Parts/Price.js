@@ -7,24 +7,26 @@ import LoadingSpinner from '../Loading/LoadingSpinner'
 import Form from 'react-bootstrap/Form'
 import Badge from 'react-bootstrap/Badge'
 import { ma, ema } from 'moving-averages'
+import { staticSWROptions } from '../../config/settings'
 
-const axios = require('axios').default
+import useSWR from 'swr'
 
 function PriceInfo({ inputTicker, inputMA }) {
 
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
-  const [loading, setLoading] = useState(false)
+
+  const fetcher = (input) => fetch(input).then(res => res.json())
+  const dateprice = useSWR(`/api/yahoo/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(settings.days) + 60}`, fetcher, staticSWROptions)
 
   useEffect(() => {
-    handleTicker(inputTicker, settings.days, settings.ma)
+    handleTicker(dateprice, settings.days, settings.ma)
     return () => setSettings(null)
-  }, [inputTicker, settings.days, settings.ma])
+  }, [dateprice, settings.days, settings.ma])
 
-  const getPrice = async (inputTicker, inputDays, inputMA) => {
+  const getPrice = (dateprice, inputDays, inputMA) => {
     //temp solution to fix the warnings - [react-chartjs-2] Warning: Each dataset needs a unique key.
     if (!inputTicker) return
 
-    const dateprice = await axios(`/api/yahoo/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(inputDays) + 60}`)
     const date = dateprice.data?.date || []
     const price = dateprice.data?.price || []
     const ma5 = inputMA == 'ma' ? ma([...price], 5) : inputMA == 'ema' ? ema([...price], 5) : []
@@ -59,20 +61,18 @@ function PriceInfo({ inputTicker, inputMA }) {
     )
   }
 
-  const handleChange = async (e) => {
+  const handleChange = (e) => {
     if (e.target.name == 'formYear' && parseInt(e.target.value) != parseInt(settings.days)) {
-      await handleTicker(inputTicker, e.target.value, settings.ma)
+      handleTicker(inputTicker, e.target.value, settings.ma)
     }
     else if (e.target.name == 'formma' && e.target.value != settings.ma) {
-      await handleTicker(inputTicker, settings.days, e.target.value)
+      handleTicker(inputTicker, settings.days, e.target.value)
     }
   }
 
-  async function handleTicker(inputTicker, inputDays, inputMA) {
-    setLoading(true)
+  function handleTicker(dateprice, inputDays, inputMA) {
     clearItems()
-    await getPrice(inputTicker, inputDays, inputMA)
-    setLoading(false)
+    getPrice(dateprice, inputDays, inputMA)
   }
 
   const clearItems = () => {
@@ -87,7 +87,7 @@ function PriceInfo({ inputTicker, inputMA }) {
 
   return (
     <Fragment>
-      {loading ?
+      {!dateprice.data ?
         <LoadingSpinner /> : null
       }
       <div style={{ display: 'inline-flex', alignItems: 'baseline' }} className="ml-1">

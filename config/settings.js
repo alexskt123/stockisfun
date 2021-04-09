@@ -72,3 +72,11 @@ export const defaultUserConfig = {
   watchList: [],
   etfList: []
 }
+
+export const staticSWROptions = {
+  revalidateOnFocus: false,
+  revalidateOnReconnect: false,
+  refreshWhenOffline: false,
+  refreshWhenHidden: false,
+  refreshInterval: 0
+}
