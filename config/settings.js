@@ -80,3 +80,5 @@ export const staticSWROptions = {
   refreshWhenHidden: false,
   refreshInterval: 0
 }
+
+export const fetcher = (input) => fetch(input).then(res => res.json())

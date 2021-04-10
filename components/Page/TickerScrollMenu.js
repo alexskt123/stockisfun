@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import TickerCard from '../../components/Parts/TickerCard'
 import { extractYahooInfo } from '../../config/highlight'
-import { staticSWROptions } from '../../config/settings'
+import { staticSWROptions, fetcher } from '../../config/settings'
 import { roundTo } from '../../lib/commonFunction'
 import ScrollMenu from 'react-horizontal-scrolling-menu'
 import { AiFillLeftCircle, AiFillRightCircle } from 'react-icons/ai'
@@ -13,7 +13,6 @@ import useSWR from 'swr'
 export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
   const [stockInfo, setStockInfo] = useState([])
 
-  const fetcher = (input) => fetch(input).then(res => res.json())
   const { data: responses } = useSWR(`/api/yahoo/getYahooQuote?ticker=${[...inputList].map(item => item.Ticker)}`, fetcher, staticSWROptions)
 
   function getStockInfo(responses) {

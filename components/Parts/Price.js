@@ -7,7 +7,7 @@ import LoadingSpinner from '../Loading/LoadingSpinner'
 import Form from 'react-bootstrap/Form'
 import Badge from 'react-bootstrap/Badge'
 import { ma, ema } from 'moving-averages'
-import { staticSWROptions } from '../../config/settings'
+import { staticSWROptions, fetcher } from '../../config/settings'
 
 import useSWR from 'swr'
 
@@ -15,7 +15,6 @@ function PriceInfo({ inputTicker, inputMA }) {
 
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
 
-  const fetcher = (input) => fetch(input).then(res => res.json())
   const dateprice = useSWR(`/api/yahoo/getYahooHistoryPrice?ticker=${inputTicker}&days=${parseInt(settings.days) + 60}`, fetcher, staticSWROptions)
 
   useEffect(() => {
