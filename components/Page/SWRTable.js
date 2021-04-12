@@ -20,7 +20,7 @@ const useTimestamp = (trigger) => {
 }
 
 export default function SWRTable({ requests, options }) {
-  const { tableHeader, tableSize, striped, bordered, viewTickerDetail, SWROptions } = options
+  const { tableFirstHeader, tableHeader, tableSize, striped, bordered, viewTickerDetail, SWROptions } = options
 
   const [tableData, setTableData] = useState([])
   const [reactiveTableHeader, setReactiveTableHeader] = useState(tableHeader)
@@ -47,7 +47,7 @@ export default function SWRTable({ requests, options }) {
     const sortedRequests = [...requests].sort(function (a, b) {
 
       const bf = (tableData.find(x => x.symbol === a.key)[id] || '').toString().replace(/\+|%/gi, '')
-      const af = (tableData.find(x => x.symbol === b.key)[id] || '').toString().replace(/\+|%/gi, '')      
+      const af = (tableData.find(x => x.symbol === b.key)[id] || '').toString().replace(/\+|%/gi, '')
       if (isNaN(bf))
         return ascSort ? af.localeCompare(bf) : bf.localeCompare(af)
       else
@@ -89,6 +89,13 @@ export default function SWRTable({ requests, options }) {
         responsive
       >
         <thead>
+          <tr key={'tableFirstHeader'}>
+            {tableFirstHeader ?
+              tableFirstHeader.map((item, index) => (
+                <th key={index} style={item.style} >{item.label}</th>
+              ))
+              : null}
+          </tr>
           <tr>
             {reactiveTableHeader
               .map((header, index) => (
