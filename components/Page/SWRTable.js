@@ -4,10 +4,13 @@ import useSWR from 'swr'
 import Row from 'react-bootstrap/Row'
 import Table from 'react-bootstrap/Table'
 import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
+import { GrDocumentCsv } from 'react-icons/gr'
 
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import moment from 'moment'
 import { millify, convertToPercentage, randVariant } from '../../lib/commonFunction'
+import { exportToFile } from '../../lib/exportToFile'
 
 const useTimestamp = (trigger) => {
   const [timestamp, setTimestamp] = useState('')
@@ -20,7 +23,7 @@ const useTimestamp = (trigger) => {
 }
 
 export default function SWRTable({ requests, options }) {
-  const { tableFirstHeader, tableHeader, tableSize, striped, bordered, viewTickerDetail, SWROptions } = options
+  const { tableFirstHeader, tableHeader, tableSize, striped, bordered, viewTickerDetail, SWROptions, exportFileName } = options
 
   const [tableData, setTableData] = useState([])
   const [reactiveTableHeader, setReactiveTableHeader] = useState(tableHeader)
@@ -77,8 +80,13 @@ export default function SWRTable({ requests, options }) {
 
   return (
     <Fragment>
-      <Row className="justify-content-center">
-        <h5><Badge className="mt-3" variant="info">{`Last Update: ${timestamp}`}</Badge></h5>
+      <Row className="justify-content-center mt-2" style={{ display: 'flex', alignItems: 'center' }} >
+        <h5><Badge variant="info">{`Last Update: ${timestamp}`}</Badge></h5>
+        <h5>
+          <Button className="ml-1" size="sm" variant="warning" style={{ display: 'flex', alignItems: 'center' }} onClick={() => exportToFile(reactiveTableHeader.map(item => item.label), tableData.map(item => reactiveTableHeader.map(header => item[header.item])), exportFileName)}>
+          <GrDocumentCsv />
+        </Button>
+        </h5>
       </Row>
       <Table
         striped={striped ? true : false}

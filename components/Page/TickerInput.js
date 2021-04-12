@@ -4,16 +4,8 @@ import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
-import FileSaver from 'file-saver'
-import { getCSVContent } from '../../lib/commonFunction'
+import { exportToFile } from '../../lib/exportToFile'
 import { priceChangeDateRangeSelectAttr, buttonSettings } from '../../config/form'
-
-const exportToFile = (tableHeader, tableData, exportFileName) => {
-  if (tableHeader && tableData) {
-    const blob = new Blob([getCSVContent(tableHeader, tableData)], { type: 'text/csv;charset=utf-8;' })
-    FileSaver.saveAs(blob, exportFileName)
-  }
-}
 
 function TickerInput({ validated, handleSubmit, placeholderText, handleChange, formTicker, clicked, clearItems, tableHeader, tableData, exportFileName, yearControl }) {
   return (

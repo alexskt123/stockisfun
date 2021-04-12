@@ -73,7 +73,7 @@ function StockInfoTable({ tableFirstHeader, tableHeader, tableData, tableDataSki
                 </tr>
                 {
                   tableDataSkipRow ?
-                    tableDataSkipRow.filter(x => item.find(xx => xx.includes(x))).map((_item, idx) => {
+                    tableDataSkipRow.filter(x => item.find(xx => xx && xx.includes(x))).map((_item, idx) => {
                       return <tr key={idx}>
                         <td/>
                       </tr>

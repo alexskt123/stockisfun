@@ -13,7 +13,7 @@ function ForecastInfo({ inputTickers }) {
       {
         inputTickers ? <SWRTable
           requests={inputTickers.map(x => ({ request: `/api/forecast/getStockFairValue?ticker=${x}`, key: x }))}
-          options={{ bordered: true, tableFirstHeader: forecastTableFirstHeader, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { ...staticSWROptions } }}
+          options={{ bordered: true, tableFirstHeader: forecastTableFirstHeader, tableHeader: tableHeaderList, exportFileName: 'Stock_forecast.csv', tableSize: 'sm', SWROptions: { ...staticSWROptions } }}
         /> : null
       }
     </Fragment>

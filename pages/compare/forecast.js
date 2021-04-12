@@ -70,9 +70,6 @@ export default function CompareForecast() {
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}
-            tableHeader={settings.tableHeader}
-            tableData={settings.stockInfo}
-            exportFileName={'Stock_forecast.csv'}
           />
           <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
           {clicked ?

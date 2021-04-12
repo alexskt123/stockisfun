@@ -165,7 +165,7 @@ export default function Highlight() {
               </Row>
               <SWRTable
                 requests={watchList.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
-                options={{ tableHeader: tableHeaderList, tableSize: 'sm', viewTickerDetail: viewTickerDetail, SWROptions: { refreshInterval: 5000 } }}
+                options={{ tableHeader: tableHeaderList, exportFileName: 'Watchlist.csv', tableSize: 'sm', viewTickerDetail: viewTickerDetail, SWROptions: { refreshInterval: 5000 } }}
               />
             </Fragment>
               : <Fragment>

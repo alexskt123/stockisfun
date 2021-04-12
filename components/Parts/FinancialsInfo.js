@@ -11,7 +11,7 @@ function FinancialsInfo({ inputTickers }) {
       {
         inputTickers ? <SWRTable
           requests={inputTickers.map(x => ({ request: `/api/yahoo/getYahooFinancials?ticker=${x}`, key: x }))}
-          options={{ bordered: true, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { ...staticSWROptions } }}
+          options={{ bordered: true, tableHeader: tableHeaderList, exportFileName: 'Stock_financial.csv', tableSize: 'sm', SWROptions: { ...staticSWROptions } }}
         /> : null
       }
     </Fragment>

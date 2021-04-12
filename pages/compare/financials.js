@@ -65,9 +65,6 @@ export default function CompareFinancials() {
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}
-            tableHeader={settings.tableHeader}
-            tableData={settings.stockInfo}
-            exportFileName={'Stock_financial.csv'}
           />
           <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
           {clicked ?
