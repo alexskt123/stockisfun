@@ -1,10 +1,10 @@
-const sticky = { backgroundColor: 'white', left: 0, position: 'sticky', zIndex: 997 }
+import { SWRSticky } from './settings'
 
 export const tableHeaderList = [
   {
     label: 'Ticker',
     item: 'symbol',
-    style: sticky,
+    style: SWRSticky,
     format: 'Badge',
     show: true
   },

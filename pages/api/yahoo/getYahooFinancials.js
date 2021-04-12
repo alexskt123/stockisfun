@@ -36,8 +36,8 @@ export default async (req, res) => {
   const incomeStmt = earningsExtract.reduce((acc, cur, index, org) => {
     if (index > 0) {
 
-      const revenuePcnt = percent.calc((cur.revenue - org[index - 1].revenue), Math.abs(org[index - 1].revenue), 2, true)
-      const netIncomePcnt = percent.calc((cur.netIncome - org[index - 1].netIncome), Math.abs(org[index - 1].netIncome), 2, true)
+      const revenuePcnt = percent.calc((cur.revenue - org[index - 1].revenue), Math.abs(org[index - 1].revenue), 2)
+      const netIncomePcnt = percent.calc((cur.netIncome - org[index - 1].netIncome), Math.abs(org[index - 1].netIncome), 2)
 
       acc = {
         revenueArr: [...acc.revenueArr, revenuePcnt],
@@ -78,19 +78,27 @@ export default async (req, res) => {
   const incomeAnnualized = getAnnualizedPcnt(netIncomeArr)
   const incomeIndicator = getRevenueIndicator(incomeAnnualized.raw)
 
-  const data = [
-    ...revenueArr,
-    revenueAnnualized.fmt,
+  const data = Object.assign({
+    symbol: ticker,
+    revenueAnnualized: revenueAnnualized.raw * 100,
     revenueIndicator,
-    ...netIncomeArr,
-    incomeAnnualized.fmt,
+    incomeAnnualized: incomeAnnualized.raw * 100,
     incomeIndicator,
     debtClearance,
     trailingPE,
-    returnOnEquity ? returnOnEquity : 'N/A',
-    grossMargin ? grossMargin : 'N/A',
-    returnOnAssets ? returnOnAssets : 'N/A'
-  ]
+    returnOnEquity: returnOnEquity ? returnOnEquity : 'N/A',
+    grossMargin: grossMargin ? grossMargin : 'N/A',
+    returnOnAssets: returnOnAssets ? returnOnAssets : 'N/A'    
+  }, ...revenueArr.map((item, idx) => {
+    return ({
+      [`revenue-${idx + 1}`]: item
+    })
+  }), ...netIncomeArr.map((item, idx) => {
+    return ({
+      [`netIncome-${idx + 1}`]: item
+    })
+  })
+  )
 
   res.statusCode = 200
   res.json(data)

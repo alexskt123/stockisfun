@@ -24,6 +24,8 @@ export default function SWRTable({ requests, options }) {
 
   const [tableData, setTableData] = useState([])
   const [reactiveTableHeader, setReactiveTableHeader] = useState(tableHeader)
+  const [ascSort, setAscSort] = useState(true)
+  const [sortedRequests, setSortedRequests] = useState(requests)
 
   const timestamp = useTimestamp(tableData)
 
@@ -41,6 +43,22 @@ export default function SWRTable({ requests, options }) {
     setTableData(newTableData)
   }
 
+  const sortTableItem = (id) => {
+    const sortedRequests = [...requests].sort(function (a, b) {
+
+      const bf = (tableData.find(x => x.symbol === a.key)[id] || '').toString().replace(/\+|%/gi, '')
+      const af = (tableData.find(x => x.symbol === b.key)[id] || '').toString().replace(/\+|%/gi, '')      
+      if (isNaN(bf))
+        return ascSort ? af.localeCompare(bf) : bf.localeCompare(af)
+      else
+        return ascSort ? bf - af : af - bf
+
+    })
+
+    setSortedRequests(sortedRequests)
+    setAscSort(!ascSort)
+  }
+
   useEffect(() => {
     const newReactiveTableHeader = tableHeader
       .map(header => ({
@@ -51,6 +69,11 @@ export default function SWRTable({ requests, options }) {
 
     setReactiveTableHeader(newReactiveTableHeader)
   }, [tableData])
+
+
+  useEffect(() => {
+    setSortedRequests(requests)
+  }, [requests])
 
   return (
     <Fragment>
@@ -70,12 +93,12 @@ export default function SWRTable({ requests, options }) {
             {reactiveTableHeader
               .map((header, index) => (
                 // @ts-ignore
-                <th className={header.className} style={(header.style)} key={index} >{header.label}</th>)
+                <th onClick={() => sortTableItem(header.item)} className={header.className} style={(header.style)} key={index} >{header.label}</th>)
               )}
           </tr>
         </thead>
         <tbody>
-          {requests.map(x => (
+          {sortedRequests.map(x => (
             <tr key={x.key}>
               < SWRTableRow request={x.request} tableHeader={reactiveTableHeader} handleTableData={handleTableData} viewTickerDetail={viewTickerDetail} options={SWROptions} ></SWRTableRow>
             </tr>
@@ -100,7 +123,7 @@ function SWRTableRow({ request, tableHeader, handleTableData, viewTickerDetail, 
   return (
     <Fragment>
       {tableHeader.map(header => (
-        <td style={header.style} key={header.item} onClick={() => viewTickerDetail ? viewTickerDetail(data) : null }>{getCell(data, header)}</td>
+        <td style={header.style} key={header.item} onClick={() => viewTickerDetail ? viewTickerDetail(data) : null}>{getCell(data, header)}</td>
       ))}
     </Fragment>
   )

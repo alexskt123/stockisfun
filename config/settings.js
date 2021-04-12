@@ -82,3 +82,5 @@ export const staticSWROptions = {
 }
 
 export const fetcher = (input) => fetch(input).then(res => res.json())
+
+export const SWRSticky = { backgroundColor: 'white', left: 0, position: 'sticky', zIndex: 997 }
