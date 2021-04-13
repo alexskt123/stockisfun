@@ -40,12 +40,14 @@ export default function ComparePrice() {
   }
 
   const removeItem = (value) => {
+    const removed = [...settings.tickers.filter(x => x !== value)]
     setSettings(
       {
         ...settings,
-        tickers: [...settings.tickers.filter(x => x !== value)]
+        tickers: removed
       }
     )
+    router.push(`${router.pathname}?query=${removed.join(',')}&year=${settings.years}`)
   }
 
   async function handleTickers(inputTickers, inputYear) {

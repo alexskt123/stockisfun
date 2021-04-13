@@ -84,8 +84,8 @@ export default function SWRTable({ requests, options }) {
         <h5><Badge variant="info">{`Last Update: ${timestamp}`}</Badge></h5>
         <h5>
           <Button className="ml-1" size="sm" variant="warning" style={{ display: 'flex', alignItems: 'center' }} onClick={() => exportToFile(reactiveTableHeader.map(item => item.label), tableData.map(item => reactiveTableHeader.map(header => item[header.item])), exportFileName)}>
-          <GrDocumentCsv />
-        </Button>
+            <GrDocumentCsv />
+          </Button>
         </h5>
       </Row>
       <Table

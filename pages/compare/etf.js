@@ -2,100 +2,42 @@
 import { Fragment, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { selectedHeadersArr } from '../../config/etf'
+import { tableHeaderList } from '../../config/etf'
+import { staticSWROptions } from '../../config/settings'
 import CustomContainer from '../../components/Layout/CustomContainer'
-import StockInfoTable from '../../components/Page/StockInfoTable'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
-import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import { sortTableItem, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
+import SWRTable from '../../components/Page/SWRTable'
+import { handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
 import { useQuery } from '../../lib/hooks/useQuery'
-
-const axios = require('axios').default
 
 export default function CompareETF() {
   const router = useRouter()
   const { query } = router.query
 
   const [tickers, setTickers] = useState([])
-  const [tableHeader, setTableHeader] = useState([])
-  const [etfInfo, setEtfInfo] = useState([])
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
-  const [clicked, setClicked] = useState(false)
-  const [ascSort, setAscSort] = useState(false)
 
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-  const sortItem = async (index) => {
-    setAscSort(!ascSort)
-    setEtfInfo(
-      await sortTableItem(etfInfo, index, ascSort)
-    )
-  }
-
   const clearItems = () => {
     setTickers([])
-    setEtfInfo([])
     router.push(router.pathname)
   }
 
   const removeItem = (value) => {
-    setTickers([...tickers.filter(x => x !== value)])
-    setEtfInfo([...etfInfo.filter(x => x.find(x => x) !== value)])
+    const removed = [...tickers.filter(x => x !== value)]
+    setTickers(removed)
+    router.push(`${router.pathname}?query=${removed.join(',')}`)
   }
 
   async function handleTickers(inputTickers) {
-    setClicked(true)
-
-    const newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
-    const temp = await Promise.all(newTickers.map(async ticker => {
-      const etf = await axios(`/api/etfdb/getETFDB?ticker=${ticker}`)
-      const performance = await axios(`/api/etfdb/getETFPerformance?ticker=${ticker}`)
-      const { data: etfData } = etf
-      const { data: performanceData } = performance
-
-      return ({
-        ticker: ticker.toUpperCase(),
-        info: { ...etfData.basicInfo, ...performanceData }
-      })
-    }))
-
-    setTickers([
-      ...tickers,
-      ...temp.map(item => item.ticker)
-    ])
-
-    setTableHeader(
-      [
-        'Ticker',
-        'Price',
-        ...selectedHeadersArr,
-        '4 Week Return',
-        'Year to Date Return',
-        '1 Year Return',
-        '3 Year Return'
-      ]
-    )
-
-    setEtfInfo(
-      [
-        ...etfInfo,
-        ...temp.map(item => {
-          const newItem = [
-            item.ticker,
-            ...Object.values(item.info).filter((_x, idx) => Object.keys(item.info)[idx] !== 'Analyst Report')
-          ]
-          return newItem
-        })
-      ]
-    )
-
-    setClicked(false)
+    setTickers(inputTickers)
   }
 
   const handleSubmit = (event) => {
@@ -113,17 +55,15 @@ export default function CompareETF() {
             handleSubmit={handleSubmit}
             placeholderText={'Single:  voo /  Mulitple:  voo,arkk,smh'}
             handleChange={handleChange}
-            clicked={clicked}
             clearItems={clearItems}
-            tableHeader={tableHeader}
-            tableData={etfInfo}
-            exportFileName={'Stock_etf.csv'}
           />
           <TickerBullet tickers={tickers} removeItem={removeItem} />
-          {clicked ?
-            <LoadingSpinner /> : null
+          {
+            tickers && tickers.length > 0 ? <SWRTable
+              requests={tickers.map(x => ({ request: `/api/compare/etf?ticker=${x}`, key: x }))}
+              options={{ bordered: true, tableHeader: tableHeaderList, exportFileName: 'Stock_etf.csv', tableSize: 'sm', SWROptions: { ...staticSWROptions } }}
+            /> : null
           }
-          <StockInfoTable tableHeader={tableHeader} tableData={etfInfo} sortItem={sortItem} />
         </Fragment>
       </CustomContainer>
     </Fragment >

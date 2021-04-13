@@ -28,13 +28,14 @@ export default function CompareFinancials() {
   }
 
   const removeItem = (value) => {
+    const removed = [...settings.tickers.filter(x => x !== value)]  
     setSettings(
       {
         ...settings,
-        tickers: [...settings.tickers.filter(x => x !== value)],
-        stockInfo: [...settings.stockInfo.filter(x => x.find(x => x) !== value)]
+        tickers: removed
       }
     )
+    router.push(`${router.pathname}?query=${removed.join(',')}`)
   }
 
   const handleTickers = (inputTickers) => {
