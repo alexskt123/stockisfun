@@ -5,7 +5,7 @@ import Tab from 'react-bootstrap/Tab'
 import { Bar } from 'react-chartjs-2'
 import percent from 'percent'
 
-import { getBasics, getETFList, getYahooEarnings } from '../lib/stockDetailsFunction'
+import { getBasics, getYahooEarnings } from '../lib/stockDetailsFunction'
 import { stockDetailsSettings } from '../config/stock'
 import Price from './Tab/StockDetail/Price'
 import LoadingSpinner from './Loading/LoadingSpinner'
@@ -16,7 +16,7 @@ import FinancialsInfo from '../components/Parts/FinancialsInfo'
 import ETFList from './Tab/StockDetail/ETFList'
 import ValidTickerAlert from './Parts/ValidTickerAlert'
 import { fireToast } from '../lib/toast'
-import { peersHeader } from '../config/peers'
+import { Peers } from './Tab/StockDetail/Peers'
 
 const axios = require('axios').default
 
@@ -53,26 +53,6 @@ function StockDetails({ inputTicker }) {
           })
         }),
       axios
-        .get(`/api/etfdb/getETFListByTicker?ticker=${ticker}`)
-        .then((response) => {
-          const { etfList } = getETFList(response)
-          newSettings = { ...newSettings, etfList }
-
-          setSettings({
-            ...settings, ...newSettings
-          })
-        }),
-      axios
-        .get(`/api/etfdb/getStockETFCount?ticker=${ticker}`)
-        .then((response) => {
-          const etfCount = response.data
-          newSettings = { ...newSettings, etfCount }
-
-          setSettings({
-            ...settings, ...newSettings
-          })
-        }),
-      axios
         .get(`/api/yahoo/getYahooKeyStatistics?ticker=${ticker}`)
         .then((response) => {
 
@@ -89,21 +69,6 @@ function StockDetails({ inputTicker }) {
         .then((response) => {
           const { earnings } = getYahooEarnings(response)
           newSettings = { ...newSettings, earnings }
-
-          setSettings({
-            ...settings, ...newSettings
-          })
-        }),
-      axios
-        .get(`/api/moneycnn/getPeers?ticker=${ticker}`)
-        .then((response) => {
-          const data = response.data
-          const peers = data.reduce((acc, cur) => {
-            acc.peers.tableHeader = [...peersHeader]
-            acc.peers.tableData.push([...peersHeader.map(item => cur[item])])
-            return acc
-          }, { peers: { tableHeader: [], tableData: [] } })
-          newSettings = { ...newSettings, ...peers }
 
           setSettings({
             ...settings, ...newSettings
@@ -147,10 +112,7 @@ function StockDetails({ inputTicker }) {
           <StockInfoTable tableSize="sm" className='mt-2' tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} />
         </Tab>
         <Tab eventKey="ETFList" title="ETF List">
-          {clicked ?
-            <LoadingSpinner /> : null
-          }
-          <ETFList inputSettings={{ etfList: settings.etfList, etfCount: settings.etfCount }} />
+          <ETFList inputTicker={settings.inputTickers.find(x => x)} />
         </Tab>
         <Tab eventKey="Price%" title="Price%">
           {clicked ?
@@ -185,10 +147,7 @@ function StockDetails({ inputTicker }) {
           <FinancialsInfo inputTickers={settings.inputTickers} />
         </Tab>
         <Tab eventKey="Peers" title="Peers">
-          {clicked ?
-            <LoadingSpinner /> : null
-          }
-          <StockInfoTable tableSize="sm" tableHeader={settings.peers.tableHeader} tableData={settings.peers.tableData} />
+          <Peers inputTicker={settings.inputTickers.find(x => x)} />
         </Tab>
       </Tabs>
     </Fragment>
