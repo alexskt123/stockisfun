@@ -8,7 +8,7 @@ import useSWR from 'swr'
 import StockInfoTable from '../../Page/StockInfoTable'
 import LoadingSpinner from '../../Loading/LoadingSpinner'
 
-export function Peers({ inputTicker }) {
+export default function Peers ({ inputTicker }) {
   const [settings, setSettings] = useState({ ...initSettings })
 
   const { data } = useSWR(`/api/moneycnn/getPeers?ticker=${inputTicker}`, fetcher, staticSWROptions)
