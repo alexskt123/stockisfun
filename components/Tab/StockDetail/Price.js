@@ -36,7 +36,7 @@ function PriceTab({ inputTicker }) {
         }
       }))
 
-      if (!basicsData.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x))
+      if (inputTicker && !basicsData.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x))
         fireToast({
           icon: 'error',
           title: 'Invalid Ticker'
