@@ -1,3 +1,5 @@
+import { SWRSticky } from './settings'
+
 export const extractYahooInfo = [
   {
     label: 'Price',
@@ -42,13 +44,11 @@ export const indexQuoteInfo = [
   [{ label: '52 Week Low', field: 'fiftyTwoWeekLow', value: null }, { label: '52 Week High', field: 'fiftyTwoWeekHigh', value: null }]
 ]
 
-const sticky = { backgroundColor: 'white', left: 0, position: 'sticky', zIndex: 997 }
-
 export const tableHeaderList = [
   {
     label: 'Ticker',
     item: 'symbol',
-    style: sticky,
+    style: SWRSticky,
     show: true,
     format: 'Badge'
   },

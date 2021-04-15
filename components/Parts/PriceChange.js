@@ -6,9 +6,9 @@ import StockInfoTable from '../Page/StockInfoTable'
 import { Line } from 'react-chartjs-2'
 import LoadingSpinner from '../Loading/LoadingSpinner'
 
-function PriceChange({ inputSettings, inputTickers, inputYear }) {
+function PriceChange({ inputTickers, inputYear }) {
 
-  const [settings, setSettings] = useState(inputTickers ? priceSettingSchema : inputSettings)
+  const [settings, setSettings] = useState(priceSettingSchema)
   const [loading, setLoading] = useState(false)
 
   async function handleTickers() {
@@ -17,7 +17,7 @@ function PriceChange({ inputSettings, inputTickers, inputYear }) {
     const noOfYears = inputYear ? inputYear : 15
 
     clearItems()
-    const priceInfo = inputSettings ? inputSettings : await getPriceInfo(inputTickers, noOfYears, priceSettingSchema)
+    const priceInfo = await getPriceInfo(inputTickers, noOfYears, priceSettingSchema)
     setSettings(priceInfo)
 
     setLoading(false)
@@ -34,7 +34,7 @@ function PriceChange({ inputSettings, inputTickers, inputYear }) {
   useEffect(async () => {
     await handleTickers()
     return () => setSettings(null)
-  }, [inputSettings, inputTickers])
+  }, [inputTickers])
 
   const clearItems = () => {
     setSettings({

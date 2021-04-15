@@ -19,24 +19,15 @@ export const stockDetailsSettings = {
   balanceSheet: {
     tableHeader: [],
     tableData: [],
-    chartData: {
-
-    },
+    tableDataSkipRow: [],
+    chartData: {},
     chartOptions: {}
   },
   earnings: {
     tableHeader: [],
     tableData: [],
-    chartData: {
-
-    },
-    chartOptions: {
-      
-    }
-  },
-  peers: {
-    tableHeader: [],
-    tableData: []
+    chartData: {},
+    chartOptions: {}
   },
   inputTickers: [],
   ...etfListSettings

@@ -1,3 +1,5 @@
+//import { SWRSticky } from './settings'
+
 export const excludeList = ['INX', 'INDU']
 
 export const extractYahooInfo = [
@@ -21,5 +23,45 @@ export const extractYahooInfo = [
     format: 'millify'
   }
 ]
+
+export const initSettings = { tableHeader: [], tableData: [] }
+
+// export const peersHeader = [
+//   {
+//     label: 'Ticker',
+//     item: 'symbol',
+//     style: SWRSticky,
+//     format: 'Badge',
+//     show: true
+//   },
+//   {
+//     label: 'Name',
+//     item: 'name',
+//     show: true
+//   },
+//   {
+//     label: 'Price',
+//     item: 'regularMarketPrice',
+//     show: true
+//   },
+//   {
+//     label: 'Market Cap.',
+//     item: 'marketCap',
+//     format: 'millify',
+//     show: true
+//   },
+//   {
+//     label: 'P/B',
+//     item: 'priceToBook',
+//     format: 'millify',
+//     show: true
+//   },
+//   {
+//     label: 'Trailing PE',
+//     item: 'trailingPE',
+//     format: 'millify',
+//     show: true
+//   }
+// ]
 
 export const peersHeader = ['Ticker', 'Name', 'Price', 'Market Cap.', 'P/B', 'Trailing PE']

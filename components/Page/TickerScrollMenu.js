@@ -2,23 +2,24 @@
 import { Fragment, useEffect, useState } from 'react'
 import TickerCard from '../../components/Parts/TickerCard'
 import { extractYahooInfo } from '../../config/highlight'
+import { staticSWROptions, fetcher } from '../../config/settings'
 import { roundTo } from '../../lib/commonFunction'
 import ScrollMenu from 'react-horizontal-scrolling-menu'
 import { AiFillLeftCircle, AiFillRightCircle } from 'react-icons/ai'
 import '../../styles/ScrollMenu.module.css'
 
-const axios = require('axios').default
+import useSWR from 'swr'
 
 export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
   const [stockInfo, setStockInfo] = useState([])
 
-  async function getStockInfo(inputList) {
+  const { data: responses } = useSWR(`/api/yahoo/getYahooQuote?ticker=${[...inputList].map(item => item.Ticker)}`, fetcher, staticSWROptions)
 
-    const responses = await Promise.all([...inputList].map(async item => axios(`/api/yahoo/getYahooQuote?ticker=${item.Ticker}`)))
+  function getStockInfo(responses) {
 
-    const stockInfoAdd = [...inputList].map((stock) => {
-      const response = responses.find(x => x && x.data && x.data.symbol === stock.Ticker)
-      const { data } = response
+    const stockInfoAdd = responses ? [...inputList].map((stock) => {
+      const data = responses.find(x => x && x.symbol === stock.Ticker)
+
       const info = extractYahooInfo.reduce((acc, cur) => {
         const newAcc = {
           ...acc,
@@ -30,6 +31,7 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
 
       return { ...stock, ...info }
     })
+      : []
 
     setStockInfo(stockInfoAdd)
   }
@@ -42,8 +44,8 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
   }
 
   useEffect(async () => {
-    await getStockInfo(inputList)
-  }, [])
+    getStockInfo(responses)
+  }, [responses])
 
   return (
     <Fragment>

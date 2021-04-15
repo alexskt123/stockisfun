@@ -5,6 +5,90 @@ const selectedHeaders = 'Issuer,Expense Ratio,Inception,Index Tracked,Category,5
 
 export const selectedHeadersArr = selectedHeaders.split(',')
 
+import { SWRSticky } from './settings'
+
+export const tableHeaderList = [
+  {
+    label: 'Ticker',
+    item: 'symbol',
+    style: SWRSticky,
+    format: 'Badge',
+    show: true
+  },
+  {
+    label: 'Price',
+    item: 'Price',
+    show: true
+  },
+  {
+    label: 'Issuer',
+    item: 'Issuer',
+    show: true
+  },
+  {
+    label: 'Expense Ratio',
+    item: 'Expense Ratio',
+    show: true
+  },
+  {
+    label: 'Inception',
+    item: 'Inception',
+    show: true
+  },
+  {
+    label: 'Index Tracked',
+    item: 'Index Tracked',
+    show: true
+  },
+  {
+    label: 'Category',
+    item: 'Category',
+    show: true
+  },
+  {
+    label: '52 Week Lo',
+    item: '52 Week Lo',
+    show: true
+  },
+  {
+    label: '52 Week Hi',
+    item: '52 Week Hi',
+    show: true
+  },
+  {
+    label: 'AUM',
+    item: 'AUM',
+    show: true
+  },
+  {
+    label: '1 Month Avg. Volume',
+    item: '1 Month Avg. Volume',
+    show: true
+  },
+  {
+    label: '3 Month Avg. Volume',
+    item: '3 Month Avg. Volume',
+    show: true
+  },
+  {
+    label: 'Year to Date Return',
+    item: 'Year to Date Return',
+    show: true
+  },
+  {
+    label: '1 Year Return',
+    item: '1 Year Return',
+    show: true
+  },
+  {
+    label: '3 Year Return',
+    item: '3 Year Return',
+    show: true
+  }
+]
+
+
+
 export const etfDetailsSettings = {
   inputETFTicker: null,
   selectedStockTicker: null,

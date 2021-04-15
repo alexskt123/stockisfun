@@ -56,6 +56,10 @@ export const NavItems = [
   {
     href: '/watchlist',
     label: 'Watch List'
+  },
+  {
+    href: '/formula',
+    label: 'Formula'
   }
 ]
 
@@ -68,3 +72,15 @@ export const defaultUserConfig = {
   watchList: [],
   etfList: []
 }
+
+export const staticSWROptions = {
+  revalidateOnFocus: false,
+  revalidateOnReconnect: false,
+  refreshWhenOffline: false,
+  refreshWhenHidden: false,
+  refreshInterval: 0
+}
+
+export const fetcher = (input) => fetch(input).then(res => res.json())
+
+export const SWRSticky = { backgroundColor: 'white', left: 0, position: 'sticky', zIndex: 997 }

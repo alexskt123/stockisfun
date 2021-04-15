@@ -26,20 +26,18 @@ export default function CompareForecast() {
   const clearItems = () => {
     setSettings({
       ...settings,
-      tickers: [],
-      stockInfo: []
+      tickers: []
     })
     router.push(router.pathname)
   }
 
   const removeItem = (value) => {
-    setSettings(
-      {
-        ...settings,
-        tickers: [...settings.tickers.filter(x => x !== value)],
-        stockInfo: [...settings.stockInfo.filter(x => x.find(x => x) !== value)]
-      }
-    )
+    const removed = [...settings.tickers.filter(x => x !== value)]
+    setSettings({
+      ...settings,
+      tickers: removed
+    })
+    router.push(`${router.pathname}?query=${removed.join(',')}`)
   }
 
   const handleTickers = (inputTickers) => {
@@ -70,9 +68,6 @@ export default function CompareForecast() {
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}
-            tableHeader={settings.tableHeader}
-            tableData={settings.stockInfo}
-            exportFileName={'Stock_forecast.csv'}
           />
           <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
           {clicked ?

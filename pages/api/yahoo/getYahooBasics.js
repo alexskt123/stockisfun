@@ -4,22 +4,18 @@
 
 import { getYahooAssetProfile } from '../../../lib/yahoo/getYahooAssetProfile'
 import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
-import { getYahooBalanceSheet } from '../../../lib/yahoo/getYahooBalanceSheet'
-import { getYahooBalanceSheetData, getYahooBasicsData } from '../../../lib/stockDetailsFunction'
+import { getYahooBasicsData } from '../../../lib/stockDetailsFunction'
 
 export default async (req, res) => {
   const { ticker } = req.query
 
   const data = await getYahooAssetProfile(ticker)
   const quote = await getYahooQuote(ticker)
-  const balanceSheet = await getYahooBalanceSheet(ticker)
 
-  const balanceSheetExtract = getYahooBalanceSheetData(balanceSheet)
   const newData = getYahooBasicsData(data, quote)
 
   res.statusCode = 200
   res.json({
-    basics: { ...newData },
-    balanceSheet: [...balanceSheetExtract]
+    ...newData
   })
 }

@@ -6,4 +6,11 @@ module.exports = withPWA({
     dest: 'public',
     runtimeCaching,
   },
+  future: {
+    webpack5: true,
+  },
+  webpack: function (config, _options) {
+    config.experiments = {}
+    return config
+  },
 })

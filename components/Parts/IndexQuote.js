@@ -3,24 +3,26 @@ import { Fragment, useState, useEffect } from 'react'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 import { indexQuoteInfo } from '../../config/highlight'
+import { staticSWROptions, fetcher } from '../../config/settings'
 import { convertToPercentage, convertToPriceChange } from '../../lib/commonFunction'
 
-const axios = require('axios').default
+import useSWR from 'swr'
 
 function IndexQuote({ inputTicker }) {
   const [quoteData, setQuoteData] = useState([])
 
-  async function getIndexQuote() {
-    const quoteResponse = await axios(`/api/yahoo/getYahooQuote?ticker=${inputTicker}`)
-    const quoteData = indexQuoteInfo.map(item => {
-      return item.map(data => {
+  const { data } = useSWR(`/api/yahoo/getYahooQuote?ticker=${inputTicker}`, fetcher, staticSWROptions)
+
+  function getIndexQuote(data) {
+    const quoteData = data ? indexQuoteInfo.map(item => {
+      return item.map(quote => {
         return ({
-          label: data.label,
-          format: data.format,
-          value: quoteResponse.data[data.field]
+          label: quote.label,
+          format: quote.format,
+          value: data[quote.field]
         })
       })
-    })
+    }) : []
     setQuoteData(quoteData)
   }
 
@@ -35,9 +37,9 @@ function IndexQuote({ inputTicker }) {
   }
 
   useEffect(() => {
-    getIndexQuote()
+    getIndexQuote(data)
     return () => setQuoteData(null)
-  }, [inputTicker])
+  }, [data])
 
   return (
     <Fragment>

@@ -130,7 +130,7 @@ export default function WatchList() {
           {
             tickers.length > 0 ? <SWRTable
               requests={tickers.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
-              options={{ striped: true, bordered: true, tableHeader: tableHeaderList, tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
+              options={{ striped: true, bordered: true, tableHeader: tableHeaderList, exportFileName: 'Watchlist.csv', tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
             /> : null
           }
         </Fragment>
