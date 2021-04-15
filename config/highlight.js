@@ -76,6 +76,13 @@ export const tableHeaderList = [
     show: true
   },
   {
+    label: 'Pre Market Chg',
+    item: 'preMarketChange',
+    format: 'millify',
+    property: 'netChange',
+    show: true
+  },
+  {
     label: 'Market',
     item: 'regularMarketPrice',
     show: true
@@ -84,6 +91,13 @@ export const tableHeaderList = [
     label: 'Day Chg%',
     item: 'regularMarketChangePercent',
     format: '%',
+    property: 'netChange',
+    show: true
+  },
+  {
+    label: 'Day Chg',
+    item: 'regularMarketChange',
+    format: 'millify',
     property: 'netChange',
     show: true
   }

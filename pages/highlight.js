@@ -21,6 +21,8 @@ import SWRTable from '../components/Page/SWRTable'
 import { Store } from '../lib/store'
 import { getUserInfoByUID } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
+import StockDetails from '../components/StockDetails'
+import ETFDetails from '../components/ETFDetails'
 
 const axios = require('axios').default
 
@@ -28,6 +30,7 @@ export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
   const [watchList, setwatchList] = useState([])
   const [showWatchList, setShowWatchList] = useState(false)
+  const [showDetail, setShowDetail] = useState({ type: null, show: false })
 
   const store = useContext(Store)
   const { state } = store
@@ -40,7 +43,7 @@ export default function Highlight() {
     name: 'Price Changes',
     component: withQuoteCard(Price),
     props: {
-      inputMA: ''
+      inputMA: 'ma'
     }
   }, {
     name: 'Quote',
@@ -73,17 +76,32 @@ export default function Highlight() {
     input ? router.push(`/highlight?query=${input.symbol}`) : null
   }
 
+  const viewQuotePrice = () => {
+    setSelectedTicker({ ...selectedTicker, show: true })
+    setShowDetail({ ...showDetail, show: false })
+  }
+
   const viewTickerDetail = async (dataObj) => {
     const response = await axios.get(`/api/quote?ticker=${dataObj.symbol || dataObj.ticker}`)
     const { data } = response || { data: null }
 
     if (data && data.valid) {
-      const hyperlink = data.type === 'ETF' ? '/etfdetail' : data.type === 'EQUITY' ? '/stockdetail' : null
-      hyperlink ? router.push(`${hyperlink}?query=${dataObj.symbol || dataObj.ticker}`)
-        : fireToast({
+      if (data.type === 'ETF' || data.type === 'EQUITY') {
+        setSelectedTicker({ ...selectedTicker, show: false })
+        setShowDetail({ type: data.type, show: !showDetail.show })
+      }
+      else {
+        fireToast({
           icon: 'error',
           title: 'Only Stock/ETF can be viewed!'
         })
+      }
+      // const hyperlink = data.type === 'ETF' ? '/etfdetail' : data.type === 'EQUITY' ? '/stockdetail' : null
+      // hyperlink ? router.push(`${hyperlink}?query=${dataObj.symbol || dataObj.ticker}`)
+      //   : fireToast({
+      //     icon: 'error',
+      //     title: 'Only Stock/ETF can be viewed!'
+      //   })
     } else {
       fireToast({
         icon: 'error',
@@ -100,6 +118,7 @@ export default function Highlight() {
 
   useEffect(() => {
     setSelectedTicker({ ticker: query, show: true })
+    setShowDetail({ type: null, show: false })
   }, [query])
 
   return (
@@ -140,8 +159,8 @@ export default function Highlight() {
                 <strong>{'Current Search:'}</strong>
                 <Badge className="ml-2" variant="info">{selectedTicker.ticker}</Badge>
                 {query ? <HappyShare /> : null}
-                <Badge as="button" className="ml-3" variant="warning" onClick={() => setSelectedTicker({ ...selectedTicker, show: true })}>{'Price/Quote'}</Badge>
-                <Badge as="button" className="ml-2" variant="success" onClick={() => viewTickerDetail(selectedTicker)}>{'Details'}</Badge>
+                <Badge as="button" className="ml-3" variant="warning" onClick={() => viewQuotePrice()}>{'Price/Quote'}</Badge>
+                <Badge as="button" className="ml-2" variant={showDetail.show ? 'danger' : 'success'} onClick={() => viewTickerDetail(selectedTicker)}>{showDetail.show ? 'Hide Details' : 'Details'}</Badge>
               </Alert>
               : null
           }
@@ -153,6 +172,9 @@ export default function Highlight() {
                 </Fragment>
               )) : null}
           </CardDeck>
+          {
+            showDetail.show && selectedTicker && selectedTicker.ticker ? showDetail.type === 'ETF' ? <ETFDetails inputTicker={selectedTicker.ticker} /> : <StockDetails inputTicker={selectedTicker.ticker} /> : null
+          }
           {
             user.id != '' ? showWatchList ? <Fragment>
               <Row className="justify-content-center">
