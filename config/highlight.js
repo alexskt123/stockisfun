@@ -41,7 +41,9 @@ export const indexQuoteInfo = [
   [{ label: 'Price', field: 'regularMarketPrice', value: null }, { field: 'regularMarketChange', value: null, format: 'PriceChange' }, { field: 'regularMarketChangePercent', value: null, format: 'PriceChange%' }],
   [{ label: 'Day Range', field: 'regularMarketDayRange', value: null }],
   [{ label: 'Prev. Close', field: 'regularMarketPreviousClose', value: null }],
-  [{ label: '52 Week Low', field: 'fiftyTwoWeekLow', value: null }, { label: '52 Week High', field: 'fiftyTwoWeekHigh', value: null }]
+  [{ label: '52 Week Low', field: 'fiftyTwoWeekLow', value: null }, { label: '52 Week High', field: 'fiftyTwoWeekHigh', value: null }],
+  [{ label: 'Revenue', field: 'revenueIndicator', format: 'IndicatorVariant', value: null }, { label: 'Income', field: 'incomeIndicator', format: 'IndicatorVariant', value: null }],
+  [{ label: 'Debt Clearance', field: 'debtClearance', value: null }]
 ]
 
 export const tableHeaderList = [

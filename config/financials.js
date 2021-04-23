@@ -39,7 +39,7 @@ export const tableHeaderList = [
   {
     label: 'Revenue Indicator',
     item: 'revenueIndicator',
-    format: 'Badge',
+    format: 'IndicatorVariant',
     show: true,
   },
   {
@@ -73,7 +73,7 @@ export const tableHeaderList = [
   {
     label: 'Income Indicator',
     item: 'incomeIndicator',
-    format: 'Badge',
+    format: 'IndicatorVariant',
     show: true
   },
   {

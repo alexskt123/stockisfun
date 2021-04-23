@@ -9,7 +9,7 @@ import { GrDocumentCsv } from 'react-icons/gr'
 
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import moment from 'moment'
-import { millify, convertToPercentage, randVariant } from '../../lib/commonFunction'
+import { millify, convertToPercentage, randVariant, indicatorVariant } from '../../lib/commonFunction'
 import { exportToFile } from '../../lib/exportToFile'
 
 const useTimestamp = (trigger) => {
@@ -153,7 +153,8 @@ function getFormattedValue(format, value) {
     : format && format == 'H:mm:ss' && value ? moment(value * 1000).format('H:mm:ss')
       : format && format == 'millify' ? millify(value)
         : format && format == 'Badge' ? <Badge style={{ ['minWidth']: '3rem' }} variant={randVariant(value)}>{value}</Badge>
-          : value ? value : 'N/A'
+          : format && format == 'IndicatorVariant' ? <Badge style={{ ['minWidth']: '3rem' }} variant={indicatorVariant(value)}>{value}</Badge>
+            : value ? value : 'N/A'
 }
 
 function getCell(data, header) {
