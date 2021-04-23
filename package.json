@@ -43,6 +43,7 @@
     "react-horizontal-scrolling-menu": "^0.7.10",
     "react-icons": "^4.2.0",
     "react-share": "^4.4.0",
+    "string-hash": "^1.1.3",
     "sweetalert2": "^10.16.0",
     "swr": "^0.5.5"
   },

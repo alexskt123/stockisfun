@@ -4,14 +4,14 @@ import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 import { indexQuoteInfo } from '../../config/highlight'
 import { staticSWROptions, fetcher } from '../../config/settings'
-import { convertToPercentage, convertToPriceChange } from '../../lib/commonFunction'
+import { convertToPercentage, convertToPriceChange, indicatorVariant } from '../../lib/commonFunction'
 
 import useSWR from 'swr'
 
 function IndexQuote({ inputTicker }) {
   const [quoteData, setQuoteData] = useState([])
 
-  const { data } = useSWR(`/api/yahoo/getYahooQuote?ticker=${inputTicker}`, fetcher, staticSWROptions)
+  const { data } = useSWR(`/api/getIndexQuote?ticker=${inputTicker}`, fetcher, staticSWROptions)
 
   function getIndexQuote(data) {
     const quoteData = data ? indexQuoteInfo.map(item => {
@@ -33,7 +33,8 @@ function IndexQuote({ inputTicker }) {
   const getFormattedValue = (format, value) => {
     return format && format === 'PriceChange' ? value ? getValueBadge(value >= 0 ? 'success' : 'danger', convertToPriceChange(value)) : null
       : format && format === 'PriceChange%' ? value ? getValueBadge(value >= 0 ? 'success' : 'danger', convertToPercentage(value / 100)) : null
-        : getValueBadge('light', value)
+        : format && format === 'IndicatorVariant' ? getValueBadge(indicatorVariant(value), value)
+          : getValueBadge('light', value)
   }
 
   useEffect(() => {
@@ -53,7 +54,7 @@ function IndexQuote({ inputTicker }) {
                     return (
                       <Fragment key={dataIdx}>
                         <h6>
-                          <Badge variant="dark">{data.label}</Badge>
+                          <Badge className="ml-1" variant="dark">{data.label}</Badge>
                         </h6>
                         <h6>
                           {getFormattedValue(data.format, data.value)}

@@ -39,7 +39,8 @@ export const tableHeaderList = [
   {
     label: 'Revenue Indicator',
     item: 'revenueIndicator',
-    show: true
+    format: 'IndicatorVariant',
+    show: true,
   },
   {
     label: 'Last Income',
@@ -72,6 +73,7 @@ export const tableHeaderList = [
   {
     label: 'Income Indicator',
     item: 'incomeIndicator',
+    format: 'IndicatorVariant',
     show: true
   },
   {
