@@ -87,6 +87,24 @@ export const cashflowResponse = {
   }
 }
 
+export const earningsDateResponse = {
+  'quoteSummary': {
+    'result': [
+      {
+        'calendarEvents': {
+          'earnings': {
+            'earningsDate': [{
+              'raw': 'N/A',
+              'fmt': 'N/A'
+            }]
+          }
+        }
+      }
+    ]
+
+  }
+}
+
 export const financialDataResponse = {
   'quoteSummary': {
     'result': [
