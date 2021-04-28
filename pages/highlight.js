@@ -186,7 +186,7 @@ export default function Highlight() {
                 <Button size="sm" variant="danger" onClick={() => setShowWatchList(false)}>{'Stop Watching!'}</Button>
               </Row>
               <SWRTable
-                requests={watchList.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
+                requests={watchList.map(x => ({ request: `/api/highlightWatchlist?ticker=${x}`, key: x }))}
                 options={{ tableHeader: tableHeaderList, exportFileName: 'Watchlist.csv', tableSize: 'sm', viewTickerDetail: viewTickerDetail, SWROptions: { refreshInterval: 5000 } }}
               />
             </Fragment>

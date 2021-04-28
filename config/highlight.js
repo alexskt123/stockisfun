@@ -102,5 +102,10 @@ export const tableHeaderList = [
     format: 'millify',
     property: 'netChange',
     show: true
+  },
+  {
+    label: 'Earnings Date',
+    item: 'earningsDate',
+    show: true
   }
 ]
