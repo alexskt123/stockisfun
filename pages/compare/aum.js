@@ -2,84 +2,45 @@
 import { Fragment, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import StockInfoTable from '../../components/Page/StockInfoTable'
 import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
-import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import CustomContainer from '../../components/Layout/CustomContainer'
 import { aumTableHeader } from '../../config/etf'
-import { sortTableItem, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
+import { handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
 import { useQuery } from '../../lib/hooks/useQuery'
 
-const axios = require('axios').default
+import { staticSWROptions } from '../../config/settings'
+
+import SWRTable from '../../components/Page/SWRTable'
 
 export default function CompareAUM() {
   const router = useRouter()
   const { query } = router.query
 
   const [tickers, setTickers] = useState([])
-  const [tableHeader, setTableHeader] = useState([])
-  const [etfInfo, setEtfInfo] = useState([])
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
-  const [clicked, setClicked] = useState(false)
-  const [ascSort, setAscSort] = useState(false)
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
-  const sortItem = async (index) => {
-    setAscSort(!ascSort)
-    setEtfInfo(await sortTableItem(etfInfo, index, ascSort))
-  }
-
   const clearItems = () => {
     setTickers([])
-    setEtfInfo([])
     router.push(router.pathname)
   }
 
   const removeItem = (value) => {
-    setTickers(
-      [...tickers.filter(x => x !== value)]
-    )
-    setEtfInfo(
-      [...etfInfo.filter(x => x.find(x => x) !== value)]
-    )
+    const removed = [...tickers.filter(x => x !== value)]
+    setTickers(removed)
+    router.push(`${router.pathname}?query=${removed.join(',')}`)
   }
 
   async function handleTickers(inputTickers) {
-    setClicked(true)
-
-    const newTickers = inputTickers.filter(x => !tickers.includes(x.toUpperCase()))
-
-    const temp = await Promise.all(newTickers.map(async ticker => {
-      const etf = await axios(`/api/etfdb/getETFAUMSum?ticker=${ticker}`)
-      const cnn = await axios(`/api/forecast/getMoneyCnn?ticker=${ticker}`)
-      const { data: etfData } = etf
-      const { data: cnnData } = cnn
-      return ({
-        ticker: ticker.toUpperCase(),
-        info: [...etfData, ...cnnData]
-      })
-    }))
-
     setTickers([
-      ...tickers,
-      ...temp.map(item => item.ticker)
+      ...inputTickers
     ])
-
-    setTableHeader(
-      [...aumTableHeader]
-    )
-
-    setEtfInfo(
-      [...etfInfo, ...temp.map(item => [item.ticker, ...item.info])]
-    )
-
-    setClicked(false)
   }
 
   const handleSubmit = (event) => {
@@ -97,17 +58,15 @@ export default function CompareAUM() {
             handleSubmit={handleSubmit}
             placeholderText={'Single:  aapl /  Mulitple:  tsm,gh'}
             handleChange={handleChange}
-            clicked={clicked}
             clearItems={clearItems}
-            tableHeader={tableHeader}
-            tableData={etfInfo}
-            exportFileName={'Stock_aum_sum.csv'}
           />
           <TickerBullet tickers={tickers} removeItem={removeItem} />
-          {clicked ?
-            <LoadingSpinner /> : null
+          {
+            tickers && tickers.length > 0 ? <SWRTable
+              requests={tickers.map(x => ({ request: `/api/compare/aum?ticker=${x}`, key: x }))}
+              options={{ bordered: true, tableHeader: aumTableHeader, exportFileName: 'Stock_aum_sum.csv', tableSize: 'sm', SWROptions: { ...staticSWROptions } }}
+            /> : null
           }
-          <StockInfoTable tableHeader={tableHeader} tableData={etfInfo} sortItem={sortItem} />
         </Fragment>
       </CustomContainer>
     </Fragment >
