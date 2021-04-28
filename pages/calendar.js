@@ -42,7 +42,7 @@ export default function BigCalendar() {
           <Calendar
             localizer={localizer}
             events={eventList}
-            defaultView="month"
+            views={['month']}
             startAccessor="start"
             endAccessor="end"
             style={{ height: '90vh', fontSize: 'x-small' }}
