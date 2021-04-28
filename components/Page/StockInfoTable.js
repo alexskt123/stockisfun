@@ -29,9 +29,7 @@ const getCellItem = (item) => {
 
 const checkCanClick = (item, cellClick) => {
   const itemData = getItemData(item)
-  if (cellClick) {
-    cellClick(itemData)
-  }
+  cellClick ? cellClick(itemData) : null
 }
 
 const sticky = { backgroundColor: '#f0f0f0', left: 0, position: 'sticky', zIndex: '997' }
