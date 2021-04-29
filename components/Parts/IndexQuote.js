@@ -52,14 +52,16 @@ function IndexQuote({ inputTicker }) {
                 {
                   dataRow.map((data, dataIdx) => {
                     return (
-                      <Fragment key={dataIdx}>
-                        <h6>
-                          <Badge className="ml-1" variant="dark">{data.label}</Badge>
-                        </h6>
-                        <h6>
-                          {getFormattedValue(data.format, data.value)}
-                        </h6>
-                      </Fragment>
+                      data.value && data.value !== 'N/A' ?
+                        <Fragment key={dataIdx}>
+                          <h6>
+                            <Badge className="ml-1" variant="dark">{data.label}</Badge>
+                          </h6>
+                          <h6>
+                            {getFormattedValue(data.format, data.value)}
+                          </h6>
+                        </Fragment>
+                        : null
                     )
                   })
                 }
