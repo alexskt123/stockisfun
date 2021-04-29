@@ -58,6 +58,9 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
         menuClass="justify-content-center"
         onSelect={onSelect}
         wheel={false}
+        alignCenter={false}
+        alignOnResize={false}
+
       />
     </Fragment >
   )
