@@ -24,7 +24,7 @@ export default function BigCalendar() {
   const [eventList, setEventList] = useState([])
   const [show, setShow] = useState(false)
   const [earnings, setEarnings] = useState({
-    tableHeader: ['Fiscal Quarter End', 'Date Reported', 'Earnings Per Share', 'Consensus EPS Forecast', '% Surprise'],
+    tableHeader: ['Date Reported', 'Fiscal Quarter End', 'Consensus EPS Forecast', 'Earnings Per Share', '% Surprise'],
     tableData: []
   })
 
@@ -32,7 +32,7 @@ export default function BigCalendar() {
 
   const handleSelectSlot = async (e) => {
     const { data } = await axios.get(`/api/nasdaq/getEarningsHistory?ticker=${e.title}`).catch(err => console.log(err))
-    const tableData = data.map(item => Object.values(item))
+    const tableData = data
     setEarnings({
       ...earnings,
       tableData
