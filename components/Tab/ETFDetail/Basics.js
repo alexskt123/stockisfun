@@ -35,13 +35,12 @@ export default function Basics({ inputETFTicker }) {
       ...newSettings
     })
 
-    setTicker(inputETFTicker)
-
-    if (inputETFTicker && !newSettings.tableData.filter(x => x.find(x => x) == 'Price').find(x => x))
-      fireToast({
+    inputETFTicker && !newSettings.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
+      ? fireToast({
         icon: 'error',
         title: 'Invalid Ticker'
       })
+      : setTicker(inputETFTicker)
 
     setLoading(false)
   }
@@ -60,7 +59,7 @@ export default function Basics({ inputETFTicker }) {
               <Col>
                 <Badge className="ml-3" variant={'success'}>{ticker}</Badge>
                 <AddDelStock inputTicker={ticker} handleList='etf' />
-                <HappyShare/>
+                <HappyShare />
                 <Price inputTicker={ticker} inputMA={'ma'} />
               </Col>
               <Col>

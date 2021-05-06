@@ -75,15 +75,13 @@ export default async (req, res) => {
     .catch(error => console.log(error))
 
   const responsesArr = responses || []
-  responsesArr.forEach(item => {
-    if (item && item.data) {
-      priceMADetails.asOfDate = priceMADetails.asOfDate == '' ? item.data.asOfDate : priceMADetails.asOfDate
-      priceMADetails.priceMAList.forEach(cur => {
-        const priceMA = item.data.priceMAList.find(x => x.id === cur.id)
-        cur.tickersInfo.push(...priceMA.tickersInfo)
-        cur.tickersChart.push(...priceMA.tickersChart)
-      })
-    }
+  responsesArr.filter(x => x && x.data).forEach(item => {
+    priceMADetails.asOfDate = priceMADetails.asOfDate == '' ? item.data.asOfDate : priceMADetails.asOfDate
+    priceMADetails.priceMAList.forEach(cur => {
+      const priceMA = item.data.priceMAList.find(x => x.id === cur.id)
+      cur.tickersInfo.push(...priceMA.tickersInfo)
+      cur.tickersChart.push(...priceMA.tickersChart)
+    })
   })
 
   const mailOptions = {

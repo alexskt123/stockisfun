@@ -61,12 +61,12 @@ function PriceInfo({ inputTicker, inputMA }) {
   }
 
   const handleChange = (e) => {
-    if (e.target.name == 'formYear' && parseInt(e.target.value) != parseInt(settings.days)) {
-      handleTicker(inputTicker, e.target.value, settings.ma)
-    }
-    else if (e.target.name == 'formma' && e.target.value != settings.ma) {
-      handleTicker(inputTicker, settings.days, e.target.value)
-    }
+    e.target.name == 'formYear' && parseInt(e.target.value) != parseInt(settings.days)
+      ? handleTicker(inputTicker, e.target.value, settings.ma)
+      : e.target.name == 'formma' && e.target.value != settings.ma
+        ? handleTicker(inputTicker, settings.days, e.target.value)
+        : handleTicker(null, null, null)
+
   }
 
   function handleTicker(dateprice, inputDays, inputMA) {
