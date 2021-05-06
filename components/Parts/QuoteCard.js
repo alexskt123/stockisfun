@@ -4,21 +4,19 @@ import Card from 'react-bootstrap/Card'
 import { RiCloseCircleFill } from 'react-icons/ri'
 import { IconContext } from 'react-icons'
 
-export default function QuoteCard({ children, header, inputTicker, isShow }) {
+export default function QuoteCard({ children, header, inputTicker, isShow, minWidth, noClose }) {
   const [showCard, setShowCard] = useState(true)
 
   useEffect(() => {
     setShowCard(isShow)
   }, [inputTicker, isShow])
 
-  if (!showCard) return null
-
   return (
-    <Fragment>
+    showCard ? <Fragment>
       <Card
         text={'dark'}
         border={'light'}
-        style={{ ['minWidth']: '10rem' }}
+        style={{ ['minWidth']: minWidth ? minWidth : '10rem' }}
       >
         <Card.Header style={{ padding: '0.2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -26,7 +24,10 @@ export default function QuoteCard({ children, header, inputTicker, isShow }) {
               <span>
                 {header}
               </span>
-              <IconContext.Provider value={{ color: 'red', className: 'global-class-name' }}><RiCloseCircleFill onClick={() => setShowCard(false)} /></IconContext.Provider>
+              {
+                noClose ? null
+                  : <IconContext.Provider value={{ color: 'red', className: 'global-class-name' }}><RiCloseCircleFill onClick={() => setShowCard(false)} /></IconContext.Provider>
+              }
             </b>
           </div>
         </Card.Header>
@@ -36,5 +37,6 @@ export default function QuoteCard({ children, header, inputTicker, isShow }) {
       </Card>
 
     </Fragment>
+      : null
   )
 }
