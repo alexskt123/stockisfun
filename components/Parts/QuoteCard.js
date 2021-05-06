@@ -11,10 +11,8 @@ export default function QuoteCard({ children, header, inputTicker, isShow }) {
     setShowCard(isShow)
   }, [inputTicker, isShow])
 
-  if (!showCard) return null
-
   return (
-    <Fragment>
+    showCard ? <Fragment>
       <Card
         text={'dark'}
         border={'light'}
@@ -36,5 +34,6 @@ export default function QuoteCard({ children, header, inputTicker, isShow }) {
       </Card>
 
     </Fragment>
+      : null
   )
 }

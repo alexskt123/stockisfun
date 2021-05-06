@@ -25,25 +25,25 @@ function PriceTab({ inputTicker }) {
   const [labels, setLabels] = useState([...priceTabLabelPairs])
 
   useEffect(() => {
-    if (data) {
-      const { basics } = data
-      const basicsData = getBasics(basics) || { tableData: [] }
+    const handledData = data || { basics: {}, floatingShareRatio: 'N/A' }
 
-      setLabels(priceTabLabelPairs.map(item => {
-        return {
-          'name': item.name,
-          'value': (basicsData.basics.tableData.filter(x => x && x.find(x => x) == item.name).find(x => x) || [])[1]
-        }
-      }))
+    const { basics } = handledData
+    const basicsData = getBasics(basics) || { tableData: [] }
 
-      if (inputTicker && !basicsData.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x))
-        fireToast({
-          icon: 'error',
-          title: 'Invalid Ticker'
-        })
+    setLabels(priceTabLabelPairs.map(item => {
+      return {
+        'name': item.name,
+        'value': (basicsData.basics.tableData.filter(x => x && x.find(x => x) == item.name).find(x => x) || [])[1]
+      }
+    }))
 
-      setSettings({ ...settings, basics: basicsData.basics, floatingShareRatio: data.floatingShareRatio })
-    }
+    inputTicker && data && !basicsData.basics.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
+      ? fireToast({
+        icon: 'error',
+        title: 'Invalid Ticker'
+      })
+      : setSettings({ ...settings, basics: basicsData.basics, floatingShareRatio: handledData.floatingShareRatio })
+
   }, [data])
 
   return (

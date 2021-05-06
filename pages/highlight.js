@@ -81,34 +81,25 @@ export default function Highlight() {
     setShowDetail({ ...showDetail, show: false })
   }
 
+  const showSelectedTicker = (data) => {
+    setSelectedTicker({ ...selectedTicker, show: false })
+    setShowDetail({ type: data.type, show: !showDetail.show })
+  }
+
   const viewTickerDetail = async (dataObj) => {
     const response = await axios.get(`/api/quote?ticker=${dataObj.symbol || dataObj.ticker}`)
     const { data } = response || { data: null }
 
-    if (data && data.valid) {
-      if (data.type === 'ETF' || data.type === 'EQUITY') {
-        setSelectedTicker({ ...selectedTicker, show: false })
-        setShowDetail({ type: data.type, show: !showDetail.show })
-      }
-      else {
-        fireToast({
-          icon: 'error',
-          title: 'Only Stock/ETF can be viewed!'
-        })
-      }
-      // const hyperlink = data.type === 'ETF' ? '/etfdetail' : data.type === 'EQUITY' ? '/stockdetail' : null
-      // hyperlink ? router.push(`${hyperlink}?query=${dataObj.symbol || dataObj.ticker}`)
-      //   : fireToast({
-      //     icon: 'error',
-      //     title: 'Only Stock/ETF can be viewed!'
-      //   })
-    } else {
-      fireToast({
+
+    data && data.valid ? data.type === 'ETF' || data.type === 'EQUITY' ? showSelectedTicker(data)
+      : fireToast({
+        icon: 'error',
+        title: 'Only Stock/ETF can be viewed!'
+      })
+      : fireToast({
         icon: 'error',
         title: 'Please enter a valid symbol!'
       })
-    }
-
   }
 
   useEffect(async () => {
