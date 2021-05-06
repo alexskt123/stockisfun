@@ -26,6 +26,11 @@ export const NavDropDown = [
     category: 'All'
   },
   {
+    href: '/compare/birdmouth',
+    label: 'BirdMouth',
+    category: 'All'
+  },
+  {
     href: '/compare/etf',
     label: 'ETF',
     category: 'ETF'
