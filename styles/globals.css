@@ -18,3 +18,13 @@ a {
 canvas {
   background-color: rgba(184, 223, 248, 0.1);
 }
+
+body.light-mode {
+  background-color: #fff;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+body.dark-mode {
+  background-color: #313030;
+  color: #999;
+}

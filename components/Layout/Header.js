@@ -12,6 +12,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { IconContext } from 'react-icons'
 import { FaUserCircle } from 'react-icons/fa'
+import { FiSun, FiMoon } from 'react-icons/fi'
+import useDarkMode from 'use-dark-mode'
+//import Toggle from 'react-toggle'
 // config
 import { NavItems, NavDropDown, iconConfig } from '../../config/settings'
 
@@ -29,9 +32,17 @@ const FireUser = dynamic(
   { ssr: false }
 )
 
+const Toggle = dynamic(
+  () => {
+    return import('react-toggle')
+  },
+  { ssr: false }
+)
+
 function Header() {
 
   const router = useRouter()
+  const darkMode = useDarkMode(false)
 
   return (
     <Fragment>
@@ -58,6 +69,18 @@ function Header() {
             <Badge variant="dark">{'Stock is Fun'}</Badge>
           </Navbar.Brand>
         </Link>
+        <Toggle
+          checked={darkMode.value}
+          onChange={darkMode.toggle}
+          icons={{
+            checked: <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
+              <FiSun />
+            </IconContext.Provider>,
+            unchecked: <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
+              <FiMoon />
+            </IconContext.Provider>,
+          }}
+        />
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
