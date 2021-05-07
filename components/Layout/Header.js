@@ -74,10 +74,10 @@ function Header() {
           onChange={darkMode.toggle}
           icons={{
             checked: <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
-              <FiSun />
+              <FiMoon />
             </IconContext.Provider>,
             unchecked: <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
-              <FiMoon />
+              <FiSun />
             </IconContext.Provider>,
           }}
         />
