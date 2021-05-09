@@ -58,6 +58,7 @@ export default function CompareBirdMouth() {
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}
+            handleTickers={handleTickers}
           />
           {clicked ?
             <LoadingSpinner /> : null

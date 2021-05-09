@@ -66,6 +66,7 @@ export default function CompareFinancials() {
             handleChange={handleChange}
             clicked={clicked}
             clearItems={clearItems}
+            handleTickers={handleTickers}
           />
           <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
           {clicked ?

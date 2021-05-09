@@ -77,6 +77,7 @@ export default function ComparePrice() {
             clearItems={clearItems}
             exportFileName={'Stock_price.csv'}
             yearControl={true}
+            handleTickers={handleTickers}
           />
           <TickerBullet tickers={settings.tickers} overlayItem={settings.quote} removeItem={removeItem} />
           <PriceChange inputTickers={settings.tickers} inputYear={settings.years} />
