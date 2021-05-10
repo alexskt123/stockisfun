@@ -1,10 +1,10 @@
 
 import { Fragment, useState, useEffect } from 'react'
 import Badge from 'react-bootstrap/Badge'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import CardDeck from 'react-bootstrap/CardDeck'
 
 import Price from '../../../components/Parts/Price'
+import QuoteCard from '../../../components/Parts/QuoteCard'
 import StockInfoTable from '../../../components/Page/StockInfoTable'
 import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
@@ -55,17 +55,19 @@ export default function Basics({ inputETFTicker }) {
       {
         settings.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
           ? <Fragment>
-            <Row>
-              <Col>
-                <Badge className="ml-3" variant={'success'}>{ticker}</Badge>
-                <AddDelStock inputTicker={ticker} handleList='etf' />
-                <HappyShare />
-                <Price inputTicker={ticker} inputMA={'ma'} />
-              </Col>
-              <Col>
+            <CardDeck>
+              <QuoteCard header={'Price'} inputTicker={ticker} isShow={true} noClose={true}>
+                <div className="mt-3">
+                  <Badge className="ml-3" variant={'success'}>{ticker}</Badge>
+                  <AddDelStock inputTicker={ticker} handleList='etf' />
+                  <HappyShare />
+                  <Price inputTicker={ticker} inputMA={'ma'} />
+                </div>
+              </QuoteCard>
+              <QuoteCard header={'Details'} inputTicker={ticker} isShow={true} noClose={true}>
                 <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} />
-              </Col>
-            </Row>
+              </QuoteCard>
+            </CardDeck>
           </Fragment>
           : <ValidTickerAlert />
       }

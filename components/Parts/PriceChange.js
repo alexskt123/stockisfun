@@ -5,6 +5,7 @@ import { getPriceInfo, sortTableItem, priceSettingSchema } from '../../lib/commo
 import StockInfoTable from '../Page/StockInfoTable'
 import { Line } from 'react-chartjs-2'
 import LoadingSpinner from '../Loading/LoadingSpinner'
+import QuoteCard from './QuoteCard'
 
 function PriceChange({ inputTickers, inputYear }) {
 
@@ -50,9 +51,11 @@ function PriceChange({ inputTickers, inputYear }) {
     <Fragment>
       {loading ?
         <LoadingSpinner /> : null
-      }            
+      }
       <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.yearlyPcnt} sortItem={sortItem} />
-      <Line data={settings.chartData} />
+      <QuoteCard inputTicker={inputTickers} isShow={true} minWidth={'20rem'} noClose={true}>
+        <Line data={settings.chartData} />
+      </QuoteCard>
     </Fragment>
   )
 }

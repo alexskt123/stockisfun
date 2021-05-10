@@ -8,6 +8,7 @@ import AddDelStock from '../../Fire/AddDelStock'
 import { convertToPercentage } from '../../../lib/commonFunction'
 import HappyShare from '../../Parts/HappyShare'
 import ValidTickerAlert from '../../Parts/ValidTickerAlert'
+import QuoteCard from '../../../components/Parts/QuoteCard'
 
 import { staticSWROptions, fetcher } from '../../../config/settings'
 
@@ -100,7 +101,9 @@ function PriceTab({ inputTicker }) {
               <Badge variant="light" className="ml-2">{labels.find(x => x.name == 'Industry').value}</Badge>
             </h6>
           </Row>
-          <Price inputTicker={inputTicker} inputMA={'ma'} />
+          <QuoteCard inputTicker={inputTicker} isShow={true} minWidth={'20rem'} noClose={true}>
+            <Price inputTicker={inputTicker} inputMA={'ma'} />
+          </QuoteCard>
 
         </Fragment>
         : <ValidTickerAlert />
