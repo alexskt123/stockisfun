@@ -69,18 +69,6 @@ function Header() {
             <Badge variant="dark">{'Stock is Fun'}</Badge>
           </Navbar.Brand>
         </Link>
-        <Toggle
-          checked={darkMode.value}
-          onChange={darkMode.toggle}
-          icons={{
-            checked: <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
-              <FiMoon />
-            </IconContext.Provider>,
-            unchecked: <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
-              <FiSun />
-            </IconContext.Provider>,
-          }}
-        />
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
@@ -121,6 +109,20 @@ function Header() {
               )
             })}
           </Nav>
+          <Navbar.Text>
+            <Toggle
+              checked={darkMode.value}
+              onChange={darkMode.toggle}
+              icons={{
+                checked: <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
+                  <FiMoon />
+                </IconContext.Provider>,
+                unchecked: <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
+                  <FiSun />
+                </IconContext.Provider>,
+              }}
+            />
+          </Navbar.Text>
         </Navbar.Collapse>
         {/* <Nav>
           <NavDropdown

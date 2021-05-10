@@ -58,7 +58,7 @@ export default function BigCalendar() {
 
   return (
     <Fragment>
-      <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 bg-white rounded">
+      <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 rounded">
         <Fragment>
           <Calendar
             popup

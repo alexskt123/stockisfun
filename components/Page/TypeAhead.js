@@ -36,7 +36,7 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
       <Form noValidate>
         <Form.Group controlId="exampleForm.ControlInput1">
           <AsyncTypeahead
-            className="shadow p-1 bg-white rounded"
+            className="shadow p-1 rounded"
             type="formTicker"
             name="formTicker"
             allowNew={true}

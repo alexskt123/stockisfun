@@ -7,6 +7,7 @@ import { staticSWROptions, fetcher } from '../../../config/settings'
 import useSWR from 'swr'
 import StockInfoTable from '../../Page/StockInfoTable'
 import LoadingSpinner from '../../Loading/LoadingSpinner'
+import QuoteCard from '../../../components/Parts/QuoteCard'
 
 import { getBalanceSheetTableData } from '../../../lib/stockDetailsFunction'
 
@@ -29,7 +30,9 @@ export default function BalanceSheet({ inputTicker }) {
     <Fragment>
       {data ? <Fragment>
         <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} tableDataSkipRow={settings.tableDataSkipRow} />
-        <Bar data={settings.chartData} options={settings.chartOptions} />
+        <QuoteCard inputTicker={inputTicker} isShow={true} minWidth={'20rem'} noClose={true}>
+          <Bar data={settings.chartData} options={settings.chartOptions} />
+        </QuoteCard>
       </Fragment> : <LoadingSpinner />}
     </Fragment>
   )

@@ -3,13 +3,14 @@ import { Fragment, useState, useEffect } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import Badge from 'react-bootstrap/Badge'
+import CardDeck from 'react-bootstrap/CardDeck'
 import { Doughnut } from 'react-chartjs-2'
 import { BsEye } from 'react-icons/bs'
 
 import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
 import StockInfoTable from '../../../components/Page/StockInfoTable'
+import QuoteCard from '../../../components/Parts/QuoteCard'
 
 import { etfDetailsHoldingSettings } from '../../../config/etf'
 import { getETFDetailHoldings } from '../../../lib/commonFunction'
@@ -56,13 +57,12 @@ export default function Holdings({ inputETFTicker, cellClick }) {
   return (
     <Fragment>
       {loading ? <LoadingSpinner /> : null}
-      <Row className="mt-3">
-        <Col>
+      <CardDeck className="mt-3">
+        <QuoteCard header={'Chart'} inputTicker={inputETFTicker} isShow={true} noClose={true}>
           <h5><Badge variant="light">{'No. of Holdings: '}</Badge><Badge variant="dark">{settings.noOfHoldings}</Badge></h5>
-          <h5><Badge variant="light" className="mt-1">{'Chart:'}</Badge></h5>
           <Doughnut data={settings.pieData} />
-        </Col>
-        <Col>
+        </QuoteCard>
+        <QuoteCard header={'Details'} inputTicker={inputETFTicker} isShow={true} noClose={true}>
           <Row className="mt-2 ml-1">
             {!showAlert && <Button size="sm" variant="warning" onClick={() => setShowAlert(true)}>{'Details?'}</Button>}
             <Button size="sm" disabled={!allowCheck} target="_blank" className="ml-2" href={settings.priceHref} variant="dark">{'All Price%'}</Button>
@@ -83,8 +83,8 @@ export default function Holdings({ inputETFTicker, cellClick }) {
             </Alert>
           </Row>
           <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} sortItem={sortItem} cellClick={cellClick} />
-        </Col>
-      </Row>
+        </QuoteCard>
+      </CardDeck>
     </Fragment >
   )
 }
