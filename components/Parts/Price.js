@@ -11,7 +11,7 @@ import { staticSWROptions, fetcher } from '../../config/settings'
 
 import useSWR from 'swr'
 
-function PriceInfo({ inputTicker, inputMA }) {
+function PriceInfo({ inputTicker, inputMA, options }) {
 
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
 
@@ -124,7 +124,7 @@ function PriceInfo({ inputTicker, inputMA }) {
           }
         </Form.Control>
       </div>
-      <Line data={settings.chartData} options={priceChartOptions} />
+      <Line data={settings.chartData} options={options ? {...priceChartOptions, ...options} : priceChartOptions} />
     </Fragment>
   )
 }

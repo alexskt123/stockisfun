@@ -5,7 +5,7 @@ export default function CustomContainer({ children, style }) {
 
   return (
     <Fragment>
-      <Container style={style} className="mt-5 shadow-lg p-3 mb-5 bg-white rounded">
+      <Container style={style} className="mt-5 shadow-lg p-3 mb-5 rounded">
         {{ ...children }}
       </Container>
     </Fragment>

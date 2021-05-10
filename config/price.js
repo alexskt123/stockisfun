@@ -73,6 +73,17 @@ export const priceSchema = {
   chartData: {}
 }
 
+export const birdMouthOptions = {
+  legend: {
+    display: false
+  },
+  scales: {
+    xAxes: [{
+      display: false
+    }]
+  }
+}
+
 export const priceChartOptions = {
   scales: {
     xAxes: [{

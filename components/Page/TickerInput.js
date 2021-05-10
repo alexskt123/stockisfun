@@ -1,13 +1,25 @@
-import { Fragment } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
 
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import { exportToFile } from '../../lib/exportToFile'
+import { Store } from '../../lib/store'
 import { priceChangeDateRangeSelectAttr, buttonSettings } from '../../config/form'
 
-function TickerInput({ validated, handleSubmit, placeholderText, handleChange, formTicker, clicked, clearItems, tableHeader, tableData, exportFileName, yearControl }) {
+function TickerInput({ validated, handleSubmit, placeholderText, handleChange, formTicker, clicked, clearItems, tableHeader, tableData, exportFileName, yearControl, handleTickers }) {
+  
+  const store = useContext(Store)
+  const { state } = store
+  const { user } = state
+
+  const [curUser, setCurUser] = useState(null)
+
+  useEffect(() => {
+    setCurUser(user)
+  }, [user])
+
   return (
     <Fragment>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -56,6 +68,13 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, f
                   {buttonSettings.Export.label}
                 </Button>
               </Fragment>
+              : null
+          }
+          {
+            handleTickers && curUser && curUser.id != '' ?
+              <Button {...buttonSettings.FromWatchList.attr} disabled={clicked} onClick={() => handleTickers(curUser.watchList)}>
+                {buttonSettings.FromWatchList.label}
+              </Button>
               : null
           }
         </Row>

@@ -61,5 +61,13 @@ export const buttonSettings = {
       className:'ml-3',
       variant:'info'
     }
+  },
+  FromWatchList: {
+    label: 'Watch List',
+    attr: {
+      size:'sm',
+      className:'ml-3',
+      variant:'secondary'
+    }
   }
 }

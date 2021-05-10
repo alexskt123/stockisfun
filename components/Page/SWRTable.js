@@ -1,16 +1,25 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import useSWR from 'swr'
+import dynamic from 'next/dynamic'
 
 import Row from 'react-bootstrap/Row'
-import Table from 'react-bootstrap/Table'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import { GrDocumentCsv } from 'react-icons/gr'
 
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import moment from 'moment'
-import { millify, convertToPercentage, randVariant, indicatorVariant } from '../../lib/commonFunction'
+import { millify, convertToPercentage, randVariant, indicatorVariant, getRedColor, getGreenColor, getDefaultColor } from '../../lib/commonFunction'
 import { exportToFile } from '../../lib/exportToFile'
+
+import useDarkMode from 'use-dark-mode'
+
+const Table = dynamic(
+  () => {
+    return import('react-bootstrap/Table')
+  },
+  { ssr: false }
+)
 
 const useTimestamp = (trigger) => {
   const [timestamp, setTimestamp] = useState('')
@@ -31,6 +40,7 @@ export default function SWRTable({ requests, options }) {
   const [sortedRequests, setSortedRequests] = useState(requests)
 
   const timestamp = useTimestamp(tableData)
+  const darkMode = useDarkMode(false)
 
   const handleTableData = data => {
     const newData = { ...data }
@@ -60,6 +70,11 @@ export default function SWRTable({ requests, options }) {
 
     setSortedRequests(sortedRequests)
     setAscSort(!ascSort)
+  }
+
+  const getStyle = (item, darkMode) => {
+    const darkModeStyle = item.style && item.style.backgroundColor && darkMode ? { backgroundColor: '#343a40' } : {}
+    return Object.assign({ ...(item.style || {}) }, darkModeStyle)
   }
 
   useEffect(() => {
@@ -95,27 +110,29 @@ export default function SWRTable({ requests, options }) {
         size={tableSize ? tableSize : 'md'}
         className="pl-3 mt-1"
         responsive
+        variant={darkMode.value ? 'dark' : 'light'}
       >
         <thead>
           <tr key={'tableFirstHeader'}>
             {tableFirstHeader ?
               tableFirstHeader.map((item, index) => (
-                <th key={index} style={item.style} >{item.label}</th>
+                <th key={index} style={getStyle(item, darkMode.value)} ><h5><Badge variant="light">{item.label}</Badge></h5></th>
               ))
               : null}
           </tr>
           <tr>
             {reactiveTableHeader
               .map((header, index) => (
-                // @ts-ignore
-                <th onClick={() => sortTableItem(header.item)} className={header.className} style={(header.style)} key={index} >{header.label}</th>)
-              )}
+                // @ts-ignore                
+                <th onClick={() => sortTableItem(header.item)} style={getStyle(header, darkMode.value)} key={index} >{header.label}</th>
+              ))
+            }
           </tr>
         </thead>
         <tbody>
           {sortedRequests.map(x => (
             <tr key={x.key}>
-              < SWRTableRow request={x.request} tableHeader={reactiveTableHeader} handleTableData={handleTableData} viewTickerDetail={viewTickerDetail} options={SWROptions} ></SWRTableRow>
+              < SWRTableRow darkMode={darkMode.value} getStyle={getStyle} request={x.request} tableHeader={reactiveTableHeader} handleTableData={handleTableData} viewTickerDetail={viewTickerDetail} options={SWROptions} ></SWRTableRow>
             </tr>
           ))}
         </tbody>
@@ -124,7 +141,7 @@ export default function SWRTable({ requests, options }) {
   )
 }
 
-function SWRTableRow({ request, tableHeader, handleTableData, viewTickerDetail, options = {} }) {
+function SWRTableRow({ darkMode, getStyle, request, tableHeader, handleTableData, viewTickerDetail, options = {} }) {
   const fetcher = (input) => fetch(input).then(res => res.json())
 
   const { data } = useSWR(request, fetcher, options)
@@ -138,14 +155,14 @@ function SWRTableRow({ request, tableHeader, handleTableData, viewTickerDetail, 
   return (
     <Fragment>
       {tableHeader.map(header => (
-        <td style={header.style} key={header.item} onClick={() => viewTickerDetail ? viewTickerDetail(data) : null}>{getCell(data, header)}</td>
+        <td style={getStyle(header, darkMode)} key={header.item} onClick={() => viewTickerDetail ? viewTickerDetail(data) : null}>{getCell(data, header, darkMode)}</td>
       ))}
     </Fragment>
   )
 }
 
-function getCellColor(property, value) {
-  return property === 'netChange' ? value < 0 ? 'red' : value > 0 ? 'green' : 'black' : 'black'
+function getCellColor(property, value, darkMode) {
+  return property === 'netChange' ? value < 0 ? getRedColor(darkMode) : value > 0 ? getGreenColor(darkMode) : getDefaultColor(darkMode) : getDefaultColor(darkMode)
 }
 
 function getFormattedValue(format, value) {
@@ -157,12 +174,12 @@ function getFormattedValue(format, value) {
             : value ? value : 'N/A'
 }
 
-function getCell(data, header) {
+function getCell(data, header, darkMode) {
   const newData = {
     value: data[header.item],
     property: header.property,
     format: header.format
   }
 
-  return <Fragment><span style={{ color: getCellColor(newData.property, newData.value) }}>{getFormattedValue(newData.format, newData.value)}</span></Fragment>
+  return <Fragment><span style={{ color: getCellColor(newData.property, newData.value, darkMode) }}>{getFormattedValue(newData.format, newData.value)}</span></Fragment>
 }
