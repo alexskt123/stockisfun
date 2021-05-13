@@ -74,43 +74,69 @@ export const priceSchema = {
 }
 
 export const birdMouthOptions = {
-  legend: {
-    display: false
+  plugins: {
+    legend: {
+      display: false
+    }
   },
   scales: {
-    xAxes: [{
-      display: false
-    }]
+    y: {
+      ticks: {
+        maxTicksLimit: 6,
+        color: 'black',
+        font: {
+          weight: 'bold'
+        }
+      }
+    },
+    x: {
+      ticks: {
+        display: false
+      },
+      grid: {
+        display: false
+      }
+    }
   }
 }
 
 export const priceChartOptions = {
-  scales: {
-    xAxes: [{
-      type: 'time',
-      time: {
-        unit: 'day',
-        unitStepSize: 1,
-        displayFormats: {
-          'day': 'D MMM YY'
-        }
+  responsive: true,
+  plugins: {
+    legend: {
+      labels: {
+        usePointStyle: true,
       },
+    }
+  },
+  scales: {
+    y: {
       ticks: {
         maxTicksLimit: 6,
-        fontColor: '#2c2c2c',
-        fontStyle: 'bold'
-      },
-      gridLines: {
-        display: false
-      },
-    }],
-    yAxes: [{
+        color: 'black',
+        font: {
+          weight: 'bold'
+        }
+      }
+    },
+    x: {
+      // TO-DO: set time property
+      // type: 'time',
+      // time: {
+      //   // Luxon format string
+      //   tooltipFormat: 'DD T'
+      // },    
       ticks: {
         maxTicksLimit: 7,
-        fontColor: '#2c2c2c',
-        fontStyle: 'bold'
+        color: 'black',
+        font: {
+          weight: 'bold'
+        }
+      },
+      grid: {
+        display: false
       }
-    }]
+    }
   }
 }
 
