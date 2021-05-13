@@ -5,16 +5,16 @@ import { birdMouthOptions } from '../../config/price'
 
 import CardDeck from 'react-bootstrap/CardDeck'
 
-function BirdMouth({ inputTickers }) {
+function BirdMouth({ input }) {
   return (
     <Fragment>
       <CardDeck>
         {
-          inputTickers ? inputTickers.map((item, idx) => {
+          input ? input.map((item, idx) => {
             return (
               <Fragment key={idx}>
-                <QuoteCard header={item} inputTicker={item} isShow={true} minWidth={'20rem'} noClose={true}>
-                  <Price inputTicker={item} inputMA={'ma'} options={birdMouthOptions} />
+                <QuoteCard header={item.label} inputTicker={item.ticker} isShow={true} minWidth={'20rem'} noClose={true}>
+                  <Price inputTicker={item.ticker} inputMA={'ma'} options={birdMouthOptions} />
                 </QuoteCard>
               </Fragment>
             )

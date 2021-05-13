@@ -63,7 +63,7 @@ export default function CompareBirdMouth() {
           {clicked ?
             <LoadingSpinner /> : null
           }
-          <BirdMouth inputTickers={settings.tickers} />
+          <BirdMouth input={settings.tickers.map(item => ({label: item, ticker: item}))} />
         </Fragment >
       </CustomContainer>
     </Fragment >
