@@ -127,11 +127,12 @@ export const priceChartOptions = {
       //   tooltipFormat: 'DD T'
       // },    
       ticks: {
-        maxTicksLimit: 7,
-        color: 'black',
-        font: {
-          weight: 'bold'
-        }
+        // maxTicksLimit: 7,
+        // color: 'black',
+        // font: {
+        //   weight: 'bold'
+        // }
+        display: false
       },
       grid: {
         display: false
