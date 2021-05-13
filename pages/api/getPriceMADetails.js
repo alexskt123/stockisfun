@@ -59,11 +59,9 @@ const getImgUrl = async (ticker, dateprice, ma5, ma20, ma60) => {
       },
       options: {
         scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: false
-            }
-          }]
+          y: {
+            beginAtZero: false
+          }
         }
       }
     })

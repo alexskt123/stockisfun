@@ -69,6 +69,10 @@ export const NavItems = [
   {
     href: '/calendar',
     label: 'Calendar'
+  },
+  {
+    href: '/trend',
+    label: 'Trend'
   }
 ]
 
