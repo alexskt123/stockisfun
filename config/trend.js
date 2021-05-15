@@ -13,7 +13,8 @@ export const trend = [
 ]
 
 export const trendTools = [
-  { id: 'watchList', icon: 'AiFillEye', label: 'Watch List', href: 'watchlist'},
-  { id: 'priceChange', icon: 'RiExchangeDollarFill', label: 'Price Change', href: 'compare/price'},
-  { id: 'financial', icon: 'BiTrendingUp', label: 'Financial', href: 'compare/financials'}
+  { id: 'watchList', icon: 'AiFillEye', label: 'Watch List', href: 'watchlist' },
+  { id: 'priceChange', icon: 'RiExchangeDollarFill', label: 'Price Change', href: 'compare/price' },
+  { id: 'financial', icon: 'BiTrendingUp', label: 'Financial', href: 'compare/financials' },
+  { id: 'birdmouth', icon: 'GiBirdTwitter', label: 'BirdMouth', href: 'compare/birdmouth' }
 ]
