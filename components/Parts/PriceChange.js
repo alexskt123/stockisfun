@@ -52,10 +52,15 @@ function PriceChange({ inputTickers, inputYear }) {
       {loading ?
         <LoadingSpinner /> : null
       }
-      <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.yearlyPcnt} sortItem={sortItem} />
-      <QuoteCard inputTicker={inputTickers} isShow={true} minWidth={'20rem'} noClose={true}>
-        <Line data={settings.chartData} />
-      </QuoteCard>
+      {
+        inputTickers.length > 0 && !loading ? <Fragment>
+          <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.yearlyPcnt} sortItem={sortItem} />
+          <QuoteCard inputTicker={inputTickers} isShow={true} minWidth={'20rem'} noClose={true}>
+            <Line data={settings.chartData} />
+          </QuoteCard>
+        </Fragment>
+          : null
+      }
     </Fragment>
   )
 }

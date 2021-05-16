@@ -17,11 +17,11 @@ export default function Basics({ inputTicker }) {
     },
     officers: {
       tableHeader: [],
-      tableData: []        
+      tableData: []
     }
   }
 
-  const [settings, setSettings] = useState({...defaultBasics})
+  const [settings, setSettings] = useState({ ...defaultBasics })
 
   const { data } = useSWR(`/api/yahoo/getYahooBasics?ticker=${inputTicker}`, fetcher, staticSWROptions)
 
@@ -42,10 +42,11 @@ export default function Basics({ inputTicker }) {
 
   return (
     <Fragment>
-      {data ? <Fragment>
-        <StockInfoTable tableSize="sm" tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} />
-        <StockInfoTable tableSize="sm" className='mt-2' tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} />
-      </Fragment> : <LoadingSpinner />}
+      {!data ? <LoadingSpinner />
+        : data && Object.keys(data).length > 0 ? <Fragment>
+          <StockInfoTable tableSize="sm" tableHeader={settings.basics.tableHeader} tableData={settings.basics.tableData} />
+          <StockInfoTable tableSize="sm" className='mt-2' tableHeader={settings.officers.tableHeader} tableData={settings.officers.tableData} />
+        </Fragment> : null}
     </Fragment>
   )
 }
