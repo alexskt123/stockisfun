@@ -71,10 +71,14 @@ const handleDays = async (ticker, days) => {
   const allPrice = outputItem.indicators.quote.find(x => x).close
   const price = parseInt(days) != allPrice?.length ? allPrice?.slice(Math.abs(allPrice?.length - parseInt(days))) : allPrice
   const date = parseInt(days) != allPrice?.length ? allDate?.slice(Math.abs(allPrice?.length - parseInt(days))) : allDate
+  const quoteRes = await getYahooQuote(ticker.toUpperCase())
 
   return {
     date,
-    price
+    price,
+    quote: {
+      ...quoteRes
+    }
   }
 }
 

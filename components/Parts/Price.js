@@ -8,10 +8,11 @@ import Form from 'react-bootstrap/Form'
 import Badge from 'react-bootstrap/Badge'
 import { ma, ema } from 'moving-averages'
 import { staticSWROptions, fetcher } from '../../config/settings'
+import YahooQuoteInfo from './YahooQuoteInfo'
 
 import useSWR from 'swr'
 
-function PriceInfo({ inputTicker, inputMA, options }) {
+function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
 
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
 
@@ -124,7 +125,10 @@ function PriceInfo({ inputTicker, inputMA, options }) {
           }
         </Form.Control>
       </div>
-      <Line data={settings.chartData} options={options ? {...priceChartOptions, ...options} : priceChartOptions} />
+      {
+        displayQuoteFields ? <YahooQuoteInfo data={dateprice?.data?.quote} displayQuoteFields={displayQuoteFields} /> : null
+      }
+      <Line data={settings.chartData} options={options ? { ...priceChartOptions, ...options } : priceChartOptions} />
     </Fragment>
   )
 }

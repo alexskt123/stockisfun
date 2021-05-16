@@ -44,11 +44,11 @@ export default function QuoteCard({ children, header, inputTicker, isShow, minWi
         }
         <Card.Body style={{ padding: '0.2rem' }}>
           {
-            tools ? <Row className= "ml-1" style={{display: 'flex', alignItems: 'center'}}>
+            tools ? <div style={{display: 'flex', alignItems: 'center'}}>
               {
                 tools.map((item, idx) => <Button target="_blank" href={`/etftostock?ticker=${inputTicker}&href=${item.href}`} style={{padding: '0.1rem 0.1rem'}} className="ml-1" size="sm" variant={'dark'} key={idx}>{CustomIcons(item)}</Button>)
               }
-            </Row>
+            </div>
               : null
           }
           {children}
