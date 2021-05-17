@@ -42,19 +42,20 @@ function ETFList({ inputTicker }) {
   }
 
   return (
-    data ?
-      <Fragment>
-        <Row className="ml-1 mt-3">
-          <h5>
-            <Badge variant="dark">{'No. of ETF Count: '}</Badge>
-          </h5>
-          <h5>
-            <Badge variant="light" className="ml-2">{settings.etfCount}</Badge>
-          </h5>
-        </Row>
-        <StockInfoTable tableSize="sm" striped={true} tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
-      </Fragment>
-      : <LoadingSpinner />
+    !data ? <LoadingSpinner />
+      : data && data.etfCount !== 'N/A' ?
+        < Fragment >
+          <Row className="ml-1 mt-3">
+            <h5>
+              <Badge variant="dark">{'No. of ETF Count: '}</Badge>
+            </h5>
+            <h5>
+              <Badge variant="light" className="ml-2">{settings.etfCount}</Badge>
+            </h5>
+          </Row>
+          <StockInfoTable tableSize="sm" striped={true} tableHeader={settings.etfList.tableHeader} tableData={settings.etfList.tableData} sortItem={sortItem} />
+        </Fragment >
+        : null
   )
 }
 

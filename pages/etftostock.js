@@ -17,7 +17,7 @@ export default function ETFToStock() {
   useEffect(() => {
     if (data && href && ticker) {      
       const tickerList = data?.holdingInfo.map(item => item.find(x=>x)).filter(x => x !== 'Others').join(',') || ticker
-      router.push(`/${href}?query=${tickerList}`)
+      router.replace(`/${href}?query=${tickerList}`)
     }
   }, [data, href, ticker])
 

@@ -30,6 +30,7 @@ export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
   const [watchList, setwatchList] = useState([])
   const [showWatchList, setShowWatchList] = useState(false)
+  const [showPriceQuote, setShowPriceQuote] = useState(false)
   const [showDetail, setShowDetail] = useState({ type: null, show: false })
 
   const store = useContext(Store)
@@ -77,8 +78,9 @@ export default function Highlight() {
   }
 
   const viewQuotePrice = () => {
-    setSelectedTicker({ ...selectedTicker, show: true })
+    setSelectedTicker({ ...selectedTicker, show: !showPriceQuote })
     setShowDetail({ ...showDetail, show: false })
+    setShowPriceQuote(!showPriceQuote)
   }
 
   const showSelectedTicker = (data) => {
@@ -100,6 +102,8 @@ export default function Highlight() {
         icon: 'error',
         title: 'Please enter a valid symbol!'
       })
+    
+      setShowPriceQuote(false)
   }
 
   useEffect(async () => {
@@ -110,6 +114,7 @@ export default function Highlight() {
   useEffect(() => {
     setSelectedTicker({ ticker: query, show: true })
     setShowDetail({ type: null, show: false })
+    setShowPriceQuote(true)
   }, [query])
 
   return (
@@ -150,7 +155,7 @@ export default function Highlight() {
                 <strong>{'Current Search:'}</strong>
                 <Badge className="ml-2" variant="info">{selectedTicker.ticker}</Badge>
                 {query ? <HappyShare /> : null}
-                <Badge as="button" className="ml-3" variant="warning" onClick={() => viewQuotePrice()}>{'Price/Quote'}</Badge>
+                <Badge as="button" className="ml-3" variant={showPriceQuote ? 'danger' : 'warning'} onClick={() => viewQuotePrice()}>{showPriceQuote ? 'Hide Price/Quote' : 'Price/Quote'}</Badge>
                 <Badge as="button" className="ml-2" variant={showDetail.show ? 'danger' : 'success'} onClick={() => viewTickerDetail(selectedTicker)}>{showDetail.show ? 'Hide Details' : 'Details'}</Badge>
               </Alert>
               : null
@@ -169,12 +174,7 @@ export default function Highlight() {
           {
             user.id != '' ? showWatchList ? <Fragment>
               <Row className="justify-content-center">
-                <h6>
-                  <Badge style={{ minWidth: '5rem' }} variant="dark">{'Watch List'}</Badge>
-                </h6>
-              </Row>
-              <Row className="justify-content-center">
-                <Button size="sm" variant="danger" onClick={() => setShowWatchList(false)}>{'Stop Watching!'}</Button>
+                <Button style={{ padding: '0.1rem' }} size="sm" variant="danger" onClick={() => setShowWatchList(false)}>{'Stop Watching!'}</Button>
               </Row>
               <SWRTable
                 requests={watchList.map(x => ({ request: `/api/highlightWatchlist?ticker=${x}`, key: x }))}
@@ -183,7 +183,7 @@ export default function Highlight() {
             </Fragment>
               : <Fragment>
                 <Row className="justify-content-center">
-                  <Button size="sm" variant="success" onClick={() => setShowWatchList(true)}>{'Start Watching!'}</Button>
+                  <Button style={{ padding: '0.1rem' }} size="sm" variant="success" onClick={() => setShowWatchList(true)}>{'Start Watching!'}</Button>
                 </Row>
               </Fragment>
               : null

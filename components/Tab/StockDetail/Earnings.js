@@ -28,12 +28,13 @@ export default function Earnings({ inputTicker }) {
 
   return (
     <Fragment>
-      {data ? <Fragment>
-        <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} />
-        <QuoteCard inputTicker={inputTicker} isShow={true} minWidth={'20rem'} noClose={true}>
-          <Bar data={settings.chartData} options={settings.chartOptions} />
-        </QuoteCard>
-      </Fragment> : <LoadingSpinner />}
+      {!data ? <LoadingSpinner />
+        : data && data.length > 0 ? <Fragment>
+          <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} />
+          <QuoteCard inputTicker={inputTicker} isShow={true} minWidth={'20rem'} noClose={true}>
+            <Bar data={settings.chartData} options={settings.chartOptions} />
+          </QuoteCard>
+        </Fragment> : null}
     </Fragment>
   )
 }

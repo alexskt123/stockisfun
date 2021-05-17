@@ -100,5 +100,11 @@ export const tableHeaderList = [
     label: 'Return On Assets',
     item: 'returnOnAssets',
     show: true
+  },
+  {
+    label: 'Industry',
+    item: 'industry',
+    show: true,
+    format: 'Badge'
   }
 ]

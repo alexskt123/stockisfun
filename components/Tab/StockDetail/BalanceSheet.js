@@ -28,12 +28,13 @@ export default function BalanceSheet({ inputTicker }) {
 
   return (
     <Fragment>
-      {data ? <Fragment>
-        <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} tableDataSkipRow={settings.tableDataSkipRow} />
-        <QuoteCard inputTicker={inputTicker} isShow={true} minWidth={'20rem'} noClose={true}>
-          <Bar data={settings.chartData} options={settings.chartOptions} />
-        </QuoteCard>
-      </Fragment> : <LoadingSpinner />}
+      {!data ? <LoadingSpinner />
+        : data && data.length > 0 ? <Fragment>
+          <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} tableDataSkipRow={settings.tableDataSkipRow} />
+          <QuoteCard inputTicker={inputTicker} isShow={true} minWidth={'20rem'} noClose={true}>
+            <Bar data={settings.chartData} options={settings.chartOptions} />
+          </QuoteCard>
+        </Fragment> : null}
     </Fragment>
   )
 }

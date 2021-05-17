@@ -8,6 +8,7 @@ import { getYahooCashflowStatement } from '../../../lib/yahoo/getYahooCashflowSt
 import { getYahooBalanceSheet } from '../../../lib/yahoo/getYahooBalanceSheet'
 import { getYahooFinancialData } from '../../../lib/yahoo/getYahooFinancialData'
 import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
+import { getYahooAssetProfile } from '../../../lib/yahoo/getYahooAssetProfile'
 import percent from 'percent'
 import { roundTo, getStockEarningCapacity } from '../../../lib/commonFunction'
 
@@ -20,6 +21,7 @@ export default async (req, res) => {
   const balanceSheet = await getYahooBalanceSheet(ticker)
   const financialData = await getYahooFinancialData(ticker)
   const quote = await getYahooQuote(ticker)
+  const assetProfile = await getYahooAssetProfile(ticker)
 
   const earningCapacity = getStockEarningCapacity(earnings, cashflow, balanceSheet)
 
@@ -27,6 +29,7 @@ export default async (req, res) => {
   const returnOnEquity = financialData?.returnOnEquity?.fmt
   const returnOnAssets = financialData?.returnOnAssets?.fmt
   const trailingPE = quote?.trailingPE ? roundTo(quote?.trailingPE) : 'N/A'
+  const industry = assetProfile?.industry
 
   const data = {
     symbol: ticker,
@@ -34,6 +37,7 @@ export default async (req, res) => {
     returnOnEquity: returnOnEquity ? returnOnEquity : 'N/A',
     grossMargin: grossMargin ? grossMargin : 'N/A',
     returnOnAssets: returnOnAssets ? returnOnAssets : 'N/A',
+    industry: industry ? industry : 'N/A',
     ...earningCapacity
   }
 
