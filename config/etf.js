@@ -137,3 +137,10 @@ export const aumTableHeader = [
   { label: '1 Yr Low', item: 'cnn1YrLow', show: true },
   { label: 'Average %', item: 'cnnAvgPercentage', show: true }
 ]
+
+export const etfTools = [
+  { type: 'etftostock', id: 'watchList', icon: 'AiFillEye', label: 'Watch List', href: 'watchlist', redirectURL: 'etftostock' },
+  { type: 'etftostock', id: 'priceChange', icon: 'RiExchangeDollarFill', label: 'Price Change', href: 'compare/price', redirectURL: 'etftostock' },
+  { type: 'etftostock', id: 'financial', icon: 'BiTrendingUp', label: 'Financial', href: 'compare/financials', redirectURL: 'etftostock' },
+  { type: 'etftostock', id: 'birdmouth', icon: 'GiBirdTwitter', label: 'BirdMouth', href: 'compare/birdmouth', redirectURL: 'etftostock' }
+]

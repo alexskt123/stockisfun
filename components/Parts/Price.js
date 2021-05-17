@@ -90,6 +90,9 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
       {!dateprice.data ?
         <LoadingSpinner /> : null
       }
+      {
+        displayQuoteFields ? <YahooQuoteInfo data={dateprice?.data?.quote} displayQuoteFields={displayQuoteFields} /> : null
+      }      
       <div style={{ display: 'inline-flex', alignItems: 'baseline' }} className="ml-1">
         <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">
           <h6>
@@ -125,9 +128,6 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
           }
         </Form.Control>
       </div>
-      {
-        displayQuoteFields ? <YahooQuoteInfo data={dateprice?.data?.quote} displayQuoteFields={displayQuoteFields} /> : null
-      }
       <Line data={settings.chartData} options={options ? { ...priceChartOptions, ...options } : priceChartOptions} />
     </Fragment>
   )

@@ -1,11 +1,9 @@
 
 import { useState, useEffect, Fragment } from 'react'
 import Card from 'react-bootstrap/Card'
-import Row from 'react-bootstrap/Row'
-import Button from 'react-bootstrap/Button'
 import { RiCloseCircleFill } from 'react-icons/ri'
 import { IconContext } from 'react-icons'
-import CustomIcons from '../../lib/components/CustomIcons'
+import StockInfoToolbar from './StockInfoToolbar'
 
 import useDarkMode from 'use-dark-mode'
 
@@ -44,11 +42,7 @@ export default function QuoteCard({ children, header, inputTicker, isShow, minWi
         }
         <Card.Body style={{ padding: '0.2rem' }}>
           {
-            tools ? <div style={{display: 'flex', alignItems: 'center'}}>
-              {
-                tools.map((item, idx) => <Button target="_blank" href={`/etftostock?ticker=${inputTicker}&href=${item.href}`} style={{padding: '0.1rem 0.1rem'}} className="ml-1" size="sm" variant={'dark'} key={idx}>{CustomIcons(item)}</Button>)
-              }
-            </div>
+            tools ? <StockInfoToolbar tools={tools} inputTicker={inputTicker} />
               : null
           }
           {children}

@@ -44,7 +44,7 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
                 (quoteData || []).map((dataRow, idx) => {
                     return (
                         <Fragment key={idx}>
-                            <div className="mt-1" style={{ display: 'flex', alignItems: 'baseline' }}>
+                            <div className="mt-2" style={{ display: 'flex', alignItems: 'baseline' }}>
                                 {
                                     dataRow.map((data, dataIdx) => {
                                         return (

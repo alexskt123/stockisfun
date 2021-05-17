@@ -13,8 +13,8 @@ export const trend = [
 ]
 
 export const trendTools = [
-  { id: 'watchList', icon: 'AiFillEye', label: 'Watch List', href: 'watchlist' },
-  { id: 'priceChange', icon: 'RiExchangeDollarFill', label: 'Price Change', href: 'compare/price' },
-  { id: 'financial', icon: 'BiTrendingUp', label: 'Financial', href: 'compare/financials' },
-  { id: 'birdmouth', icon: 'GiBirdTwitter', label: 'BirdMouth', href: 'compare/birdmouth' }
+  { type: 'etftostock', id: 'watchList', icon: 'AiFillEye', label: 'Watch List', href: 'watchlist', redirectURL: 'etftostock' },
+  { type: 'etftostock', id: 'priceChange', icon: 'RiExchangeDollarFill', label: 'Price Change', href: 'compare/price', redirectURL: 'etftostock' },
+  { type: 'etftostock', id: 'financial', icon: 'BiTrendingUp', label: 'Financial', href: 'compare/financials', redirectURL: 'etftostock' },
+  { type: 'etftostock', id: 'birdmouth', icon: 'GiBirdTwitter', label: 'BirdMouth', href: 'compare/birdmouth', redirectURL: 'etftostock' }
 ]

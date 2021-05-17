@@ -10,7 +10,7 @@ import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
 import AddDelStock from '../../../components/Fire/AddDelStock'
 
-import { etfDetailsBasicSettings } from '../../../config/etf'
+import { etfDetailsBasicSettings, etfTools } from '../../../config/etf'
 import { getETFDetailBasics } from '../../../lib/commonFunction'
 import { fireToast } from '../../../lib/toast'
 import HappyShare from '../../Parts/HappyShare'
@@ -56,7 +56,7 @@ export default function Basics({ inputETFTicker }) {
         settings.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
           ? <Fragment>
             <CardDeck>
-              <QuoteCard header={'Price'} inputTicker={ticker} isShow={true} noClose={true}>
+              <QuoteCard tools={etfTools} header={'Price'} inputTicker={ticker} isShow={true} noClose={true}>
                 <div className="mt-3">
                   <Badge className="ml-3" variant={'success'}>{ticker}</Badge>
                   <AddDelStock inputTicker={ticker} handleList='etf' />
