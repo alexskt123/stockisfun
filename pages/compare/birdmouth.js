@@ -61,7 +61,7 @@ export default function CompareBirdMouth() {
       return data
     }))
 
-    const tableHeader = ['Ticker', ...(priceMAInfo?.find(x => x)?.priceMAList?.map(item => item.id) || [])]
+    const tableHeader = priceMAInfo.length > 0 ? ['Ticker', ...(priceMAInfo?.find(x => x)?.priceMAList?.map(item => item.id) || [])] : []
     const tableData = priceMAInfo.map(item => {
       return [item.ticker, ...item.priceMAList.map(ma => {
         return ma.tickersInfo.length > 0 ? "Yes" : ""
