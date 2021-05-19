@@ -66,7 +66,7 @@ export default function CompareBirdMouth() {
       return [item.ticker, ...item.priceMAList.map(ma => {
         return ma.tickersInfo.length > 0 ? "Yes" : ""
       })]
-    })
+    }).filter(item => item.find(x => x.includes("Yes")))
     const tableHeaderData = {
       tableHeader,
       tableData
