@@ -1,5 +1,5 @@
 
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import CustomContainer from '../../components/Layout/CustomContainer'
@@ -19,7 +19,6 @@ export default function CompareBirdMouth() {
 
   const [settings, setSettings] = useState(forecastSettingSchema)
   const [tableSettings, setTableSettings] = useState({ tableHeader: [], tableData: [] })
-  const [ascSort, setAscSort] = useState(false)
   const [tableLoading, setTableLoading] = useState(false)
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
@@ -64,9 +63,9 @@ export default function CompareBirdMouth() {
     const tableHeader = priceMAInfo.length > 0 ? ['Ticker', ...(priceMAInfo?.find(x => x)?.priceMAList?.map(item => item.id) || [])] : []
     const tableData = priceMAInfo.map(item => {
       return [item.ticker, ...item.priceMAList.map(ma => {
-        return ma.tickersInfo.length > 0 ? "Yes" : ""
+        return ma.tickersInfo.length > 0 ? 'Yes' : ''
       })]
-    }).filter(item => item.find(x => x.includes("Yes")))
+    }).filter(item => item.find(x => x.includes('Yes')))
     const tableHeaderData = {
       tableHeader,
       tableData

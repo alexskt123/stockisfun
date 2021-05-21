@@ -14,7 +14,7 @@ function BirdMouth({ input, tools }) {
           input ? input.map((item, idx) => {
             return (
               <Fragment key={idx}>
-                <QuoteCard tools={tools} header={item.label} inputTicker={item.ticker} isShow={true} minWidth={'20rem'} noClose={true}>
+                <QuoteCard tools={tools} header={item.label} headerHref={'etforstock'} inputTicker={item.ticker} isShow={true} minWidth={'20rem'} noClose={true}>
                   <Price inputTicker={item.ticker} inputMA={'ma'} options={birdMouthOptions} displayQuoteFields={priceInfo} />
                 </QuoteCard>
               </Fragment>
