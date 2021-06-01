@@ -113,15 +113,15 @@ export default async (req, res) => {
                 : item.id === '20>60' ? chkHigher(ma20filter, ma60filter)
                   : false
 
-      const newItem = { ...item, tickerInfo: [], tickersChart: [] }
+      const newItem = { ...item, tickersInfo: [], tickersChart: [] }
       if (matches) {
         const quote = await handleQuote(ticker)
-        const tickerInfo = {
+        const tickersInfo = {
           'Symbol': ticker.toUpperCase(),
           ...quote
         }
 
-        newItem.tickersInfo = [tickerInfo]
+        newItem.tickersInfo = [tickersInfo]
 
         if (isGenChart) {
           const imgUrl = await getImgUrl(ticker, dateprice, ma5, ma20, ma60)
@@ -133,6 +133,7 @@ export default async (req, res) => {
 
   res.statusCode = 200
   res.json({
+    ticker,
     asOfDate,
     priceMAList: [...newPriceMAList]
   })

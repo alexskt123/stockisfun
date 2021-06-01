@@ -103,7 +103,7 @@ export default function Highlight() {
         title: 'Please enter a valid symbol!'
       })
     
-      setShowPriceQuote(false)
+    setShowPriceQuote(false)
   }
 
   useEffect(async () => {
