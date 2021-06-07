@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import Row from 'react-bootstrap/Row'
-import LoadingSpinner from './LoadingSpinner'
+import GooeySpinner from './GooeySpinner'
 import CustomContainer from '../../components/Layout/CustomContainer'
 
 export default function PageLoading() {
@@ -8,7 +8,7 @@ export default function PageLoading() {
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh' }}>
         <Row className="justify-content-center">
-          <LoadingSpinner />
+          <GooeySpinner />
         </Row>
       </CustomContainer>
     </Fragment>
