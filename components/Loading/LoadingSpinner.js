@@ -9,17 +9,19 @@ function LoadingSpinner() {
 
   return (
     <Fragment>
-      <Button variant="light" disabled>
-        {spinners.map((_item, idx) => {
-          return <CustomSpinner key={`${idx}`} />
-        })}
-        <Badge variant="dark" className="ml-2">
-          {'Loading'}
-        </Badge>
-        {spinners.map((_item, idx) => {
-          return <CustomSpinner key={`${idx}`} />
-        })}
-      </Button>
+      <div style={{minWidth: '12rem'}}>
+        <Button variant="light" disabled>
+          {spinners.map((_item, idx) => {
+            return <CustomSpinner key={`${idx}`} />
+          })}
+          <Badge variant="dark" className="ml-2">
+            {'Loading'}
+          </Badge>
+          {spinners.map((_item, idx) => {
+            return <CustomSpinner key={`${idx}`} />
+          })}
+        </Button>
+      </div>
     </Fragment>
 
   )
