@@ -178,6 +178,8 @@ export const ma60ChartSettings = {
   pointRadius: 0
 }
 
+export const maChkRange = 5
+
 export const dateRangeSelectAttr = {
   formControl: {
     size: 'sm',

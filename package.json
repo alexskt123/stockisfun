@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@18f/us-federal-holidays": "^1.4.0",
+    "await-to-js": "^3.0.0",
     "axios": "^0.21.1",
     "axios-retry": "^3.1.9",
     "bootstrap": "^4.6.0",

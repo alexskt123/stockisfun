@@ -6,7 +6,7 @@ import moment from 'moment-business-days'
 import { ma } from 'moving-averages'
 import QuickChart from 'quickchart-js'
 import { getFormattedFromToDate, millify } from '../../lib/commonFunction'
-import { priceChartSettings, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings } from '../../config/price'
+import { priceChartSettings, ma5ChartSettings, ma20ChartSettings, ma60ChartSettings, maChkRange } from '../../config/price'
 import { priceMAList } from '../../config/email'
 
 const handleDays = async (ticker, fromdate, todate) => {
@@ -86,6 +86,21 @@ const chkHigher = (trackArr, refArr) => {
     : false
 }
 
+const reducePairs = (inputArr) => {
+  return [...Array(inputArr.length - 1)].map((_item, idx) => {
+    return [inputArr[idx], inputArr[idx+1]]
+  })
+}
+
+const compareLowHigh = (trackArr, refArr, chkLowOrHigh) => {
+  const trackPairs = reducePairs(trackArr)
+  const refPairs = reducePairs(refArr)    
+  
+  return trackPairs.some((item, idx) => {    
+    return chkLowOrHigh(item, refPairs[idx])
+  })
+}
+
 export default async (req, res) => {
 
   const { ticker, genChart } = req.query
@@ -98,19 +113,19 @@ export default async (req, res) => {
   const ma5 = ma([...dateprice.price], 5)
   const ma20 = ma([...dateprice.price], 20)
   const ma60 = ma([...dateprice.price], 60)
-  const ma5filter = [...ma5].reverse().slice(0, 2)
-  const ma20filter = [...ma20].reverse().slice(0, 2)
-  const ma60filter = [...ma60].reverse().slice(0, 2)
+  const ma5filter = [...ma5].reverse().slice(0, maChkRange)
+  const ma20filter = [...ma20].reverse().slice(0, maChkRange)
+  const ma60filter = [...ma60].reverse().slice(0, maChkRange)
 
-  const newPriceMAList = !(ma5filter.length == 2 && ma20filter.length == 2 && ma60filter.length == 2)
+  const newPriceMAList = !(ma5filter.length >= 2 && ma20filter.length >= 2 && ma60filter.length >= 2)
     ? [...priceMAList]
     : await Promise.all([...priceMAList].map(async item => {
-      const matches = item.id === '5<20' ? chkLower(ma5filter, ma20filter)
-        : item.id === '5>20' ? chkHigher(ma5filter, ma20filter)
-          : item.id === '5<60' ? chkLower(ma5filter, ma60filter)
-            : item.id === '5>60' ? chkHigher(ma5filter, ma60filter)
-              : item.id === '20<60' ? chkLower(ma20filter, ma60filter)
-                : item.id === '20>60' ? chkHigher(ma20filter, ma60filter)
+      const matches = item.id === '5<20' ? compareLowHigh(ma5filter, ma20filter, chkLower)
+        : item.id === '5>20' ? compareLowHigh(ma5filter, ma20filter, chkHigher)
+          : item.id === '5<60' ? compareLowHigh(ma5filter, ma60filter, chkLower)
+            : item.id === '5>60' ? compareLowHigh(ma5filter, ma60filter, chkHigher)
+              : item.id === '20<60' ? compareLowHigh(ma20filter, ma60filter, chkLower)
+                : item.id === '20>60' ? compareLowHigh(ma20filter, ma60filter, chkHigher)
                   : false
 
       const newItem = { ...item, tickersInfo: [], tickersChart: [] }

@@ -59,8 +59,11 @@ export default function SWRTable({ requests, options }) {
   const sortTableItem = (id) => {
     const sortedRequests = [...requests].sort(function (a, b) {
 
-      const bf = (tableData.find(x => x.symbol === a.key)[id] || '').toString().replace(/\+|%/gi, '')
-      const af = (tableData.find(x => x.symbol === b.key)[id] || '').toString().replace(/\+|%/gi, '')
+      const bfdata = tableData.find(x => x.symbol === a.key)
+      const afdata = tableData.find(x => x.symbol === b.key)
+
+      const bf = (bfdata && bfdata[id] ? bfdata[id] : '').toString().replace(/\+|%/gi, '')
+      const af = (afdata && afdata[id] ? afdata[id] : '').toString().replace(/\+|%/gi, '')
       if (isNaN(bf))
         return ascSort ? af.localeCompare(bf) : bf.localeCompare(af)
       else
