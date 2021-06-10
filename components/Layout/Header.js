@@ -53,9 +53,7 @@ function Header() {
       <Navbar collapseOnSelect fixed="top" bg="dark" variant="dark" expand="md" style={{ zIndex: '998!important' }}>
         <Dropdown>
           <Dropdown.Toggle variant="dark" id="dropdown-basic">
-            <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
-              <FaUserCircle />
-            </IconContext.Provider>
+            <FaUserCircle />
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <DynamicAuth />
@@ -124,16 +122,6 @@ function Header() {
             />
           </Navbar.Text>
         </Navbar.Collapse>
-        {/* <Nav>
-          <NavDropdown
-            title={
-              <IconContext.Provider value={{ color: 'white', className: 'global-class-name' }}>
-                <FaUserCircle />
-              </IconContext.Provider>}
-            id="nav-user">
-            <DynamicAuth />
-          </NavDropdown>
-        </Nav> */}
       </Navbar>
     </Fragment >
   )
