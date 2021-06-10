@@ -29,6 +29,7 @@ const axios = require('axios').default
 export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
   const [watchList, setwatchList] = useState([])
+  const [dayChange, setDayChange] = useState(null)
   const [showWatchList, setShowWatchList] = useState(false)
   const [showPriceQuote, setShowPriceQuote] = useState(false)
   const [showDetail, setShowDetail] = useState({ type: null, show: false })
@@ -102,13 +103,16 @@ export default function Highlight() {
         icon: 'error',
         title: 'Please enter a valid symbol!'
       })
-    
+
     setShowPriceQuote(false)
   }
 
   useEffect(async () => {
-    const { watchList } = await getUserInfoByUID(user == null ? '' : user.uid)
+    const { watchList, boughtList } = await getUserInfoByUID(user == null ? '' : user.uid)
     setwatchList(watchList)
+    const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${user.uid}`)
+      : { data: { sum: null } }
+    setDayChange(boughtListSum.data.sum)
   }, [user])
 
   useEffect(() => {
@@ -183,6 +187,10 @@ export default function Highlight() {
             </Fragment>
               : <Fragment>
                 <Row className="justify-content-center">
+                  <Badge variant="dark">{'Total Day Change:'}</Badge>
+                  <Badge variant="light">{dayChange}</Badge>
+                </Row>
+                <Row className="mt-3 justify-content-center">
                   <Button style={{ padding: '0.1rem' }} size="sm" variant="success" onClick={() => setShowWatchList(true)}>{'Start Watching!'}</Button>
                 </Row>
               </Fragment>
