@@ -15,7 +15,7 @@ export default function Home() {
   //template
   return (
     <Fragment>
-      <Container style={{ minHeight: '100vh' }} className="shadow-lg p-3 mb-5 rounded">
+      <Container style={{ minHeight: '100vh' }} className="shadow-lg p-3 rounded">
         <PageLoading/>
       </Container>
     </Fragment>

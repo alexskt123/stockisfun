@@ -83,7 +83,8 @@ export const defaultUserConfig = {
   loginTime: '',
   stockList: [],
   watchList: [],
-  etfList: []
+  etfList: [],
+  boughtList: []
 }
 
 export const staticSWROptions = {
