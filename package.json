@@ -14,11 +14,11 @@
     "axios": "^0.21.1",
     "axios-retry": "^3.1.9",
     "bootstrap": "^4.6.0",
-    "chart.js": "^3.0.0",
+    "chart.js": "^3.3.2",
     "date-holidays": "^3.3.0",
     "debounce": "^1.2.1",
     "file-saver": "^2.0.5",
-    "firebase": "^8.6.1",
+    "firebase": "^8.6.5",
     "firebaseui": "^4.8.0",
     "googleapis": "^73.0.0",
     "html-entities": "^2.3.2",
@@ -32,11 +32,11 @@
     "next": "^10.2.0",
     "nodemailer": "^6.6.0",
     "numeral": "^2.0.6",
-    "papaparse": "^5.3.0",
+    "papaparse": "^5.3.1",
     "percent": "^2.2.0",
     "quickchart-js": "^1.0.7",
     "react": "17.0.2",
-    "react-big-calendar": "^0.33.2",
+    "react-big-calendar": "^0.33.5",
     "react-bootstrap": "^1.5.2",
     "react-bootstrap-typeahead": "^5.1.4",
     "react-chartjs-2": "^3.0.3",
@@ -51,8 +51,8 @@
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
-    "eslint": "^7.26.0",
-    "eslint-plugin-react": "^7.23.2"
+    "eslint": "^7.28.0",
+    "eslint-plugin-react": "^7.24.0"
   },
   "resolutions": {
     "webpack": "5.21.2"
