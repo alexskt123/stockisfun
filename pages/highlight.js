@@ -176,8 +176,17 @@ export default function Highlight() {
             showDetail.show && selectedTicker && selectedTicker.ticker ? showDetail.type === 'ETF' ? <ETFDetails inputTicker={selectedTicker.ticker} /> : <StockDetails inputTicker={selectedTicker.ticker} /> : null
           }
           {
-            user.id != '' ? showWatchList ? <Fragment>
+            user.id != '' ? <Fragment>
               <Row className="justify-content-center">
+                <Badge variant="dark">{'Total Day Change:'}</Badge>
+                <Badge variant="light">{dayChange}</Badge>
+              </Row>
+            </Fragment>
+              : null
+          }
+          {
+            user.id != '' ? showWatchList ? <Fragment>
+              <Row className="mt-3 justify-content-center">
                 <Button style={{ padding: '0.1rem' }} size="sm" variant="danger" onClick={() => setShowWatchList(false)}>{'Stop Watching!'}</Button>
               </Row>
               <SWRTable
@@ -186,10 +195,6 @@ export default function Highlight() {
               />
             </Fragment>
               : <Fragment>
-                <Row className="justify-content-center">
-                  <Badge variant="dark">{'Total Day Change:'}</Badge>
-                  <Badge variant="light">{dayChange}</Badge>
-                </Row>
                 <Row className="mt-3 justify-content-center">
                   <Button style={{ padding: '0.1rem' }} size="sm" variant="success" onClick={() => setShowWatchList(true)}>{'Start Watching!'}</Button>
                 </Row>
