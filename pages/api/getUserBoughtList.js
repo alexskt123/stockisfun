@@ -14,12 +14,12 @@ export default async (req, res) => {
 
   const quotes = await getYahooMultiQuote(boughtTickers.join(','))
   const sum = quotes.reduce((acc, curr, idx) => {
-    return acc + roundTo(roundTo(curr.regularMarketChange) * boughtList[idx].total)
+    return acc + roundTo(curr.regularMarketChange) * boughtList[idx].total
   }, 0)
 
   res.statusCode = 200
   res.json({
     boughtList,
-    sum
+    sum: roundTo(sum)
   })
 }
