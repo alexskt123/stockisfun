@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import { GrDocumentCsv } from 'react-icons/gr'
+import AnimatedNumber from 'animated-number-react'
 
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import moment from 'moment'
@@ -169,9 +170,15 @@ function getCellColor(property, value, darkMode) {
 }
 
 function getFormattedValue(format, value) {
-  return format && format == '%' ? `${convertToPercentage(value / 100)}`
+  return format && format == '%' ? <AnimatedNumber
+    value={value}
+    formatValue={(value) => convertToPercentage(value / 100)}
+  />
     : format && format == 'H:mm:ss' && value ? moment(value * 1000).format('H:mm:ss')
-      : format && format == 'millify' ? millify(value)
+      : format && format == 'millify' ? <AnimatedNumber
+        value={value}
+        formatValue={millify}
+      />
         : format && format == 'Badge' ? <Badge style={{ ['minWidth']: '3rem' }} variant={randVariant(value)}>{value}</Badge>
           : format && format == 'IndicatorVariant' ? <Badge style={{ ['minWidth']: '3rem' }} variant={indicatorVariant(value)}>{value}</Badge>
             : value ? value : 'N/A'
