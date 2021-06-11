@@ -10,7 +10,7 @@ import AnimatedNumber from 'animated-number-react'
 
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import moment from 'moment'
-import { millify, convertToPercentage, randVariant, indicatorVariant, getRedColor, getGreenColor, getDefaultColor } from '../../lib/commonFunction'
+import { millify, roundTo, toInteger, convertToPercentage, randVariant, indicatorVariant, getRedColor, getGreenColor, getDefaultColor } from '../../lib/commonFunction'
 import { exportToFile } from '../../lib/exportToFile'
 
 import useDarkMode from 'use-dark-mode'
@@ -166,7 +166,7 @@ function SWRTableRow({ darkMode, getStyle, request, tableHeader, handleTableData
 }
 
 function getCellColor(property, value, darkMode) {
-  return property === 'netChange' ? value < 0 ? getRedColor(darkMode) : value > 0 ? getGreenColor(darkMode) : getDefaultColor(darkMode) : getDefaultColor(darkMode)
+  return property === 'netChange' ? roundTo(value) < 0 ? getRedColor(darkMode) : roundTo(value) > 0 ? getGreenColor(darkMode) : getDefaultColor(darkMode) : getDefaultColor(darkMode)
 }
 
 function getFormattedValue(format, value) {
@@ -179,9 +179,17 @@ function getFormattedValue(format, value) {
         value={value}
         formatValue={millify}
       />
-        : format && format == 'Badge' ? <Badge style={{ ['minWidth']: '3rem' }} variant={randVariant(value)}>{value}</Badge>
-          : format && format == 'IndicatorVariant' ? <Badge style={{ ['minWidth']: '3rem' }} variant={indicatorVariant(value)}>{value}</Badge>
-            : value ? value : 'N/A'
+        : format && format == 'roundTo' ? <AnimatedNumber
+          value={value}
+          formatValue={roundTo}
+        />
+          : format && format == 'toInteger' ? <AnimatedNumber
+            value={value}
+            formatValue={toInteger}
+          />
+            : format && format == 'Badge' ? <Badge style={{ ['minWidth']: '3rem' }} variant={randVariant(value)}>{value}</Badge>
+              : format && format == 'IndicatorVariant' ? <Badge style={{ ['minWidth']: '3rem' }} variant={indicatorVariant(value)}>{value}</Badge>
+                : value ? value : 'N/A'
 }
 
 function getCell(data, header, darkMode) {
