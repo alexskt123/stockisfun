@@ -6,10 +6,11 @@ import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import { GrDocumentCsv } from 'react-icons/gr'
+import AnimatedNumber from 'animated-number-react'
 
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import moment from 'moment'
-import { millify, convertToPercentage, randVariant, indicatorVariant, getRedColor, getGreenColor, getDefaultColor } from '../../lib/commonFunction'
+import { millify, roundTo, toInteger, convertToPercentage, randVariant, indicatorVariant, getRedColor, getGreenColor, getDefaultColor } from '../../lib/commonFunction'
 import { exportToFile } from '../../lib/exportToFile'
 
 import useDarkMode from 'use-dark-mode'
@@ -165,16 +166,30 @@ function SWRTableRow({ darkMode, getStyle, request, tableHeader, handleTableData
 }
 
 function getCellColor(property, value, darkMode) {
-  return property === 'netChange' ? value < 0 ? getRedColor(darkMode) : value > 0 ? getGreenColor(darkMode) : getDefaultColor(darkMode) : getDefaultColor(darkMode)
+  return property === 'netChange' ? roundTo(value) < 0 ? getRedColor(darkMode) : roundTo(value) > 0 ? getGreenColor(darkMode) : getDefaultColor(darkMode) : getDefaultColor(darkMode)
 }
 
 function getFormattedValue(format, value) {
-  return format && format == '%' ? `${convertToPercentage(value / 100)}`
+  return format && format == '%' ? <AnimatedNumber
+    value={value}
+    formatValue={(value) => convertToPercentage(value / 100)}
+  />
     : format && format == 'H:mm:ss' && value ? moment(value * 1000).format('H:mm:ss')
-      : format && format == 'millify' ? millify(value)
-        : format && format == 'Badge' ? <Badge style={{ ['minWidth']: '3rem' }} variant={randVariant(value)}>{value}</Badge>
-          : format && format == 'IndicatorVariant' ? <Badge style={{ ['minWidth']: '3rem' }} variant={indicatorVariant(value)}>{value}</Badge>
-            : value ? value : 'N/A'
+      : format && format == 'millify' ? <AnimatedNumber
+        value={value}
+        formatValue={millify}
+      />
+        : format && format == 'roundTo' ? <AnimatedNumber
+          value={value}
+          formatValue={roundTo}
+        />
+          : format && format == 'toInteger' ? <AnimatedNumber
+            value={value}
+            formatValue={toInteger}
+          />
+            : format && format == 'Badge' ? <Badge style={{ ['minWidth']: '3rem' }} variant={randVariant(value)}>{value}</Badge>
+              : format && format == 'IndicatorVariant' ? <Badge style={{ ['minWidth']: '3rem' }} variant={indicatorVariant(value)}>{value}</Badge>
+                : value ? value : 'N/A'
 }
 
 function getCell(data, header, darkMode) {
