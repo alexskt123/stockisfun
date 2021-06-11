@@ -127,15 +127,15 @@ export const aumTableHeader = [
   },
   ...Array.from({ length: aumSumCount }, (_x, i) => ({ label: `ETF ${i + 1}`, item: `ETF ${i + 1}`, show: true })),
   { label: 'AUM Sum', item: 'AUM Sum', show: true },
-  { label: 'Price', item: 'Price', show: true },
+  { label: 'Price', item: 'Price', format: 'roundTo', show: true },
   { label: 'Market Cap.', item: 'Market Cap.', show: true },
   { label: 'Floating Shares Ratio', item: 'Floating Shares Ratio', show: true },
-  { label: 'No. of ETF', item: 'No. of ETF', show: true },
-  { label: 'No. of Analyst', item: 'cnnNoOfAnalyst', show: true },
-  { label: '1 Yr Median', item: 'cnn1YrMean', show: true },
-  { label: '1 Yr High', item: 'cnn1YrHigh', show: true },
-  { label: '1 Yr Low', item: 'cnn1YrLow', show: true },
-  { label: 'Average %', item: 'cnnAvgPercentage', show: true }
+  { label: 'No. of ETF', item: 'No. of ETF', format: 'toInteger', show: true },
+  { label: 'No. of Analyst', item: 'cnnNoOfAnalyst', format: 'toInteger', show: true },
+  { label: '1 Yr Median', item: 'cnn1YrMean', format: 'roundTo', show: true },
+  { label: '1 Yr High', item: 'cnn1YrHigh', format: 'roundTo', show: true },
+  { label: '1 Yr Low', item: 'cnn1YrLow', format: 'roundTo', show: true },
+  { label: 'Average %', item: 'cnnAvgPercentage', format: '%', property: 'netChange', show: true }
 ]
 
 export const etfTools = [

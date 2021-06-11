@@ -24,7 +24,6 @@ export default function QuoteCard({ children, header, headerHref, inputTicker, i
         text={'dark'}
         border={'light'}
         style={{ ['minWidth']: minWidth ? minWidth : '10rem', backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}
-      // bg={'light'}
       >
         {
           header ? <Card.Header style={{ padding: '0.2rem' }}>
