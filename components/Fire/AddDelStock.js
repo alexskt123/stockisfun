@@ -5,6 +5,7 @@ import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
 import { IconContext } from 'react-icons'
 import { Store } from '../../lib/store'
 import { fireToast } from '../../lib/toast'
+import { checkUserID } from '../../lib/commonFunction'
 
 function AddDelStock({ inputTicker, handleList }) {
   const store = useContext(Store)
@@ -46,7 +47,7 @@ function AddDelStock({ inputTicker, handleList }) {
   return (
     <Fragment>
       {
-        user.id != ''
+        checkUserID(user)
           ? handleList == 'stock' && user.stockList.includes(inputTicker) || handleList == 'etf' && user.etfList.includes(inputTicker)
             ? <Badge>
               <IconContext.Provider value={{ color: 'red', size: '15px' }}>

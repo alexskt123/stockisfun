@@ -9,6 +9,7 @@ import Alert from 'react-bootstrap/Alert'
 
 import CustomContainer from '../components/Layout/CustomContainer'
 import { Store } from '../lib/store'
+import { checkUserID } from '../lib/commonFunction'
 import { updUserAllList, getUserInfoByUID } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 
@@ -73,14 +74,14 @@ export default function Admin() {
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
           {
-            user.id != '' ?
+            checkUserID(user) ?
               <Fragment>
                 <h5><Badge variant="dark">{'Update Stock List'}</Badge></h5>
-                <FormControl style={{minHeight: '6rem'}} as="textarea" aria-label="With textarea" value={settings.stockList.join(',')} onChange={(e) => handleChange(e, 'stock')} />
+                <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.stockList.join(',')} onChange={(e) => handleChange(e, 'stock')} />
                 <h5><Badge variant="dark">{'Update ETF List'}</Badge></h5>
-                <FormControl style={{minHeight: '6rem'}} as="textarea" aria-label="With textarea" value={settings.etfList.join(',')} onChange={(e) => handleChange(e, 'etf')} />
+                <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.etfList.join(',')} onChange={(e) => handleChange(e, 'etf')} />
                 <h5><Badge variant="dark">{'Update Watch List'}</Badge></h5>
-                <FormControl style={{minHeight: '6rem'}} as="textarea" aria-label="With textarea" value={settings.watchList.join(',')} onChange={(e) => handleChange(e, 'watchlist')} />
+                <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.watchList.join(',')} onChange={(e) => handleChange(e, 'watchlist')} />
                 <ButtonGroup aria-label="Basic example">
                   <Button onClick={() => onUpdate()} size="sm" variant="success">{'Update'}</Button>
                 </ButtonGroup>

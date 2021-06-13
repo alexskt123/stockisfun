@@ -20,7 +20,7 @@ import TickerScrollMenu from '../components/Page/TickerScrollMenu'
 import TypeAhead from '../components/Page/TypeAhead'
 import SWRTable from '../components/Page/SWRTable'
 import { Store } from '../lib/store'
-import { convertToPriceChange } from '../lib/commonFunction'
+import { convertToPriceChange, checkUserID } from '../lib/commonFunction'
 import { getUserInfoByUID } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 import StockDetails from '../components/StockDetails'
@@ -149,7 +149,7 @@ export default function Highlight() {
           <Row>
             <Col>
               <TypeAhead
-                placeholderText={'i.e. ARKK / AAPL / AMZN'}
+                placeholderText={'Search any Stock or ETF...'}
                 handleChange={handleChange}
                 filter={'ETF,Equity'}
               />
@@ -178,21 +178,30 @@ export default function Highlight() {
             showDetail.show && selectedTicker && selectedTicker.ticker ? showDetail.type === 'ETF' ? <ETFDetails inputTicker={selectedTicker.ticker} /> : <StockDetails inputTicker={selectedTicker.ticker} /> : null
           }
           {
-            user.id != '' ? <Fragment>
-              <Row className="justify-content-center">
-                <Badge variant="dark">{'Total Day Change:'}</Badge>
-                <Badge variant={dayChange >= 0 ? 'success' : 'danger'}><AnimatedNumber
-                  value={dayChange}
-                  formatValue={(value) => convertToPriceChange(value)}
-                /></Badge>
+            checkUserID(user) ? <Fragment>
+              <Row className="mt-3 justify-content-center">
+                <h5><Badge variant="secondary">{'Your Stock Info'}</Badge></h5>
               </Row>
             </Fragment>
               : null
           }
           {
-            user.id != '' ? showWatchList ? <Fragment>
+            checkUserID(user) ? <Fragment>
+              <Row className="mt-2 justify-content-center">
+                <Badge variant="light">{'Total Day Change:'}</Badge>
+                <Badge variant={dayChange >= 0 ? 'success' : 'danger'} className="ml-1">
+                  <AnimatedNumber
+                    value={dayChange}
+                    formatValue={(value) => convertToPriceChange(value)}
+                  /></Badge>
+              </Row>
+            </Fragment>
+              : null
+          }
+          {
+            checkUserID(user) ? showWatchList ? <Fragment>
               <Row className="mt-3 justify-content-center">
-                <Button style={{ padding: '0.1rem' }} size="sm" variant="danger" onClick={() => setShowWatchList(false)}>{'Stop Watching!'}</Button>
+                <Button style={{ padding: '0.1rem' }} size="sm" variant="danger" onClick={() => setShowWatchList(false)}>{'Stop Showing!'}</Button>
               </Row>
               <SWRTable
                 requests={watchList.map(x => ({ request: `/api/highlightWatchlist?ticker=${x}`, key: x }))}
@@ -201,7 +210,7 @@ export default function Highlight() {
             </Fragment>
               : <Fragment>
                 <Row className="mt-3 justify-content-center">
-                  <Button style={{ padding: '0.1rem' }} size="sm" variant="success" onClick={() => setShowWatchList(true)}>{'Start Watching!'}</Button>
+                  <Button style={{ padding: '0.1rem' }} size="sm" variant="warning" onClick={() => setShowWatchList(true)}>{'Show Your WatchList!'}</Button>
                 </Row>
               </Fragment>
               : null

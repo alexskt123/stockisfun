@@ -14,7 +14,7 @@ import SearchAccordion from '../components/Page/SearchAccordion'
 import SWRTable from '../components/Page/SWRTable'
 import HappyShare from '../components/Parts/HappyShare'
 
-import { handleDebounceChange, handleFormSubmit } from '../lib/commonFunction'
+import { handleDebounceChange, handleFormSubmit, checkUserID } from '../lib/commonFunction'
 import { updUserWatchList, getUserInfoByUID } from '../lib/firebaseResult'
 import { Store } from '../lib/store'
 import { fireToast } from '../lib/toast'
@@ -120,7 +120,7 @@ export default function WatchList() {
           }
           <Row className="ml-1 mt-3" style={{ display: 'flex', alignItems: 'center' }}>
             {
-              user.id != ''
+              checkUserID(user)
                 ? <Button className="ml-2" onClick={() => { setShowUpdate(true) }} size='sm' variant='dark' >{'Update Watch List'}</Button>
                 : null
             }
