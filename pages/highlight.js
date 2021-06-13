@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import CardDeck from 'react-bootstrap/CardDeck'
+import AnimatedNumber from 'animated-number-react'
 
 import { stockIndex, stockFutureIndex, tableHeaderList } from '../config/highlight'
 import IndexQuote from '../components/Parts/IndexQuote'
@@ -19,6 +20,7 @@ import TickerScrollMenu from '../components/Page/TickerScrollMenu'
 import TypeAhead from '../components/Page/TypeAhead'
 import SWRTable from '../components/Page/SWRTable'
 import { Store } from '../lib/store'
+import { convertToPriceChange } from '../lib/commonFunction'
 import { getUserInfoByUID } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 import StockDetails from '../components/StockDetails'
@@ -179,7 +181,10 @@ export default function Highlight() {
             user.id != '' ? <Fragment>
               <Row className="justify-content-center">
                 <Badge variant="dark">{'Total Day Change:'}</Badge>
-                <Badge variant="light">{dayChange}</Badge>
+                <Badge variant={dayChange >= 0 ? 'success' : 'danger'}><AnimatedNumber
+                  value={dayChange}
+                  formatValue={(value) => convertToPriceChange(value)}
+                /></Badge>
               </Row>
             </Fragment>
               : null
