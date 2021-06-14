@@ -6,26 +6,30 @@ import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Alert from 'react-bootstrap/Alert'
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
 
 import CustomContainer from '../components/Layout/CustomContainer'
 import { Store } from '../lib/store'
 import { checkUserID } from '../lib/commonFunction'
 import { updUserAllList, getUserInfoByUID } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
+import BoughtList from '../components/Tab/Admin/BoughtList'
 
 export default function Admin() {
   const store = useContext(Store)
   const { state, dispatch } = store
   const { user } = state
 
-  const [settings, setSettings] = useState({ stockList: [], etfList: [], watchList: [] })
+  const [settings, setSettings] = useState({ stockList: [], etfList: [], watchList: [], boughtList: [] })
 
   useEffect(() => {
     setSettings({
       ...settings,
       stockList: [...user.stockList],
       etfList: [...user.etfList],
-      watchList: [...user.watchList]
+      watchList: [...user.watchList],
+      boughtList: [...user.boughtList]
     })
   }, [user])
 
@@ -76,15 +80,22 @@ export default function Admin() {
           {
             checkUserID(user) ?
               <Fragment>
-                <h5><Badge variant="dark">{'Update Stock List'}</Badge></h5>
-                <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.stockList.join(',')} onChange={(e) => handleChange(e, 'stock')} />
-                <h5><Badge variant="dark">{'Update ETF List'}</Badge></h5>
-                <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.etfList.join(',')} onChange={(e) => handleChange(e, 'etf')} />
-                <h5><Badge variant="dark">{'Update Watch List'}</Badge></h5>
-                <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.watchList.join(',')} onChange={(e) => handleChange(e, 'watchlist')} />
-                <ButtonGroup aria-label="Basic example">
-                  <Button onClick={() => onUpdate()} size="sm" variant="success">{'Update'}</Button>
-                </ButtonGroup>
+                <Tabs style={{ fontSize: '11px' }} className="mt-1" defaultActiveKey="General">
+                  <Tab eventKey="General" title="General">
+                    <h5><Badge variant="dark">{'Update Stock List'}</Badge></h5>
+                    <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.stockList.join(',')} onChange={(e) => handleChange(e, 'stock')} />
+                    <h5><Badge variant="dark">{'Update ETF List'}</Badge></h5>
+                    <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.etfList.join(',')} onChange={(e) => handleChange(e, 'etf')} />
+                    <h5><Badge variant="dark">{'Update Watch List'}</Badge></h5>
+                    <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.watchList.join(',')} onChange={(e) => handleChange(e, 'watchlist')} />
+                    <ButtonGroup aria-label="Basic example">
+                      <Button onClick={() => onUpdate()} size="sm" variant="success">{'Update'}</Button>
+                    </ButtonGroup>
+                  </Tab>
+                  <Tab eventKey="BoughtList" title="Bought List">
+                    <BoughtList boughtList={settings.boughtList}/>
+                  </Tab>
+                </Tabs>
               </Fragment>
               : <Alert variant="danger"><strong>{'Please Log in First!'}</strong></Alert>
           }
