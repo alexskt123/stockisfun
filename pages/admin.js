@@ -6,10 +6,13 @@ import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Alert from 'react-bootstrap/Alert'
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
 
 import CustomContainer from '../components/Layout/CustomContainer'
 import { updUserAllList, getUserInfoByUID } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
+import BoughtList from '../components/Tab/Admin/BoughtList'
 
 import fire from '../config/fire-config'
 
@@ -60,14 +63,12 @@ export default function Admin() {
   const user = useUser()
   const userData = useUserData(user?.uid)
 
-  const [settings, setSettings] = useState({ stockList: [], etfList: [], watchList: [] })
+  const [settings, setSettings] = useState({ stockList: [], etfList: [], watchList: [], boughtList: [] })
 
   useEffect(() => {
     setSettings({
       ...settings,
-      stockList: [...userData.stockList],
-      etfList: [...userData.etfList],
-      watchList: [...userData.watchList]
+      ...userData
     })
   }, [userData])
 
@@ -84,21 +85,8 @@ export default function Admin() {
     })
   }
 
-  const handleDispatch = async () => {
-    const { stockList, etfList, watchList } = await getUserInfoByUID(userData == null ? '' : userData.uid)
-
-    const newUserConfig = {
-      ...userData,
-      stockList,
-      etfList,
-      watchList
-    }
-
-  }
-
   const updateAllList = async () => {
-    await updUserAllList(userData.uid, settings)
-    await handleDispatch()
+    await updUserAllList(user.uid, settings)
 
     fireToast({
       icon: 'success',
@@ -117,24 +105,22 @@ export default function Admin() {
           {
             user ?
               <Fragment>
-                <h5><Badge variant="dark">{'Update Stock List'}</Badge></h5>
-                <ul>
-                  {settings.stockList.map(x => (<li key={x}>{x}</li>))}
-                </ul>
-                {/* <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.stockList.join(',')} onChange={(e) => handleChange(e, 'stock')} /> */}
-                <h5><Badge variant="dark">{'Update ETF List'}</Badge></h5>
-                <ul>
-                  {settings.etfList.map(x => (<li key={x}>{x}</li>))}
-                </ul>
-                {/* <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.etfList.join(',')} onChange={(e) => handleChange(e, 'etf')} /> */}
-                <h5><Badge variant="dark">{'Update Watch List'}</Badge></h5>
-                <ul>
-                  {settings.watchList.map(x => (<li key={x}>{x}</li>))}
-                </ul>
-                {/* <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.watchList.join(',')} onChange={(e) => handleChange(e, 'watchlist')} /> */}
-                <ButtonGroup aria-label="Basic example">
-                  {/* <Button onClick={() => onUpdate()} size="sm" variant="success">{'Update'}</Button> */}
-                </ButtonGroup>
+                <Tabs style={{ fontSize: '11px' }} className="mt-1" defaultActiveKey="General">
+                  <Tab eventKey="General" title="General">
+                    <h5><Badge variant="dark">{'Update Stock List'}</Badge></h5>
+                    <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.stockList.join(',')} onChange={(e) => handleChange(e, 'stock')} />
+                    <h5><Badge variant="dark">{'Update ETF List'}</Badge></h5>
+                    <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.etfList.join(',')} onChange={(e) => handleChange(e, 'etf')} />
+                    <h5><Badge variant="dark">{'Update Watch List'}</Badge></h5>
+                    <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.watchList.join(',')} onChange={(e) => handleChange(e, 'watchlist')} />
+                    <ButtonGroup aria-label="Basic example">
+                      <Button onClick={() => onUpdate()} size="sm" variant="success">{'Update'}</Button>
+                    </ButtonGroup>
+                  </Tab>
+                  <Tab eventKey="BoughtList" title="Bought List">
+                    <BoughtList boughtList={settings.boughtList} />
+                  </Tab>
+                </Tabs>
               </Fragment>
               : <Alert variant="danger"><strong>{'Please Log in First!'}</strong></Alert>
           }
