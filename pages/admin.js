@@ -1,5 +1,5 @@
 
-import { Fragment, useContext, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 
 import Badge from 'react-bootstrap/Badge'
 import FormControl from 'react-bootstrap/FormControl'
@@ -8,26 +8,68 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Alert from 'react-bootstrap/Alert'
 
 import CustomContainer from '../components/Layout/CustomContainer'
-import { Store } from '../lib/store'
-import { checkUserID } from '../lib/commonFunction'
 import { updUserAllList, getUserInfoByUID } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 
+import fire from '../config/fire-config'
+
 export default function Admin() {
-  const store = useContext(Store)
-  const { state, dispatch } = store
-  const { user } = state
+
+  const useUser = () => {
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+      fire.auth()
+        .onAuthStateChanged(user => {
+          setUser(user)
+        })
+    }, [])
+
+    return user
+  }
+
+  const useUserData = (uid = '') => {
+    const defaultUserData = {
+      id: uid || '',
+      stockList: [], etfList: [], watchList: []
+    }
+
+    const [data, setData] = useState(defaultUserData)
+
+    useEffect(() => {
+      const db = fire.firestore()
+
+      db.collection('users')
+        .where('userID', '==', uid)
+        .limit(1)
+        .onSnapshot((snap) => {
+          const doc = snap.docs.find(x => x)
+          const result = {
+            ...defaultUserData,
+            docId: doc?.id,
+            ...doc?.data()
+          }
+
+          setData(result)
+        })
+    }, [uid])
+
+    return data
+  }
+
+  const user = useUser()
+  const userData = useUserData(user?.uid)
 
   const [settings, setSettings] = useState({ stockList: [], etfList: [], watchList: [] })
 
   useEffect(() => {
     setSettings({
       ...settings,
-      stockList: [...user.stockList],
-      etfList: [...user.etfList],
-      watchList: [...user.watchList]
+      stockList: [...userData.stockList],
+      etfList: [...userData.etfList],
+      watchList: [...userData.watchList]
     })
-  }, [user])
+  }, [userData])
 
   const filterInput = (input) => {
     return input.replace(/[^a-zA-Z,]/g, '').toUpperCase().split(',').filter((value, idx, self) => self.indexOf(value) === idx)
@@ -43,20 +85,19 @@ export default function Admin() {
   }
 
   const handleDispatch = async () => {
-    const { stockList, etfList, watchList } = await getUserInfoByUID(user == null ? '' : user.uid)
+    const { stockList, etfList, watchList } = await getUserInfoByUID(userData == null ? '' : userData.uid)
 
     const newUserConfig = {
-      ...user,
+      ...userData,
       stockList,
       etfList,
       watchList
     }
 
-    dispatch({ type: 'USER', payload: newUserConfig })
   }
 
   const updateAllList = async () => {
-    await updUserAllList(user.uid, settings)
+    await updUserAllList(userData.uid, settings)
     await handleDispatch()
 
     fireToast({
@@ -74,16 +115,25 @@ export default function Admin() {
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
           {
-            checkUserID(user) ?
+            user ?
               <Fragment>
                 <h5><Badge variant="dark">{'Update Stock List'}</Badge></h5>
-                <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.stockList.join(',')} onChange={(e) => handleChange(e, 'stock')} />
+                <ul>
+                  {settings.stockList.map(x => (<li key={x}>{x}</li>))}
+                </ul>
+                {/* <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.stockList.join(',')} onChange={(e) => handleChange(e, 'stock')} /> */}
                 <h5><Badge variant="dark">{'Update ETF List'}</Badge></h5>
-                <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.etfList.join(',')} onChange={(e) => handleChange(e, 'etf')} />
+                <ul>
+                  {settings.etfList.map(x => (<li key={x}>{x}</li>))}
+                </ul>
+                {/* <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.etfList.join(',')} onChange={(e) => handleChange(e, 'etf')} /> */}
                 <h5><Badge variant="dark">{'Update Watch List'}</Badge></h5>
-                <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.watchList.join(',')} onChange={(e) => handleChange(e, 'watchlist')} />
+                <ul>
+                  {settings.watchList.map(x => (<li key={x}>{x}</li>))}
+                </ul>
+                {/* <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.watchList.join(',')} onChange={(e) => handleChange(e, 'watchlist')} /> */}
                 <ButtonGroup aria-label="Basic example">
-                  <Button onClick={() => onUpdate()} size="sm" variant="success">{'Update'}</Button>
+                  {/* <Button onClick={() => onUpdate()} size="sm" variant="success">{'Update'}</Button> */}
                 </ButtonGroup>
               </Fragment>
               : <Alert variant="danger"><strong>{'Please Log in First!'}</strong></Alert>
