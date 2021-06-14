@@ -19,7 +19,7 @@
     "date-holidays": "^3.3.0",
     "debounce": "^1.2.1",
     "file-saver": "^2.0.5",
-    "firebase": "^8.6.5",
+    "firebase": "^8.6.7",
     "firebaseui": "^4.8.0",
     "googleapis": "^73.0.0",
     "html-entities": "^2.3.2",

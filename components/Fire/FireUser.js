@@ -14,7 +14,7 @@ function FireUser() {
 
     if (user && state && state.user && state.user.id == '') {
 
-      const { stockList, etfList, watchList, id } = await getUserInfoByUID(user == null ? '' : user.uid)
+      const { stockList, etfList, watchList, boughtList, id } = await getUserInfoByUID(user == null ? '' : user.uid)
 
       const newUserConfig = {
         ...defaultUserConfig,
@@ -25,7 +25,8 @@ function FireUser() {
         loginTime: moment().format('HH:mm:ss DD/MM/YYYY'),
         stockList,
         etfList,
-        watchList
+        watchList,
+        boughtList
       }
 
       dispatch({ type: 'USER', payload: newUserConfig })

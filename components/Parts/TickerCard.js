@@ -4,6 +4,9 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { FaArrowAltCircleDown, FaArrowAltCircleUp } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
+import AnimatedNumber from 'animated-number-react'
+
+import { convertToPercentage, convertToPriceChange } from '../../lib/commonFunction'
 
 export default function TickerCard({ Name, Price, Percentage, Change }) {
 
@@ -35,10 +38,16 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
         </div>
         <Row>
           <Col xs={5} md={5}>
-            <Badge variant={Change >= 0 ? 'success' : 'danger'}>{Change >= 0 ? `+${Change}` : Change}</Badge>
+            <Badge variant={Change >= 0 ? 'success' : 'danger'}><AnimatedNumber
+              value={Change}
+              formatValue={(value) => convertToPriceChange(value)}
+            /></Badge>
           </Col>
           <Col xs={4} md={4}>
-            <Badge variant={Percentage >= 0 ? 'success' : 'danger'} className="ml-1">{Percentage >= 0 ? `+${Percentage}%` : `${Percentage}%`}</Badge>
+            <Badge variant={Percentage >= 0 ? 'success' : 'danger'} className="ml-1"><AnimatedNumber
+              value={Percentage}
+              formatValue={(value) => convertToPercentage(value / 100)}
+            /></Badge>
           </Col>
         </Row>
       </Card.Body>
