@@ -7,7 +7,7 @@ import { BsFillXCircleFill } from 'react-icons/bs'
 function TickerBullet({ tickers, removeItem }) {
   return (
     <Fragment>
-      <Row className="pl-3 pt-3">
+      <Row className="pl-3 pt-2">
         {
           tickers.map((item, index) => (
             <Fragment key={`${item}${index}`}>
