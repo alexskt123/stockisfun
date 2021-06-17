@@ -137,7 +137,7 @@ export default function Highlight() {
         <Fragment>
           {
             checkUserID(user) ? <Fragment>
-              <Row className="mt-3 justify-content-center">
+              <Row className="mt-1 justify-content-center">
                 <Badge variant="light">{'Total Day Change:'}</Badge>
                 <Badge variant={dayChange >= 0 ? 'success' : 'danger'} className="ml-1">
                   <AnimatedNumber
@@ -152,9 +152,9 @@ export default function Highlight() {
             tickerList.map((item, idx) => {
               return (
                 <Fragment key={idx}>
-                  <Row className="justify-content-center mt-3">
+                  <Row className="justify-content-center mt-1">
                     <h6>
-                      <Badge style={{ minWidth: '9rem' }} variant="secondary">{item.name}</Badge>
+                      <Badge style={{ minWidth: '9rem' }} variant="dark">{item.name}</Badge>
                     </h6>
                   </Row>
                   <TickerScrollMenu inputList={item.inputList} setSelectedTicker={item.selectScrollMenuItem} />
@@ -164,7 +164,7 @@ export default function Highlight() {
           }
           <Row className="justify-content-center mt-1">
             <h6>
-              <Badge style={{ minWidth: '9rem' }} variant="secondary">{'Search'}</Badge>
+              <Badge style={{ minWidth: '9rem' }} variant="dark">{'Search'}</Badge>
             </h6>
           </Row>
           <Row>
