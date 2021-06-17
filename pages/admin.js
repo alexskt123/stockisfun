@@ -10,56 +10,11 @@ import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 
 import CustomContainer from '../components/Layout/CustomContainer'
-import { updUserAllList, getUserInfoByUID } from '../lib/firebaseResult'
+import { updUserAllList, useUser, useUserData } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 import BoughtList from '../components/Tab/Admin/BoughtList'
 
-import fire from '../config/fire-config'
-
 export default function Admin() {
-
-  const useUser = () => {
-    const [user, setUser] = useState(null)
-
-    useEffect(() => {
-      fire.auth()
-        .onAuthStateChanged(user => {
-          setUser(user)
-        })
-    }, [])
-
-    return user
-  }
-
-  const useUserData = (uid = '') => {
-    const defaultUserData = {
-      id: uid || '',
-      stockList: [], etfList: [], watchList: []
-    }
-
-    const [data, setData] = useState(defaultUserData)
-
-    useEffect(() => {
-      const db = fire.firestore()
-
-      db.collection('users')
-        .where('userID', '==', uid)
-        .limit(1)
-        .onSnapshot((snap) => {
-          const doc = snap.docs.find(x => x)
-          const result = {
-            ...defaultUserData,
-            docId: doc?.id,
-            ...doc?.data()
-          }
-
-          setData(result)
-        })
-    }, [uid])
-
-    return data
-  }
-
   const user = useUser()
   const userData = useUserData(user?.uid)
 
