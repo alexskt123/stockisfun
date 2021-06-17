@@ -9,22 +9,33 @@ import Badge from 'react-bootstrap/Badge'
 import useDarkMode from 'use-dark-mode'
 
 export default function SearchAccordion({ children, inputTicker }) {
-
   const [accordionActive, setAccordionActive] = useState('-1')
 
   const router = useRouter()
   const { query } = router.query
 
-  const darkMode = useDarkMode(false)
-
   useEffect(() => {
     setAccordionActive(query ? '-1' : '0')
   }, [query])
 
+  const usebgColor = (light, dark) => {
+    const darkMode = useDarkMode(false)
+
+    const [color, setColor] = useState(null)
+
+    useEffect(() => {
+      setColor(darkMode.value ? light : dark)
+    }, [darkMode])
+
+    return color
+  }
+
+  const bgColor = usebgColor('#7ca67e', '#ebffe3')
+
   return (
     <Fragment>
       <Accordion activeKey={accordionActive} onSelect={() => setAccordionActive(accordionActive == '-1' ? '0' : '-1')}>
-        <Card style={{ backgroundColor: darkMode.value ? '#7ca67e' : '#ebffe3' }}>
+        <Card style={{ backgroundColor: bgColor }}>
           <Accordion.Toggle as={Card.Header} eventKey="0">
             <b>
               <Badge variant="dark">{inputTicker == '' || !inputTicker ? 'Click here to Search!' : inputTicker}</Badge>
