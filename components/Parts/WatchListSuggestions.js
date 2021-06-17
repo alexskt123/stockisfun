@@ -28,7 +28,7 @@ function WatchListSuggestions({ onClickWatchListButton }) {
 
     return (
         <Fragment>
-            <Row className="justify-content-center">
+            <Row className="justify-content-center mt-1">
                 <h6>
                     <Badge style={{ minWidth: '9rem' }} variant="dark">{'Live Watch'}</Badge>
                 </h6>

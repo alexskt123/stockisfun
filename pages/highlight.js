@@ -195,10 +195,10 @@ export default function Highlight() {
                 </Fragment>
               )) : null}
           </CardDeck>
-          <WatchListSuggestions onClickWatchListButton={onClickWatchListButton} />
           {
             showDetail.show && selectedTicker && selectedTicker.ticker ? showDetail.type === 'ETF' ? <ETFDetails inputTicker={selectedTicker.ticker} /> : <StockDetails inputTicker={selectedTicker.ticker} /> : null
           }
+          <WatchListSuggestions onClickWatchListButton={onClickWatchListButton} />
           {
             showWatchList ? <Fragment>
               <SWRTable
