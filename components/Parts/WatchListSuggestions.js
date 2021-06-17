@@ -2,29 +2,27 @@
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
-import { Fragment, useEffect, useState, useContext } from 'react'
-import { getHighlistWatchList, getUserInfoByUID } from '../../lib/firebaseResult'
-import { randVariant, checkUserID } from '../../lib/commonFunction'
-import { Store } from '../../lib/store'
+import { Fragment, useEffect, useState } from 'react'
+import { getHighlistWatchList, useUser, useUserData } from '../../lib/firebaseResult'
+import { randVariant } from '../../lib/commonFunction'
 
 function WatchListSuggestions({ onClickWatchListButton }) {
-    const store = useContext(Store)
-    const { state } = store
-    const { user } = state
+    const user = useUser()
+    const userData = useUserData(user?.uid || '')
 
     const [watchList, setWatchList] = useState([])
 
     useEffect(async () => {
         const watchList = await getHighlistWatchList()
-        const { watchList: userWatchList, boughtList } = await getUserInfoByUID(user?.uid)
-        const appendWatchList = checkUserID(user) ? {'Watch List': userWatchList, 'Bought List': boughtList.map(item => item.ticker)} : {}
+        const { watchList: userWatchList, boughtList } = userData
+        const appendWatchList = user ? {'Watch List': userWatchList, 'Bought List': boughtList.map(item => item.ticker)} : {}
 
         const newWatchList = {
             ...watchList,
             ...appendWatchList
         }
         setWatchList(newWatchList)
-    }, [user])
+    }, [userData])
 
     return (
         <Fragment>

@@ -1,5 +1,5 @@
 
-import { Fragment, useState, useEffect, useContext } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import CustomContainer from '../components/Layout/CustomContainer'
 import '../styles/ScrollMenu.module.css'
@@ -18,9 +18,8 @@ import HappyShare from '../components/Parts/HappyShare'
 import TickerScrollMenu from '../components/Page/TickerScrollMenu'
 import TypeAhead from '../components/Page/TypeAhead'
 import SWRTable from '../components/Page/SWRTable'
-import { Store } from '../lib/store'
 import { convertToPriceChange, checkUserID } from '../lib/commonFunction'
-import { getUserInfoByUID } from '../lib/firebaseResult'
+import { useUser, useUserData } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 import StockDetails from '../components/StockDetails'
 import ETFDetails from '../components/ETFDetails'
@@ -37,9 +36,8 @@ export default function Highlight() {
   const [showPriceQuote, setShowPriceQuote] = useState(false)
   const [showDetail, setShowDetail] = useState({ type: null, show: false })
 
-  const store = useContext(Store)
-  const { state } = store
-  const { user } = state
+  const user = useUser()
+  const userData = useUserData(user?.uid || '')
 
   const router = useRouter()
   const { query } = router.query
@@ -118,12 +116,12 @@ export default function Highlight() {
   }
 
   useEffect(async () => {
-    const { watchList, boughtList } = await getUserInfoByUID(user == null ? '' : user.uid)
+    const { watchList, boughtList } = userData
     setwatchList(watchList)
-    const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${user.uid}`)
+    const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${userData.id}`)
       : { data: { sum: null } }
     setDayChange(boughtListSum.data.sum)
-  }, [user])
+  }, [userData])
 
   useEffect(() => {
     setSelectedTicker({ ticker: query, show: true })

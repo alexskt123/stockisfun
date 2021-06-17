@@ -25,13 +25,6 @@ const DynamicAuth = dynamic(
   { ssr: false }
 )
 
-const FireUser = dynamic(
-  () => {
-    return import('../Fire/FireUser')
-  },
-  { ssr: false }
-)
-
 const Toggle = dynamic(
   () => {
     return import('react-toggle')
@@ -49,7 +42,6 @@ function Header() {
       <Head>
         <title>{'Stock Is Fun'}</title>
       </Head>
-      <FireUser />
       <Navbar collapseOnSelect fixed="top" bg="dark" variant="dark" expand="md" style={{ zIndex: '998!important' }}>
         <Dropdown>
           <Dropdown.Toggle variant="dark" id="dropdown-basic">

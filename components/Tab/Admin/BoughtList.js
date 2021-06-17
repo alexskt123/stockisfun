@@ -1,15 +1,11 @@
 
-import { Fragment, useEffect, useState, useContext } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import EditTable from '../../Page/EditTable'
 import { fireToast } from '../../../lib/toast'
-import { updUserBoughtList, getUserInfoByUID } from '../../../lib/firebaseResult'
-import { Store } from '../../../lib/store'
-import { integer } from '../../../lib/commonFunction'
+import { updUserBoughtList, useUser } from '../../../lib/firebaseResult'
 
 export default function BoughtList({ boughtList }) {
-    const store = useContext(Store)
-    const { state, dispatch } = store
-    const { user } = state
+    const user = useUser()
 
     const [data, setData] = useState([])
 
@@ -22,17 +18,6 @@ export default function BoughtList({ boughtList }) {
         setData(boughtList)
     }, [boughtList])
 
-    const handleDispatch = async () => {
-        const { boughtList } = await getUserInfoByUID(user == null ? '' : user.uid)
-
-        const newUserConfig = {
-            ...user,
-            boughtList
-        }
-
-        dispatch({ type: 'USER', payload: newUserConfig })
-    }
-
     const onUpdate = async (newData) => {
         const data = newData.filter(x => x.ticker !== '' && x.total !== "").map(item => {
             return {
@@ -42,8 +27,6 @@ export default function BoughtList({ boughtList }) {
         })
 
         await updUserBoughtList(user.uid, data)
-
-        await handleDispatch()
 
         fireToast({
             icon: 'success',

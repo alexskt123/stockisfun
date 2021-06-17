@@ -1,6 +1,6 @@
 import { useState, Fragment, useEffect, useContext } from 'react'
 import firebase, { auth, authUI } from '../../config/fireui-config'
-import { initUser, useUserData } from '../../lib/firebaseResult'
+import { initUser, useUserData, useUser } from '../../lib/firebaseResult'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
@@ -12,8 +12,6 @@ import { HiOutlineMail } from 'react-icons/hi'
 import { CgViewList } from 'react-icons/cg'
 import { RiFundsBoxLine, RiProfileLine } from 'react-icons/ri'
 import { fireToast } from '../../lib/toast'
-
-import { useUser } from '../../lib/firebaseResult'
 
 import 'firebaseui/dist/firebaseui.css'
 import Link from 'next/link'
