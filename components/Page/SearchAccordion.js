@@ -6,7 +6,7 @@ import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
 
-import useDarkMode from 'use-dark-mode'
+import { usebgColor } from '../../lib/hooks/usebgColor'
 
 export default function SearchAccordion({ children, inputTicker }) {
   const [accordionActive, setAccordionActive] = useState('-1')
@@ -18,19 +18,7 @@ export default function SearchAccordion({ children, inputTicker }) {
     setAccordionActive(query ? '-1' : '0')
   }, [query])
 
-  const usebgColor = (light, dark) => {
-    const darkMode = useDarkMode(false)
-
-    const [color, setColor] = useState(null)
-
-    useEffect(() => {
-      setColor(darkMode.value ? light : dark)
-    }, [darkMode])
-
-    return color
-  }
-
-  const bgColor = usebgColor('#7ca67e', '#ebffe3')
+  const bgColor = usebgColor('#ebffe3', '#7ca67e')
 
   return (
     <Fragment>
