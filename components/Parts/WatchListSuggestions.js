@@ -30,10 +30,10 @@ function WatchListSuggestions({ onClickWatchListButton }) {
         <Fragment>
             <Row className="justify-content-center">
                 <h6>
-                    <Badge style={{ minWidth: '9rem' }} variant="secondary">{'Live Watch'}</Badge>
+                    <Badge style={{ minWidth: '9rem' }} variant="dark">{'Live Watch'}</Badge>
                 </h6>
             </Row>
-            <Row className='justify-content-center mt-2'>
+            <Row className='justify-content-center mt-1'>
                 {
                     Object.keys(watchList).map((key, idx) => {
                         return <Button size="sm" key={idx} className="ml-2" variant={randVariant(key)} onClick={() => onClickWatchListButton(key, watchList[key])}>
