@@ -1,6 +1,5 @@
 import { Fragment, useContext, useEffect, useState } from 'react'
 
-import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
@@ -54,7 +53,7 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, f
             </Fragment>
             : null
         }
-        <Row className="ml-1 mt-2">
+        <div>
           <Button {...buttonSettings.Go.attr} disabled={clicked}>
             {buttonSettings.Go.label}
           </Button>
@@ -77,7 +76,7 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, f
               </Button>
               : null
           }
-        </Row>
+        </div>
       </Form>
     </Fragment>
   )

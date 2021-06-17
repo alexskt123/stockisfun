@@ -56,7 +56,7 @@ function StockInfoTable({ tableFirstHeader, tableHeader, tableData, tableDataSki
         bordered
         hover
         size={tableSize ? tableSize : 'md'}
-        className="pl-3 mt-3"
+        className="pl-3 mt-1"
         responsive
         variant={darkMode.value ? 'dark' : 'light'}
       >

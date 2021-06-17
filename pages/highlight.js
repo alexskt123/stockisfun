@@ -8,7 +8,6 @@ import Badge from 'react-bootstrap/Badge'
 import Alert from 'react-bootstrap/Alert'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Button from 'react-bootstrap/Button'
 import CardDeck from 'react-bootstrap/CardDeck'
 import AnimatedNumber from 'animated-number-react'
 
@@ -25,6 +24,7 @@ import { getUserInfoByUID } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 import StockDetails from '../components/StockDetails'
 import ETFDetails from '../components/ETFDetails'
+import WatchListSuggestions from '../components/Parts/WatchListSuggestions'
 
 const axios = require('axios').default
 
@@ -32,6 +32,7 @@ export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
   const [watchList, setwatchList] = useState([])
   const [dayChange, setDayChange] = useState(null)
+  const [watchListName, setWatchListName] = useState(null)
   const [showWatchList, setShowWatchList] = useState(false)
   const [showPriceQuote, setShowPriceQuote] = useState(false)
   const [showDetail, setShowDetail] = useState({ type: null, show: false })
@@ -109,6 +110,13 @@ export default function Highlight() {
     setShowPriceQuote(false)
   }
 
+  const onClickWatchListButton = (watchListButtonName, buttonWatchList) => {
+    const isShow = watchListName !== watchListButtonName ? true : !showWatchList
+    setwatchList(buttonWatchList)
+    setShowWatchList(isShow)
+    setWatchListName(watchListButtonName)
+  }
+
   useEffect(async () => {
     const { watchList, boughtList } = await getUserInfoByUID(user == null ? '' : user.uid)
     setwatchList(watchList)
@@ -128,10 +136,23 @@ export default function Highlight() {
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
           {
+            checkUserID(user) ? <Fragment>
+              <Row className="mt-1 justify-content-center">
+                <Badge variant="light">{'Total Day Change:'}</Badge>
+                <Badge variant={dayChange >= 0 ? 'success' : 'danger'} className="ml-1">
+                  <AnimatedNumber
+                    value={dayChange}
+                    formatValue={(value) => convertToPriceChange(value)}
+                  /></Badge>
+              </Row>
+            </Fragment>
+              : null
+          }
+          {
             tickerList.map((item, idx) => {
               return (
                 <Fragment key={idx}>
-                  <Row className="justify-content-center">
+                  <Row className="justify-content-center mt-1">
                     <h6>
                       <Badge style={{ minWidth: '9rem' }} variant="dark">{item.name}</Badge>
                     </h6>
@@ -143,7 +164,7 @@ export default function Highlight() {
           }
           <Row className="justify-content-center mt-1">
             <h6>
-              <Badge style={{ minWidth: '5rem' }} variant="dark">{'Search'}</Badge>
+              <Badge style={{ minWidth: '9rem' }} variant="dark">{'Search'}</Badge>
             </h6>
           </Row>
           <Row>
@@ -177,42 +198,14 @@ export default function Highlight() {
           {
             showDetail.show && selectedTicker && selectedTicker.ticker ? showDetail.type === 'ETF' ? <ETFDetails inputTicker={selectedTicker.ticker} /> : <StockDetails inputTicker={selectedTicker.ticker} /> : null
           }
+          <WatchListSuggestions onClickWatchListButton={onClickWatchListButton} />
           {
-            checkUserID(user) ? <Fragment>
-              <Row className="mt-3 justify-content-center">
-                <h5><Badge variant="secondary">{'Your Stock Info'}</Badge></h5>
-              </Row>
-            </Fragment>
-              : null
-          }
-          {
-            checkUserID(user) ? <Fragment>
-              <Row className="mt-2 justify-content-center">
-                <Badge variant="light">{'Total Day Change:'}</Badge>
-                <Badge variant={dayChange >= 0 ? 'success' : 'danger'} className="ml-1">
-                  <AnimatedNumber
-                    value={dayChange}
-                    formatValue={(value) => convertToPriceChange(value)}
-                  /></Badge>
-              </Row>
-            </Fragment>
-              : null
-          }
-          {
-            checkUserID(user) ? showWatchList ? <Fragment>
-              <Row className="mt-3 justify-content-center">
-                <Button style={{ padding: '0.1rem' }} size="sm" variant="danger" onClick={() => setShowWatchList(false)}>{'Stop Showing!'}</Button>
-              </Row>
+            showWatchList ? <Fragment>
               <SWRTable
                 requests={watchList.map(x => ({ request: `/api/highlightWatchlist?ticker=${x}`, key: x }))}
                 options={{ tableHeader: tableHeaderList, exportFileName: 'Watchlist.csv', tableSize: 'sm', viewTickerDetail: viewTickerDetail, SWROptions: { refreshInterval: 5000 } }}
               />
             </Fragment>
-              : <Fragment>
-                <Row className="mt-3 justify-content-center">
-                  <Button style={{ padding: '0.1rem' }} size="sm" variant="warning" onClick={() => setShowWatchList(true)}>{'Show Your WatchList!'}</Button>
-                </Row>
-              </Fragment>
               : null
           }
         </Fragment>

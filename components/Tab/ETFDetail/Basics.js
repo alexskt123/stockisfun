@@ -56,13 +56,16 @@ export default function Basics({ inputETFTicker }) {
         settings.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
           ? <Fragment>
             <CardDeck>
-              <QuoteCard tools={etfTools} header={'Price'} inputTicker={ticker} isShow={true} noClose={true}>
-                <div className="mt-3">
-                  <Badge className="ml-3" variant={'success'}>{ticker}</Badge>
+              <QuoteCard tools={etfTools} header={ticker} inputTicker={ticker} isShow={true} noClose={true}>
+                <div className="mt-2" style={{display: 'flex', alignItems: 'flex-end'}}>
+                  <Badge className="ml-1" variant={'light'}>{'Add/Remove:'}</Badge>
                   <AddDelStock inputTicker={ticker} handleList='etf' />
-                  <HappyShare />
-                  <Price inputTicker={ticker} inputMA={'ma'} />
                 </div>
+                <div className="mt-1" style={{display: 'flex', alignItems: 'flex-end'}}>
+                  <Badge className="ml-1" variant={'light'}>{'Share to your friends!'}</Badge>
+                  <HappyShare />
+                </div>
+                <Price inputTicker={ticker} inputMA={'ma'} />
               </QuoteCard>
               <QuoteCard header={'Details'} inputTicker={ticker} isShow={true} noClose={true}>
                 <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} />
