@@ -1,17 +1,16 @@
-import { Fragment, useContext, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import { exportToFile } from '../../lib/exportToFile'
-import { Store } from '../../lib/store'
+import { useUser, useUserData } from '../../lib/firebaseResult'
 import { priceChangeDateRangeSelectAttr, buttonSettings } from '../../config/form'
 
 function TickerInput({ validated, handleSubmit, placeholderText, handleChange, formTicker, clicked, clearItems, tableHeader, tableData, exportFileName, yearControl, handleTickers }) {
   
-  const store = useContext(Store)
-  const { state } = store
-  const { user } = state
+  const user = useUser()
+  const userData = useUserData(user?.uid || '')
 
   const [curUser, setCurUser] = useState(null)
 

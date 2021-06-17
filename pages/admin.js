@@ -1,5 +1,5 @@
 
-import { Fragment, useContext, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 
 import Badge from 'react-bootstrap/Badge'
 import FormControl from 'react-bootstrap/FormControl'
@@ -10,28 +10,22 @@ import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 
 import CustomContainer from '../components/Layout/CustomContainer'
-import { Store } from '../lib/store'
-import { checkUserID } from '../lib/commonFunction'
-import { updUserAllList, getUserInfoByUID } from '../lib/firebaseResult'
+import { updUserAllList, useUser, useUserData } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 import BoughtList from '../components/Tab/Admin/BoughtList'
 
 export default function Admin() {
-  const store = useContext(Store)
-  const { state, dispatch } = store
-  const { user } = state
+  const user = useUser()
+  const userData = useUserData(user?.uid)
 
   const [settings, setSettings] = useState({ stockList: [], etfList: [], watchList: [], boughtList: [] })
 
   useEffect(() => {
     setSettings({
       ...settings,
-      stockList: [...user.stockList],
-      etfList: [...user.etfList],
-      watchList: [...user.watchList],
-      boughtList: [...user.boughtList]
+      ...userData
     })
-  }, [user])
+  }, [userData])
 
   const filterInput = (input) => {
     return input.replace(/[^a-zA-Z,]/g, '').toUpperCase().split(',').filter((value, idx, self) => self.indexOf(value) === idx)
@@ -46,22 +40,8 @@ export default function Admin() {
     })
   }
 
-  const handleDispatch = async () => {
-    const { stockList, etfList, watchList } = await getUserInfoByUID(user == null ? '' : user.uid)
-
-    const newUserConfig = {
-      ...user,
-      stockList,
-      etfList,
-      watchList
-    }
-
-    dispatch({ type: 'USER', payload: newUserConfig })
-  }
-
   const updateAllList = async () => {
     await updUserAllList(user.uid, settings)
-    await handleDispatch()
 
     fireToast({
       icon: 'success',
@@ -78,7 +58,7 @@ export default function Admin() {
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
           {
-            checkUserID(user) ?
+            user ?
               <Fragment>
                 <Tabs style={{ fontSize: '11px' }} className="mt-1" defaultActiveKey="General">
                   <Tab eventKey="General" title="General">
@@ -93,7 +73,7 @@ export default function Admin() {
                     </ButtonGroup>
                   </Tab>
                   <Tab eventKey="BoughtList" title="Bought List">
-                    <BoughtList boughtList={settings.boughtList}/>
+                    <BoughtList boughtList={settings.boughtList} />
                   </Tab>
                 </Tabs>
               </Fragment>

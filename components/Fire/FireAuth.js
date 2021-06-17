@@ -1,6 +1,6 @@
 import { useState, Fragment, useEffect, useContext } from 'react'
 import firebase, { auth, authUI } from '../../config/fireui-config'
-import { initUser } from '../../lib/firebaseResult'
+import { initUser, useUserData, useUser } from '../../lib/firebaseResult'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
@@ -11,8 +11,6 @@ import { FaUserCircle, FaList } from 'react-icons/fa'
 import { HiOutlineMail } from 'react-icons/hi'
 import { CgViewList } from 'react-icons/cg'
 import { RiFundsBoxLine, RiProfileLine } from 'react-icons/ri'
-import { Store } from '../../lib/store'
-import { defaultUserConfig } from '../../config/settings'
 import { fireToast } from '../../lib/toast'
 
 import 'firebaseui/dist/firebaseui.css'
@@ -22,10 +20,9 @@ import ModalQuestion from '../Parts/ModalQuestion'
 function FireAuth() {
   const [show, setShow] = useState(false)
   const [showSignOut, setShowSignOut] = useState(false)
-  //const [user, setUser] = useState(null)
-  const store = useContext(Store)
-  const { state, dispatch } = store
-  const { user } = state
+
+  const user = useUser()
+  const userData = useUserData(user?.uid || '')
 
   const handleClose = () => setShow(false)
   const handleSignOutClose = () => setShowSignOut(false)
@@ -35,7 +32,6 @@ function FireAuth() {
 
   const handleSignOut = () => {
     auth.signOut()
-    dispatch({ type: 'USER', payload: { ...defaultUserConfig } })
     handleSignOutClose()
     fireToast({
       icon: 'success',
@@ -102,7 +98,7 @@ function FireAuth() {
   return (
     <Fragment>
       {
-        user.id == '' ?
+        !user ?
           <Dropdown.Item onClick={handleShow}>
             <Badge variant="success">{'Sign In'}</Badge>
           </Dropdown.Item>
@@ -146,7 +142,7 @@ function FireAuth() {
               <Row>
                 <Col>
                   <CgViewList />
-                  <Badge className="ml-1" variant="light"><Link href={`/watchlist?query=${user.watchList.join(',')}`}>{'Watch List'}</Link></Badge>
+                  <Badge className="ml-1" variant="light"><Link href={`/watchlist?query=${userData.watchList.join(',')}`}>{'Watch List'}</Link></Badge>
                 </Col>
               </Row>
             </div>
@@ -157,7 +153,7 @@ function FireAuth() {
                 <Badge className="ml-1" variant="light">{'Stock List'}</Badge>
               </p>
               <Row>
-                {user.stockList.map((item, idx) => {
+                {userData.stockList.map((item, idx) => {
                   return (
                     <Col key={`${item}${idx}`} xs={3} sm={3} md={3} lg={4}>
                       <Badge className="ml-1" key={idx} variant="light"><Link href={`/stockdetail?query=${item}`}>{item}</Link></Badge>
@@ -173,7 +169,7 @@ function FireAuth() {
                 <Badge className="ml-1" variant="light">{'ETF List'}</Badge>
               </p>
               <Row>
-                {user.etfList.map((item, idx) => {
+                {userData.etfList.map((item, idx) => {
                   return (
                     <Col key={`${item}${idx}`} xs={3} sm={3} md={3} lg={4}>
                       <Badge className="ml-1" key={idx} variant="light"><Link href={`/etfdetail?query=${item}`}>{item}</Link></Badge>

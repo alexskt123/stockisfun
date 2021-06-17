@@ -15,8 +15,7 @@ import SWRTable from '../components/Page/SWRTable'
 import HappyShare from '../components/Parts/HappyShare'
 
 import { handleDebounceChange, handleFormSubmit, checkUserID } from '../lib/commonFunction'
-import { updUserWatchList, getUserInfoByUID } from '../lib/firebaseResult'
-import { Store } from '../lib/store'
+import { updUserWatchList, useUser } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 import { useQuery } from '../lib/hooks/useQuery'
 
@@ -33,9 +32,7 @@ export default function WatchList() {
   const [showUpdate, setShowUpdate] = useState(false)
   const handleUpdateClose = () => setShowUpdate(false)
 
-  const store = useContext(Store)
-  const { state, dispatch } = store
-  const { user } = state
+  const user = useUser()
 
   const handleChange = (e) => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -45,20 +42,8 @@ export default function WatchList() {
     router.push(router.pathname)
   }
 
-  const handleDispatch = async () => {
-    const { watchList } = await getUserInfoByUID(user == null ? '' : user.uid)
-
-    const newUserConfig = {
-      ...user,
-      watchList
-    }
-
-    dispatch({ type: 'USER', payload: newUserConfig })
-  }
-
   const updateWatchList = async () => {
     await updUserWatchList(user.uid, tickers)
-    await handleDispatch()
 
     fireToast({
       icon: 'success',
