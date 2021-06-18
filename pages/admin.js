@@ -16,7 +16,7 @@ import BoughtList from '../components/Tab/Admin/BoughtList'
 
 export default function Admin() {
   const user = useUser()
-  const userData = useUserData(user?.uid)
+  const userData = useUserData(user)
 
   const [settings, setSettings] = useState({ stockList: [], etfList: [], watchList: [], boughtList: [] })
 
