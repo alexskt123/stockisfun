@@ -11,7 +11,7 @@ export default function Home() {
   const router = useRouter()
 
   useEffect(() => {
-    const redirectURL = mobile() ? 'https://stockisfun-git-pwa-alexskt123.vercel.app' : '/highlight'
+    const redirectURL = mobile() ? 'https://stockisfun-git-pwa-alexskt123.vercel.app/highlight' : '/highlight'
     router.push(redirectURL)
   }, [])
 

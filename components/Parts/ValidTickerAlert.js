@@ -5,7 +5,7 @@ import { usebgColor } from '../../lib/hooks/usebgColor'
 
 export default function ValidTickerAlert() {
 
-  const bgColor = usebgColor('#7ca67e', '#ebffe3')
+  const bgColor = usebgColor('#ebffe3', '#7ca67e')
 
   return (
     <Alert className="mt-2" key={'Alert-No-Stock-Info'} style={{ backgroundColor: bgColor }}>
