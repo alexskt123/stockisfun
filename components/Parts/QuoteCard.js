@@ -7,12 +7,12 @@ import { RiCloseCircleFill } from 'react-icons/ri'
 import { IconContext } from 'react-icons'
 import StockInfoToolbar from './StockInfoToolbar'
 
-import useDarkMode from 'use-dark-mode'
+import { usebgColor } from '../../lib/hooks/usebgColor'
 
 export default function QuoteCard({ children, header, headerHref, inputTicker, isShow, minWidth, noClose, tools }) {
   const [showCard, setShowCard] = useState(true)
 
-  const darkMode = useDarkMode(false)
+  const bgColor = usebgColor('white', '#e3e3e3')
 
   useEffect(() => {
     setShowCard(isShow)
@@ -23,7 +23,7 @@ export default function QuoteCard({ children, header, headerHref, inputTicker, i
       <Card
         text={'dark'}
         border={'light'}
-        style={{ ['minWidth']: minWidth ? minWidth : '10rem', backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}
+        style={{ ['minWidth']: minWidth ? minWidth : '10rem', backgroundColor: bgColor }}
       >
         {
           header ? <Card.Header style={{ padding: '0.2rem' }}>
