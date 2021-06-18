@@ -23,7 +23,7 @@ export default function Admin() {
   const tab = useTab(router)
 
   const changeTab = key => {
-    router.push(`?tab=${key}`, undefined, { shallow: true })
+    router.push({ query: { ...router.query, tab: key } }, undefined, { shallow: true })
   }
 
   const [settings, setSettings] = useState({ stockList: [], etfList: [], watchList: [], boughtList: [] })
@@ -71,7 +71,6 @@ export default function Admin() {
                 <Tabs
                   style={{ fontSize: '11px' }}
                   className="mt-1"
-                  defaultActiveKey='General'
                   activeKey={tab}
                   onSelect={(k) => changeTab(k)}
                 >
