@@ -32,8 +32,10 @@ function PriceChange({ inputTickers, inputYear }) {
     })
   }
 
-  useEffect(async () => {
-    await handleTickers()
+  useEffect(() => {
+    (async () => {
+      await handleTickers()
+    })()
     return () => setSettings(null)
   }, [inputTickers])
 

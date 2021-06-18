@@ -134,8 +134,10 @@ export default function Highlight() {
     setBoughtList(boughtList)
   }, [userData])
 
-  useEffect(async () => {
-    await setBoughtListDayChange()
+  useEffect(() => {
+    (async () => {
+      await setBoughtListDayChange()
+    })
   }, [boughtList])
 
 

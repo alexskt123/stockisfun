@@ -42,20 +42,22 @@ export default function BigCalendar() {
     setShow({ show: true, ticker: e.title })
   }
 
-  useEffect(async () => {
-    const responses = await Promise.all([...userData.watchList].map(async item => {
-      return axios.get(`/api/yahoo/getYahooEarningsDate?ticker=${item}`).catch(err => console.log(err))
-    })).catch(error => console.log(error))
-    const eventEarnings = [...userData.watchList].map((item, idx) => {
-      return {
-        id: idx,
-        title: item,
-        start: moment.unix(responses[idx].data.raw),
-        end: moment.unix(responses[idx].data.raw)
-      }
-    })
+  useEffect(() => {
+    (async () => {
+      const responses = await Promise.all([...userData.watchList].map(async item => {
+        return axios.get(`/api/yahoo/getYahooEarningsDate?ticker=${item}`).catch(err => console.log(err))
+      })).catch(error => console.log(error))
+      const eventEarnings = [...userData.watchList].map((item, idx) => {
+        return {
+          id: idx,
+          title: item,
+          start: moment.unix(responses[idx].data.raw),
+          end: moment.unix(responses[idx].data.raw)
+        }
+      })
 
-    setEventList(eventEarnings)
+      setEventList(eventEarnings)
+    })()
   }, [userData])
 
   return (
@@ -76,7 +78,7 @@ export default function BigCalendar() {
             size="xl"
             centered
             show={show.show}
-            onHide={handleClose}            
+            onHide={handleClose}
           >
             <Modal.Header closeButton style={{ backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}>
               <Modal.Title><Badge variant="dark">{`Earnings History - ${show.ticker}`}</Badge></Modal.Title>

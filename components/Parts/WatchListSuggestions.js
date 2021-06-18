@@ -12,16 +12,18 @@ function WatchListSuggestions({ onClickWatchListButton }) {
 
   const [watchList, setWatchList] = useState([])
 
-  useEffect(async () => {
-    const watchList = await getHighlistWatchList()
-    const { watchList: userWatchList, boughtList } = userData
-    const appendWatchList = userWatchList && boughtList ? { 'Watch List': userWatchList, 'Bought List': boughtList.map(item => item.ticker) } : {}
+  useEffect(() => {
+    (async () => {
+      const watchList = await getHighlistWatchList()
+      const { watchList: userWatchList, boughtList } = userData
+      const appendWatchList = userWatchList && boughtList ? { 'Watch List': userWatchList, 'Bought List': boughtList.map(item => item.ticker) } : {}
 
-    const newWatchList = {
-      ...watchList,
-      ...appendWatchList
-    }
-    setWatchList(newWatchList)
+      const newWatchList = {
+        ...watchList,
+        ...appendWatchList
+      }
+      setWatchList(newWatchList)
+    })()
   }, [userData])
 
   return (
