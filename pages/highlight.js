@@ -1,6 +1,7 @@
 
 import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 import CustomContainer from '../components/Layout/CustomContainer'
 import '../styles/ScrollMenu.module.css'
 import Price from '../components/Parts/Price'
@@ -26,6 +27,13 @@ import { fireToast } from '../lib/toast'
 import StockDetails from '../components/StockDetails'
 import ETFDetails from '../components/ETFDetails'
 import WatchListSuggestions from '../components/Parts/WatchListSuggestions'
+
+const PWAPrompt = dynamic(
+  () => {
+    return import('react-ios-pwa-prompt')
+  },
+  { ssr: false }
+)
 
 const axios = require('axios').default
 
@@ -228,6 +236,7 @@ export default function Highlight() {
             </Fragment>
               : null
           }
+          <PWAPrompt timesToShow={50} permanentlyHideOnDismiss={false} />
         </Fragment>
       </CustomContainer>
     </Fragment >
