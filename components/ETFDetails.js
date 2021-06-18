@@ -9,8 +9,16 @@ import Stat from '../components/Tab/ETFDetail/Stat'
 import Basics from '../components/Tab/ETFDetail/Basics'
 
 import { etfDetailsSettings } from '../config/etf'
+import { useRouter } from 'next/router'
+import { useTab } from '../lib/hooks/useTab'
 
 function ETFDetails({ inputTicker }) {
+  const router = useRouter()
+  const tab = useTab(router)
+
+  const changeTab = key => {
+    router.push({ query: { ...router.query, tab: key } }, undefined, { shallow: true })
+  }
 
   const [settings, setSettings] = useState({ ...etfDetailsSettings })
 
@@ -31,13 +39,6 @@ function ETFDetails({ inputTicker }) {
     setSettings({ ...etfDetailsSettings })
   }
 
-  const handleSelect = (key) => {
-    setSettings({
-      ...settings,
-      selectedTab: key
-    })
-  }
-
   const cellClick = (item) => {
     setSettings({
       ...settings,
@@ -50,7 +51,12 @@ function ETFDetails({ inputTicker }) {
 
   return (
     <Fragment>
-      <Tabs style={{ fontSize: '11px' }} className="mt-1" activeKey={settings.selectedTab} onSelect={handleSelect} id="uncontrolled-tab-example">
+      <Tabs
+        style={{ fontSize: '11px' }}
+        className="mt-1"
+        activeKey={tab}
+        onSelect={(k) => changeTab(k)}
+      >
         <Tab eventKey="Basics" title="Basics">
           <Basics inputETFTicker={settings.inputETFTicker} />
         </Tab>
