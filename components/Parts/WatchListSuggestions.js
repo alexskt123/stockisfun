@@ -15,7 +15,7 @@ function WatchListSuggestions({ onClickWatchListButton }) {
     useEffect(async () => {
         const watchList = await getHighlistWatchList()
         const { watchList: userWatchList, boughtList } = userData
-        const appendWatchList = user ? {'Watch List': userWatchList, 'Bought List': boughtList.map(item => item.ticker)} : {}
+        const appendWatchList = userWatchList && boughtList ? {'Watch List': userWatchList, 'Bought List': boughtList.map(item => item.ticker)} : {}
 
         const newWatchList = {
             ...watchList,
