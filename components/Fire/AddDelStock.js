@@ -4,11 +4,10 @@ import { addToUserList, delFromUserList, useUser, useUserData } from '../../lib/
 import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
 import { IconContext } from 'react-icons'
 import { fireToast } from '../../lib/toast'
-import { checkUserID } from '../../lib/commonFunction'
 
 function AddDelStock({ inputTicker, handleList }) {
   const user = useUser()
-  const userData = useUserData(user?.uid || '')
+  const userData = useUserData(user)
 
   const handleRemove = async () => {
     await delFromUserList(user.uid, inputTicker, handleList)
@@ -31,7 +30,7 @@ function AddDelStock({ inputTicker, handleList }) {
   return (
     <Fragment>
       {
-        checkUserID(user)
+        user
           ? handleList == 'stock' && userData.stockList.includes(inputTicker) || handleList == 'etf' && userData.etfList.includes(inputTicker)
             ? <Badge>
               <IconContext.Provider value={{ color: 'red', size: '15px' }}>

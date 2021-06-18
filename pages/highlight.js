@@ -20,7 +20,7 @@ import HappyShare from '../components/Parts/HappyShare'
 import TickerScrollMenu from '../components/Page/TickerScrollMenu'
 import TypeAhead from '../components/Page/TypeAhead'
 import SWRTable from '../components/Page/SWRTable'
-import { convertToPriceChange, checkUserID } from '../lib/commonFunction'
+import { convertToPriceChange } from '../lib/commonFunction'
 import { useUser, useUserData } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 import StockDetails from '../components/StockDetails'
@@ -40,7 +40,7 @@ export default function Highlight() {
   const [showDetail, setShowDetail] = useState({ type: null, show: false })
 
   const user = useUser()
-  const userData = useUserData(user?.uid || '')
+  const userData = useUserData(user)
 
   const router = useRouter()
   const { query } = router.query
@@ -134,8 +134,10 @@ export default function Highlight() {
     setBoughtList(boughtList)
   }, [userData])
 
-  useEffect(async () => {
-    await setBoughtListDayChange()
+  useEffect(() => {
+    (async () => {
+      await setBoughtListDayChange()
+    })
   }, [boughtList])
 
 
@@ -150,7 +152,7 @@ export default function Highlight() {
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
           {
-            checkUserID(user) ? <Fragment>
+            user ? <Fragment>
               <Row className="mt-1 justify-content-center">
                 <Badge variant="light">{'Total Day Change:'}</Badge>
                 <Badge variant={dayChange >= 0 ? 'success' : 'danger'} className="ml-1">

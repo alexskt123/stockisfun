@@ -43,7 +43,7 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
     })
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     getStockInfo(responses)
   }, [responses])
 

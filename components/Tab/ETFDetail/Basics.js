@@ -20,8 +20,10 @@ export default function Basics({ inputETFTicker }) {
   const [loading, setLoading] = useState(false)
   const [ticker, setTicker] = useState(null)
 
-  useEffect(async () => {
-    await handleTicker(inputETFTicker)
+  useEffect(() => {
+    (async () => {
+      await handleTicker(inputETFTicker)
+    })()
   }, [inputETFTicker])
 
 
@@ -57,11 +59,11 @@ export default function Basics({ inputETFTicker }) {
           ? <Fragment>
             <CardDeck>
               <QuoteCard tools={etfTools} header={ticker} inputTicker={ticker} isShow={true} noClose={true}>
-                <div className="mt-2" style={{display: 'flex', alignItems: 'flex-end'}}>
+                <div className="mt-2" style={{ display: 'flex', alignItems: 'flex-end' }}>
                   <Badge className="ml-1" variant={'light'}>{'Add/Remove:'}</Badge>
                   <AddDelStock inputTicker={ticker} handleList='etf' />
                 </div>
-                <div className="mt-1" style={{display: 'flex', alignItems: 'flex-end'}}>
+                <div className="mt-1" style={{ display: 'flex', alignItems: 'flex-end' }}>
                   <Badge className="ml-1" variant={'light'}>{'Share to your friends!'}</Badge>
                   <HappyShare />
                 </div>
