@@ -28,3 +28,7 @@ body.dark-mode {
   background-color: #313030;
   color: #999;
 }
+
+.cursor {
+  cursor: pointer
+}

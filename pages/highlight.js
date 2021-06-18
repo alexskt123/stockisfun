@@ -10,6 +10,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardDeck from 'react-bootstrap/CardDeck'
 import AnimatedNumber from 'animated-number-react'
+import { MdCancel } from 'react-icons/md'
+import { IconContext } from 'react-icons'
 
 import { stockIndex, stockFutureIndex, tableHeaderList } from '../config/highlight'
 import IndexQuote from '../components/Parts/IndexQuote'
@@ -30,6 +32,7 @@ const axios = require('axios').default
 export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
   const [watchList, setwatchList] = useState([])
+  const [boughtList, setBoughtList] = useState([])
   const [dayChange, setDayChange] = useState(null)
   const [watchListName, setWatchListName] = useState(null)
   const [showWatchList, setShowWatchList] = useState(false)
@@ -85,6 +88,10 @@ export default function Highlight() {
     setShowPriceQuote(!showPriceQuote)
   }
 
+  const cancelCurrentSearch = () => {
+    router.push('/highlight')
+  }
+
   const showSelectedTicker = (data) => {
     setSelectedTicker({ ...selectedTicker, show: false })
     setShowDetail({ type: data.type, show: !showDetail.show })
@@ -115,15 +122,24 @@ export default function Highlight() {
     setWatchListName(watchListButtonName)
   }
 
+  const setBoughtListDayChange = async () => {
+    const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${userData.id}`)
+      : { data: { sum: null } }
+    setDayChange(boughtListSum.data.sum)
+  }
+
+  useEffect(() => {
+    const { watchList, boughtList } = userData
+    setwatchList(watchList)
+    setBoughtList(boughtList)
+  }, [userData])
+
   useEffect(() => {
     (async () => {
-      const { watchList, boughtList } = userData
-      setwatchList(watchList)
-      const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${userData.id}`)
-        : { data: { sum: null } }
-      setDayChange(boughtListSum.data.sum)
-    })()
-  }, [userData])
+      await setBoughtListDayChange()
+    })
+  }, [boughtList])
+
 
   useEffect(() => {
     setSelectedTicker({ ticker: query, show: true })
@@ -144,6 +160,7 @@ export default function Highlight() {
                     value={dayChange}
                     formatValue={(value) => convertToPriceChange(value)}
                   /></Badge>
+                <Badge className="ml-1 cursor" variant="warning" onClick={() => setBoughtListDayChange()}>{'Refresh'}</Badge>
               </Row>
             </Fragment>
               : null
@@ -181,6 +198,9 @@ export default function Highlight() {
               <Alert style={{ backgroundColor: '#f5f5f5', padding: '.3rem .3rem', display: 'flex', alignItems: 'center' }}>
                 <strong>{'Current Search:'}</strong>
                 <Badge className="ml-2" variant="info">{selectedTicker.ticker}</Badge>
+                <IconContext.Provider value={{ color: 'red' }}>
+                  <MdCancel onClick={() => cancelCurrentSearch()} className="ml-1 cursor" />
+                </IconContext.Provider>
                 {query ? <HappyShare /> : null}
                 <Badge as="button" className="ml-3" variant={showPriceQuote ? 'danger' : 'warning'} onClick={() => viewQuotePrice()}>{showPriceQuote ? 'Hide Price/Quote' : 'Price/Quote'}</Badge>
                 <Badge as="button" className="ml-2" variant={showDetail.show ? 'danger' : 'success'} onClick={() => viewTickerDetail(selectedTicker)}>{showDetail.show ? 'Hide Details' : 'Details'}</Badge>
@@ -203,7 +223,7 @@ export default function Highlight() {
             showWatchList ? <Fragment>
               <SWRTable
                 requests={watchList.map(x => ({ request: `/api/highlightWatchlist?ticker=${x}`, key: x }))}
-                options={{ tableHeader: tableHeaderList, exportFileName: 'Watchlist.csv', tableSize: 'sm', viewTickerDetail: viewTickerDetail, SWROptions: { refreshInterval: 5000 } }}
+                options={{ tableHeader: tableHeaderList, exportFileName: 'Watchlist.csv', tableSize: 'sm', SWROptions: { refreshInterval: 5000 } }}
               />
             </Fragment>
               : null
