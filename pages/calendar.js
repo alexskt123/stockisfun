@@ -1,4 +1,4 @@
-import { Fragment, useContext, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
@@ -21,7 +21,7 @@ export default function BigCalendar() {
   const darkMode = useDarkMode(false)
 
   const user = useUser()
-  const userData = useUserData(user?.uid || '')
+  const userData = useUserData(user)
 
   const [eventList, setEventList] = useState([])
   const [show, setShow] = useState({ show: false, ticker: null })

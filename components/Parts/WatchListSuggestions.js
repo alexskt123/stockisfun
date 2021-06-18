@@ -8,7 +8,7 @@ import { randVariant } from '../../lib/commonFunction'
 
 function WatchListSuggestions({ onClickWatchListButton }) {
   const user = useUser()
-  const userData = useUserData(user?.uid || '')
+  const userData = useUserData(user)
 
   const [watchList, setWatchList] = useState([])
 

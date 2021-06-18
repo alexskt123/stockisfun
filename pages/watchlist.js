@@ -1,5 +1,5 @@
 
-import { Fragment, useState, useContext } from 'react'
+import { Fragment, useState } from 'react'
 import { useRouter } from 'next/router'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
@@ -14,7 +14,7 @@ import SearchAccordion from '../components/Page/SearchAccordion'
 import SWRTable from '../components/Page/SWRTable'
 import HappyShare from '../components/Parts/HappyShare'
 
-import { handleDebounceChange, handleFormSubmit, checkUserID } from '../lib/commonFunction'
+import { handleDebounceChange, handleFormSubmit } from '../lib/commonFunction'
 import { updUserWatchList, useUser } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 import { useQuery } from '../lib/hooks/useQuery'
@@ -105,7 +105,7 @@ export default function WatchList() {
           }
           <Row className="ml-1 mt-3" style={{ display: 'flex', alignItems: 'center' }}>
             {
-              checkUserID(user)
+              user
                 ? <Button className="ml-2" onClick={() => { setShowUpdate(true) }} size='sm' variant='dark' >{'Update Watch List'}</Button>
                 : null
             }

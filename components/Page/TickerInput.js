@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment } from 'react'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -8,15 +8,9 @@ import { useUser, useUserData } from '../../lib/firebaseResult'
 import { priceChangeDateRangeSelectAttr, buttonSettings } from '../../config/form'
 
 function TickerInput({ validated, handleSubmit, placeholderText, handleChange, formTicker, clicked, clearItems, tableHeader, tableData, exportFileName, yearControl, handleTickers }) {
-  
+
   const user = useUser()
-  const userData = useUserData(user?.uid || '')
-
-  const [curUser, setCurUser] = useState(null)
-
-  useEffect(() => {
-    setCurUser(user)
-  }, [user])
+  const userData = useUserData(user)
 
   return (
     <Fragment>
@@ -69,8 +63,8 @@ function TickerInput({ validated, handleSubmit, placeholderText, handleChange, f
               : null
           }
           {
-            handleTickers && curUser && curUser.id != '' ?
-              <Button {...buttonSettings.FromWatchList.attr} disabled={clicked} onClick={() => handleTickers(curUser.watchList)}>
+            handleTickers && userData.watchList ?
+              <Button {...buttonSettings.FromWatchList.attr} disabled={clicked} onClick={() => handleTickers(userData.watchList)}>
                 {buttonSettings.FromWatchList.label}
               </Button>
               : null

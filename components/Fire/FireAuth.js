@@ -1,4 +1,4 @@
-import { useState, Fragment, useEffect, useContext } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import firebase, { auth, authUI } from '../../config/fireui-config'
 import { initUser, useUserData, useUser } from '../../lib/firebaseResult'
 import Badge from 'react-bootstrap/Badge'
@@ -22,7 +22,7 @@ function FireAuth() {
   const [showSignOut, setShowSignOut] = useState(false)
 
   const user = useUser()
-  const userData = useUserData(user?.uid || '')
+  const userData = useUserData(user)
 
   const handleClose = () => setShow(false)
   const handleSignOutClose = () => setShowSignOut(false)
