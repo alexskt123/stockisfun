@@ -23,8 +23,10 @@ export default function Holdings({ inputETFTicker, cellClick }) {
   const [loading, setLoading] = useState(false)
   const [settings, setSettings] = useState({ ...etfDetailsHoldingSettings })
 
-  useEffect(async () => {
-    await handleTicker(inputETFTicker)
+  useEffect(() => {
+    (async () => {
+      await handleTicker(inputETFTicker)
+    })()
     return () => setSettings(null)
   }, [inputETFTicker])
 

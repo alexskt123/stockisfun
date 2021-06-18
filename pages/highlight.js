@@ -115,12 +115,14 @@ export default function Highlight() {
     setWatchListName(watchListButtonName)
   }
 
-  useEffect(async () => {
-    const { watchList, boughtList } = userData
-    setwatchList(watchList)
-    const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${userData.id}`)
-      : { data: { sum: null } }
-    setDayChange(boughtListSum.data.sum)
+  useEffect(() => {
+    (async () => {
+      const { watchList, boughtList } = userData
+      setwatchList(watchList)
+      const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${userData.id}`)
+        : { data: { sum: null } }
+      setDayChange(boughtListSum.data.sum)
+    })()
   }, [userData])
 
   useEffect(() => {
