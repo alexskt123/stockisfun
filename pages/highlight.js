@@ -1,5 +1,5 @@
 
-import { Fragment, useState, useEffect, useContext } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import CustomContainer from '../components/Layout/CustomContainer'
 import '../styles/ScrollMenu.module.css'
@@ -10,6 +10,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardDeck from 'react-bootstrap/CardDeck'
 import AnimatedNumber from 'animated-number-react'
+import { MdCancel } from 'react-icons/md'
+import { IconContext } from 'react-icons'
 
 import { stockIndex, stockFutureIndex, tableHeaderList } from '../config/highlight'
 import IndexQuote from '../components/Parts/IndexQuote'
@@ -18,9 +20,8 @@ import HappyShare from '../components/Parts/HappyShare'
 import TickerScrollMenu from '../components/Page/TickerScrollMenu'
 import TypeAhead from '../components/Page/TypeAhead'
 import SWRTable from '../components/Page/SWRTable'
-import { Store } from '../lib/store'
 import { convertToPriceChange, checkUserID } from '../lib/commonFunction'
-import { getUserInfoByUID } from '../lib/firebaseResult'
+import { useUser, useUserData } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 import StockDetails from '../components/StockDetails'
 import ETFDetails from '../components/ETFDetails'
@@ -31,15 +32,15 @@ const axios = require('axios').default
 export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
   const [watchList, setwatchList] = useState([])
+  const [boughtList, setBoughtList] = useState([])
   const [dayChange, setDayChange] = useState(null)
   const [watchListName, setWatchListName] = useState(null)
   const [showWatchList, setShowWatchList] = useState(false)
   const [showPriceQuote, setShowPriceQuote] = useState(false)
   const [showDetail, setShowDetail] = useState({ type: null, show: false })
 
-  const store = useContext(Store)
-  const { state } = store
-  const { user } = state
+  const user = useUser()
+  const userData = useUserData(user?.uid || '')
 
   const router = useRouter()
   const { query } = router.query
@@ -87,6 +88,10 @@ export default function Highlight() {
     setShowPriceQuote(!showPriceQuote)
   }
 
+  const cancelCurrentSearch = () => {
+    router.push('/highlight')
+  }
+
   const showSelectedTicker = (data) => {
     setSelectedTicker({ ...selectedTicker, show: false })
     setShowDetail({ type: data.type, show: !showDetail.show })
@@ -117,13 +122,22 @@ export default function Highlight() {
     setWatchListName(watchListButtonName)
   }
 
-  useEffect(async () => {
-    const { watchList, boughtList } = await getUserInfoByUID(user == null ? '' : user.uid)
-    setwatchList(watchList)
-    const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${user.uid}`)
+  const setBoughtListDayChange = async () => {
+    const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${userData.id}`)
       : { data: { sum: null } }
     setDayChange(boughtListSum.data.sum)
-  }, [user])
+  }
+
+  useEffect(() => {
+    const { watchList, boughtList } = userData
+    setwatchList(watchList)
+    setBoughtList(boughtList)
+  }, [userData])
+
+  useEffect(async () => {
+    await setBoughtListDayChange()
+  }, [boughtList])
+
 
   useEffect(() => {
     setSelectedTicker({ ticker: query, show: true })
@@ -144,6 +158,7 @@ export default function Highlight() {
                     value={dayChange}
                     formatValue={(value) => convertToPriceChange(value)}
                   /></Badge>
+                <Badge className="ml-1 cursor" variant="warning" onClick={() => setBoughtListDayChange()}>{'Refresh'}</Badge>
               </Row>
             </Fragment>
               : null
@@ -181,6 +196,9 @@ export default function Highlight() {
               <Alert style={{ backgroundColor: '#f5f5f5', padding: '.3rem .3rem', display: 'flex', alignItems: 'center' }}>
                 <strong>{'Current Search:'}</strong>
                 <Badge className="ml-2" variant="info">{selectedTicker.ticker}</Badge>
+                <IconContext.Provider value={{ color: 'red' }}>
+                  <MdCancel onClick={() => cancelCurrentSearch()} className="ml-1 cursor" />
+                </IconContext.Provider>
                 {query ? <HappyShare /> : null}
                 <Badge as="button" className="ml-3" variant={showPriceQuote ? 'danger' : 'warning'} onClick={() => viewQuotePrice()}>{showPriceQuote ? 'Hide Price/Quote' : 'Price/Quote'}</Badge>
                 <Badge as="button" className="ml-2" variant={showDetail.show ? 'danger' : 'success'} onClick={() => viewTickerDetail(selectedTicker)}>{showDetail.show ? 'Hide Details' : 'Details'}</Badge>
@@ -195,15 +213,15 @@ export default function Highlight() {
                 </Fragment>
               )) : null}
           </CardDeck>
-          <WatchListSuggestions onClickWatchListButton={onClickWatchListButton} />
           {
             showDetail.show && selectedTicker && selectedTicker.ticker ? showDetail.type === 'ETF' ? <ETFDetails inputTicker={selectedTicker.ticker} /> : <StockDetails inputTicker={selectedTicker.ticker} /> : null
           }
+          <WatchListSuggestions onClickWatchListButton={onClickWatchListButton} />
           {
             showWatchList ? <Fragment>
               <SWRTable
                 requests={watchList.map(x => ({ request: `/api/highlightWatchlist?ticker=${x}`, key: x }))}
-                options={{ tableHeader: tableHeaderList, exportFileName: 'Watchlist.csv', tableSize: 'sm', viewTickerDetail: viewTickerDetail, SWROptions: { refreshInterval: 5000 } }}
+                options={{ tableHeader: tableHeaderList, exportFileName: 'Watchlist.csv', tableSize: 'sm', SWROptions: { refreshInterval: 5000 } }}
               />
             </Fragment>
               : null

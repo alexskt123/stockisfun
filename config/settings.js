@@ -95,6 +95,11 @@ export const staticSWROptions = {
   refreshInterval: 0
 }
 
+export const stockMarketIndexSWROptions = {
+  ...staticSWROptions,
+  refreshInterval: 10000
+}
+
 export const fetcher = (input) => fetch(input).then(res => res.json())
 
 export const SWRSticky = { backgroundColor: 'white', left: 0, position: 'sticky', zIndex: 997 }

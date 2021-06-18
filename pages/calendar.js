@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import useDarkMode from 'use-dark-mode'
-import { Store } from '../lib/store'
+import { useUser, useUserData } from '../lib/firebaseResult'
 
 import Modal from 'react-bootstrap/Modal'
 import Badge from 'react-bootstrap/Badge'
@@ -20,9 +20,8 @@ export default function BigCalendar() {
 
   const darkMode = useDarkMode(false)
 
-  const store = useContext(Store)
-  const { state } = store
-  const { user } = state
+  const user = useUser()
+  const userData = useUserData(user?.uid || '')
 
   const [eventList, setEventList] = useState([])
   const [show, setShow] = useState({ show: false, ticker: null })
@@ -44,10 +43,10 @@ export default function BigCalendar() {
   }
 
   useEffect(async () => {
-    const responses = await Promise.all([...user.watchList].map(async item => {
+    const responses = await Promise.all([...userData.watchList].map(async item => {
       return axios.get(`/api/yahoo/getYahooEarningsDate?ticker=${item}`).catch(err => console.log(err))
     })).catch(error => console.log(error))
-    const eventEarnings = [...user.watchList].map((item, idx) => {
+    const eventEarnings = [...userData.watchList].map((item, idx) => {
       return {
         id: idx,
         title: item,
@@ -57,7 +56,7 @@ export default function BigCalendar() {
     })
 
     setEventList(eventEarnings)
-  }, [user])
+  }, [userData])
 
   return (
     <Fragment>
