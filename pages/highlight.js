@@ -123,7 +123,7 @@ export default function Highlight() {
   }
 
   const setBoughtListDayChange = async () => {
-    const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${userData.id}`)
+    const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${user.uid}`)
       : { data: { sum: null } }
     setDayChange(boughtListSum.data.sum)
   }
@@ -137,7 +137,7 @@ export default function Highlight() {
   useEffect(() => {
     (async () => {
       await setBoughtListDayChange()
-    })
+    })()
   }, [boughtList])
 
 
