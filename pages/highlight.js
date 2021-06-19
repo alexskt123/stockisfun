@@ -80,7 +80,8 @@ export default function Highlight() {
     const input = e.find(x => x)
     //input ? setSelectedTicker({ ticker: input.symbol, show: true }) : null
     //input ? router.push(`/highlight?query=${input.symbol}`) : null
-    input ? router.push({ query: { ...router.query, query: input.symbol, tab: 'Basics' } }, undefined, { shallow: true }) : null
+    const type = router.query.type
+    input ? router.push({ query: { ...router.query, query: input.symbol, tab: 'Basics', type: type ? type : 'quote' } }, undefined, { shallow: true }) : null
   }
 
   const viewQuotePrice = (selectedTicker) => {
