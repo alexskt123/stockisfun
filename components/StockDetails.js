@@ -14,7 +14,16 @@ import Peers from './Tab/StockDetail/Peers'
 import BalanceSheet from './Tab/StockDetail/BalanceSheet'
 import Basics from './Tab/StockDetail/Basics'
 
+import { useRouter } from 'next/router'
+import { useTab } from '../lib/hooks/useTab'
+
 function StockDetails({ inputTicker }) {
+  const router = useRouter()
+  const tab = useTab(router)
+
+  const changeTab = key => {
+    router.push({ query: { ...router.query, tab: key } }, undefined, { shallow: true })
+  }
 
   const [settings, setSettings] = useState({ ...stockDetailsSettings })
 
@@ -37,7 +46,12 @@ function StockDetails({ inputTicker }) {
 
   return (
     <Fragment>
-      <Tabs style={{ fontSize: '11px' }} className="mt-1" defaultActiveKey="Price" id="uncontrolled-tab-example">
+      <Tabs
+        style={{ fontSize: '11px' }}
+        className="mt-1"
+        activeKey={tab}
+        onSelect={(k) => changeTab(k)}
+      >
         <Tab eventKey="Price" title="Price">
           <Price inputTicker={settings.inputTickers.find(x => x)} />
         </Tab>

@@ -20,11 +20,11 @@ export default function ETFDetail() {
 
   const handleChange = (e) => {
     const input = e.find(x => x)
-    input ? router.push(`/etfdetail?query=${input.symbol}`) : null
+    input ? router.push({ query: { ...router.query, query: input.symbol } }) : null
   }
 
   const clearItems = () => {
-    router.push('/etfdetail')
+    router.push({ query: { ...router.query, query: null } })
   }
 
   return (

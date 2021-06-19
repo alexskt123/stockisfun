@@ -1,4 +1,4 @@
-
+import { useRouter } from 'next/router'
 import { Fragment, useState, useEffect } from 'react'
 
 import Badge from 'react-bootstrap/Badge'
@@ -13,10 +13,18 @@ import CustomContainer from '../components/Layout/CustomContainer'
 import { updUserAllList, useUser, useUserData } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
 import BoughtList from '../components/Tab/Admin/BoughtList'
+import { useTab } from '../lib/hooks/useTab'
 
 export default function Admin() {
   const user = useUser()
   const userData = useUserData(user)
+
+  const router = useRouter()
+  const tab = useTab(router)
+
+  const changeTab = key => {
+    router.push({ query: { ...router.query, tab: key } }, undefined, { shallow: true })
+  }
 
   const [settings, setSettings] = useState({ stockList: [], etfList: [], watchList: [], boughtList: [] })
 
@@ -60,7 +68,12 @@ export default function Admin() {
           {
             user ?
               <Fragment>
-                <Tabs style={{ fontSize: '11px' }} className="mt-1" defaultActiveKey="General">
+                <Tabs
+                  style={{ fontSize: '11px' }}
+                  className="mt-1"
+                  activeKey={tab}
+                  onSelect={(k) => changeTab(k)}
+                >
                   <Tab eventKey="General" title="General">
                     <h5><Badge variant="dark">{'Update Stock List'}</Badge></h5>
                     <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.stockList.join(',')} onChange={(e) => handleChange(e, 'stock')} />
