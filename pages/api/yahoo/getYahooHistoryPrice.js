@@ -67,8 +67,21 @@ const handleDays = async (ticker, days) => {
   const { formattedFromDate, formattedToDate } = await getFormattedFromToDate(days)
 
   const outputItem = await getYahooHistoryPrice(ticker, formattedFromDate, formattedToDate)
-  const allDate = (outputItem.timestamp || []).map(item => moment.unix(item).format('DD MMM YYYY'))
-  const allPrice = outputItem.indicators.quote.find(x => x).close
+  const closeDate = (outputItem.timestamp || []).map(item => moment.unix(item).format('DD MMM YYYY'))
+  const closePrice = outputItem.indicators.quote.find(x => x).close
+  const allPriceDate = (closePrice || []).reduce((acc, cur, idx) => {
+    // price must have value
+    const isPush = cur ? true : false
+    const date = isPush ? [...acc.date, closeDate[idx]] : [...acc.date]
+    const price = isPush ? [...acc.price, cur] : [...acc.price]
+    const newAcc = {
+      date: [...date],
+      price: [...price]
+    }
+    return newAcc
+  }, { date: [], price: [] })
+
+  const { date: allDate, price: allPrice } = allPriceDate
   const price = parseInt(days) != allPrice?.length ? allPrice?.slice(Math.abs(allPrice?.length - parseInt(days))) : allPrice
   const date = parseInt(days) != allPrice?.length ? allDate?.slice(Math.abs(allPrice?.length - parseInt(days))) : allDate
   const quoteRes = await getYahooQuote(ticker.toUpperCase())
