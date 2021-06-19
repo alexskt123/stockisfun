@@ -43,7 +43,7 @@ export default function Highlight() {
   const userData = useUserData(user)
 
   const router = useRouter()
-  const { query } = router.query
+  const { query, type } = router.query
 
   const headers = [{
     name: 'Price Changes',
@@ -58,7 +58,7 @@ export default function Highlight() {
   }]
 
   const selectScrollMenuItem = (item) => {
-    item && item.ticker ? router.push(`/highlight?query=${item.ticker}`) : null
+    item && item.ticker ? router.push(`/highlight?query=${item.ticker}&type=quote`) : null
   }
 
   const tickerList = [
@@ -79,30 +79,46 @@ export default function Highlight() {
   const handleChange = (e) => {
     const input = e.find(x => x)
     //input ? setSelectedTicker({ ticker: input.symbol, show: true }) : null
-    input ? router.push(`/highlight?query=${input.symbol}`) : null
+    //input ? router.push(`/highlight?query=${input.symbol}`) : null
+    input ? router.push({ query: { ...router.query, query: input.symbol, tab: 'Basics' } }, undefined, { shallow: true }) : null
   }
 
-  const viewQuotePrice = () => {
-    setSelectedTicker({ ...selectedTicker, show: !showPriceQuote })
+  const viewQuotePrice = (selectedTicker) => {
+    setSelectedTicker({ ...selectedTicker, show: true })
     setShowDetail({ ...showDetail, show: false })
-    setShowPriceQuote(!showPriceQuote)
+    setShowPriceQuote(true)
+
+    //pushQuote()
   }
 
   const cancelCurrentSearch = () => {
     router.push('/highlight')
   }
 
-  const showSelectedTicker = (data) => {
-    setSelectedTicker({ ...selectedTicker, show: false })
-    setShowDetail({ type: data.type, show: !showDetail.show })
+  const showSelectedTicker = (data, ticker) => {
+    setSelectedTicker({ ...selectedTicker, ticker, show: false })
+    setShowDetail({ type: data.type, show: true })
+    //pushDetail()
+  }
+
+  const pushQuote = () => {
+    const type = !showPriceQuote ? { type: 'quote' } : {}
+    router.push({ query: { query: router.query.query, ...type } }, undefined, { shallow: true })
+  }
+
+  const pushDetail = () => {
+    const type = !showDetail.show ? { type: 'detail' } : {}
+    const tab = router.query.tab
+    router.push({ query: { query: router.query.query, tab: tab ? tab : 'Basics', ...type } }, undefined, { shallow: true })
   }
 
   const viewTickerDetail = async (dataObj) => {
-    const response = await axios.get(`/api/quote?ticker=${dataObj.symbol || dataObj.ticker}`)
+    const ticker = dataObj.symbol || dataObj.ticker
+    const response = await axios.get(`/api/quote?ticker=${ticker}`)
     const { data } = response || { data: null }
 
 
-    data && data.valid ? data.type === 'ETF' || data.type === 'EQUITY' ? showSelectedTicker(data)
+    data && data.valid ? data.type === 'ETF' || data.type === 'EQUITY' ? showSelectedTicker(data, ticker)
       : fireToast({
         icon: 'error',
         title: 'Only Stock/ETF can be viewed!'
@@ -128,6 +144,17 @@ export default function Highlight() {
     setDayChange(boughtListSum.data.sum)
   }
 
+  const setShowFalse = () => {
+    setShowDetail({ ...showDetail, show: false })
+    setShowPriceQuote(false)
+  }
+
+  const refreshQuoteDetail = () => {
+    type && type === 'detail' ? viewTickerDetail({ ticker: query })
+    : type && type === 'quote' ? viewQuotePrice({ ticker: query })
+      : setShowFalse()
+  }
+
   useEffect(() => {
     const { watchList, boughtList } = userData
     setwatchList(watchList)
@@ -140,12 +167,15 @@ export default function Highlight() {
     })()
   }, [boughtList])
 
+  useEffect(() => {
+    setShowDetail({...showDetail, show: false})
+    setSelectedTicker({ ticker: query, show: true })
+    query ? refreshQuoteDetail() : null
+  }, [query])
 
   useEffect(() => {
-    setSelectedTicker({ ticker: query, show: true })
-    setShowDetail({ type: null, show: false })
-    setShowPriceQuote(true)
-  }, [query])
+    query ? refreshQuoteDetail() : null
+  }, [type])
 
   return (
     <Fragment>
@@ -202,13 +232,13 @@ export default function Highlight() {
                   <MdCancel onClick={() => cancelCurrentSearch()} className="ml-1 cursor" />
                 </IconContext.Provider>
                 {query ? <HappyShare /> : null}
-                <Badge as="button" className="ml-3" variant={showPriceQuote ? 'danger' : 'warning'} onClick={() => viewQuotePrice()}>{showPriceQuote ? 'Hide Price/Quote' : 'Price/Quote'}</Badge>
-                <Badge as="button" className="ml-2" variant={showDetail.show ? 'danger' : 'success'} onClick={() => viewTickerDetail(selectedTicker)}>{showDetail.show ? 'Hide Details' : 'Details'}</Badge>
+                <Badge as="button" className="ml-3" variant={showPriceQuote ? 'danger' : 'warning'} onClick={() => pushQuote()}>{showPriceQuote ? 'Hide Price/Quote' : 'Price/Quote'}</Badge>
+                <Badge as="button" className="ml-2" variant={showDetail.show ? 'danger' : 'success'} onClick={() => pushDetail()}>{showDetail.show ? 'Hide Details' : 'Details'}</Badge>
               </Alert>
               : null
           }
           <CardDeck>
-            {selectedTicker && selectedTicker.ticker ? headers
+            {showPriceQuote && selectedTicker && selectedTicker.ticker ? headers
               .map((header, idx) => (
                 <Fragment key={idx}>
                   <header.component header={header.name} inputTicker={selectedTicker.ticker} isShow={selectedTicker.show} {...header.props}></header.component>
