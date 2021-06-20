@@ -1,10 +1,11 @@
 
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import Badge from 'react-bootstrap/Badge'
 import { Fragment, useEffect, useState } from 'react'
 import { getHighlistWatchList, useUser, useUserData } from '../../lib/firebaseResult'
-import { randVariant } from '../../lib/commonFunction'
+import { randBackgroundColor } from '../../lib/commonFunction'
 
 function WatchListSuggestions({ onClickWatchListButton }) {
   const user = useUser()
@@ -36,9 +37,11 @@ function WatchListSuggestions({ onClickWatchListButton }) {
       <Row className='justify-content-center mt-1'>
         {
           Object.keys(watchList).map((key, idx) => {
-            return <Button size="sm" key={idx} className="ml-2" variant={randVariant(key)} onClick={() => onClickWatchListButton(key, watchList[key])}>
-              <Badge>{key}</Badge>
-            </Button>
+            return <Col key={idx}>
+              <Button size="sm" className="ml-2" style={{backgroundColor: randBackgroundColor()}} onClick={() => onClickWatchListButton(key, watchList[key])}>
+                <Badge>{key}</Badge>
+              </Button>
+            </Col>
           })
         }
       </Row>

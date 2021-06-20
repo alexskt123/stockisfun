@@ -29,10 +29,10 @@ export default function QuoteCard({ children, header, headerHref, inputTicker, i
           header ? <Card.Header style={{ padding: '0.2rem' }}>
             <div style={{ display: 'flex', alignItems: 'baseline' }}>
               {
-                headerHref ? <Button style={{ padding: '0.2rem', ['minWidth']: '3rem' }} variant="info" size="sm" target="_blank" href={`/${headerHref}?ticker=${inputTicker}`}>
+                headerHref ? <Button style={{ padding: '0.2rem', ['minWidth']: '3rem' }} variant="secondary" size="sm" target="_blank" href={`/${headerHref}?ticker=${inputTicker}`}>
                   <b>{header}</b>
                 </Button>
-                  : <h5><Badge variant="info">
+                  : <h5><Badge variant="secondary">
                     <b>{header}</b>
                   </Badge></h5>
               }
