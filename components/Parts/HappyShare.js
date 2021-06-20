@@ -7,11 +7,14 @@ import Badge from 'react-bootstrap/Badge'
 import { EmailShareButton, EmailIcon, TelegramShareButton, TelegramIcon, WhatsappShareButton, WhatsappIcon } from 'react-share'
 
 import { getShareUrl } from '../../lib/commonFunction'
+import { usebgColor } from '../../lib/hooks/usebgColor'
 
 export default function HappyShare({ inputStyle }) {
   const router = useRouter()
 
   const [show, setShow] = useState(false)
+
+  const bgColor = usebgColor('#000000', '#ffffff')
 
   const handleClose = () => setShow(false)
 
@@ -19,7 +22,7 @@ export default function HappyShare({ inputStyle }) {
     setShow(true)
   }
 
-  const defaultStyle = { color: 'black', size: '15px' }
+  const defaultStyle = { color: bgColor, size: '15px' }
 
   const defaultParams = {
     url: `${getShareUrl()}${router.asPath}`,
@@ -47,7 +50,7 @@ export default function HappyShare({ inputStyle }) {
 
   return (
     <Fragment>
-      <Badge>
+      <Badge className="cursor">
         <IconContext.Provider
           value={{ ...newStyle }}
         >

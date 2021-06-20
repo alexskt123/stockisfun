@@ -27,7 +27,7 @@ export default function QuoteCard({ children, header, headerHref, inputTicker, i
       >
         {
           header ? <Card.Header style={{ padding: '0.2rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline' }}>
               {
                 headerHref ? <Button style={{ padding: '0.2rem', ['minWidth']: '3rem' }} variant="info" size="sm" target="_blank" href={`/${headerHref}?ticker=${inputTicker}`}>
                   <b>{header}</b>
@@ -38,7 +38,7 @@ export default function QuoteCard({ children, header, headerHref, inputTicker, i
               }
               {
                 noClose ? null
-                  : <IconContext.Provider value={{ color: 'red', className: 'global-class-name' }}><RiCloseCircleFill onClick={() => setShowCard(false)} /></IconContext.Provider>
+                  : <IconContext.Provider value={{ color: 'red', className: 'global-class-name' }}><RiCloseCircleFill className="cursor" onClick={() => setShowCard(false)} /></IconContext.Provider>
               }
             </div>
           </Card.Header>

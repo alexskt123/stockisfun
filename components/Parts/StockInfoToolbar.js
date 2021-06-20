@@ -1,5 +1,5 @@
-import Button from 'react-bootstrap/Button'
 import CustomIcons from '../../lib/components/CustomIcons'
+import { IconContext } from 'react-icons'
 
 function StockInfoToolbar({ tools, inputTicker }) {
 
@@ -9,9 +9,13 @@ function StockInfoToolbar({ tools, inputTicker }) {
         tools.map((item, idx) => {
           const href = item.type === 'etftostock' ? `/${item.redirectURL}?ticker=${inputTicker}&href=${item.href}`
             : '/'
-          return <Button target="_blank" href={href} style={{ padding: '0.1rem 0.1rem' }} className="ml-1" size="sm" variant={'dark'} key={idx}>
-            {CustomIcons(item)}
-          </Button>
+          return <a target="_blank" href={href} className="ml-1" key={idx}>
+            <IconContext.Provider
+              value={{ color: 'black' }}
+            >
+              {CustomIcons(item)}
+            </IconContext.Provider>
+          </a>
         })
       }
     </div>
