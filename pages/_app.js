@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/ReactToggle.css'
+import '../styles/Gooey.css'
 
 import Layout from '../components/Layout/Layout'
 import { Fragment } from 'react'
