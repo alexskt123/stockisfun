@@ -34,11 +34,11 @@ function WatchListSuggestions({ onClickWatchListButton }) {
           <Badge style={{ minWidth: '9rem' }} variant="dark">{'Live Watch'}</Badge>
         </h6>
       </Row>
-      <Row className='justify-content-center mt-1'>
+      <Row className='justify-content-center'>
         {
           Object.keys(watchList).map((key, idx) => {
             return <Col key={idx}>
-              <Button size="sm" className="ml-2" style={{backgroundColor: randBackgroundColor()}} onClick={() => onClickWatchListButton(key, watchList[key])}>
+              <Button size="sm" className="w-100 my-2" style={{ backgroundColor: randBackgroundColor() }} onClick={() => onClickWatchListButton(key, watchList[key])}>
                 <Badge>{key}</Badge>
               </Button>
             </Col>
