@@ -22,7 +22,9 @@ export default function Basics({ inputETFTicker }) {
 
   useEffect(() => {
     (async () => {
-      await handleTicker(inputETFTicker)
+      if (inputETFTicker) {
+        await handleTicker(inputETFTicker)
+      }
     })()
   }, [inputETFTicker])
 
@@ -53,8 +55,7 @@ export default function Basics({ inputETFTicker }) {
 
   return (
     <Fragment>
-      {loading ? <LoadingSpinner /> : null}
-      {
+      {loading ? <LoadingSpinner /> :
         settings.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
           ? <Fragment>
             <CardDeck>

@@ -91,10 +91,7 @@ export const tableHeaderList = [
 
 export const etfDetailsSettings = {
   inputETFTicker: null,
-  selectedStockTicker: null,
-  selectedStockTitle: '',
-  selectedTab: 'Basics',
-  disableSelectedStockTab: true
+  selectedTab: 'Basics'
 }
 
 export const etfDetailsBasicSettings = {

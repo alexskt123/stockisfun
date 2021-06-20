@@ -34,12 +34,12 @@ function AddDelStock({ inputTicker, handleList }) {
           ? handleList == 'stock' && userData.stockList.includes(inputTicker) || handleList == 'etf' && userData.etfList.includes(inputTicker)
             ? <Badge>
               <IconContext.Provider value={{ color: 'red', size: '15px' }}>
-                <MdRemoveCircleOutline onClick={handleRemove} />
+                <MdRemoveCircleOutline className="cursor" onClick={handleRemove} />
               </IconContext.Provider>
             </Badge>
             : <Badge>
               <IconContext.Provider value={{ color: 'green', size: '15px' }}>
-                <MdAddCircleOutline onClick={handleAdd} />
+                <MdAddCircleOutline className="cursor" onClick={handleAdd} />
               </IconContext.Provider>
             </Badge>
           : null

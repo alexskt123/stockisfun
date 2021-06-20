@@ -1,4 +1,3 @@
-import Button from 'react-bootstrap/Button'
 import CustomIcons from '../../lib/components/CustomIcons'
 
 function StockInfoToolbar({ tools, inputTicker }) {
@@ -9,9 +8,9 @@ function StockInfoToolbar({ tools, inputTicker }) {
         tools.map((item, idx) => {
           const href = item.type === 'etftostock' ? `/${item.redirectURL}?ticker=${inputTicker}&href=${item.href}`
             : '/'
-          return <Button target="_blank" href={href} style={{ padding: '0.1rem 0.1rem' }} className="ml-1" size="sm" variant={'dark'} key={idx}>
+          return <a style={{ color: 'black' }} target="_blank" href={href} className="ml-1" key={idx}>
             {CustomIcons(item)}
-          </Button>
+          </a>
         })
       }
     </div>
