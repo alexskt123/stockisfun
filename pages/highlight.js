@@ -169,12 +169,15 @@ export default function Highlight() {
   }, [boughtList])
 
   useEffect(() => {
+    setShowPriceQuote(false)
     setShowDetail({...showDetail, show: false})
     setSelectedTicker({ ticker: query, show: true })
     query ? refreshQuoteDetail() : null
   }, [query])
 
   useEffect(() => {
+    setShowPriceQuote(false)
+    setShowDetail({...showDetail, show: false})
     query ? refreshQuoteDetail() : null
   }, [type])
 

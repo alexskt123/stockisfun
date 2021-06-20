@@ -3,7 +3,6 @@ import { Fragment, useState, useEffect } from 'react'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 
-import StockDetails from '../components/StockDetails'
 import Holdings from '../components/Tab/ETFDetail/Holdings'
 import Stat from '../components/Tab/ETFDetail/Stat'
 import Basics from '../components/Tab/ETFDetail/Basics'
@@ -40,13 +39,7 @@ function ETFDetails({ inputTicker }) {
   }
 
   const cellClick = (item) => {
-    setSettings({
-      ...settings,
-      selectedTab: 'StockDetails',
-      selectedStockTicker: item.find(x => x),
-      disableSelectedStockTab: false,
-      selectedStockTitle: item.find(x => x)
-    })
+    router.push(`/stockdetail?query=${item.find(x => x)}`)
   }
 
   return (
@@ -65,9 +58,6 @@ function ETFDetails({ inputTicker }) {
         </Tab>
         <Tab eventKey="Statistics" title="Stat.">
           <Stat inputETFTicker={settings.inputETFTicker} />
-        </Tab>
-        <Tab eventKey="StockDetails" title={settings.selectedStockTitle} disabled={settings.disableSelectedStockTab}>
-          <StockDetails inputTicker={settings.selectedStockTicker} />
         </Tab>
       </Tabs>
     </Fragment>
