@@ -139,6 +139,15 @@ export default function Highlight() {
     setWatchListName(watchListButtonName)
   }
 
+  const refreshDayChange = async () => {
+    await setBoughtListDayChange()
+
+    fireToast({
+      icon: 'success',
+      title: 'Refreshed!'
+    }) 
+  }
+
   const setBoughtListDayChange = async () => {
     const boughtListSum = boughtList && boughtList.length > 0 ? await axios.get(`/api/getUserBoughtList?uid=${user.uid}`)
       : { data: { sum: null } }
@@ -194,7 +203,7 @@ export default function Highlight() {
                     value={dayChange}
                     formatValue={(value) => convertToPriceChange(value)}
                   /></Badge>
-                <Badge className="ml-1 cursor" variant="warning" onClick={() => setBoughtListDayChange()}>{'Refresh'}</Badge>
+                <Badge className="ml-1 cursor" variant="warning" onClick={() => refreshDayChange()}>{'Refresh'}</Badge>
               </Row>
             </Fragment>
               : null
