@@ -14,7 +14,7 @@ export default function HappyShare({ inputStyle }) {
 
   const [show, setShow] = useState(false)
 
-  const bgColor = usebgColor('#000000', '#ffffff')
+  const bgColor = usebgColor('#000000', '#2b7cff')
 
   const handleClose = () => setShow(false)
 
