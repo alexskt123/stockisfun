@@ -10,6 +10,7 @@ import Badge from 'react-bootstrap/Badge'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import StockInfoTable from '../components/Page/StockInfoTable'
+import QuoteCard from '../components/Parts/QuoteCard'
 
 const axios = require('axios').default
 
@@ -64,16 +65,18 @@ export default function BigCalendar() {
     <Fragment>
       <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 rounded">
         <Fragment>
-          <Calendar
-            popup
-            localizer={localizer}
-            events={eventList}
-            views={['month']}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: '90vh', fontSize: 'x-small' }}
-            onSelectEvent={handleSelectSlot}
-          />
+          <QuoteCard header={'Calendar'} isShow={true} noClose={true} customBgColor={{normal: 'white', darkmode: '#adadad'}}>
+            <Calendar
+              popup
+              localizer={localizer}
+              events={eventList}
+              views={['month']}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: '90vh', fontSize: 'x-small' }}
+              onSelectEvent={handleSelectSlot}
+            />
+          </QuoteCard>
           <Modal
             size="xl"
             centered

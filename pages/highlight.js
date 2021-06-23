@@ -57,6 +57,14 @@ export default function Highlight() {
     props: {}
   }]
 
+  const details = [{
+    type: 'ETF',
+    component: ETFDetails
+  }, {
+    type: 'EQUITY',
+    component: StockDetails
+  }]
+
   const selectScrollMenuItem = (item) => {
     item && item.ticker ? router.push(`/highlight?query=${item.ticker}&type=quote`) : null
   }
@@ -161,8 +169,8 @@ export default function Highlight() {
 
   const refreshQuoteDetail = () => {
     type && type === 'detail' ? viewTickerDetail({ ticker: query })
-    : type && type === 'quote' ? viewQuotePrice({ ticker: query })
-      : setShowFalse()
+      : type && type === 'quote' ? viewQuotePrice({ ticker: query })
+        : setShowFalse()
   }
 
   useEffect(() => {
@@ -182,14 +190,8 @@ export default function Highlight() {
     setShowDetail({...showDetail, show: false})
     setSelectedTicker({ ticker: query, show: true })
     query ? refreshQuoteDetail() : null
-  }, [query])
-
-  useEffect(() => {
-    setShowPriceQuote(false)
-    setShowDetail({...showDetail, show: false})
-    query ? refreshQuoteDetail() : null
-  }, [type])
-
+  }, [query, type])
+  
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
@@ -259,7 +261,7 @@ export default function Highlight() {
               )) : null}
           </CardDeck>
           {
-            showDetail.show && selectedTicker && selectedTicker.ticker ? showDetail.type === 'ETF' ? <ETFDetails inputTicker={selectedTicker.ticker} /> : <StockDetails inputTicker={selectedTicker.ticker} /> : null
+            showDetail.show && selectedTicker && selectedTicker.ticker ? details.filter(x => x.type === showDetail.type).map((detail, idx) => <detail.component key={idx} inputTicker={selectedTicker.ticker} />) : null
           }
           <WatchListSuggestions onClickWatchListButton={onClickWatchListButton} />
           {

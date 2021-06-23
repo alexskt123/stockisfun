@@ -22,9 +22,7 @@ export default function Basics({ inputETFTicker }) {
 
   useEffect(() => {
     (async () => {
-      if (inputETFTicker) {
-        await handleTicker(inputETFTicker)
-      }
+      inputETFTicker ? await handleTicker(inputETFTicker) : clearItems()
     })()
   }, [inputETFTicker])
 
