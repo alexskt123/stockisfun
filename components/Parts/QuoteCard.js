@@ -9,10 +9,20 @@ import StockInfoToolbar from './StockInfoToolbar'
 
 import { usebgColor } from '../../lib/hooks/usebgColor'
 
-export default function QuoteCard({ children, header, headerHref, inputTicker, isShow, minWidth, noClose, tools }) {
+export default function QuoteCard({ children, header, headerHref, inputTicker, isShow, minWidth, noClose, tools, customBgColor }) {
   const [showCard, setShowCard] = useState(true)
 
-  const bgColor = usebgColor('white', '#e3e3e3')
+  const defaultBgColor = {
+    normal: 'white',
+    darkmode: '#e3e3e3'
+  }
+
+  const setBgColor = {
+    ...defaultBgColor,
+    ...customBgColor
+  }
+
+  const bgColor = usebgColor(setBgColor.normal, setBgColor.darkmode)
 
   useEffect(() => {
     setShowCard(isShow)
