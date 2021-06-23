@@ -161,8 +161,8 @@ export default function Highlight() {
 
   const refreshQuoteDetail = () => {
     type && type === 'detail' ? viewTickerDetail({ ticker: query })
-    : type && type === 'quote' ? viewQuotePrice({ ticker: query })
-      : setShowFalse()
+      : type && type === 'quote' ? viewQuotePrice({ ticker: query })
+        : setShowFalse()
   }
 
   useEffect(() => {

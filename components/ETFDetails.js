@@ -42,6 +42,42 @@ function ETFDetails({ inputTicker }) {
     router.push(`/stockdetail?query=${item.find(x => x)}`)
   }
 
+  const tabs = [{
+    tab: {
+      eventKey: 'Basics',
+      title: 'Basics'
+    },
+    child: {
+      component: Basics,
+      props: {
+        inputETFTicker: settings.inputETFTicker
+      }
+    }
+  }, {
+    tab: {
+      eventKey: 'Holdings',
+      title: 'Holdings'
+    },
+    child: {
+      component: Holdings,
+      props: {
+        inputETFTicker: settings.inputETFTicker,
+        cellClick
+      }
+    }
+  }, {
+    tab: {
+      eventKey: 'Statistics',
+      title: 'Stat.'
+    },
+    child: {
+      component: Stat,
+      props: {
+        inputETFTicker: settings.inputETFTicker
+      }
+    }
+  }]
+
   return (
     <Fragment>
       <Tabs
@@ -50,15 +86,15 @@ function ETFDetails({ inputTicker }) {
         activeKey={tab}
         onSelect={(k) => changeTab(k)}
       >
-        <Tab eventKey="Basics" title="Basics">
-          <Basics inputETFTicker={settings.inputETFTicker} />
-        </Tab>
-        <Tab eventKey="Holdings" title="Holdings">
-          <Holdings inputETFTicker={settings.inputETFTicker} cellClick={cellClick} />
-        </Tab>
-        <Tab eventKey="Statistics" title="Stat.">
-          <Stat inputETFTicker={settings.inputETFTicker} />
-        </Tab>
+        {
+          tabs.map((tab, idx) => {
+            return (
+              <Tab key={idx} {...tab.tab} >
+                <tab.child.component {...tab.child.props} />
+              </Tab>
+            )
+          })
+        }
       </Tabs>
     </Fragment>
   )
