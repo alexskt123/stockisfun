@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "next",
+    "prettier"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "error"
+        ]
+      }
+    ],
+    "import/no-anonymous-default-export": [
+      "off"
+    ]
+  }
+}
