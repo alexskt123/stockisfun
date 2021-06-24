@@ -1,14 +1,16 @@
-
 import { Fragment, useState, useEffect } from 'react'
 
-import { getPriceInfo, sortTableItem, priceSettingSchema } from '../../lib/commonFunction'
+import {
+  getPriceInfo,
+  sortTableItem,
+  priceSettingSchema
+} from '../../lib/commonFunction'
 import StockInfoTable from '../Page/StockInfoTable'
 import { Line } from 'react-chartjs-2'
 import LoadingSpinner from '../Loading/LoadingSpinner'
 import QuoteCard from './QuoteCard'
 
 function PriceChange({ inputTickers, inputYear }) {
-
   const [settings, setSettings] = useState(priceSettingSchema)
   const [loading, setLoading] = useState(false)
 
@@ -18,25 +20,35 @@ function PriceChange({ inputTickers, inputYear }) {
     const noOfYears = inputYear ? inputYear : 15
 
     clearItems()
-    const priceInfo = await getPriceInfo(inputTickers, noOfYears, priceSettingSchema)
+    const priceInfo = await getPriceInfo(
+      inputTickers,
+      noOfYears,
+      priceSettingSchema
+    )
     setSettings(priceInfo)
 
     setLoading(false)
   }
 
-  const sortItem = async (index) => {
+  const sortItem = async index => {
     setSettings({
       ...settings,
-      yearlyPcnt: await sortTableItem(settings.yearlyPcnt, index, settings.ascSort),
+      yearlyPcnt: await sortTableItem(
+        settings.yearlyPcnt,
+        index,
+        settings.ascSort
+      ),
       ascSort: !settings.ascSort
     })
   }
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       await handleTickers()
     })()
     return () => setSettings(null)
+    //todo: fix custom hooks
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputTickers])
 
   const clearItems = () => {
@@ -51,18 +63,25 @@ function PriceChange({ inputTickers, inputYear }) {
 
   return (
     <Fragment>
-      {loading ?
-        <LoadingSpinner /> : null
-      }
-      {
-        inputTickers.length > 0 && !loading ? <Fragment>
-          <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.yearlyPcnt} sortItem={sortItem} />
-          <QuoteCard inputTicker={inputTickers} isShow={true} minWidth={'20rem'} noClose={true}>
+      {loading ? <LoadingSpinner /> : null}
+      {inputTickers.length > 0 && !loading ? (
+        <Fragment>
+          <StockInfoTable
+            tableSize="sm"
+            tableHeader={settings.tableHeader}
+            tableData={settings.yearlyPcnt}
+            sortItem={sortItem}
+          />
+          <QuoteCard
+            inputTicker={inputTickers}
+            isShow={true}
+            minWidth={'20rem'}
+            noClose={true}
+          >
             <Line data={settings.chartData} />
           </QuoteCard>
         </Fragment>
-          : null
-      }
+      ) : null}
     </Fragment>
   )
 }

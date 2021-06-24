@@ -1,4 +1,3 @@
-
 import { Fragment, useState, useEffect } from 'react'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
@@ -22,7 +21,9 @@ function StockDetails({ inputTicker }) {
   const tab = useTab(router)
 
   const changeTab = key => {
-    router.push({ query: { ...router.query, tab: key } }, undefined, { shallow: true })
+    router.push({ query: { ...router.query, tab: key } }, undefined, {
+      shallow: true
+    })
   }
 
   const [settings, setSettings] = useState({ ...stockDetailsSettings })
@@ -38,6 +39,8 @@ function StockDetails({ inputTicker }) {
 
   useEffect(() => {
     inputTicker != '' ? handleTicker() : clearItems()
+    //todo: fix custom hooks
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputTicker])
 
   const clearItems = () => {
@@ -50,7 +53,7 @@ function StockDetails({ inputTicker }) {
         style={{ fontSize: '11px' }}
         className="mt-1"
         activeKey={tab}
-        onSelect={(k) => changeTab(k)}
+        onSelect={k => changeTab(k)}
       >
         <Tab eventKey="Price" title="Price">
           <Price inputTicker={settings.inputTickers.find(x => x)} />

@@ -7,21 +7,24 @@ const mobile = require('is-mobile')
 
 //export default component
 export default function Home() {
-
   const router = useRouter()
 
   useEffect(() => {
-    const redirectURL = mobile() ? 'https://stockisfun-git-pwa-alexskt123.vercel.app/highlight' : '/highlight'
+    const redirectURL = mobile()
+      ? 'https://stockisfun-git-pwa-alexskt123.vercel.app/highlight'
+      : '/highlight'
     router.push(redirectURL)
-  }, [])
+  }, [router])
 
   //template
   return (
     <Fragment>
-      <Container style={{ minHeight: '100vh' }} className="shadow-lg p-3 rounded">
-        <PageLoading/>
+      <Container
+        style={{ minHeight: '100vh' }}
+        className="shadow-lg p-3 rounded"
+      >
+        <PageLoading />
       </Container>
     </Fragment>
   )
 }
-

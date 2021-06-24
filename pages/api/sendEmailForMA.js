@@ -1,16 +1,14 @@
-
 import sendEmail from '../../lib/sendEmail'
 import { getEmailByID } from '../../lib/firebaseResult'
 import { getHost, getHostForETFDb } from '../../lib/commonFunction'
 
 const axios = require('axios').default
 
-const getUrlItem = (item) => {
+const getUrlItem = item => {
   return `<u><a href="${getHostForETFDb()}/stockdetail?query=${item}">${item}</a></u>`
 }
 
 export default async (req, res) => {
-
   const response = {
     response: 'NOT OK'
   }
@@ -20,7 +18,9 @@ export default async (req, res) => {
   const emails = await getEmailByID(id)
   const curEmailTemplate = emails.find(x => x)
 
-  const tickerArr = curEmailTemplate.stock.split(',').map(item => item.toUpperCase())
+  const tickerArr = curEmailTemplate.stock
+    .split(',')
+    .map(item => item.toUpperCase())
   const genChart = curEmailTemplate.genChart ? true : false
 
   // no idea why cannot use spread priceMAlist here
@@ -63,26 +63,35 @@ export default async (req, res) => {
         tickersInfo: [],
         tickersChart: []
       }
-
     ]
   }
 
   response.response = 'OK'
 
-  const responses = await Promise.all(tickerArr.map(ticker => {
-    return axios.get(`${getHost()}/api/getPriceMADetails?ticker=${ticker}&genChart=${genChart}`).catch(err => console.log(err))
-  }))
-    .catch(error => console.log(error))
+  const responses = await Promise.all(
+    tickerArr.map(ticker => {
+      return axios
+        .get(
+          `${getHost()}/api/getPriceMADetails?ticker=${ticker}&genChart=${genChart}`
+        )
+        .catch(err => console.error(err))
+    })
+  ).catch(error => console.error(error))
 
   const responsesArr = responses || []
-  responsesArr.filter(x => x && x.data).forEach(item => {
-    priceMADetails.asOfDate = priceMADetails.asOfDate == '' ? item.data.asOfDate : priceMADetails.asOfDate
-    priceMADetails.priceMAList.forEach(cur => {
-      const priceMA = item.data.priceMAList.find(x => x.id === cur.id)
-      cur.tickersInfo.push(...priceMA.tickersInfo)
-      cur.tickersChart.push(...priceMA.tickersChart)
+  responsesArr
+    .filter(x => x && x.data)
+    .forEach(item => {
+      priceMADetails.asOfDate =
+        priceMADetails.asOfDate == ''
+          ? item.data.asOfDate
+          : priceMADetails.asOfDate
+      priceMADetails.priceMAList.forEach(cur => {
+        const priceMA = item.data.priceMAList.find(x => x.id === cur.id)
+        cur.tickersInfo.push(...priceMA.tickersInfo)
+        cur.tickersChart.push(...priceMA.tickersChart)
+      })
     })
-  })
 
   const mailOptions = {
     from: process.env.EMAIL,
@@ -95,35 +104,40 @@ export default async (req, res) => {
           <p>
               <b>As of ${priceMADetails.asOfDate}:</b>
           </p>
-          ${priceMADetails.priceMAList.map(priceMA => {
-    return (
-      `<hr>
+          ${priceMADetails.priceMAList
+            .map(priceMA => {
+              return `<hr>
                 <p>
                     <b>${priceMA.name}</b>
                     <ol>
-                      ${priceMA.tickersInfo.map((cur, idx) => {
-        const imgElement = genChart ? `<img src=${priceMA.tickersChart[idx]}/>` : ''
-        return (
-          `<li>
+                      ${priceMA.tickersInfo
+                        .map((cur, idx) => {
+                          const imgElement = genChart
+                            ? `<img src=${priceMA.tickersChart[idx]}/>`
+                            : ''
+                          return `<li>
                             <p>Symbol: ${getUrlItem(cur.Symbol)}</p>
-                            <p>Name: ${cur.Name}</p><p>Market Price: ${cur.Price}</p>
+                            <p>Name: ${cur.Name}</p><p>Market Price: ${
+                            cur.Price
+                          }</p>
                             <p>Market Cap.: ${cur.MarketCap}</p>
                             <p>Industry: ${cur.Industry}</p>
                             <p>${imgElement}</p>
                           </li>`
-        )
-      }).join('')}
+                        })
+                        .join('')}
                     </ol>
                 </p>
                 `
-    )
-  }).join('')
-}
+            })
+            .join('')}
           <hr>       
           <p>
               <b>Grabbing Ticker List:</b>
               <ol>
-                  ${tickerArr.map(item => `<li>${getUrlItem(item)}</li>`).join('')}
+                  ${tickerArr
+                    .map(item => `<li>${getUrlItem(item)}</li>`)
+                    .join('')}
               </ol>
           </p>
           `

@@ -23,28 +23,43 @@ export default function Admin() {
   const tab = useTab(router)
 
   const changeTab = key => {
-    router.push({ query: { ...router.query, tab: key } }, undefined, { shallow: true })
+    router.push({ query: { ...router.query, tab: key } }, undefined, {
+      shallow: true
+    })
   }
 
-  const [settings, setSettings] = useState({ stockList: [], etfList: [], watchList: [], boughtList: [] })
+  //todo: remove settings, use readonly realtime data, let child component handle the rest
+  const [settings, setSettings] = useState({
+    stockList: [],
+    etfList: [],
+    watchList: [],
+    boughtList: []
+  })
 
   useEffect(() => {
-    setSettings({
-      ...settings,
+    //use function if you want prev state
+    setSettings(s => ({
+      ...s,
       ...userData
-    })
+    }))
   }, [userData])
 
-  const filterInput = (input) => {
-    return input.replace(/[^a-zA-Z,]/g, '').toUpperCase().split(',').filter((value, idx, self) => self.indexOf(value) === idx)
+  const filterInput = input => {
+    return input
+      .replace(/[^a-zA-Z,]/g, '')
+      .toUpperCase()
+      .split(',')
+      .filter((value, idx, self) => self.indexOf(value) === idx)
   }
 
   const handleChange = (e, type) => {
     setSettings({
       ...settings,
-      stockList: type === 'stock' ? filterInput(e.target.value) : settings.stockList,
+      stockList:
+        type === 'stock' ? filterInput(e.target.value) : settings.stockList,
       etfList: type === 'etf' ? filterInput(e.target.value) : settings.etfList,
-      watchList: type === 'watchlist' ? filterInput(e.target.value) : settings.watchList
+      watchList:
+        type === 'watchlist' ? filterInput(e.target.value) : settings.watchList
     })
   }
 
@@ -65,35 +80,67 @@ export default function Admin() {
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          {
-            user ?
-              <Fragment>
-                <Tabs
-                  style={{ fontSize: '11px' }}
-                  className="mt-1"
-                  activeKey={tab}
-                  onSelect={(k) => changeTab(k)}
-                >
-                  <Tab eventKey="General" title="General">
-                    <h5><Badge variant="dark">{'Update Stock List'}</Badge></h5>
-                    <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.stockList.join(',')} onChange={(e) => handleChange(e, 'stock')} />
-                    <h5><Badge variant="dark">{'Update ETF List'}</Badge></h5>
-                    <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.etfList.join(',')} onChange={(e) => handleChange(e, 'etf')} />
-                    <h5><Badge variant="dark">{'Update Watch List'}</Badge></h5>
-                    <FormControl style={{ minHeight: '6rem' }} as="textarea" aria-label="With textarea" value={settings.watchList.join(',')} onChange={(e) => handleChange(e, 'watchlist')} />
-                    <ButtonGroup aria-label="Basic example">
-                      <Button onClick={() => onUpdate()} size="sm" variant="success">{'Update'}</Button>
-                    </ButtonGroup>
-                  </Tab>
-                  <Tab eventKey="BoughtList" title="Bought List">
-                    <BoughtList boughtList={settings.boughtList} />
-                  </Tab>
-                </Tabs>
-              </Fragment>
-              : <Alert variant="danger"><strong>{'Please Log in First!'}</strong></Alert>
-          }
+          {user ? (
+            <Fragment>
+              <Tabs
+                style={{ fontSize: '11px' }}
+                className="mt-1"
+                activeKey={tab}
+                onSelect={k => changeTab(k)}
+              >
+                <Tab eventKey="General" title="General">
+                  <h5>
+                    <Badge variant="dark">{'Update Stock List'}</Badge>
+                  </h5>
+                  <FormControl
+                    style={{ minHeight: '6rem' }}
+                    as="textarea"
+                    aria-label="With textarea"
+                    value={settings.stockList.join(',')}
+                    onChange={e => handleChange(e, 'stock')}
+                  />
+                  <h5>
+                    <Badge variant="dark">{'Update ETF List'}</Badge>
+                  </h5>
+                  <FormControl
+                    style={{ minHeight: '6rem' }}
+                    as="textarea"
+                    aria-label="With textarea"
+                    value={settings.etfList.join(',')}
+                    onChange={e => handleChange(e, 'etf')}
+                  />
+                  <h5>
+                    <Badge variant="dark">{'Update Watch List'}</Badge>
+                  </h5>
+                  <FormControl
+                    style={{ minHeight: '6rem' }}
+                    as="textarea"
+                    aria-label="With textarea"
+                    value={settings.watchList.join(',')}
+                    onChange={e => handleChange(e, 'watchlist')}
+                  />
+                  <ButtonGroup aria-label="Basic example">
+                    <Button
+                      onClick={() => onUpdate()}
+                      size="sm"
+                      variant="success"
+                    >
+                      {'Update'}
+                    </Button>
+                  </ButtonGroup>
+                </Tab>
+                <Tab eventKey="BoughtList" title="Bought List">
+                  <BoughtList boughtList={settings.boughtList} />
+                </Tab>
+              </Tabs>
+            </Fragment>
+          ) : (
+            <Alert variant="danger">
+              <strong>{'Please Log in First!'}</strong>
+            </Alert>
+          )}
         </Fragment>
       </CustomContainer>
-    </Fragment >
+    </Fragment>
   )
 }

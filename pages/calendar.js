@@ -18,7 +18,6 @@ const localizer = momentLocalizer(moment)
 
 //export default component
 export default function BigCalendar() {
-
   const darkMode = useDarkMode(false)
 
   const user = useUser()
@@ -27,14 +26,22 @@ export default function BigCalendar() {
   const [eventList, setEventList] = useState([])
   const [show, setShow] = useState({ show: false, ticker: null })
   const [earnings, setEarnings] = useState({
-    tableHeader: ['Date Reported', 'Fiscal Quarter End', 'Consensus EPS Forecast', 'Earnings Per Share', '% Surprise'],
+    tableHeader: [
+      'Date Reported',
+      'Fiscal Quarter End',
+      'Consensus EPS Forecast',
+      'Earnings Per Share',
+      '% Surprise'
+    ],
     tableData: []
   })
 
   const handleClose = () => setShow({ show: false, ticker: null })
 
-  const handleSelectSlot = async (e) => {
-    const { data } = await axios.get(`/api/nasdaq/getEarningsHistory?ticker=${e.title}`).catch(err => console.log(err))
+  const handleSelectSlot = async e => {
+    const { data } = await axios
+      .get(`/api/nasdaq/getEarningsHistory?ticker=${e.title}`)
+      .catch(err => console.error(err))
     const tableData = data
     setEarnings({
       ...earnings,
@@ -44,10 +51,14 @@ export default function BigCalendar() {
   }
 
   useEffect(() => {
-    (async () => {
-      const responses = await Promise.all([...userData.watchList].map(async item => {
-        return axios.get(`/api/yahoo/getYahooEarningsDate?ticker=${item}`).catch(err => console.log(err))
-      })).catch(error => console.log(error))
+    ;(async () => {
+      const responses = await Promise.all(
+        [...userData.watchList].map(async item => {
+          return axios
+            .get(`/api/yahoo/getYahooEarningsDate?ticker=${item}`)
+            .catch(err => console.error(err))
+        })
+      ).catch(error => console.error(error))
       const eventEarnings = [...userData.watchList].map((item, idx) => {
         return {
           id: idx,
@@ -63,9 +74,17 @@ export default function BigCalendar() {
 
   return (
     <Fragment>
-      <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 rounded">
+      <Container
+        style={{ minHeight: '100vh' }}
+        className="mt-5 shadow-lg p-3 mb-5 rounded"
+      >
         <Fragment>
-          <QuoteCard header={'Calendar'} isShow={true} noClose={true} customBgColor={{normal: 'white', darkmode: '#adadad'}}>
+          <QuoteCard
+            header={'Calendar'}
+            isShow={true}
+            noClose={true}
+            customBgColor={{ normal: 'white', darkmode: '#adadad' }}
+          >
             <Calendar
               popup
               localizer={localizer}
@@ -77,17 +96,23 @@ export default function BigCalendar() {
               onSelectEvent={handleSelectSlot}
             />
           </QuoteCard>
-          <Modal
-            size="xl"
-            centered
-            show={show.show}
-            onHide={handleClose}
-          >
-            <Modal.Header closeButton style={{ backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}>
-              <Modal.Title><Badge variant="dark">{`Earnings History - ${show.ticker}`}</Badge></Modal.Title>
+          <Modal size="xl" centered show={show.show} onHide={handleClose}>
+            <Modal.Header
+              closeButton
+              style={{ backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}
+            >
+              <Modal.Title>
+                <Badge variant="dark">{`Earnings History - ${show.ticker}`}</Badge>
+              </Modal.Title>
             </Modal.Header>
-            <Modal.Body style={{ backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}>
-              <StockInfoTable tableSize="sm" tableHeader={earnings.tableHeader} tableData={earnings.tableData} />
+            <Modal.Body
+              style={{ backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}
+            >
+              <StockInfoTable
+                tableSize="sm"
+                tableHeader={earnings.tableHeader}
+                tableData={earnings.tableData}
+              />
             </Modal.Body>
           </Modal>
         </Fragment>
@@ -95,4 +120,3 @@ export default function BigCalendar() {
     </Fragment>
   )
 }
-
