@@ -11,7 +11,9 @@ export default async (req, res) => {
   const etfInfo = await getETFListByTicker(ticker)
   const data = {
     ...etfInfo,
-    etfList: [...etfInfo.etfList.filter((_x, idx) => idx < etfListByTickerCount)]
+    etfList: [
+      ...etfInfo.etfList.filter((_x, idx) => idx < etfListByTickerCount)
+    ]
   }
 
   res.statusCode = 200

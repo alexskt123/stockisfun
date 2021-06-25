@@ -1,6 +1,11 @@
 import { Fragment } from 'react'
 import Badge from 'react-bootstrap/Badge'
-import { addToUserList, delFromUserList, useUser, useUserData } from '../../lib/firebaseResult'
+import {
+  addToUserList,
+  delFromUserList,
+  useUser,
+  useUserData
+} from '../../lib/firebaseResult'
 import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
 import { IconContext } from 'react-icons'
 import { fireToast } from '../../lib/toast'
@@ -29,21 +34,25 @@ function AddDelStock({ inputTicker, handleList }) {
 
   return (
     <Fragment>
-      {
-        user
-          ? handleList == 'stock' && userData.stockList.includes(inputTicker) || handleList == 'etf' && userData.etfList.includes(inputTicker)
-            ? <Badge>
-              <IconContext.Provider value={{ color: 'red', size: '15px' }}>
-                <MdRemoveCircleOutline className="cursor" onClick={handleRemove} />
-              </IconContext.Provider>
-            </Badge>
-            : <Badge>
-              <IconContext.Provider value={{ color: 'green', size: '15px' }}>
-                <MdAddCircleOutline className="cursor" onClick={handleAdd} />
-              </IconContext.Provider>
-            </Badge>
-          : null
-      }
+      {user ? (
+        (handleList == 'stock' && userData.stockList.includes(inputTicker)) ||
+        (handleList == 'etf' && userData.etfList.includes(inputTicker)) ? (
+          <Badge>
+            <IconContext.Provider value={{ color: 'red', size: '15px' }}>
+              <MdRemoveCircleOutline
+                className="cursor"
+                onClick={handleRemove}
+              />
+            </IconContext.Provider>
+          </Badge>
+        ) : (
+          <Badge>
+            <IconContext.Provider value={{ color: 'green', size: '15px' }}>
+              <MdAddCircleOutline className="cursor" onClick={handleAdd} />
+            </IconContext.Provider>
+          </Badge>
+        )
+      ) : null}
     </Fragment>
   )
 }

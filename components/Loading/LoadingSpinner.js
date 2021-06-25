@@ -4,12 +4,11 @@ import Badge from 'react-bootstrap/Badge'
 import CustomSpinner from './CustomSpinner'
 
 function LoadingSpinner() {
-
   const spinners = [...Array(3)].map(_item => '')
 
   return (
     <Fragment>
-      <div style={{minWidth: '12rem'}}>
+      <div style={{ minWidth: '12rem' }}>
         <Button variant="light" disabled>
           {spinners.map((_item, idx) => {
             return <CustomSpinner key={`${idx}`} />
@@ -23,7 +22,6 @@ function LoadingSpinner() {
         </Button>
       </div>
     </Fragment>
-
   )
 }
 

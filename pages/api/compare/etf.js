@@ -15,20 +15,27 @@ export default async (req, res) => {
   ])
 
   res.statusCode = 200
-  res.json(responses.reduce((acc, item) => {
-    const spreadItems = item.basicInfo ? item.basicInfo : item
-    const selectedItemsArr = Object.keys(spreadItems).filter(x => tableHeaderList.map(header => header.item).includes(x))
+  res.json(
+    responses.reduce(
+      (acc, item) => {
+        const spreadItems = item.basicInfo ? item.basicInfo : item
+        const selectedItemsArr = Object.keys(spreadItems).filter(x =>
+          tableHeaderList.map(header => header.item).includes(x)
+        )
 
-    const selectedItems = selectedItemsArr.reduce((acc, key) => {
-      return {
-        ...acc,
-        [key]: spreadItems[key]
-      }
-    }, {})
-    
-    return {
-      ...acc,
-      ...selectedItems
-    }
-  }, { symbol: ticker }))
+        const selectedItems = selectedItemsArr.reduce((acc, key) => {
+          return {
+            ...acc,
+            [key]: spreadItems[key]
+          }
+        }, {})
+
+        return {
+          ...acc,
+          ...selectedItems
+        }
+      },
+      { symbol: ticker }
+    )
+  )
 }

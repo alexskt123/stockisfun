@@ -16,7 +16,11 @@ export default async (req, res) => {
   const balanceSheet = await getYahooBalanceSheet(ticker)
   const quote = await getYahooQuote(ticker)
 
-  const earningCapacity = getStockEarningCapacity(earnings, cashflow, balanceSheet)
+  const earningCapacity = getStockEarningCapacity(
+    earnings,
+    cashflow,
+    balanceSheet
+  )
 
   res.statusCode = 200
   res.json({

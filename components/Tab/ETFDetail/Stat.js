@@ -1,4 +1,3 @@
-
 import { Fragment, useState, useEffect } from 'react'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
@@ -8,7 +7,6 @@ import ForecastInfo from '../../../components/Parts/ForecastInfo'
 import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 export default function Stat({ inputETFTicker }) {
-
   const [ticker, setTicker] = useState([])
 
   useEffect(() => {
@@ -17,8 +15,8 @@ export default function Stat({ inputETFTicker }) {
 
   return (
     <Fragment>
-      {
-        inputETFTicker ? <Fragment>
+      {inputETFTicker ? (
+        <Fragment>
           <Row className="ml-1">
             <h5>
               <Badge variant="dark">{'Forecast'}</Badge>
@@ -32,8 +30,9 @@ export default function Stat({ inputETFTicker }) {
           </Row>
           <PriceChange inputTickers={ticker} />
         </Fragment>
-          : <ValidTickerAlert />
-      }
-    </Fragment >
+      ) : (
+        <ValidTickerAlert />
+      )}
+    </Fragment>
   )
 }

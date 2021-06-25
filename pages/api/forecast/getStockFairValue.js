@@ -18,10 +18,15 @@ export default async (req, res) => {
   ])
 
   res.statusCode = 200
-  res.json(responses.reduce((acc, item) => {
-    return {
-      ...acc,
-      ...item
-    }
-  }, { symbol: ticker }))
+  res.json(
+    responses.reduce(
+      (acc, item) => {
+        return {
+          ...acc,
+          ...item
+        }
+      },
+      { symbol: ticker }
+    )
+  )
 }

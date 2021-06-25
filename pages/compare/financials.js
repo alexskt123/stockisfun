@@ -1,4 +1,3 @@
-
 import { Fragment, useState } from 'react'
 import { useRouter } from 'next/router'
 
@@ -7,7 +6,11 @@ import TickerInput from '../../components/Page/TickerInput'
 import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import FinancialsInfo from '../../components/Parts/FinancialsInfo'
-import { financialsSettingSchema, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
+import {
+  financialsSettingSchema,
+  handleDebounceChange,
+  handleFormSubmit
+} from '../../lib/commonFunction'
 import { useQuery } from '../../lib/hooks/useQuery'
 
 export default function CompareFinancials() {
@@ -19,7 +22,7 @@ export default function CompareFinancials() {
   const [formValue, setFormValue] = useState({})
   const [clicked, setClicked] = useState(false)
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
@@ -27,18 +30,16 @@ export default function CompareFinancials() {
     router.push(router.pathname)
   }
 
-  const removeItem = (value) => {
-    const removed = [...settings.tickers.filter(x => x !== value)]  
-    setSettings(
-      {
-        ...settings,
-        tickers: removed
-      }
-    )
+  const removeItem = value => {
+    const removed = [...settings.tickers.filter(x => x !== value)]
+    setSettings({
+      ...settings,
+      tickers: removed
+    })
     router.push(`${router.pathname}?query=${removed.join(',')}`)
   }
 
-  const handleTickers = (inputTickers) => {
+  const handleTickers = inputTickers => {
     setClicked(true)
 
     setSettings({
@@ -49,7 +50,7 @@ export default function CompareFinancials() {
     setClicked(false)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
 
@@ -69,12 +70,10 @@ export default function CompareFinancials() {
             handleTickers={handleTickers}
           />
           <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
-          {clicked ?
-            <LoadingSpinner /> : null
-          }
+          {clicked ? <LoadingSpinner /> : null}
           <FinancialsInfo inputTickers={settings.tickers} />
         </Fragment>
       </CustomContainer>
-    </Fragment >
+    </Fragment>
   )
 }

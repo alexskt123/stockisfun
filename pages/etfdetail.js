@@ -1,4 +1,3 @@
-
 import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
@@ -8,7 +7,6 @@ import TypeAhead from '../components/Page/TypeAhead'
 import ETFDetails from '../components/ETFDetails'
 
 export default function ETFDetail() {
-
   const [ticker, setTicker] = useState('')
 
   const router = useRouter()
@@ -18,9 +16,11 @@ export default function ETFDetail() {
     setTicker(query || '')
   }, [query])
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const input = e.find(x => x)
-    input ? router.push({ query: { ...router.query, query: input.symbol } }) : null
+    input
+      ? router.push({ query: { ...router.query, query: input.symbol } })
+      : null
   }
 
   const clearItems = () => {
@@ -42,6 +42,6 @@ export default function ETFDetail() {
           <ETFDetails inputTicker={ticker} />
         </Fragment>
       </CustomContainer>
-    </Fragment >
+    </Fragment>
   )
 }

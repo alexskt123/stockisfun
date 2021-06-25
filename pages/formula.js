@@ -12,20 +12,19 @@ const FormulaCard = dynamic(
 
 //export default component
 export default function Formula() {
-
   //template
   return (
     <Fragment>
-      <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 rounded">
+      <Container
+        style={{ minHeight: '100vh' }}
+        className="mt-5 shadow-lg p-3 mb-5 rounded"
+      >
         <Fragment>
-          {
-            formulaSettings.map((item, idx) => {
-              return <FormulaCard key={idx} content={item} />
-            })
-          }
+          {formulaSettings.map((item, idx) => {
+            return <FormulaCard key={idx} content={item} />
+          })}
         </Fragment>
       </Container>
     </Fragment>
   )
 }
-

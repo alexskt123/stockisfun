@@ -1,4 +1,3 @@
-
 const Settings = {
   Copyright: '© 2021 StockIsFun Limited',
   LogoImgSrc: '/favicon.ico'
@@ -47,9 +46,7 @@ export const NavDropDown = [
   }
 ]
 
-
 export const NavItems = [
-
   {
     href: '/etfdetail',
     label: 'ETF'
@@ -100,6 +97,11 @@ export const stockMarketIndexSWROptions = {
   refreshInterval: 10000
 }
 
-export const fetcher = (input) => fetch(input).then(res => res.json())
+export const fetcher = input => fetch(input).then(res => res.json())
 
-export const SWRSticky = { backgroundColor: 'white', left: 0, position: 'sticky', zIndex: 997 }
+export const SWRSticky = {
+  backgroundColor: 'white',
+  left: 0,
+  position: 'sticky',
+  zIndex: 997
+}

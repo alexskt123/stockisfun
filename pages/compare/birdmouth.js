@@ -1,11 +1,14 @@
-
 import { Fragment, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import CustomContainer from '../../components/Layout/CustomContainer'
 import TickerInput from '../../components/Page/TickerInput'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import { forecastSettingSchema, handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
+import {
+  forecastSettingSchema,
+  handleDebounceChange,
+  handleFormSubmit
+} from '../../lib/commonFunction'
 import { useQuery } from '../../lib/hooks/useQuery'
 import BirdMouth from '../../components/Parts/BirdMouth'
 
@@ -18,12 +21,15 @@ export default function CompareBirdMouth() {
   const { query } = router.query
 
   const [settings, setSettings] = useState(forecastSettingSchema)
-  const [tableSettings, setTableSettings] = useState({ tableHeader: [], tableData: [] })
+  const [tableSettings, setTableSettings] = useState({
+    tableHeader: [],
+    tableData: []
+  })
   const [tableLoading, setTableLoading] = useState(false)
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
@@ -36,8 +42,7 @@ export default function CompareBirdMouth() {
     router.push(router.pathname)
   }
 
-  const handleTickers = (inputTickers) => {
-
+  const handleTickers = inputTickers => {
     setSettings({
       ...settings,
       tickers: inputTickers
@@ -46,35 +51,46 @@ export default function CompareBirdMouth() {
     handleTable(inputTickers)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
 
   async function handleTable(input) {
-
     setTableLoading(true)
 
-    const priceMAInfo = await Promise.all(input.map(async item => {
-      const response = await axios(`/api/getPriceMADetails?ticker=${item}`)
-      const { data } = response
-      return data
-    }))
+    const priceMAInfo = await Promise.all(
+      input.map(async item => {
+        const response = await axios(`/api/getPriceMADetails?ticker=${item}`)
+        const { data } = response
+        return data
+      })
+    )
 
-    const tableHeader = priceMAInfo.length > 0 ? ['Ticker', ...(priceMAInfo?.find(x => x)?.priceMAList?.map(item => item.id) || [])] : []
-    const tableData = priceMAInfo.map(item => {
-      return [item.ticker, ...item.priceMAList.map(ma => {
-        return ma.tickersInfo.length > 0 ? 'Yes' : ''
-      })]
-    }).filter(item => item.find(x => x.includes('Yes')))
+    const tableHeader =
+      priceMAInfo.length > 0
+        ? [
+            'Ticker',
+            ...(priceMAInfo?.find(x => x)?.priceMAList?.map(item => item.id) ||
+              [])
+          ]
+        : []
+    const tableData = priceMAInfo
+      .map(item => {
+        return [
+          item.ticker,
+          ...item.priceMAList.map(ma => {
+            return ma.tickersInfo.length > 0 ? 'Yes' : ''
+          })
+        ]
+      })
+      .filter(item => item.find(x => x.includes('Yes')))
     const tableHeaderData = {
       tableHeader,
       tableData
     }
     setTableSettings(tableHeaderData)
     setTableLoading(false)
-
   }
-
 
   useQuery(handleTickers, { query })
 
@@ -93,13 +109,23 @@ export default function CompareBirdMouth() {
             tableData={tableSettings.tableData}
             exportFileName={'birdmouth.csv'}
           />
-          {
-            tableLoading ? <LoadingSpinner />
-              : <StockInfoTable tableSize="sm" tableHeader={tableSettings.tableHeader} tableData={tableSettings.tableData} />
-          }
-          <BirdMouth input={settings.tickers.map(item => ({ label: item, ticker: item }))} />
-        </Fragment >
+          {tableLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <StockInfoTable
+              tableSize="sm"
+              tableHeader={tableSettings.tableHeader}
+              tableData={tableSettings.tableData}
+            />
+          )}
+          <BirdMouth
+            input={settings.tickers.map(item => ({
+              label: item,
+              ticker: item
+            }))}
+          />
+        </Fragment>
       </CustomContainer>
-    </Fragment >
+    </Fragment>
   )
 }

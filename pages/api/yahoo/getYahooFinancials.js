@@ -23,9 +23,18 @@ export default async (req, res) => {
   const quote = await getYahooQuote(ticker)
   const assetProfile = await getYahooAssetProfile(ticker)
 
-  const earningCapacity = getStockEarningCapacity(earnings, cashflow, balanceSheet)
+  const earningCapacity = getStockEarningCapacity(
+    earnings,
+    cashflow,
+    balanceSheet
+  )
 
-  const grossMargin = percent.calc(income.find(x => x)?.grossProfit?.raw, income.find(x => x)?.totalRevenue?.raw, 2, true)
+  const grossMargin = percent.calc(
+    income.find(x => x)?.grossProfit?.raw,
+    income.find(x => x)?.totalRevenue?.raw,
+    2,
+    true
+  )
   const returnOnEquity = financialData?.returnOnEquity?.fmt
   const returnOnAssets = financialData?.returnOnAssets?.fmt
   const trailingPE = quote?.trailingPE ? roundTo(quote?.trailingPE) : 'N/A'

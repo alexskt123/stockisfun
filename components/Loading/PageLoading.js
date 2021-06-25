@@ -12,6 +12,5 @@ export default function PageLoading() {
         </Row>
       </CustomContainer>
     </Fragment>
-
   )
 }

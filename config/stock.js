@@ -1,4 +1,3 @@
-
 export const etfListSettings = {
   etfList: {
     tableHeader: [],
