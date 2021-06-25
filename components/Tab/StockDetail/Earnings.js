@@ -1,14 +1,13 @@
 import { Fragment, useEffect, useState } from 'react'
+
 import { Bar } from 'react-chartjs-2'
-
-import { staticSWROptions, fetcher } from '../../../config/settings'
-
 import useSWR from 'swr'
-import StockInfoTable from '../../Page/StockInfoTable'
-import LoadingSpinner from '../../Loading/LoadingSpinner'
-import QuoteCard from '../../../components/Parts/QuoteCard'
 
+import QuoteCard from '../../../components/Parts/QuoteCard'
+import { staticSWROptions, fetcher } from '../../../config/settings'
 import { getYahooEarnings } from '../../../lib/stockDetailsFunction'
+import LoadingSpinner from '../../Loading/LoadingSpinner'
+import StockInfoTable from '../../Page/StockInfoTable'
 
 export default function Earnings({ inputTicker }) {
   const [settings, setSettings] = useState({})

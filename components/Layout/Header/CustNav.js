@@ -1,10 +1,10 @@
 import Nav from 'react-bootstrap/Nav'
 
-import CustNavItems from './CustNavItems'
+import { NavDropDown, NavItems } from '../../../config/settings'
 import CustNavDropdownItems from './CustNavDropdownItems'
+import CustNavItems from './CustNavItems'
 
 // config
-import { NavDropDown, NavItems } from '../../../config/settings'
 
 const CustNav = () => {
   return (

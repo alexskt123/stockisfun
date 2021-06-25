@@ -1,12 +1,13 @@
 import { Fragment, useState } from 'react'
+
 import { useRouter } from 'next/router'
 
+import CustomContainer from '../../components/Layout/CustomContainer'
+import SWRTable from '../../components/Page/SWRTable'
+import TickerBullet from '../../components/Page/TickerBullet'
+import TickerInput from '../../components/Page/TickerInput'
 import { tableHeaderList } from '../../config/etf'
 import { staticSWROptions } from '../../config/settings'
-import CustomContainer from '../../components/Layout/CustomContainer'
-import TickerInput from '../../components/Page/TickerInput'
-import TickerBullet from '../../components/Page/TickerBullet'
-import SWRTable from '../../components/Page/SWRTable'
 import {
   handleDebounceChange,
   handleFormSubmit

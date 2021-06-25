@@ -1,13 +1,14 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import { Line } from 'react-chartjs-2'
+
 import {
   getPriceInfo,
   sortTableItem,
   priceSettingSchema
 } from '../../lib/commonFunction'
-import StockInfoTable from '../Page/StockInfoTable'
-import { Line } from 'react-chartjs-2'
 import LoadingSpinner from '../Loading/LoadingSpinner'
+import StockInfoTable from '../Page/StockInfoTable'
 import QuoteCard from './QuoteCard'
 
 function PriceChange({ inputTickers, inputYear }) {

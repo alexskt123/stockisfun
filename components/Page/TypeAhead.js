@@ -1,12 +1,13 @@
 import { Fragment, useState, useRef } from 'react'
 
-import Row from 'react-bootstrap/Row'
+import { AsyncTypeahead } from 'react-bootstrap-typeahead'
+import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import Badge from 'react-bootstrap/Badge'
+import Row from 'react-bootstrap/Row'
+
 import { buttonSettings } from '../../config/form'
-import { AsyncTypeahead } from 'react-bootstrap-typeahead'
 
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 

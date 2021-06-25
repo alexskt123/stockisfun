@@ -1,20 +1,21 @@
 import { useState, Fragment, useEffect, useMemo } from 'react'
-import firebase, { auth, authUI } from '../../config/fireui-config'
-import { initUser, useUserData, useUser } from '../../lib/firebaseResult'
+
+import Link from 'next/link'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
+import Dropdown from 'react-bootstrap/Dropdown'
 import Modal from 'react-bootstrap/Modal'
 import Row from 'react-bootstrap/Row'
-import Dropdown from 'react-bootstrap/Dropdown'
+import { CgViewList } from 'react-icons/cg'
 import { FaUserCircle, FaList } from 'react-icons/fa'
 import { HiOutlineMail } from 'react-icons/hi'
-import { CgViewList } from 'react-icons/cg'
 import { RiFundsBoxLine, RiProfileLine } from 'react-icons/ri'
-import { fireToast } from '../../lib/toast'
 
+import firebase, { auth, authUI } from '../../config/fireui-config'
+import { initUser, useUserData, useUser } from '../../lib/firebaseResult'
+import { fireToast } from '../../lib/toast'
 import 'firebaseui/dist/firebaseui.css'
-import Link from 'next/link'
 import ModalQuestion from '../Parts/ModalQuestion'
 
 function FireAuth() {

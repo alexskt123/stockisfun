@@ -1,18 +1,18 @@
 import { Fragment, useState, useEffect } from 'react'
+
 import Badge from 'react-bootstrap/Badge'
 import CardDeck from 'react-bootstrap/CardDeck'
 
+import AddDelStock from '../../../components/Fire/AddDelStock'
+import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
+import StockInfoTable from '../../../components/Page/StockInfoTable'
 import Price from '../../../components/Parts/Price'
 import QuoteCard from '../../../components/Parts/QuoteCard'
-import StockInfoTable from '../../../components/Page/StockInfoTable'
-import ValidTickerAlert from '../../Parts/ValidTickerAlert'
-import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
-import AddDelStock from '../../../components/Fire/AddDelStock'
-
 import { etfDetailsBasicSettings, etfTools } from '../../../config/etf'
 import { getETFDetailBasics } from '../../../lib/commonFunction'
 import { fireToast } from '../../../lib/toast'
 import HappyShare from '../../Parts/HappyShare'
+import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 export default function Basics({ inputETFTicker }) {
   const [settings, setSettings] = useState({ ...etfDetailsBasicSettings })

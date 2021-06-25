@@ -1,12 +1,13 @@
-import sendEmail from '../../lib/sendEmail'
-import { getEmailByID } from '../../lib/firebaseResult'
+import moment from 'moment-business-days'
+
+import { aumTableHeader } from '../../config/etf'
 import {
   getCSVContent,
   getHostForETFDb,
   getHost
 } from '../../lib/commonFunction'
-import moment from 'moment-business-days'
-import { aumTableHeader } from '../../config/etf'
+import { getEmailByID } from '../../lib/firebaseResult'
+import sendEmail from '../../lib/sendEmail'
 
 const axios = require('axios').default
 

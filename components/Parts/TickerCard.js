@@ -1,10 +1,10 @@
-import Card from 'react-bootstrap/Card'
-import Badge from 'react-bootstrap/Badge'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import { FaArrowAltCircleDown, FaArrowAltCircleUp } from 'react-icons/fa'
-import { IconContext } from 'react-icons'
 import AnimatedNumber from 'animated-number-react'
+import Badge from 'react-bootstrap/Badge'
+import Card from 'react-bootstrap/Card'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import { IconContext } from 'react-icons'
+import { FaArrowAltCircleDown, FaArrowAltCircleUp } from 'react-icons/fa'
 
 import {
   convertToPercentage,

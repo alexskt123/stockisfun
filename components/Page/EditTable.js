@@ -1,8 +1,9 @@
 import { Fragment, useState, useEffect } from 'react'
+
 import dynamic from 'next/dynamic'
-import useDarkMode from 'use-dark-mode'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import useDarkMode from 'use-dark-mode'
 
 const Table = dynamic(
   () => {

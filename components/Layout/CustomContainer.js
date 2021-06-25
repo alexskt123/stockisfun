@@ -1,5 +1,6 @@
-import Container from 'react-bootstrap/Container'
 import { Fragment } from 'react'
+
+import Container from 'react-bootstrap/Container'
 
 export default function CustomContainer({ children, style }) {
   return (

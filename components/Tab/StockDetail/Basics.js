@@ -1,12 +1,11 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import { staticSWROptions, fetcher } from '../../../config/settings'
-
 import useSWR from 'swr'
-import StockInfoTable from '../../Page/StockInfoTable'
-import LoadingSpinner from '../../Loading/LoadingSpinner'
 
+import { staticSWROptions, fetcher } from '../../../config/settings'
 import { getBasics } from '../../../lib/stockDetailsFunction'
+import LoadingSpinner from '../../Loading/LoadingSpinner'
+import StockInfoTable from '../../Page/StockInfoTable'
 
 export default function Basics({ inputTicker }) {
   const defaultBasics = {

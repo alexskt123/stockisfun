@@ -1,13 +1,13 @@
 import { Fragment, useState, useEffect } from 'react'
-import Tabs from 'react-bootstrap/Tabs'
-import Tab from 'react-bootstrap/Tab'
 
+import { useRouter } from 'next/router'
+import Tab from 'react-bootstrap/Tab'
+import Tabs from 'react-bootstrap/Tabs'
+
+import Basics from '../components/Tab/ETFDetail/Basics'
 import Holdings from '../components/Tab/ETFDetail/Holdings'
 import Stat from '../components/Tab/ETFDetail/Stat'
-import Basics from '../components/Tab/ETFDetail/Basics'
-
 import { etfDetailsSettings } from '../config/etf'
-import { useRouter } from 'next/router'
 import { useTab } from '../lib/hooks/useTab'
 
 function ETFDetails({ inputTicker }) {

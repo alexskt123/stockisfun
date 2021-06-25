@@ -1,8 +1,6 @@
 import dynamic from 'next/dynamic'
-
 import { IconContext } from 'react-icons'
 import { FiSun, FiMoon } from 'react-icons/fi'
-
 import useDarkMode from 'use-dark-mode'
 
 const Toggle = dynamic(

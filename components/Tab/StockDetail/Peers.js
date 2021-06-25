@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useState } from 'react'
 
+import useSWR from 'swr'
+
 import { peersHeader, initSettings } from '../../../config/peers'
 import { staticSWROptions, fetcher } from '../../../config/settings'
-
-import useSWR from 'swr'
-import StockInfoTable from '../../Page/StockInfoTable'
 import LoadingSpinner from '../../Loading/LoadingSpinner'
+import StockInfoTable from '../../Page/StockInfoTable'
 
 export default function Peers({ inputTicker }) {
   const [settings, setSettings] = useState({ ...initSettings })

@@ -1,22 +1,22 @@
 import { Fragment, useState } from 'react'
+
 import { useRouter } from 'next/router'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 
-import { tableHeaderList } from '../config/watchlist'
 import CustomContainer from '../components/Layout/CustomContainer'
-import TickerInput from '../components/Page/TickerInput'
-import TickerBullet from '../components/Page/TickerBullet'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
-import ModalQuestion from '../components/Parts/ModalQuestion'
 import SearchAccordion from '../components/Page/SearchAccordion'
 import SWRTable from '../components/Page/SWRTable'
+import TickerBullet from '../components/Page/TickerBullet'
+import TickerInput from '../components/Page/TickerInput'
 import HappyShare from '../components/Parts/HappyShare'
-
+import ModalQuestion from '../components/Parts/ModalQuestion'
+import { tableHeaderList } from '../config/watchlist'
 import { handleDebounceChange, handleFormSubmit } from '../lib/commonFunction'
 import { updUserWatchList, useUser } from '../lib/firebaseResult'
-import { fireToast } from '../lib/toast'
 import { useQuery } from '../lib/hooks/useQuery'
+import { fireToast } from '../lib/toast'
 
 export default function WatchList() {
   const router = useRouter()

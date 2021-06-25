@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
-import { useRouter } from 'next/router'
 
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import Nav from 'react-bootstrap/Nav'
 
 const CustNavItems = ({ NavItems }) => {

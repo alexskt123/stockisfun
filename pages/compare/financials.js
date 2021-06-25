@@ -1,10 +1,11 @@
 import { Fragment, useState } from 'react'
+
 import { useRouter } from 'next/router'
 
 import CustomContainer from '../../components/Layout/CustomContainer'
-import TickerInput from '../../components/Page/TickerInput'
-import TickerBullet from '../../components/Page/TickerBullet'
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
+import TickerBullet from '../../components/Page/TickerBullet'
+import TickerInput from '../../components/Page/TickerInput'
 import FinancialsInfo from '../../components/Parts/FinancialsInfo'
 import {
   financialsSettingSchema,

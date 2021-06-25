@@ -1,16 +1,16 @@
 import { Fragment, useState, useEffect } from 'react'
-import Container from 'react-bootstrap/Container'
-import { Calendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
-import useDarkMode from 'use-dark-mode'
-import { useUser, useUserData } from '../lib/firebaseResult'
 
-import Modal from 'react-bootstrap/Modal'
+import moment from 'moment'
+import { Calendar, momentLocalizer } from 'react-big-calendar'
 import Badge from 'react-bootstrap/Badge'
+import Container from 'react-bootstrap/Container'
+import Modal from 'react-bootstrap/Modal'
+import useDarkMode from 'use-dark-mode'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import StockInfoTable from '../components/Page/StockInfoTable'
 import QuoteCard from '../components/Parts/QuoteCard'
+import { useUser, useUserData } from '../lib/firebaseResult'
 
 const axios = require('axios').default
 

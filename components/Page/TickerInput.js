@@ -1,14 +1,15 @@
 import { Fragment } from 'react'
 
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
-import { exportToFile } from '../../lib/exportToFile'
-import { useUser, useUserData } from '../../lib/firebaseResult'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+
 import {
   priceChangeDateRangeSelectAttr,
   buttonSettings
 } from '../../config/form'
+import { exportToFile } from '../../lib/exportToFile'
+import { useUser, useUserData } from '../../lib/firebaseResult'
 
 function TickerInput({
   validated,

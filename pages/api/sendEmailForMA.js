@@ -1,6 +1,6 @@
-import sendEmail from '../../lib/sendEmail'
-import { getEmailByID } from '../../lib/firebaseResult'
 import { getHost, getHostForETFDb } from '../../lib/commonFunction'
+import { getEmailByID } from '../../lib/firebaseResult'
+import sendEmail from '../../lib/sendEmail'
 
 const axios = require('axios').default
 

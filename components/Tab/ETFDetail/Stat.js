@@ -1,9 +1,10 @@
 import { Fragment, useState, useEffect } from 'react'
+
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 
-import PriceChange from '../../../components/Parts/PriceChange'
 import ForecastInfo from '../../../components/Parts/ForecastInfo'
+import PriceChange from '../../../components/Parts/PriceChange'
 import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 export default function Stat({ inputETFTicker }) {

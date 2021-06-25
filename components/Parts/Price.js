@@ -1,5 +1,11 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import { ma, ema } from 'moving-averages'
+import Badge from 'react-bootstrap/Badge'
+import Form from 'react-bootstrap/Form'
+import { Line } from 'react-chartjs-2'
+import useSWR from 'swr'
+
 import {
   priceSchema,
   priceChartSettings,
@@ -10,15 +16,9 @@ import {
   dateRangeSelectAttr,
   maSelectAttr
 } from '../../config/price'
-import { Line } from 'react-chartjs-2'
-import LoadingSpinner from '../Loading/LoadingSpinner'
-import Form from 'react-bootstrap/Form'
-import Badge from 'react-bootstrap/Badge'
-import { ma, ema } from 'moving-averages'
 import { staticSWROptions, fetcher } from '../../config/settings'
+import LoadingSpinner from '../Loading/LoadingSpinner'
 import YahooQuoteInfo from './YahooQuoteInfo'
-
-import useSWR from 'swr'
 
 function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })

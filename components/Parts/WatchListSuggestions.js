@@ -1,10 +1,12 @@
-import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Badge from 'react-bootstrap/Badge'
 import { Fragment, useEffect, useState } from 'react'
-import { getHighlistWatchList } from '../../lib/firebaseResult'
+
+import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+
 import { randBackgroundColor } from '../../lib/commonFunction'
+import { getHighlistWatchList } from '../../lib/firebaseResult'
 
 function WatchListSuggestions({ userData, onClickWatchListButton }) {
   const [watchList, setWatchList] = useState([])

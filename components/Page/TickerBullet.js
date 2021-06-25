@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
-import Row from 'react-bootstrap/Row'
+
 import Badge from 'react-bootstrap/Badge'
+import Row from 'react-bootstrap/Row'
 import { BsFillXCircleFill } from 'react-icons/bs'
 
 function TickerBullet({ tickers, removeItem }) {

@@ -1,11 +1,11 @@
 import { Fragment, useState } from 'react'
+
 import { useRouter } from 'next/router'
 
-import TickerInput from '../../components/Page/TickerInput'
-import TickerBullet from '../../components/Page/TickerBullet'
 import CustomContainer from '../../components/Layout/CustomContainer'
+import TickerBullet from '../../components/Page/TickerBullet'
+import TickerInput from '../../components/Page/TickerInput'
 import PriceChange from '../../components/Parts/PriceChange'
-
 import {
   handleDebounceChange,
   handleFormSubmit

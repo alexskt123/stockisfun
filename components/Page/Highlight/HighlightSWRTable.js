@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
-import { tableHeaderList } from '../../../config/highlight'
 
+import { tableHeaderList } from '../../../config/highlight'
 import SWRTable from '../SWRTable'
 
 const HighlightSWRTable = ({ watchList }) => {

@@ -1,15 +1,16 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import useSWR from 'swr'
-import dynamic from 'next/dynamic'
 
-import Row from 'react-bootstrap/Row'
+import AnimatedNumber from 'animated-number-react'
+import moment from 'moment'
+import dynamic from 'next/dynamic'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
 import { GrDocumentCsv } from 'react-icons/gr'
-import AnimatedNumber from 'animated-number-react'
+import useSWR from 'swr'
+import useDarkMode from 'use-dark-mode'
 
 import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import moment from 'moment'
 import {
   millify,
   roundTo,
@@ -22,8 +23,6 @@ import {
   getDefaultColor
 } from '../../lib/commonFunction'
 import { exportToFile } from '../../lib/exportToFile'
-
-import useDarkMode from 'use-dark-mode'
 
 const Table = dynamic(
   () => {

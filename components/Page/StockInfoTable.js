@@ -1,7 +1,8 @@
 import { Fragment } from 'react'
-import Badge from 'react-bootstrap/Badge'
-import Link from 'next/link'
+
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
+import Badge from 'react-bootstrap/Badge'
 import useDarkMode from 'use-dark-mode'
 
 import {

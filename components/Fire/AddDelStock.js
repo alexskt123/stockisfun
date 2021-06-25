@@ -1,13 +1,15 @@
 import { Fragment } from 'react'
+
 import Badge from 'react-bootstrap/Badge'
+import { IconContext } from 'react-icons'
+import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
+
 import {
   addToUserList,
   delFromUserList,
   useUser,
   useUserData
 } from '../../lib/firebaseResult'
-import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
-import { IconContext } from 'react-icons'
 import { fireToast } from '../../lib/toast'
 
 function AddDelStock({ inputTicker, handleList }) {

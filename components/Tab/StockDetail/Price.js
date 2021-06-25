@@ -1,21 +1,20 @@
 import { Fragment, useState, useEffect } from 'react'
-import Price from '../../Parts/Price'
-import { priceTabLabelPairs } from '../../../config/price'
+
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
-import AddDelStock from '../../Fire/AddDelStock'
-import { convertToPercentage } from '../../../lib/commonFunction'
-import HappyShare from '../../Parts/HappyShare'
-import ValidTickerAlert from '../../Parts/ValidTickerAlert'
+import useSWR from 'swr'
+
 import QuoteCard from '../../../components/Parts/QuoteCard'
-
+import { priceTabLabelPairs } from '../../../config/price'
 import { staticSWROptions, fetcher } from '../../../config/settings'
-
+import { convertToPercentage } from '../../../lib/commonFunction'
 import { getBasics } from '../../../lib/stockDetailsFunction'
 import { fireToast } from '../../../lib/toast'
-
-import useSWR from 'swr'
+import AddDelStock from '../../Fire/AddDelStock'
 import LoadingSpinner from '../../Loading/LoadingSpinner'
+import HappyShare from '../../Parts/HappyShare'
+import Price from '../../Parts/Price'
+import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 const defaultSettings = { basics: { tableData: [] }, floatingShareRatio: 'N/A' }
 

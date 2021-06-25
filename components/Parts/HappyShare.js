@@ -1,9 +1,10 @@
 import { Fragment, useState } from 'react'
+
 import { useRouter } from 'next/router'
-import { BiShareAlt } from 'react-icons/bi'
-import { IconContext } from 'react-icons'
-import Modal from 'react-bootstrap/Modal'
 import Badge from 'react-bootstrap/Badge'
+import Modal from 'react-bootstrap/Modal'
+import { IconContext } from 'react-icons'
+import { BiShareAlt } from 'react-icons/bi'
 import {
   EmailShareButton,
   EmailIcon,

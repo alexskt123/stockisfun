@@ -1,8 +1,9 @@
 import { Fragment } from 'react'
+
+import { MathComponent } from 'mathjax-react'
+import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
-import Badge from 'react-bootstrap/Badge'
-import { MathComponent } from 'mathjax-react'
 
 export default function FormulaCard({ content }) {
   return (

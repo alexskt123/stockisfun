@@ -1,5 +1,5 @@
-import QuoteCard from './QuoteCard'
 import Price from './Price'
+import QuoteCard from './QuoteCard'
 
 const BirdMouthItem = ({ birdMouthOptions, priceInfo, item, tools }) => {
   return (

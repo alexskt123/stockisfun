@@ -1,15 +1,15 @@
 import { Fragment, useState, useEffect } from 'react'
+
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
+import useSWR from 'swr'
 
-import { etfListSettings } from '../../../config/stock'
 import { staticSWROptions, fetcher } from '../../../config/settings'
+import { etfListSettings } from '../../../config/stock'
 import { sortTableItem } from '../../../lib/commonFunction'
 import { getETFList } from '../../../lib/stockDetailsFunction'
-import StockInfoTable from '../../Page/StockInfoTable'
-
-import useSWR from 'swr'
 import LoadingSpinner from '../../Loading/LoadingSpinner'
+import StockInfoTable from '../../Page/StockInfoTable'
 
 function ETFList({ inputTicker }) {
   const { data } = useSWR(

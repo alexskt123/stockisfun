@@ -1,8 +1,8 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import AnimatedNumber from 'animated-number-react'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
-import AnimatedNumber from 'animated-number-react'
 
 import { convertToPriceChange } from '../../lib/commonFunction'
 import { fireToast } from '../../lib/toast'

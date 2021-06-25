@@ -1,16 +1,16 @@
 import { Fragment, useState, useEffect } from 'react'
+
 import Alert from 'react-bootstrap/Alert'
-import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
 import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
 import CardDeck from 'react-bootstrap/CardDeck'
+import Row from 'react-bootstrap/Row'
 import { Doughnut } from 'react-chartjs-2'
 import { BsEye } from 'react-icons/bs'
 
 import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
 import StockInfoTable from '../../../components/Page/StockInfoTable'
 import QuoteCard from '../../../components/Parts/QuoteCard'
-
 import { etfDetailsHoldingSettings } from '../../../config/etf'
 import { getETFDetailHoldings } from '../../../lib/commonFunction'
 import { sortTableItem } from '../../../lib/commonFunction'

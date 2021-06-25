@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
-import dynamic from 'next/dynamic'
 
+import dynamic from 'next/dynamic'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { FaUserCircle } from 'react-icons/fa'
 

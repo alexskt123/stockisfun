@@ -1,6 +1,8 @@
-import { useRouter } from 'next/router'
 import { useEffect, Fragment } from 'react'
+
+import { useRouter } from 'next/router'
 import Container from 'react-bootstrap/Container'
+
 import PageLoading from '../components/Loading/PageLoading'
 
 const mobile = require('is-mobile')

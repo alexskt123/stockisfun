@@ -3,7 +3,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { tableHeaderList } from '../../../config/etf'
-
 import { getETFDB } from '../../../lib/etfdb/getETFDB'
 import { getETFPerformance } from '../../../lib/etfdb/getETFPerformance'
 export default async (req, res) => {

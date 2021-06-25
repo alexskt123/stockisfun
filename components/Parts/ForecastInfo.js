@@ -1,12 +1,11 @@
 import { Fragment } from 'react'
 
+import SWRTable from '../../components/Page/SWRTable'
 import {
   tableHeaderList,
   forecastTableFirstHeader
 } from '../../config/forecast'
 import { staticSWROptions } from '../../config/settings'
-
-import SWRTable from '../../components/Page/SWRTable'
 
 function ForecastInfo({ inputTickers }) {
   return (

@@ -1,7 +1,8 @@
 import { Fragment, useEffect, useState } from 'react'
-import EditTable from '../../Page/EditTable'
-import { fireToast } from '../../../lib/toast'
+
 import { updUserBoughtList, useUser } from '../../../lib/firebaseResult'
+import { fireToast } from '../../../lib/toast'
+import EditTable from '../../Page/EditTable'
 
 export default function BoughtList({ boughtList }) {
   const user = useUser()

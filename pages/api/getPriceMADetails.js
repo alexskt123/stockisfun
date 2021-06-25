@@ -1,10 +1,8 @@
-import { getYahooHistoryPrice } from '../../lib/yahoo/getYahooHistoryPrice'
-import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
-import { getYahooAssetProfile } from '../../lib/yahoo/getYahooAssetProfile'
 import moment from 'moment-business-days'
 import { ma } from 'moving-averages'
 import QuickChart from 'quickchart-js'
-import { getFormattedFromToDate, millify } from '../../lib/commonFunction'
+
+import { priceMAList } from '../../config/email'
 import {
   priceChartSettings,
   ma5ChartSettings,
@@ -12,7 +10,10 @@ import {
   ma60ChartSettings,
   maChkRange
 } from '../../config/price'
-import { priceMAList } from '../../config/email'
+import { getFormattedFromToDate, millify } from '../../lib/commonFunction'
+import { getYahooAssetProfile } from '../../lib/yahoo/getYahooAssetProfile'
+import { getYahooHistoryPrice } from '../../lib/yahoo/getYahooHistoryPrice'
+import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
 
 const handleDays = async (ticker, fromdate, todate) => {
   const outputItem = await getYahooHistoryPrice(ticker, fromdate, todate)

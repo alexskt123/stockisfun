@@ -1,9 +1,9 @@
 import { Fragment, useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 
+import { useRouter } from 'next/router'
 import Accordion from 'react-bootstrap/Accordion'
-import Card from 'react-bootstrap/Card'
 import Badge from 'react-bootstrap/Badge'
+import Card from 'react-bootstrap/Card'
 
 import { useBgColor } from '../../lib/hooks/useBgColor'
 

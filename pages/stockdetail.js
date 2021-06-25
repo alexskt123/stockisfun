@@ -1,10 +1,11 @@
 import { Fragment, useState, useEffect } from 'react'
+
 import { useRouter } from 'next/router'
 
 import CustomContainer from '../components/Layout/CustomContainer'
+import SearchAccordion from '../components/Page/SearchAccordion'
 import TypeAhead from '../components/Page/TypeAhead'
 import StockDetails from '../components/StockDetails'
-import SearchAccordion from '../components/Page/SearchAccordion'
 
 export default function StockDetail() {
   const [ticker, setTicker] = useState('')

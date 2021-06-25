@@ -2,15 +2,16 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooEarnings } from '../../../lib/yahoo/getYahooEarnings'
-import { getYahooIncomeStatement } from '../../../lib/yahoo/getYahooIncomeStatement'
-import { getYahooCashflowStatement } from '../../../lib/yahoo/getYahooCashflowStatement'
-import { getYahooBalanceSheet } from '../../../lib/yahoo/getYahooBalanceSheet'
-import { getYahooFinancialData } from '../../../lib/yahoo/getYahooFinancialData'
-import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
-import { getYahooAssetProfile } from '../../../lib/yahoo/getYahooAssetProfile'
 import percent from 'percent'
+
 import { roundTo, getStockEarningCapacity } from '../../../lib/commonFunction'
+import { getYahooAssetProfile } from '../../../lib/yahoo/getYahooAssetProfile'
+import { getYahooBalanceSheet } from '../../../lib/yahoo/getYahooBalanceSheet'
+import { getYahooCashflowStatement } from '../../../lib/yahoo/getYahooCashflowStatement'
+import { getYahooEarnings } from '../../../lib/yahoo/getYahooEarnings'
+import { getYahooFinancialData } from '../../../lib/yahoo/getYahooFinancialData'
+import { getYahooIncomeStatement } from '../../../lib/yahoo/getYahooIncomeStatement'
+import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
 
 export default async (req, res) => {
   const { ticker } = req.query

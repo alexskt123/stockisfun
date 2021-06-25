@@ -1,8 +1,9 @@
 import { Fragment, useState, useEffect } from 'react'
-import { indexQuoteInfo } from '../../config/highlight'
-import { staticSWROptions, fetcher } from '../../config/settings'
 
 import useSWR from 'swr'
+
+import { indexQuoteInfo } from '../../config/highlight'
+import { staticSWROptions, fetcher } from '../../config/settings'
 import YahooQuoteInfo from './YahooQuoteInfo'
 
 function IndexQuote({ inputTicker }) {
