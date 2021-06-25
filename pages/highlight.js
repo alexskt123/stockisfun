@@ -2,43 +2,34 @@ import { Fragment, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import CustomContainer from '../components/Layout/CustomContainer'
 import '../styles/ScrollMenu.module.css'
-import Price from '../components/Parts/Price'
+
 import Badge from 'react-bootstrap/Badge'
 import Alert from 'react-bootstrap/Alert'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import CardDeck from 'react-bootstrap/CardDeck'
-import AnimatedNumber from 'animated-number-react'
 import { MdCancel } from 'react-icons/md'
 import { IconContext } from 'react-icons'
 
 import {
   stockIndex,
   stockFutureIndex,
-  tableHeaderList
+  highlightHeaders,
+  highlightDetails
 } from '../config/highlight'
-import IndexQuote from '../components/Parts/IndexQuote'
-import QuoteCard from '../components/Parts/QuoteCard'
 import HappyShare from '../components/Parts/HappyShare'
-import TickerScrollMenu from '../components/Page/TickerScrollMenu'
-import TypeAhead from '../components/Page/TypeAhead'
-import SWRTable from '../components/Page/SWRTable'
-import { convertToPriceChange } from '../lib/commonFunction'
 import { useUser, useUserData } from '../lib/firebaseResult'
 import { fireToast } from '../lib/toast'
-import StockDetails from '../components/StockDetails'
-import ETFDetails from '../components/ETFDetails'
 import WatchListSuggestions from '../components/Parts/WatchListSuggestions'
+import UserPriceDayChange from '../components/Parts/UserPriceDayChange'
+import TickerScrollMenuList from '../components/Page/TickerScrollMenuList'
+import HighlightSearch from '../components/Page/HighlightSearch'
+import HighlightSWRTable from '../components/Page/HighlightSWRTable'
 
 const axios = require('axios').default
 
 export default function Highlight() {
   const [selectedTicker, setSelectedTicker] = useState(null)
   const [watchList, setwatchList] = useState([])
-  const [boughtList, setBoughtList] = useState([])
-  const [dayChange, setDayChange] = useState(null)
   const [watchListName, setWatchListName] = useState(null)
-  const [showWatchList, setShowWatchList] = useState(false)
   const [showPriceQuote, setShowPriceQuote] = useState(false)
   const [showDetail, setShowDetail] = useState({ type: null, show: false })
 
@@ -47,32 +38,6 @@ export default function Highlight() {
 
   const router = useRouter()
   const { query, type } = router.query
-
-  const headers = [
-    {
-      name: 'Price Changes',
-      component: withQuoteCard(Price),
-      props: {
-        inputMA: 'ma'
-      }
-    },
-    {
-      name: 'Quote',
-      component: withQuoteCard(IndexQuote),
-      props: {}
-    }
-  ]
-
-  const details = [
-    {
-      type: 'ETF',
-      component: ETFDetails
-    },
-    {
-      type: 'EQUITY',
-      component: StockDetails
-    }
-  ]
 
   const selectScrollMenuItem = item => {
     item && item.ticker
@@ -94,27 +59,6 @@ export default function Highlight() {
       selectScrollMenuItem: selectScrollMenuItem
     }
   ]
-
-  const handleChange = e => {
-    const input = e.find(x => x)
-    //input ? setSelectedTicker({ ticker: input.symbol, show: true }) : null
-    //input ? router.push(`/highlight?query=${input.symbol}`) : null
-    const type = router.query.type
-    input
-      ? router.push(
-          {
-            query: {
-              ...router.query,
-              query: input.symbol,
-              tab: 'Basics',
-              type: type ? type : 'quote'
-            }
-          },
-          undefined,
-          { shallow: true }
-        )
-      : null
-  }
 
   const viewQuotePrice = selectedTicker => {
     setSelectedTicker({ ...selectedTicker, show: true })
@@ -174,27 +118,10 @@ export default function Highlight() {
   }
 
   const onClickWatchListButton = (watchListButtonName, buttonWatchList) => {
-    const isShow = watchListName !== watchListButtonName ? true : !showWatchList
-    setwatchList(buttonWatchList)
-    setShowWatchList(isShow)
+    const isShow =
+      watchListName !== watchListButtonName ? true : !(watchList.length > 0)
+    isShow ? setwatchList(buttonWatchList) : setwatchList([])
     setWatchListName(watchListButtonName)
-  }
-
-  const refreshDayChange = async () => {
-    await setBoughtListDayChange()
-
-    fireToast({
-      icon: 'success',
-      title: 'Refreshed!'
-    })
-  }
-
-  const setBoughtListDayChange = async () => {
-    const boughtListSum =
-      boughtList && boughtList.length > 0
-        ? await axios.get(`/api/getUserBoughtList?uid=${user.uid}`)
-        : { data: { sum: null } }
-    setDayChange(boughtListSum.data.sum)
   }
 
   const setShowFalse = () => {
@@ -211,20 +138,6 @@ export default function Highlight() {
   }
 
   useEffect(() => {
-    const { watchList, boughtList } = userData
-    setwatchList(watchList)
-    setBoughtList(boughtList)
-  }, [userData])
-
-  useEffect(() => {
-    ;(async () => {
-      await setBoughtListDayChange()
-    })()
-    //todo: fix custom hooks
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [boughtList])
-
-  useEffect(() => {
     setShowPriceQuote(false)
     setShowDetail({ ...showDetail, show: false })
     setSelectedTicker({ ticker: query, show: true })
@@ -238,61 +151,10 @@ export default function Highlight() {
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
           {user ? (
-            <Fragment>
-              <Row className="mt-1 justify-content-center">
-                <Badge variant="light">{'Total Day Change:'}</Badge>
-                <Badge
-                  variant={dayChange >= 0 ? 'success' : 'danger'}
-                  className="ml-1"
-                >
-                  <AnimatedNumber
-                    value={dayChange}
-                    formatValue={value => convertToPriceChange(value)}
-                  />
-                </Badge>
-                <Badge
-                  className="ml-1 cursor"
-                  variant="warning"
-                  onClick={() => refreshDayChange()}
-                >
-                  {'Refresh'}
-                </Badge>
-              </Row>
-            </Fragment>
+            <UserPriceDayChange userID={user.uid} userData={userData} />
           ) : null}
-          {tickerList.map((item, idx) => {
-            return (
-              <Fragment key={idx}>
-                <Row className="justify-content-center mt-1">
-                  <h6>
-                    <Badge style={{ minWidth: '9rem' }} variant="dark">
-                      {item.name}
-                    </Badge>
-                  </h6>
-                </Row>
-                <TickerScrollMenu
-                  inputList={item.inputList}
-                  setSelectedTicker={item.selectScrollMenuItem}
-                />
-              </Fragment>
-            )
-          })}
-          <Row className="justify-content-center mt-1">
-            <h6>
-              <Badge style={{ minWidth: '9rem' }} variant="dark">
-                {'Search'}
-              </Badge>
-            </h6>
-          </Row>
-          <Row>
-            <Col>
-              <TypeAhead
-                placeholderText={'Search any Stock or ETF...'}
-                handleChange={handleChange}
-                filter={'ETF,Equity'}
-              />
-            </Col>
-          </Row>
+          <TickerScrollMenuList tickerList={tickerList} />
+          <HighlightSearch />
           {selectedTicker && selectedTicker.ticker ? (
             <Alert
               style={{
@@ -333,7 +195,7 @@ export default function Highlight() {
           ) : null}
           <CardDeck>
             {showPriceQuote && selectedTicker && selectedTicker.ticker
-              ? headers.map((header, idx) => (
+              ? highlightHeaders.map((header, idx) => (
                   <Fragment key={idx}>
                     <header.component
                       header={header.name}
@@ -346,7 +208,7 @@ export default function Highlight() {
               : null}
           </CardDeck>
           {showDetail.show && selectedTicker && selectedTicker.ticker
-            ? details
+            ? highlightDetails
                 .filter(x => x.type === showDetail.type)
                 .map((detail, idx) => (
                   <detail.component
@@ -358,39 +220,9 @@ export default function Highlight() {
           <WatchListSuggestions
             onClickWatchListButton={onClickWatchListButton}
           />
-          {showWatchList ? (
-            <Fragment>
-              <SWRTable
-                requests={watchList.map(x => ({
-                  request: `/api/highlightWatchlist?ticker=${x}`,
-                  key: x
-                }))}
-                options={{
-                  tableHeader: tableHeaderList,
-                  exportFileName: 'Watchlist.csv',
-                  tableSize: 'sm',
-                  SWROptions: { refreshInterval: 5000 }
-                }}
-              />
-            </Fragment>
-          ) : null}
+          <HighlightSWRTable watchList={watchList} />
         </Fragment>
       </CustomContainer>
     </Fragment>
   )
-}
-
-function withQuoteCard(CardComponent) {
-  return function QuoteCardComponent({
-    header,
-    inputTicker,
-    isShow,
-    ...props
-  }) {
-    return (
-      <QuoteCard header={header} inputTicker={inputTicker} isShow={isShow}>
-        <CardComponent inputTicker={inputTicker} {...props} />
-      </QuoteCard>
-    )
-  }
 }
