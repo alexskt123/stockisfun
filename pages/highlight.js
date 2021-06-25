@@ -10,10 +10,9 @@ import { MdCancel } from 'react-icons/md'
 import { IconContext } from 'react-icons'
 
 import {
-  stockIndex,
-  stockFutureIndex,
   highlightHeaders,
-  highlightDetails
+  highlightDetails,
+  highlightMenuTickerList
 } from '../config/highlight'
 import HappyShare from '../components/Parts/HappyShare'
 import { useUser, useUserData } from '../lib/firebaseResult'
@@ -38,27 +37,6 @@ export default function Highlight() {
 
   const router = useRouter()
   const { query, type } = router.query
-
-  const selectScrollMenuItem = item => {
-    item && item.ticker
-      ? router.push(`/highlight?query=${item.ticker}&type=quote`)
-      : null
-  }
-
-  const tickerList = [
-    {
-      name: 'Stock Market Futures',
-      eventKey: 'StockMarketFutureIndex',
-      inputList: stockFutureIndex,
-      selectScrollMenuItem: selectScrollMenuItem
-    },
-    {
-      name: 'Stock Market Index',
-      eventKey: 'StockMarketIndex',
-      inputList: stockIndex,
-      selectScrollMenuItem: selectScrollMenuItem
-    }
-  ]
 
   const viewQuotePrice = selectedTicker => {
     setSelectedTicker({ ...selectedTicker, show: true })
@@ -153,7 +131,7 @@ export default function Highlight() {
           {user ? (
             <UserPriceDayChange userID={user.uid} userData={userData} />
           ) : null}
-          <TickerScrollMenuList tickerList={tickerList} />
+          <TickerScrollMenuList tickerList={highlightMenuTickerList} />
           <HighlightSearch />
           {selectedTicker && selectedTicker.ticker ? (
             <Alert

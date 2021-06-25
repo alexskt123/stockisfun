@@ -183,3 +183,16 @@ export const highlightDetails = [
     component: StockDetails
   }
 ]
+
+export const highlightMenuTickerList = [
+  {
+    name: 'Stock Market Futures',
+    eventKey: 'StockMarketFutureIndex',
+    inputList: stockFutureIndex
+  },
+  {
+    name: 'Stock Market Index',
+    eventKey: 'StockMarketIndex',
+    inputList: stockIndex
+  }
+]

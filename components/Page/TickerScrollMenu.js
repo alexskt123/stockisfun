@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import TickerCard from '../../components/Parts/TickerCard'
 import { extractYahooInfo } from '../../config/highlight'
 import { stockMarketIndexSWROptions, fetcher } from '../../config/settings'
@@ -9,7 +10,9 @@ import '../../styles/ScrollMenu.module.css'
 
 import useSWR from 'swr'
 
-export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
+export default function TickerScrollMenu({ inputList }) {
+  const router = useRouter()
+
   const [stockInfo, setStockInfo] = useState([])
 
   const { data: responses } = useSWR(
@@ -45,10 +48,7 @@ export default function TickerScrollMenu({ inputList, setSelectedTicker }) {
   }
 
   const onSelect = key => {
-    setSelectedTicker({
-      ticker: inputList[key].Ticker,
-      show: true
-    })
+    router.push(`/highlight?query=${inputList[key].Ticker}&type=quote`)
   }
 
   useEffect(() => {
