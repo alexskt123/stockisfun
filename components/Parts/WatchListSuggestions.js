@@ -3,17 +3,10 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Badge from 'react-bootstrap/Badge'
 import { Fragment, useEffect, useState } from 'react'
-import {
-  getHighlistWatchList,
-  useUser,
-  useUserData
-} from '../../lib/firebaseResult'
+import { getHighlistWatchList } from '../../lib/firebaseResult'
 import { randBackgroundColor } from '../../lib/commonFunction'
 
-function WatchListSuggestions({ onClickWatchListButton }) {
-  const user = useUser()
-  const userData = useUserData(user)
-
+function WatchListSuggestions({ userData, onClickWatchListButton }) {
   const [watchList, setWatchList] = useState([])
 
   useEffect(() => {

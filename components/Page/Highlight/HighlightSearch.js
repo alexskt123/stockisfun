@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Badge from 'react-bootstrap/Badge'
 
-import TypeAhead from './TypeAhead'
+import TypeAhead from '../TypeAhead'
 
 const HighlightSearch = () => {
   const router = useRouter()
@@ -22,7 +22,8 @@ const HighlightSearch = () => {
               ...router.query,
               query: input.symbol,
               tab: 'Basics',
-              type: type ? type : 'quote'
+              type: type ? type : 'quote',
+              show: true
             }
           },
           undefined,

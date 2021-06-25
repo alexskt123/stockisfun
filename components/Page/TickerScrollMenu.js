@@ -48,7 +48,9 @@ export default function TickerScrollMenu({ inputList }) {
   }
 
   const onSelect = key => {
-    router.push(`/highlight?query=${inputList[key].Ticker}&type=quote`)
+    router.push(
+      `/highlight?query=${inputList[key].Ticker}&type=quote&show=true`
+    )
   }
 
   useEffect(() => {

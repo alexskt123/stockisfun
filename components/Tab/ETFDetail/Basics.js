@@ -23,6 +23,7 @@ export default function Basics({ inputETFTicker }) {
     ;(async () => {
       inputETFTicker ? await handleTicker(inputETFTicker) : clearItems()
     })()
+    return () => clearItems()
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputETFTicker])
