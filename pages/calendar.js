@@ -2,13 +2,10 @@ import { Fragment, useState, useEffect } from 'react'
 
 import moment from 'moment'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
-import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
-import Modal from 'react-bootstrap/Modal'
-import useDarkMode from 'use-dark-mode'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
-import StockInfoTable from '../components/Page/StockInfoTable'
+import EarningsModal from '../components/Page/Calendar/EarningsModal'
 import QuoteCard from '../components/Parts/QuoteCard'
 import { useUser, useUserData } from '../lib/firebaseResult'
 
@@ -18,36 +15,14 @@ const localizer = momentLocalizer(moment)
 
 //export default component
 export default function BigCalendar() {
-  const darkMode = useDarkMode(false)
-
   const user = useUser()
   const userData = useUserData(user)
 
   const [eventList, setEventList] = useState([])
-  const [show, setShow] = useState({ show: false, ticker: null })
-  const [earnings, setEarnings] = useState({
-    tableHeader: [
-      'Date Reported',
-      'Fiscal Quarter End',
-      'Consensus EPS Forecast',
-      'Earnings Per Share',
-      '% Surprise'
-    ],
-    tableData: []
-  })
-
-  const handleClose = () => setShow({ show: false, ticker: null })
+  const [ticker, setTicker] = useState(null)
 
   const handleSelectSlot = async e => {
-    const { data } = await axios
-      .get(`/api/nasdaq/getEarningsHistory?ticker=${e.title}`)
-      .catch(err => console.error(err))
-    const tableData = data
-    setEarnings({
-      ...earnings,
-      tableData
-    })
-    setShow({ show: true, ticker: e.title })
+    setTicker(e.title)
   }
 
   useEffect(() => {
@@ -96,25 +71,7 @@ export default function BigCalendar() {
               onSelectEvent={handleSelectSlot}
             />
           </QuoteCard>
-          <Modal size="xl" centered show={show.show} onHide={handleClose}>
-            <Modal.Header
-              closeButton
-              style={{ backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}
-            >
-              <Modal.Title>
-                <Badge variant="dark">{`Earnings History - ${show.ticker}`}</Badge>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body
-              style={{ backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}
-            >
-              <StockInfoTable
-                tableSize="sm"
-                tableHeader={earnings.tableHeader}
-                tableData={earnings.tableData}
-              />
-            </Modal.Body>
-          </Modal>
+          <EarningsModal ticker={ticker} />
         </Fragment>
       </Container>
     </Fragment>

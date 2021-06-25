@@ -32,10 +32,7 @@ export default function TickerScrollMenu({ inputList }) {
           const info = extractYahooInfo.reduce((acc, cur) => {
             const newAcc = {
               ...acc,
-              [cur.label]:
-                typeof data[cur.field] === 'number'
-                  ? roundTo(data[cur.field], 2)
-                  : data[cur.field]
+              [cur.label]: data[cur.field]
             }
 
             return newAcc

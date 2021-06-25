@@ -1,7 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 
 import { useRouter } from 'next/router'
-import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
@@ -10,6 +9,7 @@ import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
 
 import CustomContainer from '../components/Layout/CustomContainer'
+import LoginAlert from '../components/Parts/LoginAlert'
 import BoughtList from '../components/Tab/Admin/BoughtList'
 import { updUserAllList, useUser, useUserData } from '../lib/firebaseResult'
 import { useTab } from '../lib/hooks/useTab'
@@ -135,9 +135,7 @@ export default function Admin() {
               </Tabs>
             </Fragment>
           ) : (
-            <Alert variant="danger">
-              <strong>{'Please Log in First!'}</strong>
-            </Alert>
+            <LoginAlert />
           )}
         </Fragment>
       </CustomContainer>
