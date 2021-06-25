@@ -18,7 +18,7 @@ const Table = dynamic(
 )
 
 const getItemData = item => {
-  return typeof item == 'object' && item && item.data ? item.data : item
+  return typeof item === 'object' && item && item.data ? item.data : item
 }
 
 const getCellColor = (item, darkMode) => {
@@ -43,7 +43,7 @@ const getCellItem = item => {
         {itemData}
       </a>
     )
-  else if (typeof item == 'object' && item && item.data && item.link) {
+  else if (typeof item === 'object' && item && item.data && item.link) {
     return (
       <Link href={item.link}>
         <a>
@@ -93,7 +93,7 @@ function StockInfoTable({
           <tr key={'tableFirstHeader'}>
             {tableFirstHeader
               ? tableFirstHeader.map((item, index) => (
-                  <th style={index == 0 ? sticky : {}} key={index}>
+                  <th style={index === 0 ? sticky : {}} key={index}>
                     <h5>
                       <Badge variant="light">{item}</Badge>
                     </h5>
@@ -106,7 +106,7 @@ function StockInfoTable({
               ? tableHeader.map((item, index) => (
                   <th
                     style={
-                      index == 0
+                      index === 0
                         ? Object.assign(
                             { ...sticky },
                             darkMode.value ? { backgroundColor: '#343a40' } : {}
@@ -135,7 +135,7 @@ function StockInfoTable({
                           if (cellClick) checkCanClick(item, cellClick)
                         }}
                         style={
-                          yy == 0
+                          yy === 0
                             ? Object.assign(
                                 { ...sticky },
                                 darkMode.value

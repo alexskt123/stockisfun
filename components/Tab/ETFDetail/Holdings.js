@@ -53,7 +53,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
       ...etfDetailsHoldingSettings,
       ...newSettings
     })
-    setAllowCheck(newSettings.priceHref != '/' ? true : false)
+    setAllowCheck(newSettings.priceHref !== '/' ? true : false)
 
     setLoading(false)
   }

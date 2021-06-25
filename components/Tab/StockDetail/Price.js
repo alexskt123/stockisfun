@@ -46,7 +46,7 @@ function PriceTab({ inputTicker }) {
         return {
           name: item.name,
           value: (basicsData.basics.tableData
-            .filter(x => x && x.find(x => x) == item.name)
+            .filter(x => x && x.find(x => x) === item.name)
             .find(x => x) || [])[1]
         }
       })
@@ -54,7 +54,7 @@ function PriceTab({ inputTicker }) {
 
     data &&
     !basicsData.basics.tableData
-      .filter(x => x.find(x => x) == 'Price')
+      .filter(x => x.find(x => x) === 'Price')
       .find(x => x)
       ? fireToast({
           icon: 'error',
@@ -70,7 +70,7 @@ function PriceTab({ inputTicker }) {
   return !data ? (
     <LoadingSpinner />
   ) : settings.basics.tableData
-      .filter(x => x.find(x => x) == 'Price')
+      .filter(x => x.find(x => x) === 'Price')
       .find(x => x) ? (
     <Fragment>
       <Row className="ml-1 mt-1" style={{ display: 'flex', alignItems: 'end' }}>
@@ -79,7 +79,7 @@ function PriceTab({ inputTicker }) {
         </h6>
         <h6>
           <Badge variant="light" className="ml-2">
-            {labels.find(x => x.name == 'Name').value}
+            {labels.find(x => x.name === 'Name').value}
           </Badge>
         </h6>
         <AddDelStock inputTicker={inputTicker} handleList="stock" />
@@ -91,19 +91,19 @@ function PriceTab({ inputTicker }) {
         </h6>
         <h6>
           <Badge variant="light" className="ml-2">
-            {labels.find(x => x.name == 'Price').value}
+            {labels.find(x => x.name === 'Price').value}
           </Badge>
         </h6>
         <h6>
           <Badge
             variant={
-              labels.find(x => x.name == 'Price%').value >= 0
+              labels.find(x => x.name === 'Price%').value >= 0
                 ? 'success'
                 : 'danger'
             }
           >
             {convertToPercentage(
-              labels.find(x => x.name == 'Price%').value / 100
+              labels.find(x => x.name === 'Price%').value / 100
             )}
           </Badge>
         </h6>
@@ -114,7 +114,7 @@ function PriceTab({ inputTicker }) {
         </h6>
         <h6>
           <Badge variant="light" className="ml-2">
-            {labels.find(x => x.name == '52W-L-H').value}
+            {labels.find(x => x.name === '52W-L-H').value}
           </Badge>
         </h6>
       </Row>
@@ -134,7 +134,7 @@ function PriceTab({ inputTicker }) {
         </h6>
         <h6>
           <Badge variant="light" className="ml-2">
-            {labels.find(x => x.name == 'Market Cap.').value}
+            {labels.find(x => x.name === 'Market Cap.').value}
           </Badge>
         </h6>
       </Row>
@@ -144,7 +144,7 @@ function PriceTab({ inputTicker }) {
         </h6>
         <h6>
           <Badge variant="light" className="ml-2">
-            {labels.find(x => x.name == 'Industry').value}
+            {labels.find(x => x.name === 'Industry').value}
           </Badge>
         </h6>
       </Row>

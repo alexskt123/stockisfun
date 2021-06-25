@@ -21,7 +21,7 @@ export default function ComparePrice() {
   const [formValue, setFormValue] = useState({})
 
   const handleChange = async e => {
-    if (e.target.name == 'formYear') {
+    if (e.target.name === 'formYear') {
       setSettings({
         ...settings,
         years: e.target.value

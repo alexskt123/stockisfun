@@ -45,21 +45,21 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
     const date = dateprice.data?.date || []
     const price = dateprice.data?.price || []
     const ma5 =
-      inputMA == 'ma'
+      inputMA === 'ma'
         ? ma([...price], 5)
-        : inputMA == 'ema'
+        : inputMA === 'ema'
         ? ema([...price], 5)
         : []
     const ma20 =
-      inputMA == 'ma'
+      inputMA === 'ma'
         ? ma([...price], 20)
-        : inputMA == 'ema'
+        : inputMA === 'ema'
         ? ema([...price], 20)
         : []
     const ma60 =
-      inputMA == 'ma'
+      inputMA === 'ma'
         ? ma([...price], 60)
-        : inputMA == 'ema'
+        : inputMA === 'ema'
         ? ema([...price], 60)
         : []
 
@@ -74,8 +74,8 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
             ...priceChartSettings,
             label: inputTicker,
             data: [...price.slice(60)],
-            showLine: inputMA == '' ? true : false,
-            pointRadius: inputMA == '' ? 0 : 3
+            showLine: inputMA === '' ? true : false,
+            pointRadius: inputMA === '' ? 0 : 3
           },
           {
             ...ma5ChartSettings,
@@ -95,10 +95,10 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   }
 
   const handleChange = e => {
-    e.target.name == 'formYear' &&
-    parseInt(e.target.value) != parseInt(settings.days)
+    e.target.name === 'formYear' &&
+    parseInt(e.target.value) !== parseInt(settings.days)
       ? handleTicker(inputTicker, e.target.value, settings.ma)
-      : e.target.name == 'formma' && e.target.value != settings.ma
+      : e.target.name === 'formma' && e.target.value !== settings.ma
       ? handleTicker(inputTicker, settings.days, e.target.value)
       : handleTicker(null, null, null)
   }

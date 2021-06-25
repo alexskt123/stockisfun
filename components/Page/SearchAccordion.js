@@ -24,14 +24,14 @@ export default function SearchAccordion({ children, inputTicker }) {
       <Accordion
         activeKey={accordionActive}
         onSelect={() =>
-          setAccordionActive(accordionActive == '-1' ? '0' : '-1')
+          setAccordionActive(accordionActive === '-1' ? '0' : '-1')
         }
       >
         <Card style={{ backgroundColor: bgColor }}>
           <Accordion.Toggle as={Card.Header} eventKey="0">
             <b>
               <Badge variant="dark">
-                {inputTicker == '' || !inputTicker
+                {inputTicker === '' || !inputTicker
                   ? 'Click here to Search!'
                   : inputTicker}
               </Badge>

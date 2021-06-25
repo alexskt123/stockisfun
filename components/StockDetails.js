@@ -38,7 +38,7 @@ function StockDetails({ inputTicker }) {
   }
 
   useEffect(() => {
-    inputTicker != '' ? handleTicker() : clearItems()
+    inputTicker !== '' ? handleTicker() : clearItems()
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputTicker])

@@ -32,7 +32,7 @@ function ETFDetails({ inputTicker }) {
   }
 
   useEffect(() => {
-    inputTicker && inputTicker != '' ? handleTicker(inputTicker) : clearItems()
+    inputTicker && inputTicker !== '' ? handleTicker(inputTicker) : clearItems()
   }, [inputTicker])
 
   const clearItems = () => {

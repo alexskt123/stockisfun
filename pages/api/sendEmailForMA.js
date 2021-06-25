@@ -83,7 +83,7 @@ export default async (req, res) => {
     .filter(x => x && x.data)
     .forEach(item => {
       priceMADetails.asOfDate =
-        priceMADetails.asOfDate == ''
+        priceMADetails.asOfDate === ''
           ? item.data.asOfDate
           : priceMADetails.asOfDate
       priceMADetails.priceMAList.forEach(cur => {

@@ -254,24 +254,24 @@ function getCellColor(property, value, darkMode) {
 }
 
 function getFormattedValue(format, value) {
-  return format && format == '%' ? (
+  return format && format === '%' ? (
     <AnimatedNumber
       value={value}
       formatValue={value => convertToPercentage(value / 100)}
     />
-  ) : format && format == 'H:mm:ss' && value ? (
+  ) : format && format === 'H:mm:ss' && value ? (
     moment(value * 1000).format('H:mm:ss')
-  ) : format && format == 'millify' ? (
+  ) : format && format === 'millify' ? (
     <AnimatedNumber value={value} formatValue={millify} />
-  ) : format && format == 'roundTo' ? (
+  ) : format && format === 'roundTo' ? (
     <AnimatedNumber value={value} formatValue={roundTo} />
-  ) : format && format == 'toInteger' ? (
+  ) : format && format === 'toInteger' ? (
     <AnimatedNumber value={value} formatValue={toInteger} />
-  ) : format && format == 'Badge' ? (
+  ) : format && format === 'Badge' ? (
     <Badge style={{ ['minWidth']: '3rem' }} variant={randVariant(value)}>
       {value}
     </Badge>
-  ) : format && format == 'IndicatorVariant' ? (
+  ) : format && format === 'IndicatorVariant' ? (
     <Badge style={{ ['minWidth']: '3rem' }} variant={indicatorVariant(value)}>
       {value}
     </Badge>

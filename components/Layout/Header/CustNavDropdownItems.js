@@ -21,7 +21,7 @@ const CustNavDropdownItems = ({ NavDropDown }) => {
                       {cat}
                     </Badge>
                     <NavDropdown.Divider />
-                    {NavDropDown.filter(x => x.category == cat).map(
+                    {NavDropDown.filter(x => x.category === cat).map(
                       (item, idx) => {
                         const href = `${item.href}`
                         const active = router.asPath === href

@@ -114,7 +114,7 @@ const compareLowHigh = (trackArr, refArr, chkLowOrHigh) => {
 
 export default async (req, res) => {
   const { ticker, genChart } = req.query
-  const isGenChart = genChart == 'true'
+  const isGenChart = genChart === 'true'
 
   const fromtodate = await getFormattedFromToDate(80)
   const dateprice = await handleDays(
