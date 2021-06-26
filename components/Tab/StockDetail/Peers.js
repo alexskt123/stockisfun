@@ -6,6 +6,7 @@ import { peersHeader, initSettings } from '../../../config/peers'
 import { staticSWROptions, fetcher } from '../../../config/settings'
 import LoadingSpinner from '../../Loading/LoadingSpinner'
 import StockInfoTable from '../../Page/StockInfoTable'
+import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 export default function Peers({ inputTicker }) {
   const [settings, setSettings] = useState({ ...initSettings })
@@ -36,14 +37,16 @@ export default function Peers({ inputTicker }) {
 
   return (
     <Fragment>
-      {data ? (
+      {!data ? (
+        <LoadingSpinner />
+      ) : data.length > 0 ? (
         <StockInfoTable
           tableSize="sm"
           tableHeader={settings.tableHeader}
           tableData={settings.tableData}
         />
       ) : (
-        <LoadingSpinner />
+        <ValidTickerAlert />
       )}
     </Fragment>
   )

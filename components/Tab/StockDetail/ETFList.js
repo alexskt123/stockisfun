@@ -10,6 +10,7 @@ import { sortTableItem } from '../../../lib/commonFunction'
 import { getETFList } from '../../../lib/stockDetailsFunction'
 import LoadingSpinner from '../../Loading/LoadingSpinner'
 import StockInfoTable from '../../Page/StockInfoTable'
+import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 function ETFList({ inputTicker }) {
   const { data } = useSWR(
@@ -72,7 +73,9 @@ function ETFList({ inputTicker }) {
         sortItem={sortItem}
       />
     </Fragment>
-  ) : null
+  ) : (
+    <ValidTickerAlert />
+  )
 }
 
 export default ETFList

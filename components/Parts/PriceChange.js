@@ -10,6 +10,7 @@ import {
 import LoadingSpinner from '../Loading/LoadingSpinner'
 import StockInfoTable from '../Page/StockInfoTable'
 import QuoteCard from './QuoteCard'
+import ValidTickerAlert from './ValidTickerAlert'
 
 function PriceChange({ inputTickers, inputYear }) {
   const [settings, setSettings] = useState(priceSettingSchema)
@@ -82,7 +83,9 @@ function PriceChange({ inputTickers, inputYear }) {
             <Line data={settings.chartData} />
           </QuoteCard>
         </Fragment>
-      ) : null}
+      ) : (
+        <ValidTickerAlert />
+      )}
     </Fragment>
   )
 }

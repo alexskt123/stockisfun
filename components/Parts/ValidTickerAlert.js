@@ -12,7 +12,7 @@ export default function ValidTickerAlert() {
       key={'Alert-No-Stock-Info'}
       style={{ backgroundColor: bgColor }}
     >
-      <Badge variant="dark">{'Please enter a valid sticker!'}</Badge>
+      <Badge variant="dark">{'Please enter VALID ticker(s)!'}</Badge>
     </Alert>
   )
 }

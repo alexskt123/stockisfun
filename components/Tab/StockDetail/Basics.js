@@ -6,6 +6,7 @@ import { staticSWROptions, fetcher } from '../../../config/settings'
 import { getBasics } from '../../../lib/stockDetailsFunction'
 import LoadingSpinner from '../../Loading/LoadingSpinner'
 import StockInfoTable from '../../Page/StockInfoTable'
+import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 export default function Basics({ inputTicker }) {
   const defaultBasics = {
@@ -61,7 +62,9 @@ export default function Basics({ inputTicker }) {
             tableData={settings.officers.tableData}
           />
         </Fragment>
-      ) : null}
+      ) : (
+        <ValidTickerAlert />
+      )}
     </Fragment>
   )
 }

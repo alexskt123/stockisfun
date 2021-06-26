@@ -8,6 +8,7 @@ import { staticSWROptions, fetcher } from '../../../config/settings'
 import { getBalanceSheetTableData } from '../../../lib/stockDetailsFunction'
 import LoadingSpinner from '../../Loading/LoadingSpinner'
 import StockInfoTable from '../../Page/StockInfoTable'
+import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 export default function BalanceSheet({ inputTicker }) {
   const [settings, setSettings] = useState({})
@@ -49,7 +50,9 @@ export default function BalanceSheet({ inputTicker }) {
             <Bar data={settings.chartData} options={settings.chartOptions} />
           </QuoteCard>
         </Fragment>
-      ) : null}
+      ) : (
+        <ValidTickerAlert />
+      )}
     </Fragment>
   )
 }
