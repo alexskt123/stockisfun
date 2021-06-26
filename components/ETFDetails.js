@@ -4,10 +4,7 @@ import { useRouter } from 'next/router'
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
 
-import Basics from '../components/Tab/ETFDetail/Basics'
-import Holdings from '../components/Tab/ETFDetail/Holdings'
-import Stat from '../components/Tab/ETFDetail/Stat'
-import { etfDetailsSettings } from '../config/etf'
+import { etfDetailsSettings, buildTabs } from '../config/etf'
 import { useTab } from '../lib/hooks/useTab'
 
 function ETFDetails({ inputTicker }) {
@@ -39,49 +36,7 @@ function ETFDetails({ inputTicker }) {
     setSettings({ ...etfDetailsSettings })
   }
 
-  const cellClick = item => {
-    router.push(`/stockdetail?query=${item.find(x => x)}`)
-  }
-
-  const tabs = [
-    {
-      tab: {
-        eventKey: 'Basics',
-        title: 'Basics'
-      },
-      child: {
-        component: Basics,
-        props: {
-          inputETFTicker: settings.inputETFTicker
-        }
-      }
-    },
-    {
-      tab: {
-        eventKey: 'Holdings',
-        title: 'Holdings'
-      },
-      child: {
-        component: Holdings,
-        props: {
-          inputETFTicker: settings.inputETFTicker,
-          cellClick
-        }
-      }
-    },
-    {
-      tab: {
-        eventKey: 'Statistics',
-        title: 'Stat.'
-      },
-      child: {
-        component: Stat,
-        props: {
-          inputETFTicker: settings.inputETFTicker
-        }
-      }
-    }
-  ]
+  const tabs = buildTabs(settings.inputETFTicker)
 
   return (
     <Fragment>

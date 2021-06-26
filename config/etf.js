@@ -1,5 +1,10 @@
 import moment from 'moment-business-days'
 
+import Basics from '../components/Tab/ETFDetail/Basics'
+import Holdings from '../components/Tab/ETFDetail/Holdings'
+// eslint-disable-next-line import/order
+import Stat from '../components/Tab/ETFDetail/Stat'
+
 //const selectedHeaders = "Issuer,Structure,Expense Ratio,Inception,Index Tracked,Category,Asset Class,52 Week Lo,52 Week Hi,AUM,1 Month Avg. Volume,3 Month Avg. Volume"
 const selectedHeaders =
   'Issuer,Expense Ratio,Inception,Index Tracked,Category,52 Week Lo,52 Week Hi,AUM,1 Month Avg. Volume,3 Month Avg. Volume'
@@ -194,3 +199,49 @@ export const etfTools = [
     redirectURL: 'etftostock'
   }
 ]
+
+const cellClick = (router, item) => {
+  router.push(`/stockdetail?query=${item.find(x => x)}`)
+}
+
+export const buildTabs = inputETFTicker => {
+  return [
+    {
+      tab: {
+        eventKey: 'Basics',
+        title: 'Basics'
+      },
+      child: {
+        component: Basics,
+        props: {
+          inputETFTicker
+        }
+      }
+    },
+    {
+      tab: {
+        eventKey: 'Holdings',
+        title: 'Holdings'
+      },
+      child: {
+        component: Holdings,
+        props: {
+          inputETFTicker,
+          cellClick
+        }
+      }
+    },
+    {
+      tab: {
+        eventKey: 'Statistics',
+        title: 'Stat.'
+      },
+      child: {
+        component: Stat,
+        props: {
+          inputETFTicker
+        }
+      }
+    }
+  ]
+}

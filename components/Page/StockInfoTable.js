@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
 import useDarkMode from 'use-dark-mode'
 
@@ -55,9 +56,9 @@ const getCellItem = item => {
   } else return itemData
 }
 
-const checkCanClick = (item, cellClick) => {
+const checkCanClick = (router, item, cellClick) => {
   const itemData = getItemData(item)
-  cellClick ? cellClick(itemData) : null
+  cellClick ? cellClick(router, itemData) : null
 }
 
 const sticky = {
@@ -78,6 +79,7 @@ function StockInfoTable({
   striped
 }) {
   const darkMode = useDarkMode(false)
+  const router = useRouter()
 
   return (
     <Fragment>
@@ -133,7 +135,7 @@ function StockInfoTable({
                     {item.map((xx, yy) => (
                       <td
                         onClick={() => {
-                          if (cellClick) checkCanClick(item, cellClick)
+                          if (cellClick) checkCanClick(router, item, cellClick)
                         }}
                         style={
                           yy === 0
