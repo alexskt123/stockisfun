@@ -3,6 +3,7 @@ import { Fragment, useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Form from 'react-bootstrap/Form'
 import useDarkMode from 'use-dark-mode'
 
 const Table = dynamic(
@@ -55,70 +56,82 @@ export default function EditTable({ tableHeader, data, onUpdate }) {
 
   return (
     <Fragment>
-      <Table
-        bordered
-        hover
-        size="sm"
-        className="pl-3 mt-3"
-        responsive
-        variant={darkMode.value ? 'dark' : 'light'}
-      >
-        <thead>
-          <tr>
-            {tableHeader.map((header, index) => (
-              // @ts-ignore
-              <th key={index}>{header.label}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {inputData.map((rowItem, rowIdx) => {
-            return (
-              <Fragment key={rowIdx}>
-                <tr>
-                  {tableHeader.map((header, itemIdx) => {
-                    return (
-                      <td key={itemIdx}>
-                        <input
-                          type={header.type}
-                          style={{
-                            backgroundColor: darkMode.value ? 'grey' : 'white',
-                            color: darkMode.value ? 'white' : 'black'
-                          }}
-                          value={rowItem[header.item]}
-                          onChange={e =>
-                            handleDataChange(e, rowIdx, header.item)
-                          }
-                        />
-                      </td>
-                    )
-                  })}
-                  <td>
-                    <Button
-                      onClick={() => onDelete(rowIdx)}
-                      size="sm"
-                      variant="danger"
-                    >
-                      {'Delete'}
-                    </Button>
-                  </td>
-                </tr>
-              </Fragment>
-            )
-          })}
-        </tbody>
-      </Table>
-      <ButtonGroup>
-        <Button onClick={() => onAdd()} size="sm" variant="warning">
-          {'Add Record'}
-        </Button>
-        <Button onClick={() => onUpdate(inputData)} size="sm" variant="success">
-          {'Update'}
-        </Button>
-        <Button onClick={() => onReset()} size="sm" variant="secondary">
-          {'Reset'}
-        </Button>
-      </ButtonGroup>
+      <Form inline>
+        <Table
+          bordered
+          hover
+          size="sm"
+          className="pl-3 mt-3"
+          responsive
+          variant={darkMode.value ? 'dark' : 'light'}
+        >
+          <thead>
+            <tr>
+              {tableHeader.map((header, index) => (
+                // @ts-ignore
+                <th key={index}>{header.label}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {inputData.map((rowItem, rowIdx) => {
+              return (
+                <Fragment key={rowIdx}>
+                  <tr>
+                    {tableHeader.map((header, itemIdx) => {
+                      return (
+                        <td key={itemIdx}>
+                          <Form.Group>
+                            <Form.Control
+                              className="w-100"
+                              size="sm"
+                              type={header.type}
+                              style={{
+                                backgroundColor: darkMode.value
+                                  ? 'grey'
+                                  : 'white',
+                                color: darkMode.value ? 'white' : 'black'
+                              }}
+                              value={rowItem[header.item]}
+                              onChange={e =>
+                                handleDataChange(e, rowIdx, header.item)
+                              }
+                            />
+                          </Form.Group>
+                        </td>
+                      )
+                    })}
+                    <td>
+                      <Button
+                        onClick={() => onDelete(rowIdx)}
+                        size="sm"
+                        variant="danger"
+                      >
+                        {'Delete'}
+                      </Button>
+                    </td>
+                  </tr>
+                </Fragment>
+              )
+            })}
+          </tbody>
+        </Table>
+        <ButtonGroup>
+          <Button onClick={() => onAdd()} size="sm" variant="warning">
+            {'Add Record'}
+          </Button>
+          <Button
+            onClick={() => onUpdate(inputData)}
+            size="sm"
+            variant="success"
+          >
+            {'Update'}
+          </Button>
+          <Button onClick={() => onReset()} size="sm" variant="secondary">
+            {'Reset'}
+          </Button>
+        </ButtonGroup>
+      </Form>
     </Fragment>
   )
 }
