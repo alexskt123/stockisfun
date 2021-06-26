@@ -47,7 +47,7 @@ function Header() {
           <Dropdown.Toggle variant="dark" id="dropdown-basic">
             <FaUserCircle />
           </Dropdown.Toggle>
-          <Dropdown.Menu>
+          <Dropdown.Menu renderOnMount={true}>
             <DynamicAuth />
           </Dropdown.Menu>
         </Dropdown>
