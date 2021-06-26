@@ -3,10 +3,7 @@ export const formulaSettings = [
     id: 'annualized',
     label: 'Annualized',
     formula: '((1 + n)(1 + n)...(1 + n)) ^ (1 / y) - 1',
-    remarks: [
-      'n: Year Percentage',
-      'y: No. of Years'
-    ]
+    remarks: ['n: Year Percentage', 'y: No. of Years']
   },
   {
     id: 'annualizedIndicator',
@@ -23,9 +20,6 @@ export const formulaSettings = [
     id: 'debtClearance',
     label: 'Debt Clearance',
     formula: 'L / C',
-    remarks: [
-      'L: Total Liability',
-      'C: Operating Cash'
-    ]
+    remarks: ['L: Total Liability', 'C: Operating Cash']
   }
 ]

@@ -1,3 +1,8 @@
+import ETFDetails from '../components/ETFDetails'
+import IndexQuote from '../components/Parts/IndexQuote'
+import Price from '../components/Parts/Price'
+import QuoteCard from '../components/Parts/QuoteCard'
+import StockDetails from '../components/StockDetails'
 import { SWRSticky } from './settings'
 
 export const extractYahooInfo = [
@@ -26,24 +31,51 @@ export const stockIndex = [
   { Ticker: '^N225', Name: 'NKI' }
 ]
 
-
 export const stockFutureIndex = [
   { Ticker: 'YM=F', Name: 'Dow Jones F.' },
   { Ticker: 'ES=F', Name: 'S&P 500 F.' },
   { Ticker: 'NQ=F', Name: 'NASDAQ F.' },
   { Ticker: 'RTY=F', Name: 'Russell 2000 F.' },
-  { Ticker: 'BTC=F', Name: 'Bitcoin F.' },
+  { Ticker: 'BTC=F', Name: 'Bitcoin F.' }
 ]
 
 export const indexQuoteInfo = [
   [{ label: 'Name', field: 'shortName', value: null }],
-  [{ label: 'Pre', field: 'preMarketPrice', value: null }, { field: 'preMarketChange', value: null, format: 'PriceChange' }, { field: 'preMarketChangePercent', value: null, format: 'PriceChange%' }],
-  [{ label: 'Price', field: 'regularMarketPrice', value: null }, { field: 'regularMarketChange', value: null, format: 'PriceChange' }, { field: 'regularMarketChangePercent', value: null, format: 'PriceChange%' }],
-  [{ label: 'Post', field: 'postMarketPrice', value: null }, { field: 'postMarketChange', value: null, format: 'PriceChange' }, { field: 'postMarketChangePercent', value: null, format: 'PriceChange%' }],
+  [
+    { label: 'Pre', field: 'preMarketPrice', value: null },
+    { field: 'preMarketChange', value: null, format: 'PriceChange' },
+    { field: 'preMarketChangePercent', value: null, format: 'PriceChange%' }
+  ],
+  [
+    { label: 'Price', field: 'regularMarketPrice', value: null },
+    { field: 'regularMarketChange', value: null, format: 'PriceChange' },
+    { field: 'regularMarketChangePercent', value: null, format: 'PriceChange%' }
+  ],
+  [
+    { label: 'Post', field: 'postMarketPrice', value: null },
+    { field: 'postMarketChange', value: null, format: 'PriceChange' },
+    { field: 'postMarketChangePercent', value: null, format: 'PriceChange%' }
+  ],
   [{ label: 'Day Range', field: 'regularMarketDayRange', value: null }],
   [{ label: 'Prev. Close', field: 'regularMarketPreviousClose', value: null }],
-  [{ label: '52 Week Low', field: 'fiftyTwoWeekLow', value: null }, { label: '52 Week High', field: 'fiftyTwoWeekHigh', value: null }],
-  [{ label: 'Revenue', field: 'revenueIndicator', format: 'IndicatorVariant', value: null }, { label: 'Income', field: 'incomeIndicator', format: 'IndicatorVariant', value: null }],
+  [
+    { label: '52 Week Low', field: 'fiftyTwoWeekLow', value: null },
+    { label: '52 Week High', field: 'fiftyTwoWeekHigh', value: null }
+  ],
+  [
+    {
+      label: 'Revenue',
+      field: 'revenueIndicator',
+      format: 'IndicatorVariant',
+      value: null
+    },
+    {
+      label: 'Income',
+      field: 'incomeIndicator',
+      format: 'IndicatorVariant',
+      value: null
+    }
+  ],
   [{ label: 'Debt Clearance', field: 'debtClearance', value: null }]
 ]
 
@@ -108,5 +140,59 @@ export const tableHeaderList = [
     label: 'Earnings Date',
     item: 'earningsDate',
     show: true
+  }
+]
+
+function withQuoteCard(CardComponent) {
+  return function QuoteCardComponent({
+    header,
+    inputTicker,
+    isShow,
+    ...props
+  }) {
+    return (
+      <QuoteCard header={header} inputTicker={inputTicker} isShow={isShow}>
+        <CardComponent inputTicker={inputTicker} {...props} />
+      </QuoteCard>
+    )
+  }
+}
+
+export const highlightHeaders = [
+  {
+    name: 'Price Changes',
+    component: withQuoteCard(Price),
+    props: {
+      inputMA: 'ma'
+    }
+  },
+  {
+    name: 'Quote',
+    component: withQuoteCard(IndexQuote),
+    props: {}
+  }
+]
+
+export const highlightDetails = [
+  {
+    type: 'ETF',
+    component: ETFDetails
+  },
+  {
+    type: 'EQUITY',
+    component: StockDetails
+  }
+]
+
+export const highlightMenuTickerList = [
+  {
+    name: 'Stock Market Futures',
+    eventKey: 'StockMarketFutureIndex',
+    inputList: stockFutureIndex
+  },
+  {
+    name: 'Stock Market Index',
+    eventKey: 'StockMarketIndex',
+    inputList: stockIndex
   }
 ]

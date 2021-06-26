@@ -1,15 +1,16 @@
 import { Fragment } from 'react'
+
 import Goo from 'gooey-react'
 
 function GooeySpinner() {
-
   return (
     <Fragment>
       <Goo>
         <svg
           role="img"
           aria-label="Example of a gooey effect"
-          width="300" height="60"
+          width="300"
+          height="60"
         >
           <g>
             <circle
@@ -25,7 +26,7 @@ function GooeySpinner() {
               r="20"
               fill="blueviolet"
               style={{
-                animation: 'sway 0.4s -0.4s ease-out infinite alternate',
+                animation: 'sway 0.4s -0.4s ease-out infinite alternate'
               }}
             />
             <circle
@@ -39,7 +40,6 @@ function GooeySpinner() {
         </svg>
       </Goo>
     </Fragment>
-
   )
 }
 

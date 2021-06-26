@@ -1,17 +1,18 @@
-
 import { Fragment, useState } from 'react'
+
 import { useRouter } from 'next/router'
 
-import TickerInput from '../../components/Page/TickerInput'
-import TickerBullet from '../../components/Page/TickerBullet'
 import CustomContainer from '../../components/Layout/CustomContainer'
-import { aumTableHeader } from '../../config/etf'
-import { handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
-import { useQuery } from '../../lib/hooks/useQuery'
-
-import { staticSWROptions } from '../../config/settings'
-
 import SWRTable from '../../components/Page/SWRTable'
+import TickerBullet from '../../components/Page/TickerBullet'
+import TickerInput from '../../components/Page/TickerInput'
+import { aumTableHeader } from '../../config/etf'
+import { staticSWROptions } from '../../config/settings'
+import {
+  handleDebounceChange,
+  handleFormSubmit
+} from '../../lib/commonFunction'
+import { useQuery } from '../../lib/hooks/useQuery'
 
 export default function CompareAUM() {
   const router = useRouter()
@@ -22,7 +23,7 @@ export default function CompareAUM() {
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
@@ -31,19 +32,17 @@ export default function CompareAUM() {
     router.push(router.pathname)
   }
 
-  const removeItem = (value) => {
+  const removeItem = value => {
     const removed = [...tickers.filter(x => x !== value)]
     setTickers(removed)
     router.push(`${router.pathname}?query=${removed.join(',')}`)
   }
 
   async function handleTickers(inputTickers) {
-    setTickers([
-      ...inputTickers
-    ])
+    setTickers([...inputTickers])
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
 
@@ -61,14 +60,23 @@ export default function CompareAUM() {
             clearItems={clearItems}
           />
           <TickerBullet tickers={tickers} removeItem={removeItem} />
-          {
-            tickers && tickers.length > 0 ? <SWRTable
-              requests={tickers.map(x => ({ request: `/api/compare/aum?ticker=${x}`, key: x }))}
-              options={{ bordered: true, tableHeader: aumTableHeader, exportFileName: 'Stock_aum_sum.csv', tableSize: 'sm', SWROptions: { ...staticSWROptions } }}
-            /> : null
-          }
+          {tickers && tickers.length > 0 ? (
+            <SWRTable
+              requests={tickers.map(x => ({
+                request: `/api/compare/aum?ticker=${x}`,
+                key: x
+              }))}
+              options={{
+                bordered: true,
+                tableHeader: aumTableHeader,
+                exportFileName: 'Stock_aum_sum.csv',
+                tableSize: 'sm',
+                SWROptions: { ...staticSWROptions }
+              }}
+            />
+          ) : null}
         </Fragment>
       </CustomContainer>
-    </Fragment >
+    </Fragment>
   )
 }

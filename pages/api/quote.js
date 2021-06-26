@@ -9,7 +9,7 @@ export default async (req, res) => {
 
   const quote = new Quote(ticker)
   await quote.request()
-  
+
   res.statusCode = 200
-  res.json({valid: quote.valid, type: quote.type})
+  res.json({ valid: quote.valid, type: quote.type })
 }

@@ -1,15 +1,19 @@
-
 import { Fragment, useState, useEffect } from 'react'
-import { indexQuoteInfo } from '../../config/highlight'
-import { staticSWROptions, fetcher } from '../../config/settings'
 
 import useSWR from 'swr'
+
+import { indexQuoteInfo } from '../../config/highlight'
+import { staticSWROptions, fetcher } from '../../config/settings'
 import YahooQuoteInfo from './YahooQuoteInfo'
 
 function IndexQuote({ inputTicker }) {
   const [quoteData, setQuoteData] = useState([])
 
-  const { data } = useSWR(`/api/getIndexQuote?ticker=${inputTicker}`, fetcher, staticSWROptions)
+  const { data } = useSWR(
+    `/api/getIndexQuote?ticker=${inputTicker}`,
+    fetcher,
+    staticSWROptions
+  )
 
   useEffect(() => {
     setQuoteData(data)

@@ -1,23 +1,22 @@
-
 import { Fragment, useState } from 'react'
+
 import { useRouter } from 'next/router'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 
-import { tableHeaderList } from '../config/watchlist'
 import CustomContainer from '../components/Layout/CustomContainer'
-import TickerInput from '../components/Page/TickerInput'
-import TickerBullet from '../components/Page/TickerBullet'
 import LoadingSpinner from '../components/Loading/LoadingSpinner'
-import ModalQuestion from '../components/Parts/ModalQuestion'
 import SearchAccordion from '../components/Page/SearchAccordion'
 import SWRTable from '../components/Page/SWRTable'
+import TickerBullet from '../components/Page/TickerBullet'
+import TickerInput from '../components/Page/TickerInput'
 import HappyShare from '../components/Parts/HappyShare'
-
+import ModalQuestion from '../components/Parts/ModalQuestion'
+import { tableHeaderList } from '../config/watchlist'
 import { handleDebounceChange, handleFormSubmit } from '../lib/commonFunction'
 import { updUserWatchList, useUser } from '../lib/firebaseResult'
-import { fireToast } from '../lib/toast'
 import { useQuery } from '../lib/hooks/useQuery'
+import { fireToast } from '../lib/toast'
 
 export default function WatchList() {
   const router = useRouter()
@@ -34,7 +33,7 @@ export default function WatchList() {
 
   const user = useUser()
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
@@ -56,10 +55,8 @@ export default function WatchList() {
     await updateWatchList()
   }
 
-  const removeItem = (value) => {
-    setTickers(
-      [...tickers.filter(x => x !== value)]
-    )
+  const removeItem = value => {
+    setTickers([...tickers.filter(x => x !== value)])
   }
 
   async function handleTickers(inputTickersWithComma) {
@@ -69,7 +66,7 @@ export default function WatchList() {
     setClicked(false)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
 
@@ -100,27 +97,47 @@ export default function WatchList() {
             />
             <TickerBullet tickers={tickers} removeItem={removeItem} />
           </SearchAccordion>
-          {clicked ?
-            <LoadingSpinner /> : null
-          }
-          <Row className="ml-1 mt-3" style={{ display: 'flex', alignItems: 'center' }}>
-            {
-              user
-                ? <Button className="ml-2" onClick={() => { setShowUpdate(true) }} size='sm' variant='dark' >{'Update Watch List'}</Button>
-                : null
-            }
-            {tickers.length > 0 ? <HappyShare inputStyle={{ color: 'blue', size: '25px' }} /> : null}
+          {clicked ? <LoadingSpinner /> : null}
+          <Row
+            className="ml-1 mt-3"
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            {user ? (
+              <Button
+                className="ml-2"
+                onClick={() => {
+                  setShowUpdate(true)
+                }}
+                size="sm"
+                variant="dark"
+              >
+                {'Update Watch List'}
+              </Button>
+            ) : null}
+            {tickers.length > 0 ? (
+              <HappyShare inputStyle={{ color: 'blue', size: '25px' }} />
+            ) : null}
           </Row>
 
-          {
-            tickers.length > 0 ? <SWRTable
-              requests={tickers.map(x => ({ request: `/api/yahoo/getYahooQuote?ticker=${x}`, key: x }))}
-              options={{ striped: true, bordered: true, tableHeader: tableHeaderList, exportFileName: 'Watchlist.csv', tableSize: 'sm', SWROptions: { refreshInterval: 3000 } }}
-            /> : null
-          }
+          {tickers.length > 0 ? (
+            <SWRTable
+              requests={tickers.map(x => ({
+                request: `/api/yahoo/getYahooQuote?ticker=${x}`,
+                key: x
+              }))}
+              options={{
+                striped: true,
+                bordered: true,
+                tableHeader: tableHeaderList,
+                exportFileName: 'Watchlist.csv',
+                tableSize: 'sm',
+                SWROptions: { refreshInterval: 3000 }
+              }}
+            />
+          ) : null}
         </Fragment>
       </CustomContainer>
       <ModalQuestion {...modalQuestionSettings} />
-    </Fragment >
+    </Fragment>
   )
 }

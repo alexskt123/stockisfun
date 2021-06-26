@@ -13,5 +13,11 @@ export default async (req, res) => {
   const moneyCnnData = await getMoneyCnnCouple(ticker)
 
   res.statusCode = 200
-  res.json({ ...[ticker, ...aumData].reduce((acc, item, idx) => ({...acc, [aumTableHeader[idx].item]: item }), {}), ...moneyCnnData })
+  res.json({
+    ...[ticker, ...aumData].reduce(
+      (acc, item, idx) => ({ ...acc, [aumTableHeader[idx].item]: item }),
+      {}
+    ),
+    ...moneyCnnData
+  })
 }
