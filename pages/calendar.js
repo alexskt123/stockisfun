@@ -27,14 +27,15 @@ export default function BigCalendar() {
 
   useEffect(() => {
     ;(async () => {
+      const userWatchList = user ? userData.watchList : []
       const responses = await Promise.all(
-        [...userData.watchList].map(async item => {
+        [...userWatchList].map(async item => {
           return axios
             .get(`/api/yahoo/getYahooEarningsDate?ticker=${item}`)
             .catch(err => console.error(err))
         })
       ).catch(error => console.error(error))
-      const eventEarnings = [...userData.watchList].map((item, idx) => {
+      const eventEarnings = [...userWatchList].map((item, idx) => {
         return {
           id: idx,
           title: item,
@@ -45,7 +46,7 @@ export default function BigCalendar() {
 
       setEventList(eventEarnings)
     })()
-  }, [userData])
+  }, [user, userData])
 
   return (
     <Fragment>

@@ -101,7 +101,7 @@ function TickerInput({
               </Button>
             </Fragment>
           ) : null}
-          {handleTickers && userData.watchList ? (
+          {handleTickers && user && userData.watchList ? (
             <Button
               {...buttonSettings.FromWatchList.attr}
               disabled={clicked}

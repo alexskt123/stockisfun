@@ -44,6 +44,7 @@ export default function Highlight() {
           <HighlightPriceQuote highlightHeaders={highlightHeaders} />
           <HighlightDetail highlightDetails={highlightDetails} />
           <WatchListSuggestions
+            user={user}
             userData={userData}
             onClickWatchListButton={onClickWatchListButton}
           />

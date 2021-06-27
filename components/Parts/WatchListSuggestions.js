@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row'
 import { randBackgroundColor } from '../../lib/commonFunction'
 import { getHighlistWatchList } from '../../lib/firebaseResult'
 
-function WatchListSuggestions({ userData, onClickWatchListButton }) {
+function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
   const [watchList, setWatchList] = useState([])
 
   useEffect(() => {
@@ -16,7 +16,7 @@ function WatchListSuggestions({ userData, onClickWatchListButton }) {
       const watchList = await getHighlistWatchList()
       const { watchList: userWatchList, boughtList } = userData
       const appendWatchList =
-        userWatchList && boughtList
+        user && userWatchList && boughtList
           ? {
               'Watch List': userWatchList,
               'Bought List': boughtList.map(item => item.ticker)
@@ -27,9 +27,10 @@ function WatchListSuggestions({ userData, onClickWatchListButton }) {
         ...watchList,
         ...appendWatchList
       }
+
       setWatchList(newWatchList)
     })()
-  }, [userData])
+  }, [user, userData])
 
   return (
     <Fragment>
