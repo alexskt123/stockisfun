@@ -49,7 +49,7 @@ export default function ComparePrice() {
 
   const removeItem = value => {
     const removed = [...settings.tickers.filter(x => x !== value)]
-    const year = settings.years ? settings.years : 15
+    const year = settings.years || 15
     setSettings({
       ...settings,
       tickers: removed
