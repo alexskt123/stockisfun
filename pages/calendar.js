@@ -5,14 +5,9 @@ import { Calendar, momentLocalizer } from 'react-big-calendar'
 import Container from 'react-bootstrap/Container'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
-<<<<<<< HEAD
-import StockInfoTable from '../components/Page/StockInfoTable'
-import QuoteCard from '../components/Parts/QuoteCard'
-=======
 import EarningsModal from '../components/Page/Calendar/EarningsModal'
 import QuoteCard from '../components/Parts/QuoteCard'
 import { useUser, useUserData } from '../lib/firebaseResult'
->>>>>>> master
 
 const axios = require('axios').default
 
@@ -60,31 +55,11 @@ export default function BigCalendar() {
         className="mt-5 shadow-lg p-3 mb-5 rounded"
       >
         <Fragment>
-<<<<<<< HEAD
-          <QuoteCard header={'Calendar'} isShow={true} noClose={true} customBgColor={{normal: 'white', darkmode: '#adadad'}}>
-            <Calendar
-              popup
-              localizer={localizer}
-              events={eventList}
-              views={['month']}
-              startAccessor="start"
-              endAccessor="end"
-              style={{ height: '90vh', fontSize: 'x-small' }}
-              onSelectEvent={handleSelectSlot}
-            />
-          </QuoteCard>
-          <Modal
-            size="xl"
-            centered
-            show={show.show}
-            onHide={handleClose}
-=======
           <QuoteCard
             header={'Calendar'}
             isShow={true}
             noClose={true}
             customBgColor={{ normal: 'white', darkmode: '#adadad' }}
->>>>>>> master
           >
             <Calendar
               popup
