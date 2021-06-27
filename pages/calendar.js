@@ -1,16 +1,18 @@
 import { Fragment, useState, useEffect } from 'react'
-import Container from 'react-bootstrap/Container'
-import { Calendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
-import useDarkMode from 'use-dark-mode'
-import { useUser, useUserData } from '../lib/firebaseResult'
 
-import Modal from 'react-bootstrap/Modal'
-import Badge from 'react-bootstrap/Badge'
+import moment from 'moment'
+import { Calendar, momentLocalizer } from 'react-big-calendar'
+import Container from 'react-bootstrap/Container'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
+<<<<<<< HEAD
 import StockInfoTable from '../components/Page/StockInfoTable'
 import QuoteCard from '../components/Parts/QuoteCard'
+=======
+import EarningsModal from '../components/Page/Calendar/EarningsModal'
+import QuoteCard from '../components/Parts/QuoteCard'
+import { useUser, useUserData } from '../lib/firebaseResult'
+>>>>>>> master
 
 const axios = require('axios').default
 
@@ -18,37 +20,27 @@ const localizer = momentLocalizer(moment)
 
 //export default component
 export default function BigCalendar() {
-
-  const darkMode = useDarkMode(false)
-
   const user = useUser()
   const userData = useUserData(user)
 
   const [eventList, setEventList] = useState([])
-  const [show, setShow] = useState({ show: false, ticker: null })
-  const [earnings, setEarnings] = useState({
-    tableHeader: ['Date Reported', 'Fiscal Quarter End', 'Consensus EPS Forecast', 'Earnings Per Share', '% Surprise'],
-    tableData: []
-  })
+  const [ticker, setTicker] = useState(null)
 
-  const handleClose = () => setShow({ show: false, ticker: null })
-
-  const handleSelectSlot = async (e) => {
-    const { data } = await axios.get(`/api/nasdaq/getEarningsHistory?ticker=${e.title}`).catch(err => console.log(err))
-    const tableData = data
-    setEarnings({
-      ...earnings,
-      tableData
-    })
-    setShow({ show: true, ticker: e.title })
+  const handleSelectSlot = async e => {
+    setTicker(e.title)
   }
 
   useEffect(() => {
-    (async () => {
-      const responses = await Promise.all([...userData.watchList].map(async item => {
-        return axios.get(`/api/yahoo/getYahooEarningsDate?ticker=${item}`).catch(err => console.log(err))
-      })).catch(error => console.log(error))
-      const eventEarnings = [...userData.watchList].map((item, idx) => {
+    ;(async () => {
+      const userWatchList = user ? userData.watchList : []
+      const responses = await Promise.all(
+        [...userWatchList].map(async item => {
+          return axios
+            .get(`/api/yahoo/getYahooEarningsDate?ticker=${item}`)
+            .catch(err => console.error(err))
+        })
+      ).catch(error => console.error(error))
+      const eventEarnings = [...userWatchList].map((item, idx) => {
         return {
           id: idx,
           title: item,
@@ -59,12 +51,16 @@ export default function BigCalendar() {
 
       setEventList(eventEarnings)
     })()
-  }, [userData])
+  }, [user, userData])
 
   return (
     <Fragment>
-      <Container style={{ minHeight: '100vh' }} className="mt-5 shadow-lg p-3 mb-5 rounded">
+      <Container
+        style={{ minHeight: '100vh' }}
+        className="mt-5 shadow-lg p-3 mb-5 rounded"
+      >
         <Fragment>
+<<<<<<< HEAD
           <QuoteCard header={'Calendar'} isShow={true} noClose={true} customBgColor={{normal: 'white', darkmode: '#adadad'}}>
             <Calendar
               popup
@@ -82,17 +78,28 @@ export default function BigCalendar() {
             centered
             show={show.show}
             onHide={handleClose}
+=======
+          <QuoteCard
+            header={'Calendar'}
+            isShow={true}
+            noClose={true}
+            customBgColor={{ normal: 'white', darkmode: '#adadad' }}
+>>>>>>> master
           >
-            <Modal.Header closeButton style={{ backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}>
-              <Modal.Title><Badge variant="dark">{`Earnings History - ${show.ticker}`}</Badge></Modal.Title>
-            </Modal.Header>
-            <Modal.Body style={{ backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}>
-              <StockInfoTable tableSize="sm" tableHeader={earnings.tableHeader} tableData={earnings.tableData} />
-            </Modal.Body>
-          </Modal>
+            <Calendar
+              popup
+              localizer={localizer}
+              events={eventList}
+              views={['month']}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: '90vh', fontSize: 'x-small' }}
+              onSelectEvent={handleSelectSlot}
+            />
+          </QuoteCard>
+          <EarningsModal ticker={ticker} />
         </Fragment>
       </Container>
     </Fragment>
   )
 }
-

@@ -9,7 +9,6 @@ export default async (req, res) => {
 
   const earningsDate = await getYahooEarningsDate(ticker)
 
-
   res.statusCode = 200
   res.json(earningsDate)
 }

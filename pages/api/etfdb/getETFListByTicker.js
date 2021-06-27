@@ -2,8 +2,8 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getETFListByTicker } from '../../../lib/etfdb/getETFListByTicker'
 import { etfListByTickerCount } from '../../../config/etf'
+import { getETFListByTicker } from '../../../lib/etfdb/getETFListByTicker'
 
 export default async (req, res) => {
   const { ticker } = req.query
@@ -11,7 +11,9 @@ export default async (req, res) => {
   const etfInfo = await getETFListByTicker(ticker)
   const data = {
     ...etfInfo,
-    etfList: [...etfInfo.etfList.filter((_x, idx) => idx < etfListByTickerCount)]
+    etfList: [
+      ...etfInfo.etfList.filter((_x, idx) => idx < etfListByTickerCount)
+    ]
   }
 
   res.statusCode = 200

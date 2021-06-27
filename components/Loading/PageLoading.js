@@ -1,7 +1,9 @@
 import { Fragment } from 'react'
+
 import Row from 'react-bootstrap/Row'
-import GooeySpinner from './GooeySpinner'
+
 import CustomContainer from '../../components/Layout/CustomContainer'
+import GooeySpinner from './GooeySpinner'
 
 export default function PageLoading() {
   return (
@@ -12,6 +14,5 @@ export default function PageLoading() {
         </Row>
       </CustomContainer>
     </Fragment>
-
   )
 }

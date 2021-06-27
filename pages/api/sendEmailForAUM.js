@@ -1,14 +1,17 @@
-
-import sendEmail from '../../lib/sendEmail'
-import { getEmailByID } from '../../lib/firebaseResult'
-import { getCSVContent, getHostForETFDb, getHost } from '../../lib/commonFunction'
 import moment from 'moment-business-days'
+
 import { aumTableHeader } from '../../config/etf'
+import {
+  getCSVContent,
+  getHostForETFDb,
+  getHost
+} from '../../lib/commonFunction'
+import { getEmailByID } from '../../lib/firebaseResult'
+import sendEmail from '../../lib/sendEmail'
 
 const axios = require('axios').default
 
 export default async (req, res) => {
-
   const response = {
     response: 'NOT OK'
   }
@@ -17,7 +20,9 @@ export default async (req, res) => {
 
   const emails = await getEmailByID(id)
   const curEmailTemplate = emails.find(x => x)
-  const tickerArr = curEmailTemplate.stock.split(',').map(item => item.toUpperCase())
+  const tickerArr = curEmailTemplate.stock
+    .split(',')
+    .map(item => item.toUpperCase())
 
   const tdy = moment().format('YYYY-MM-DD')
   const subName = `AUM - As of ${tdy}`
@@ -28,18 +33,24 @@ export default async (req, res) => {
 
   response.response = 'OK'
 
-  const temp = await Promise.all(tickerArr.map(async ticker => {
-    const etf = await axios(`${getHostForETFDb()}/api/etfdb/getETFAUMSum?ticker=${ticker}`)
-    const cnn = await axios(`${getHost()}/api/forecast/getMoneyCnn?ticker=${ticker}`)
-    const { data: etfData } = etf
-    const { data: cnnData } = cnn
-    return ({
-      ticker: ticker.toUpperCase(),
-      info: [...etfData, ...cnnData]
+  const temp = await Promise.all(
+    tickerArr.map(async ticker => {
+      const etf = await axios(
+        `${getHostForETFDb()}/api/etfdb/getETFAUMSum?ticker=${ticker}`
+      )
+      const cnn = await axios(
+        `${getHost()}/api/forecast/getMoneyCnn?ticker=${ticker}`
+      )
+      const { data: etfData } = etf
+      const { data: cnnData } = cnn
+      return {
+        ticker: ticker.toUpperCase(),
+        info: [...etfData, ...cnnData]
+      }
     })
-  }))
+  )
 
-  temp.forEach((item) => {
+  temp.forEach(item => {
     csvFile.tableData.push([item.ticker, ...item.info])
   })
 
@@ -68,13 +79,13 @@ export default async (req, res) => {
         </p>
         `,
     attachments: [
-      {   // utf-8 string as an attachment
+      {
+        // utf-8 string as an attachment
         filename: `${subName}.csv`,
         content: getCSVContent(csvFile.tableHeader, csvFile.tableData)
       }
     ]
   }
-
 
   await sendEmail(mailOptions)
 

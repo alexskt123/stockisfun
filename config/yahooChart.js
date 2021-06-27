@@ -1,12 +1,12 @@
 export const chartResponse = {
-  'chart': {
-    'result': [
+  chart: {
+    result: [
       {
-        'timestamp': [],
-        'indicators': {
-          'quote': [
+        timestamp: [],
+        indicators: {
+          quote: [
             {
-              'close': []
+              close: []
             }
           ]
         }
@@ -16,129 +16,119 @@ export const chartResponse = {
 }
 
 export const quoteResponse = {
-  'quoteResponse': {
-    'result': [
-    ],
-    'error': null
+  quoteResponse: {
+    result: [],
+    error: null
   }
 }
 
 export const keyStatResponse = {
-  'quoteSummary': {
-    'result': [
+  quoteSummary: {
+    result: [
       {
-        'defaultKeyStatistics': {}
+        defaultKeyStatistics: {}
       }
     ],
-    'error': null
+    error: null
   }
 }
 
 export const recommendResponse = {
-  'quoteSummary': {
-    'result': [
+  quoteSummary: {
+    result: [
       {
-        'recommendationTrend': {
-          'trend': []
+        recommendationTrend: {
+          trend: []
         }
       }
     ]
-
   }
 }
 
 export const earningsResponse = {
-  'quoteSummary': {
-    'result': [
+  quoteSummary: {
+    result: [
       {
-        'earnings': {
-          'financialsChart': {
-            'yearly': []
+        earnings: {
+          financialsChart: {
+            yearly: []
           }
         }
       }
     ]
-
   }
 }
 export const incomeResponse = {
-  'quoteSummary': {
-    'result': [
+  quoteSummary: {
+    result: [
       {
-        'incomeStatementHistory': {
-          'incomeStatementHistory': []
+        incomeStatementHistory: {
+          incomeStatementHistory: []
         }
       }
     ]
-
   }
 }
 
 export const cashflowResponse = {
-  'quoteSummary': {
-    'result': [
+  quoteSummary: {
+    result: [
       {
-        'cashflowStatementHistory': {
-          'cashflowStatements': []
+        cashflowStatementHistory: {
+          cashflowStatements: []
         }
       }
     ]
-
   }
 }
 
 export const earningsDateResponse = {
-  'quoteSummary': {
-    'result': [
+  quoteSummary: {
+    result: [
       {
-        'calendarEvents': {
-          'earnings': {
-            'earningsDate': [{
-              'raw': 'N/A',
-              'fmt': 'N/A'
-            }]
+        calendarEvents: {
+          earnings: {
+            earningsDate: [
+              {
+                raw: 'N/A',
+                fmt: 'N/A'
+              }
+            ]
           }
         }
       }
     ]
-
   }
 }
 
 export const financialDataResponse = {
-  'quoteSummary': {
-    'result': [
+  quoteSummary: {
+    result: [
       {
-        'financialData': {
-        }
+        financialData: {}
       }
     ]
-
   }
 }
 
 export const assetProfileResponse = {
-  'quoteSummary': {
-    'result': [
+  quoteSummary: {
+    result: [
       {
-        'assetProfile': {
-        }
+        assetProfile: {}
       }
     ]
-
   }
 }
 
 export const balanceSheetRespsone = {
-  'quoteSummary': {
-    'result': [
+  quoteSummary: {
+    result: [
       {
-        'balanceSheetHistory': {
-          'balanceSheetStatements': []
+        balanceSheetHistory: {
+          balanceSheetStatements: []
         }
       }
     ]
-
   }
 }
-

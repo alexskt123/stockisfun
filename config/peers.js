@@ -64,4 +64,11 @@ export const initSettings = { tableHeader: [], tableData: [] }
 //   }
 // ]
 
-export const peersHeader = ['Ticker', 'Name', 'Price', 'Market Cap.', 'P/B', 'Trailing PE']
+export const peersHeader = [
+  'Ticker',
+  'Name',
+  'Price',
+  'Market Cap.',
+  'P/B',
+  'Trailing PE'
+]

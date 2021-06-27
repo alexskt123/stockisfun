@@ -11,17 +11,21 @@ export const chartDataSet = {
   pointHoverBorderColor: 'rgba(220,220,220,1)',
   pointHoverBorderWidth: 2,
   pointRadius: 1,
-  pointHitRadius: 10,
+  pointHitRadius: 10
 }
 
 const year = new Date().getFullYear()
-export const dateRange = [...Array(16)].map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`]).map(x => ({ 'fromDate': x[0], 'toDate': x[1] }))
+export const dateRange = [...Array(16)]
+  .map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`])
+  .map(x => ({ fromDate: x[0], toDate: x[1] }))
 
-export const dateRangeByNoOfYears = async (inputYears) => {
+export const dateRangeByNoOfYears = async inputYears => {
   const noOfYears = !inputYears ? 15 : inputYears
 
   //return Array.from({length: noOfYears + 1}, (x, i) => [`${year-i}-01-01`,`${year-i}-12-31`]).map(x=>({"fromDate":x[0],"toDate":x[1]}))
-  return [...Array(parseInt(noOfYears) + 1)].map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`]).map(x => ({ 'fromDate': x[0], 'toDate': x[1] }))
+  return [...Array(parseInt(noOfYears) + 1)]
+    .map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`])
+    .map(x => ({ fromDate: x[0], toDate: x[1] }))
 }
 
 // [
@@ -37,32 +41,32 @@ export const dateRangeByNoOfYears = async (inputYears) => {
 
 export const quoteFilterList = [
   {
-    'column': 'longName',
-    'label': 'Name'
+    column: 'longName',
+    label: 'Name'
   },
   {
-    'column': 'regularMarketPrice',
-    'label': 'Current Price'
+    column: 'regularMarketPrice',
+    label: 'Current Price'
   },
   {
-    'column': 'trailingPE',
-    'label': 'Trailing PE'
+    column: 'trailingPE',
+    label: 'Trailing PE'
   },
   {
-    'column': 'priceToBook',
-    'label': 'Price to book'
+    column: 'priceToBook',
+    label: 'Price to book'
   },
   {
-    'column': 'forwardPE',
-    'label': 'Forward PE'
+    column: 'forwardPE',
+    label: 'Forward PE'
   },
   {
-    'column': 'fiftyDayAverage',
-    'label': '50 Day Avg'
+    column: 'fiftyDayAverage',
+    label: '50 Day Avg'
   },
   {
-    'column': 'twoHundredDayAverage',
-    'label': '200 Day Avg'
+    column: 'twoHundredDayAverage',
+    label: '200 Day Avg'
   }
 ]
 
@@ -105,8 +109,8 @@ export const priceChartOptions = {
   plugins: {
     legend: {
       labels: {
-        usePointStyle: true,
-      },
+        usePointStyle: true
+      }
     }
   },
   scales: {
@@ -125,7 +129,7 @@ export const priceChartOptions = {
       // time: {
       //   // Luxon format string
       //   tooltipFormat: 'DD T'
-      // },    
+      // },
       ticks: {
         // maxTicksLimit: 7,
         // color: 'black',
@@ -268,4 +272,3 @@ export const priceTabLabelPairs = [
     value: ''
   }
 ]
-
