@@ -10,7 +10,6 @@ import { GrDocumentCsv } from 'react-icons/gr'
 import useSWR from 'swr'
 import useDarkMode from 'use-dark-mode'
 
-import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import {
   millify,
   roundTo,
@@ -23,6 +22,7 @@ import {
   getDefaultColor
 } from '../../lib/commonFunction'
 import { exportToFile } from '../../lib/exportToFile'
+import LoadingSkeleton from '../Loading/LoadingSkeleton'
 
 const Table = dynamic(
   () => {
@@ -158,7 +158,7 @@ export default function SWRTable({ requests, options }) {
       >
         <thead>
           <tr key={'tableFirstHeader'}>
-            {tableFirstHeader
+            {reactiveTableHeader && tableFirstHeader
               ? tableFirstHeader.map((item, index) => (
                   <th key={index} style={getStyle(item, darkMode.value)}>
                     <h5>
@@ -223,7 +223,7 @@ function SWRTableRow({
   if (!data)
     return (
       <td colSpan={tableHeader.length}>
-        <LoadingSpinner />
+        <LoadingSkeleton />
       </td>
     )
 
