@@ -1,6 +1,7 @@
 import moment from 'moment-business-days'
 
 import Basics from '../components/Tab/ETFDetail/Basics'
+import ETFPrice from '../components/Tab/ETFDetail/ETFPrice'
 import Holdings from '../components/Tab/ETFDetail/Holdings'
 // eslint-disable-next-line import/order
 import Stat from '../components/Tab/ETFDetail/Stat'
@@ -206,6 +207,18 @@ const cellClick = (router, item) => {
 
 export const buildTabs = inputETFTicker => {
   return [
+    {
+      tab: {
+        eventKey: 'Price',
+        title: 'Price'
+      },
+      child: {
+        component: ETFPrice,
+        props: {
+          inputETFTicker
+        }
+      }
+    },
     {
       tab: {
         eventKey: 'Basics',

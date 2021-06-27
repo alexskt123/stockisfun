@@ -1,23 +1,15 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import Badge from 'react-bootstrap/Badge'
-import CardDeck from 'react-bootstrap/CardDeck'
-
-import AddDelStock from '../../../components/Fire/AddDelStock'
 import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
 import StockInfoTable from '../../../components/Page/StockInfoTable'
-import Price from '../../../components/Parts/Price'
-import QuoteCard from '../../../components/Parts/QuoteCard'
-import { etfDetailsBasicSettings, etfTools } from '../../../config/etf'
+import { etfDetailsBasicSettings } from '../../../config/etf'
 import { getETFDetailBasics } from '../../../lib/commonFunction'
 import { fireToast } from '../../../lib/toast'
-import HappyShare from '../../Parts/HappyShare'
 import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 export default function Basics({ inputETFTicker }) {
   const [settings, setSettings] = useState({ ...etfDetailsBasicSettings })
   const [loading, setLoading] = useState(false)
-  const [ticker, setTicker] = useState(null)
 
   useEffect(() => {
     ;(async () => {
@@ -44,7 +36,7 @@ export default function Basics({ inputETFTicker }) {
           icon: 'error',
           title: 'Invalid Ticker'
         })
-      : setTicker(inputETFTicker)
+      : null
 
     setLoading(false)
   }
@@ -61,47 +53,11 @@ export default function Basics({ inputETFTicker }) {
           .filter(x => x.find(x => x) === 'Price')
           .find(x => x) ? (
         <Fragment>
-          <CardDeck>
-            <QuoteCard
-              tools={etfTools}
-              header={ticker}
-              inputTicker={ticker}
-              isShow={true}
-              noClose={true}
-            >
-              <div
-                className="mt-2"
-                style={{ display: 'flex', alignItems: 'flex-end' }}
-              >
-                <Badge className="ml-1" variant={'light'}>
-                  {'Add/Remove:'}
-                </Badge>
-                <AddDelStock inputTicker={ticker} handleList="etf" />
-              </div>
-              <div
-                className="mt-1"
-                style={{ display: 'flex', alignItems: 'flex-end' }}
-              >
-                <Badge className="ml-1" variant={'light'}>
-                  {'Share to your friends!'}
-                </Badge>
-                <HappyShare />
-              </div>
-              <Price inputTicker={ticker} inputMA={'ma'} />
-            </QuoteCard>
-            <QuoteCard
-              header={'Details'}
-              inputTicker={ticker}
-              isShow={true}
-              noClose={true}
-            >
-              <StockInfoTable
-                tableSize="sm"
-                tableHeader={settings.tableHeader}
-                tableData={settings.tableData}
-              />
-            </QuoteCard>
-          </CardDeck>
+          <StockInfoTable
+            tableSize="sm"
+            tableHeader={settings.tableHeader}
+            tableData={settings.tableData}
+          />
         </Fragment>
       ) : (
         <ValidTickerAlert />

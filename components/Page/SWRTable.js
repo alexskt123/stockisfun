@@ -124,28 +124,32 @@ export default function SWRTable({ requests, options }) {
         className="justify-content-center mt-2"
         style={{ display: 'flex', alignItems: 'center' }}
       >
-        <h5>
-          <Badge variant="info">{`Last Update: ${timestamp}`}</Badge>
-        </h5>
-        <h5>
-          <Button
-            className="ml-1"
-            size="sm"
-            variant="warning"
-            style={{ display: 'flex', alignItems: 'center' }}
-            onClick={() =>
-              exportToFile(
-                reactiveTableHeader.map(item => item.label),
-                tableData.map(item =>
-                  reactiveTableHeader.map(header => item[header.item])
-                ),
-                exportFileName
-              )
-            }
-          >
-            <GrDocumentCsv />
-          </Button>
-        </h5>
+        {requests && requests.length > 0 ? (
+          <Fragment>
+            <h5>
+              <Badge variant="info">{`Last Update: ${timestamp}`}</Badge>
+            </h5>
+            <h5>
+              <Button
+                className="ml-1"
+                size="sm"
+                variant="warning"
+                style={{ display: 'flex', alignItems: 'center' }}
+                onClick={() =>
+                  exportToFile(
+                    reactiveTableHeader.map(item => item.label),
+                    tableData.map(item =>
+                      reactiveTableHeader.map(header => item[header.item])
+                    ),
+                    exportFileName
+                  )
+                }
+              >
+                <GrDocumentCsv />
+              </Button>
+            </h5>
+          </Fragment>
+        ) : null}
       </Row>
       <Table
         striped={striped ? true : false}
@@ -158,7 +162,7 @@ export default function SWRTable({ requests, options }) {
       >
         <thead>
           <tr key={'tableFirstHeader'}>
-            {reactiveTableHeader && tableFirstHeader
+            {requests && requests.length > 0 && tableFirstHeader
               ? tableFirstHeader.map((item, index) => (
                   <th key={index} style={getStyle(item, darkMode.value)}>
                     <h5>
@@ -169,16 +173,18 @@ export default function SWRTable({ requests, options }) {
               : null}
           </tr>
           <tr>
-            {reactiveTableHeader.map((header, index) => (
-              // @ts-ignore
-              <th
-                onClick={() => sortTableItem(header.item)}
-                style={getStyle(header, darkMode.value)}
-                key={index}
-              >
-                {header.label}
-              </th>
-            ))}
+            {requests &&
+              requests.length > 0 &&
+              reactiveTableHeader.map((header, index) => (
+                // @ts-ignore
+                <th
+                  onClick={() => sortTableItem(header.item)}
+                  style={getStyle(header, darkMode.value)}
+                  key={index}
+                >
+                  {header.label}
+                </th>
+              ))}
           </tr>
         </thead>
         <tbody>

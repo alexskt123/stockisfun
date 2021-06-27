@@ -37,7 +37,7 @@ const HighlightTickerAlert = () => {
       {
         query: {
           query: router.query.query,
-          tab: tab ? tab : 'Basics',
+          tab: tab ? tab : 'Price',
           ...params
         }
       },
