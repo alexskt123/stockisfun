@@ -1,14 +1,17 @@
-
 import { Fragment, useState } from 'react'
+
 import { useRouter } from 'next/router'
 
+import CustomContainer from '../../components/Layout/CustomContainer'
+import SWRTable from '../../components/Page/SWRTable'
+import TickerBullet from '../../components/Page/TickerBullet'
+import TickerInput from '../../components/Page/TickerInput'
 import { tableHeaderList } from '../../config/etf'
 import { staticSWROptions } from '../../config/settings'
-import CustomContainer from '../../components/Layout/CustomContainer'
-import TickerInput from '../../components/Page/TickerInput'
-import TickerBullet from '../../components/Page/TickerBullet'
-import SWRTable from '../../components/Page/SWRTable'
-import { handleDebounceChange, handleFormSubmit } from '../../lib/commonFunction'
+import {
+  handleDebounceChange,
+  handleFormSubmit
+} from '../../lib/commonFunction'
 import { useQuery } from '../../lib/hooks/useQuery'
 
 export default function CompareETF() {
@@ -20,8 +23,7 @@ export default function CompareETF() {
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
 
-
-  const handleChange = (e) => {
+  const handleChange = e => {
     handleDebounceChange(e, formValue, setFormValue)
   }
 
@@ -30,7 +32,7 @@ export default function CompareETF() {
     router.push(router.pathname)
   }
 
-  const removeItem = (value) => {
+  const removeItem = value => {
     const removed = [...tickers.filter(x => x !== value)]
     setTickers(removed)
     router.push(`${router.pathname}?query=${removed.join(',')}`)
@@ -40,7 +42,7 @@ export default function CompareETF() {
     setTickers(inputTickers)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
 
@@ -58,14 +60,23 @@ export default function CompareETF() {
             clearItems={clearItems}
           />
           <TickerBullet tickers={tickers} removeItem={removeItem} />
-          {
-            tickers && tickers.length > 0 ? <SWRTable
-              requests={tickers.map(x => ({ request: `/api/compare/etf?ticker=${x}`, key: x }))}
-              options={{ bordered: true, tableHeader: tableHeaderList, exportFileName: 'Stock_etf.csv', tableSize: 'sm', SWROptions: { ...staticSWROptions } }}
-            /> : null
-          }
+          {tickers && tickers.length > 0 ? (
+            <SWRTable
+              requests={tickers.map(x => ({
+                request: `/api/compare/etf?ticker=${x}`,
+                key: x
+              }))}
+              options={{
+                bordered: true,
+                tableHeader: tableHeaderList,
+                exportFileName: 'Stock_etf.csv',
+                tableSize: 'sm',
+                SWROptions: { ...staticSWROptions }
+              }}
+            />
+          ) : null}
         </Fragment>
       </CustomContainer>
-    </Fragment >
+    </Fragment>
   )
 }

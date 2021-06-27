@@ -1,8 +1,8 @@
-
 import { Fragment, useEffect, useState } from 'react'
-import EditTable from '../../Page/EditTable'
-import { fireToast } from '../../../lib/toast'
+
 import { updUserBoughtList, useUser } from '../../../lib/firebaseResult'
+import { fireToast } from '../../../lib/toast'
+import EditTable from '../../Page/EditTable'
 
 export default function BoughtList({ boughtList }) {
   const user = useUser()
@@ -18,13 +18,15 @@ export default function BoughtList({ boughtList }) {
     setData(boughtList)
   }, [boughtList])
 
-  const onUpdate = async (newData) => {
-    const data = newData.filter(x => x.ticker !== '' && x.total !== '').map(item => {
-      return {
-        ...item,
-        total: parseFloat(item.total)
-      }
-    })
+  const onUpdate = async newData => {
+    const data = newData
+      .filter(x => x.ticker !== '' && x.total !== '')
+      .map(item => {
+        return {
+          ...item,
+          total: parseFloat(item.total)
+        }
+      })
 
     await updUserBoughtList(user.uid, data)
 

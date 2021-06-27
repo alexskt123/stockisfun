@@ -1,19 +1,18 @@
-
 import { Fragment, useState, useEffect } from 'react'
+
 import Badge from 'react-bootstrap/Badge'
 import CardDeck from 'react-bootstrap/CardDeck'
 
+import AddDelStock from '../../../components/Fire/AddDelStock'
+import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
+import StockInfoTable from '../../../components/Page/StockInfoTable'
 import Price from '../../../components/Parts/Price'
 import QuoteCard from '../../../components/Parts/QuoteCard'
-import StockInfoTable from '../../../components/Page/StockInfoTable'
-import ValidTickerAlert from '../../Parts/ValidTickerAlert'
-import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
-import AddDelStock from '../../../components/Fire/AddDelStock'
-
 import { etfDetailsBasicSettings, etfTools } from '../../../config/etf'
 import { getETFDetailBasics } from '../../../lib/commonFunction'
 import { fireToast } from '../../../lib/toast'
 import HappyShare from '../../Parts/HappyShare'
+import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 export default function Basics({ inputETFTicker }) {
   const [settings, setSettings] = useState({ ...etfDetailsBasicSettings })
@@ -21,13 +20,15 @@ export default function Basics({ inputETFTicker }) {
   const [ticker, setTicker] = useState(null)
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       inputETFTicker ? await handleTicker(inputETFTicker) : clearItems()
     })()
+    return () => clearItems()
+    //todo: fix custom hooks
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputETFTicker])
 
-
-  const handleTicker = async (inputETFTicker) => {
+  const handleTicker = async inputETFTicker => {
     setLoading(true)
     clearItems()
 
@@ -37,11 +38,12 @@ export default function Basics({ inputETFTicker }) {
       ...newSettings
     })
 
-    inputETFTicker && !newSettings.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
+    inputETFTicker &&
+    !newSettings.tableData.filter(x => x.find(x => x) === 'Price').find(x => x)
       ? fireToast({
-        icon: 'error',
-        title: 'Invalid Ticker'
-      })
+          icon: 'error',
+          title: 'Invalid Ticker'
+        })
       : setTicker(inputETFTicker)
 
     setLoading(false)
@@ -53,28 +55,57 @@ export default function Basics({ inputETFTicker }) {
 
   return (
     <Fragment>
-      {loading ? <LoadingSpinner /> :
-        settings.tableData.filter(x => x.find(x => x) == 'Price').find(x => x)
-          ? <Fragment>
-            <CardDeck>
-              <QuoteCard tools={etfTools} header={ticker} inputTicker={ticker} isShow={true} noClose={true}>
-                <div className="mt-2" style={{ display: 'flex', alignItems: 'flex-end' }}>
-                  <Badge className="ml-1" variant={'light'}>{'Add/Remove:'}</Badge>
-                  <AddDelStock inputTicker={ticker} handleList='etf' />
-                </div>
-                <div className="mt-1" style={{ display: 'flex', alignItems: 'flex-end' }}>
-                  <Badge className="ml-1" variant={'light'}>{'Share to your friends!'}</Badge>
-                  <HappyShare />
-                </div>
-                <Price inputTicker={ticker} inputMA={'ma'} />
-              </QuoteCard>
-              <QuoteCard header={'Details'} inputTicker={ticker} isShow={true} noClose={true}>
-                <StockInfoTable tableSize="sm" tableHeader={settings.tableHeader} tableData={settings.tableData} />
-              </QuoteCard>
-            </CardDeck>
-          </Fragment>
-          : <ValidTickerAlert />
-      }
-    </Fragment >
+      {loading ? (
+        <LoadingSpinner />
+      ) : settings.tableData
+          .filter(x => x.find(x => x) === 'Price')
+          .find(x => x) ? (
+        <Fragment>
+          <CardDeck>
+            <QuoteCard
+              tools={etfTools}
+              header={ticker}
+              inputTicker={ticker}
+              isShow={true}
+              noClose={true}
+            >
+              <div
+                className="mt-2"
+                style={{ display: 'flex', alignItems: 'flex-end' }}
+              >
+                <Badge className="ml-1" variant={'light'}>
+                  {'Add/Remove:'}
+                </Badge>
+                <AddDelStock inputTicker={ticker} handleList="etf" />
+              </div>
+              <div
+                className="mt-1"
+                style={{ display: 'flex', alignItems: 'flex-end' }}
+              >
+                <Badge className="ml-1" variant={'light'}>
+                  {'Share to your friends!'}
+                </Badge>
+                <HappyShare />
+              </div>
+              <Price inputTicker={ticker} inputMA={'ma'} />
+            </QuoteCard>
+            <QuoteCard
+              header={'Details'}
+              inputTicker={ticker}
+              isShow={true}
+              noClose={true}
+            >
+              <StockInfoTable
+                tableSize="sm"
+                tableHeader={settings.tableHeader}
+                tableData={settings.tableData}
+              />
+            </QuoteCard>
+          </CardDeck>
+        </Fragment>
+      ) : (
+        <ValidTickerAlert />
+      )}
+    </Fragment>
   )
 }

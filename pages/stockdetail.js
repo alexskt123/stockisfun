@@ -1,14 +1,13 @@
-
 import { Fragment, useState, useEffect } from 'react'
+
 import { useRouter } from 'next/router'
 
 import CustomContainer from '../components/Layout/CustomContainer'
+import SearchAccordion from '../components/Page/SearchAccordion'
 import TypeAhead from '../components/Page/TypeAhead'
 import StockDetails from '../components/StockDetails'
-import SearchAccordion from '../components/Page/SearchAccordion'
 
 export default function StockDetail() {
-
   const [ticker, setTicker] = useState('')
 
   const router = useRouter()
@@ -18,9 +17,11 @@ export default function StockDetail() {
     setTicker(query || '')
   }, [query])
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const input = e.find(x => x)
-    input ? router.push({ query: { ...router.query, query: input.symbol } }) : null
+    input
+      ? router.push({ query: { ...router.query, query: input.symbol } })
+      : null
   }
 
   const clearItems = () => {
@@ -42,6 +43,6 @@ export default function StockDetail() {
           <StockDetails inputTicker={ticker} />
         </Fragment>
       </CustomContainer>
-    </Fragment >
+    </Fragment>
   )
 }

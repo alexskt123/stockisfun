@@ -6,7 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --fix **/*.js"
+    "lint": "eslint --fix **/*.js",
+    "fix": "lint-staged",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@18f/us-federal-holidays": "^1.4.0",
@@ -56,7 +64,12 @@
   },
   "devDependencies": {
     "eslint": "^7.28.0",
-    "eslint-plugin-react": "^7.24.0"
+    "eslint-config-next": "^11.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.1"
   },
   "resolutions": {
     "webpack": "5.21.2"

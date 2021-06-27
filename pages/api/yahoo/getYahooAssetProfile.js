@@ -2,10 +2,13 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import {
+  getYahooBalanceSheetData,
+  getYahooBasicsData
+} from '../../../lib/stockDetailsFunction'
 import { getYahooAssetProfile } from '../../../lib/yahoo/getYahooAssetProfile'
-import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
 import { getYahooBalanceSheet } from '../../../lib/yahoo/getYahooBalanceSheet'
-import { getYahooBalanceSheetData, getYahooBasicsData } from '../../../lib/stockDetailsFunction'
+import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
 
 export default async (req, res) => {
   const { ticker } = req.query

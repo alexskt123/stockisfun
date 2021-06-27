@@ -122,21 +122,21 @@ export const tableHeaderList = [
 ]
 
 export const forecastTableFirstHeader = [
-  {label: '', style: SWRSticky },
-  {label: 'WalletInvestor' },
-  {label: '' },
-  {label: '' },
-  {label: '' },
-  {label: '' },
-  {label: 'Financhill' },
-  {label: 'MoneyCnn' },
-  {label: '' },
-  {label: '' },
-  {label: '' },
-  {label: '' },
-  {label: 'Yahoo' },
-  {label: '' },
-  {label: '' },
-  {label: '' },
-  {label: '' }
+  { label: '', style: SWRSticky },
+  { label: 'WalletInvestor' },
+  { label: '' },
+  { label: '' },
+  { label: '' },
+  { label: '' },
+  { label: 'Financhill' },
+  { label: 'MoneyCnn' },
+  { label: '' },
+  { label: '' },
+  { label: '' },
+  { label: '' },
+  { label: 'Yahoo' },
+  { label: '' },
+  { label: '' },
+  { label: '' },
+  { label: '' }
 ]

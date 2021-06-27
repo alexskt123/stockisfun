@@ -1,5 +1,3 @@
-
-
 export const priceMAList = [
   {
     id: '5<20',

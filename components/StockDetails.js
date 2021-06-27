@@ -1,28 +1,29 @@
-
 import { Fragment, useState, useEffect } from 'react'
-import Tabs from 'react-bootstrap/Tabs'
-import Tab from 'react-bootstrap/Tab'
-
-import { stockDetailsSettings } from '../config/stock'
-import Price from './Tab/StockDetail/Price'
-import PriceChange from '../components/Parts/PriceChange'
-import ForecastInfo from '../components/Parts/ForecastInfo'
-import FinancialsInfo from '../components/Parts/FinancialsInfo'
-import ETFList from './Tab/StockDetail/ETFList'
-import Earnings from './Tab/StockDetail/Earnings'
-import Peers from './Tab/StockDetail/Peers'
-import BalanceSheet from './Tab/StockDetail/BalanceSheet'
-import Basics from './Tab/StockDetail/Basics'
 
 import { useRouter } from 'next/router'
+import Tab from 'react-bootstrap/Tab'
+import Tabs from 'react-bootstrap/Tabs'
+
+import FinancialsInfo from '../components/Parts/FinancialsInfo'
+import ForecastInfo from '../components/Parts/ForecastInfo'
+import PriceChange from '../components/Parts/PriceChange'
+import { stockDetailsSettings } from '../config/stock'
 import { useTab } from '../lib/hooks/useTab'
+import BalanceSheet from './Tab/StockDetail/BalanceSheet'
+import Basics from './Tab/StockDetail/Basics'
+import Earnings from './Tab/StockDetail/Earnings'
+import ETFList from './Tab/StockDetail/ETFList'
+import Peers from './Tab/StockDetail/Peers'
+import Price from './Tab/StockDetail/Price'
 
 function StockDetails({ inputTicker }) {
   const router = useRouter()
   const tab = useTab(router)
 
   const changeTab = key => {
-    router.push({ query: { ...router.query, tab: key } }, undefined, { shallow: true })
+    router.push({ query: { ...router.query, tab: key } }, undefined, {
+      shallow: true
+    })
   }
 
   const [settings, setSettings] = useState({ ...stockDetailsSettings })
@@ -37,7 +38,9 @@ function StockDetails({ inputTicker }) {
   }
 
   useEffect(() => {
-    inputTicker != '' ? handleTicker() : clearItems()
+    inputTicker !== '' ? handleTicker() : clearItems()
+    //todo: fix custom hooks
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputTicker])
 
   const clearItems = () => {
@@ -50,7 +53,7 @@ function StockDetails({ inputTicker }) {
         style={{ fontSize: '11px' }}
         className="mt-1"
         activeKey={tab}
-        onSelect={(k) => changeTab(k)}
+        onSelect={k => changeTab(k)}
       >
         <Tab eventKey="Price" title="Price">
           <Price inputTicker={settings.inputTickers.find(x => x)} />

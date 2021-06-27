@@ -49,25 +49,25 @@ export const buttonSettings = {
   ClearAll: {
     label: 'Clear All',
     attr: {
-      size:'sm',
-      className:'ml-3',
-      variant:'danger'
+      size: 'sm',
+      className: 'ml-3',
+      variant: 'danger'
     }
   },
   Export: {
     label: 'Export',
     attr: {
-      size:'sm',
-      className:'ml-3',
-      variant:'info'
+      size: 'sm',
+      className: 'ml-3',
+      variant: 'info'
     }
   },
   FromWatchList: {
     label: 'Watch List',
     attr: {
-      size:'sm',
-      className:'ml-3',
-      variant:'secondary'
+      size: 'sm',
+      className: 'ml-3',
+      variant: 'secondary'
     }
   }
 }

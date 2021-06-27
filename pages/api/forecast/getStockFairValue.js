@@ -2,8 +2,8 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getMoneyCnnCouple } from '../../../lib/forecast/getMoneyCnn'
 import { getFinanchill } from '../../../lib/forecast/getFinanchill'
+import { getMoneyCnnCouple } from '../../../lib/forecast/getMoneyCnn'
 import { getWalletInvestor } from '../../../lib/forecast/getWalletInvestor'
 import { getYahooRecommendTrend } from '../../../lib/yahoo/getYahooRecommendTrend'
 
@@ -18,10 +18,15 @@ export default async (req, res) => {
   ])
 
   res.statusCode = 200
-  res.json(responses.reduce((acc, item) => {
-    return {
-      ...acc,
-      ...item
-    }
-  }, { symbol: ticker }))
+  res.json(
+    responses.reduce(
+      (acc, item) => {
+        return {
+          ...acc,
+          ...item
+        }
+      },
+      { symbol: ticker }
+    )
+  )
 }
