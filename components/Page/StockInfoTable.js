@@ -20,12 +20,12 @@ const Table = dynamic(
 )
 
 const getItemData = item => {
-  return typeof item === 'object' && item && item.data ? item.data : item
+  return typeof item === 'object' && item?.data ? item.data : item
 }
 
 const getCellColor = (item, darkMode) => {
   const itemData = getItemData(item)
-  if (item && item.style && item.style === 'green-red') {
+  if (item?.style === 'green-red') {
     const cur = (item.data || '').toString().replace(/%/, '')
     return cur < 0
       ? { color: getRedColor(darkMode) }
@@ -45,7 +45,7 @@ const getCellItem = item => {
         {itemData}
       </a>
     )
-  else if (typeof item === 'object' && item && item.data && item.link) {
+  else if (typeof item === 'object' && item?.data && item?.link) {
     return (
       <Link href={item.link}>
         <a>

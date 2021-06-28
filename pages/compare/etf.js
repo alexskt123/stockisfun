@@ -60,7 +60,7 @@ export default function CompareETF() {
             clearItems={clearItems}
           />
           <TickerBullet tickers={tickers} removeItem={removeItem} />
-          {tickers && tickers.length > 0 ? (
+          {tickers?.length > 0 ? (
             <SWRTable
               requests={tickers.map(x => ({
                 request: `/api/compare/etf?ticker=${x}`,
@@ -71,7 +71,7 @@ export default function CompareETF() {
                 tableHeader: tableHeaderList,
                 exportFileName: 'Stock_etf.csv',
                 tableSize: 'sm',
-                SWROptions: { ...staticSWROptions }
+                SWROptions: staticSWROptions
               }}
             />
           ) : null}

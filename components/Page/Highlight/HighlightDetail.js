@@ -30,7 +30,7 @@ const HighlightDetail = ({ highlightDetails }) => {
   }
 
   const refreshQuoteDetail = async () => {
-    if (type && type === 'detail') viewTickerDetail()
+    if (type === 'detail') viewTickerDetail()
   }
 
   useEffect(() => {

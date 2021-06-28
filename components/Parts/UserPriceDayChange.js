@@ -23,7 +23,7 @@ const UserPriceDayChange = ({ userID, userData }) => {
 
   const setBoughtListDayChange = async boughtList => {
     const boughtListSum =
-      boughtList && boughtList.length > 0
+      boughtList?.length > 0
         ? await axios.get(`/api/getUserBoughtList?uid=${userID}`)
         : { data: { sum: null } }
     setDayChange(boughtListSum.data.sum)

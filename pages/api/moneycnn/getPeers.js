@@ -9,7 +9,7 @@ import { getPeers } from '../../../lib/moneycnn/getPeers'
 const axios = require('axios').default
 
 const getFormattedValue = (format, value) => {
-  return format && format === 'millify' ? millify(value) : value
+  return format === 'millify' ? millify(value) : value
 }
 
 export default async (req, res) => {
@@ -24,9 +24,7 @@ export default async (req, res) => {
   )
 
   const newData = [...data].map(item => {
-    const data = responses.find(
-      x => x.data && x.data.symbol === item.Ticker
-    )?.data
+    const data = responses.find(x => x?.data?.symbol === item.Ticker)?.data
 
     const newItem = {
       ...item,
