@@ -80,7 +80,7 @@ export default async (req, res) => {
 
   const responsesArr = responses || []
   responsesArr
-    .filter(x => x && x.data)
+    .filter(x => x.data)
     .forEach(item => {
       priceMADetails.asOfDate =
         priceMADetails.asOfDate === ''

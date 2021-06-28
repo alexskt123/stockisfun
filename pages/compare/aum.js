@@ -60,7 +60,7 @@ export default function CompareAUM() {
             clearItems={clearItems}
           />
           <TickerBullet tickers={tickers} removeItem={removeItem} />
-          {tickers && tickers.length > 0 ? (
+          {tickers?.length > 0 ? (
             <SWRTable
               requests={tickers.map(x => ({
                 request: `/api/compare/aum?ticker=${x}`,
@@ -71,7 +71,7 @@ export default function CompareAUM() {
                 tableHeader: aumTableHeader,
                 exportFileName: 'Stock_aum_sum.csv',
                 tableSize: 'sm',
-                SWROptions: { ...staticSWROptions }
+                SWROptions: staticSWROptions
               }}
             />
           ) : null}

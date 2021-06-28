@@ -11,7 +11,7 @@ import ValidTickerAlert from './ValidTickerAlert'
 function ForecastInfo({ inputTickers }) {
   return (
     <Fragment>
-      {inputTickers && inputTickers.length > 0 ? (
+      {inputTickers?.length > 0 ? (
         <SWRTable
           requests={inputTickers.map(x => ({
             request: `/api/forecast/getStockFairValue?ticker=${x}`,
@@ -23,7 +23,7 @@ function ForecastInfo({ inputTickers }) {
             tableHeader: tableHeaderList,
             exportFileName: 'Stock_forecast.csv',
             tableSize: 'sm',
-            SWROptions: { ...staticSWROptions }
+            SWROptions: staticSWROptions
           }}
         />
       ) : (

@@ -33,7 +33,7 @@ export default function BalanceSheet({ inputTicker }) {
     <Fragment>
       {!data ? (
         <LoadingSpinner />
-      ) : data && data.length > 0 ? (
+      ) : data?.length > 0 ? (
         <Fragment>
           <StockInfoTable
             tableSize="sm"

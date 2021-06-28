@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect } from 'react'
 
 import useSWR from 'swr'
 
-import { indexQuoteInfo } from '../../config/highlight'
+import { indexQuoteInfo } from '../../config/indexQuote'
 import { staticSWROptions, fetcher } from '../../config/settings'
 import YahooQuoteInfo from './YahooQuoteInfo'
 

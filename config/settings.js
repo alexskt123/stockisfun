@@ -105,3 +105,14 @@ export const SWRSticky = {
   position: 'sticky',
   zIndex: 997
 }
+
+export const loadingSkeletonColors = {
+  light: {
+    color: '#dbdbdb',
+    highlightColor: 'f0f0f0'
+  },
+  dark: {
+    color: '#202020',
+    highlightColor: '#444'
+  }
+}

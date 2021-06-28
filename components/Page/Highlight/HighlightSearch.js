@@ -21,7 +21,7 @@ const HighlightSearch = () => {
             query: {
               ...router.query,
               query: input.symbol,
-              tab: 'Basics',
+              tab: 'Price',
               type: type ? type : 'quote',
               show: true
             }

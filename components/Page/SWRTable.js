@@ -10,7 +10,6 @@ import { GrDocumentCsv } from 'react-icons/gr'
 import useSWR from 'swr'
 import useDarkMode from 'use-dark-mode'
 
-import LoadingSpinner from '../../components/Loading/LoadingSpinner'
 import {
   millify,
   roundTo,
@@ -23,6 +22,7 @@ import {
   getDefaultColor
 } from '../../lib/commonFunction'
 import { exportToFile } from '../../lib/exportToFile'
+import LoadingSkeleton from '../Loading/LoadingSkeleton'
 
 const Table = dynamic(
   () => {
@@ -124,41 +124,45 @@ export default function SWRTable({ requests, options }) {
         className="justify-content-center mt-2"
         style={{ display: 'flex', alignItems: 'center' }}
       >
-        <h5>
-          <Badge variant="info">{`Last Update: ${timestamp}`}</Badge>
-        </h5>
-        <h5>
-          <Button
-            className="ml-1"
-            size="sm"
-            variant="warning"
-            style={{ display: 'flex', alignItems: 'center' }}
-            onClick={() =>
-              exportToFile(
-                reactiveTableHeader.map(item => item.label),
-                tableData.map(item =>
-                  reactiveTableHeader.map(header => item[header.item])
-                ),
-                exportFileName
-              )
-            }
-          >
-            <GrDocumentCsv />
-          </Button>
-        </h5>
+        {requests?.length > 0 ? (
+          <Fragment>
+            <h5>
+              <Badge variant="info">{`Last Update: ${timestamp}`}</Badge>
+            </h5>
+            <h5>
+              <Button
+                className="ml-1"
+                size="sm"
+                variant="warning"
+                style={{ display: 'flex', alignItems: 'center' }}
+                onClick={() =>
+                  exportToFile(
+                    reactiveTableHeader.map(item => item.label),
+                    tableData.map(item =>
+                      reactiveTableHeader.map(header => item[header.item])
+                    ),
+                    exportFileName
+                  )
+                }
+              >
+                <GrDocumentCsv />
+              </Button>
+            </h5>
+          </Fragment>
+        ) : null}
       </Row>
       <Table
-        striped={striped ? true : false}
-        bordered={bordered ? true : false}
+        striped={striped}
+        bordered={bordered}
         hover
-        size={tableSize ? tableSize : 'md'}
+        size={tableSize || 'md'}
         className="pl-3 mt-1"
         responsive
         variant={darkMode.value ? 'dark' : 'light'}
       >
         <thead>
           <tr key={'tableFirstHeader'}>
-            {tableFirstHeader
+            {requests?.length > 0 && tableFirstHeader
               ? tableFirstHeader.map((item, index) => (
                   <th key={index} style={getStyle(item, darkMode.value)}>
                     <h5>
@@ -169,16 +173,17 @@ export default function SWRTable({ requests, options }) {
               : null}
           </tr>
           <tr>
-            {reactiveTableHeader.map((header, index) => (
-              // @ts-ignore
-              <th
-                onClick={() => sortTableItem(header.item)}
-                style={getStyle(header, darkMode.value)}
-                key={index}
-              >
-                {header.label}
-              </th>
-            ))}
+            {requests?.length > 0 &&
+              reactiveTableHeader.map((header, index) => (
+                // @ts-ignore
+                <th
+                  onClick={() => sortTableItem(header.item)}
+                  style={getStyle(header, darkMode.value)}
+                  key={index}
+                >
+                  {header.label}
+                </th>
+              ))}
           </tr>
         </thead>
         <tbody>
@@ -223,7 +228,7 @@ function SWRTableRow({
   if (!data)
     return (
       <td colSpan={tableHeader.length}>
-        <LoadingSpinner />
+        <LoadingSkeleton />
       </td>
     )
 
@@ -253,24 +258,24 @@ function getCellColor(property, value, darkMode) {
 }
 
 function getFormattedValue(format, value) {
-  return format && format === '%' ? (
+  return format === '%' ? (
     <AnimatedNumber
       value={value}
       formatValue={value => convertToPercentage(value / 100)}
     />
-  ) : format && format === 'H:mm:ss' && value ? (
+  ) : format === 'H:mm:ss' && value ? (
     moment(value * 1000).format('H:mm:ss')
-  ) : format && format === 'millify' ? (
+  ) : format === 'millify' ? (
     <AnimatedNumber value={value} formatValue={millify} />
-  ) : format && format === 'roundTo' ? (
+  ) : format === 'roundTo' ? (
     <AnimatedNumber value={value} formatValue={roundTo} />
-  ) : format && format === 'toInteger' ? (
+  ) : format === 'toInteger' ? (
     <AnimatedNumber value={value} formatValue={toInteger} />
-  ) : format && format === 'Badge' ? (
+  ) : format === 'Badge' ? (
     <Badge style={{ ['minWidth']: '3rem' }} variant={randVariant(value)}>
       {value}
     </Badge>
-  ) : format && format === 'IndicatorVariant' ? (
+  ) : format === 'IndicatorVariant' ? (
     <Badge style={{ ['minWidth']: '3rem' }} variant={indicatorVariant(value)}>
       {value}
     </Badge>
