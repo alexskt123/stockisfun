@@ -44,25 +44,25 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
   }
 
   const getFormattedValue = (format, value) => {
-    return format && format === 'PriceChange'
+    return format === 'PriceChange'
       ? value
         ? getValueBadge(
             value >= 0 ? 'success' : 'danger',
             convertToPriceChange(value)
           )
         : null
-      : format && format === 'PriceChange%'
+      : format === 'PriceChange%'
       ? value
         ? getValueBadge(
             value >= 0 ? 'success' : 'danger',
             convertToPercentage(value / 100)
           )
         : null
-      : format && format === 'IndicatorVariant'
+      : format === 'IndicatorVariant'
       ? getValueBadge(indicatorVariant(value), value)
-      : format && format === 'millify'
+      : format === 'millify'
       ? getValueBadge(indicatorVariant(value), millify(value))
-      : format && format === 'roundTo'
+      : format === 'roundTo'
       ? getValueBadge(indicatorVariant(value), roundTo(value))
       : getValueBadge('light', value)
   }

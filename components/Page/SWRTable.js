@@ -124,7 +124,7 @@ export default function SWRTable({ requests, options }) {
         className="justify-content-center mt-2"
         style={{ display: 'flex', alignItems: 'center' }}
       >
-        {requests && requests.length > 0 ? (
+        {requests?.length > 0 ? (
           <Fragment>
             <h5>
               <Badge variant="info">{`Last Update: ${timestamp}`}</Badge>
@@ -152,17 +152,17 @@ export default function SWRTable({ requests, options }) {
         ) : null}
       </Row>
       <Table
-        striped={striped ? true : false}
-        bordered={bordered ? true : false}
+        striped={striped}
+        bordered={bordered}
         hover
-        size={tableSize ? tableSize : 'md'}
+        size={tableSize || 'md'}
         className="pl-3 mt-1"
         responsive
         variant={darkMode.value ? 'dark' : 'light'}
       >
         <thead>
           <tr key={'tableFirstHeader'}>
-            {requests && requests.length > 0 && tableFirstHeader
+            {requests?.length > 0 && tableFirstHeader
               ? tableFirstHeader.map((item, index) => (
                   <th key={index} style={getStyle(item, darkMode.value)}>
                     <h5>
@@ -173,8 +173,7 @@ export default function SWRTable({ requests, options }) {
               : null}
           </tr>
           <tr>
-            {requests &&
-              requests.length > 0 &&
+            {requests?.length > 0 &&
               reactiveTableHeader.map((header, index) => (
                 // @ts-ignore
                 <th
@@ -259,24 +258,24 @@ function getCellColor(property, value, darkMode) {
 }
 
 function getFormattedValue(format, value) {
-  return format && format === '%' ? (
+  return format === '%' ? (
     <AnimatedNumber
       value={value}
       formatValue={value => convertToPercentage(value / 100)}
     />
-  ) : format && format === 'H:mm:ss' && value ? (
+  ) : format === 'H:mm:ss' && value ? (
     moment(value * 1000).format('H:mm:ss')
-  ) : format && format === 'millify' ? (
+  ) : format === 'millify' ? (
     <AnimatedNumber value={value} formatValue={millify} />
-  ) : format && format === 'roundTo' ? (
+  ) : format === 'roundTo' ? (
     <AnimatedNumber value={value} formatValue={roundTo} />
-  ) : format && format === 'toInteger' ? (
+  ) : format === 'toInteger' ? (
     <AnimatedNumber value={value} formatValue={toInteger} />
-  ) : format && format === 'Badge' ? (
+  ) : format === 'Badge' ? (
     <Badge style={{ ['minWidth']: '3rem' }} variant={randVariant(value)}>
       {value}
     </Badge>
-  ) : format && format === 'IndicatorVariant' ? (
+  ) : format === 'IndicatorVariant' ? (
     <Badge style={{ ['minWidth']: '3rem' }} variant={indicatorVariant(value)}>
       {value}
     </Badge>

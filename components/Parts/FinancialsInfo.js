@@ -8,7 +8,7 @@ import ValidTickerAlert from './ValidTickerAlert'
 function FinancialsInfo({ inputTickers }) {
   return (
     <Fragment>
-      {inputTickers && inputTickers.length > 0 ? (
+      {inputTickers?.length > 0 ? (
         <SWRTable
           requests={inputTickers.map(x => ({
             request: `/api/yahoo/getYahooFinancials?ticker=${x}`,
@@ -19,7 +19,7 @@ function FinancialsInfo({ inputTickers }) {
             tableHeader: tableHeaderList,
             exportFileName: 'Stock_financial.csv',
             tableSize: 'sm',
-            SWROptions: { ...staticSWROptions }
+            SWROptions: staticSWROptions
           }}
         />
       ) : (

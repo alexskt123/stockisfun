@@ -31,6 +31,12 @@ function PriceTab({ inputTicker }) {
   useEffect(() => {
     //todo: fix all problems with {} instead of null...
     if (!data?.basics.Name) {
+      if (data && inputTicker) {
+        fireToast({
+          icon: 'error',
+          title: 'Invalid Ticker'
+        })
+      }
       setSettings(defaultSettings)
       return
     }
@@ -45,26 +51,20 @@ function PriceTab({ inputTicker }) {
         return {
           name: item.name,
           value: (basicsData.basics.tableData
-            .filter(x => x && x.find(x => x) === item.name)
+            .filter(x => x.find(x => x) === item.name)
             .find(x => x) || [])[1]
         }
       })
     )
 
-    data &&
-    !basicsData.basics.tableData
-      .filter(x => x.find(x => x) === 'Price')
-      .find(x => x)
-      ? fireToast({
-          icon: 'error',
-          title: 'Invalid Ticker'
-        })
-      : setSettings(s => ({
-          ...s,
-          basics: basicsData.basics,
-          floatingShareRatio: handledData.floatingShareRatio
-        }))
-  }, [data])
+    if (data && basicsData.basics.tableData) {
+      setSettings(s => ({
+        ...s,
+        basics: basicsData.basics,
+        floatingShareRatio: handledData.floatingShareRatio
+      }))
+    }
+  }, [data, inputTicker])
 
   return !data ? (
     <LoadingSpinner />
