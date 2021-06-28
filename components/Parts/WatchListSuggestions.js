@@ -9,26 +9,33 @@ import { randBackgroundColor } from '../../lib/commonFunction'
 import { getHighlistWatchList } from '../../lib/firebaseResult'
 
 function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
-  const [watchList, setWatchList] = useState([])
+  const [list, setList] = useState([])
 
   useEffect(() => {
     ;(async () => {
       const watchList = await getHighlistWatchList()
-      const { watchList: userWatchList, boughtList } = userData
-      const appendWatchList =
-        user && userWatchList && boughtList
-          ? {
-              'Watch List': userWatchList,
-              'Bought List': boughtList.map(item => item.ticker)
-            }
-          : {}
+      const newWatchList = Object.keys(watchList).reduce((acc, cur) => {
+        const item = { label: cur, list: watchList[cur] }
+        return acc.concat(item)
+      }, [])
 
-      const newWatchList = {
-        ...watchList,
-        ...appendWatchList
-      }
+      const listName = [
+        { label: 'Watch List', name: 'watchList' },
+        { label: 'Bought List', name: 'boughtList' }
+      ]
 
-      setWatchList(newWatchList)
+      const listFromUserData = listName
+        .map(x => {
+          const { [x.name]: list = [] } = userData || {}
+          const flatList = list.map(x =>
+            typeof x === typeof {} ? x?.ticker : x
+          )
+          return { label: x.label, list: flatList }
+        })
+        .filter(x => x.list.length > 0)
+
+      const list = newWatchList.concat(listFromUserData)
+      setList(list)
     })()
   }, [user, userData])
 
@@ -42,16 +49,16 @@ function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
         </h6>
       </Row>
       <Row className="justify-content-center">
-        {Object.keys(watchList).map((key, idx) => {
+        {list.map(item => {
           return (
-            <Col key={idx}>
+            <Col key={item.label}>
               <Button
                 size="sm"
                 className="w-100 my-2"
                 style={{ backgroundColor: randBackgroundColor() }}
-                onClick={() => onClickWatchListButton(key, watchList[key])}
+                onClick={() => onClickWatchListButton(item)}
               >
-                <Badge>{key}</Badge>
+                <Badge>{item.label}</Badge>
               </Button>
             </Col>
           )
