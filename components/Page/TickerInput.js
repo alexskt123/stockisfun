@@ -101,11 +101,11 @@ function TickerInput({
               </Button>
             </Fragment>
           ) : null}
-          {handleTickers && user && userData.watchList ? (
+          {handleTickers && user && userData?.watchList ? (
             <Button
               {...buttonSettings.FromWatchList.attr}
               disabled={clicked}
-              onClick={() => handleTickers(userData.watchList)}
+              onClick={() => handleTickers(userData?.watchList)}
             >
               {buttonSettings.FromWatchList.label}
             </Button>

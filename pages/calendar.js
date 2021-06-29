@@ -27,7 +27,7 @@ export default function BigCalendar() {
 
   useEffect(() => {
     ;(async () => {
-      const userWatchList = user ? userData.watchList : []
+      const userWatchList = user ? userData?.watchList : []
       const responses = await Promise.all(
         [...userWatchList].map(async item => {
           return axios
