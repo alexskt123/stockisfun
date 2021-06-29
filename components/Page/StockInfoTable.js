@@ -1,16 +1,15 @@
 import { Fragment } from 'react'
 
+import {
+  getRedColor,
+  getGreenColor,
+  getDefaultColor
+} from '@/lib/commonFunction'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
 import useDarkMode from 'use-dark-mode'
-
-import {
-  getRedColor,
-  getGreenColor,
-  getDefaultColor
-} from '../../lib/commonFunction'
 
 const Table = dynamic(
   () => {

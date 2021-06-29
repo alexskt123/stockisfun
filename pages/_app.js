@@ -1,13 +1,13 @@
-import '../styles/globals.css'
+import 'styles/globals.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../styles/ReactToggle.css'
-import '../styles/Gooey.css'
+import 'styles/ReactToggle.css'
+import 'styles/Gooey.css'
 
 import { Fragment } from 'react'
 
-import Layout from '../components/Layout/Layout'
+import Layout from '@/components/Layout/Layout'
 // lib
-import { StateProvider } from '../lib/store'
+import { StateProvider } from '@/lib/store'
 
 function MyApp({ Component, pageProps }) {
   return (

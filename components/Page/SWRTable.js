@@ -1,15 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 
-import AnimatedNumber from 'animated-number-react'
-import moment from 'moment'
-import dynamic from 'next/dynamic'
-import Badge from 'react-bootstrap/Badge'
-import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
-import { GrDocumentCsv } from 'react-icons/gr'
-import useSWR from 'swr'
-import useDarkMode from 'use-dark-mode'
-
+import LoadingSkeleton from '@/components/Loading/LoadingSkeleton'
 import {
   millify,
   roundTo,
@@ -20,9 +11,17 @@ import {
   getRedColor,
   getGreenColor,
   getDefaultColor
-} from '../../lib/commonFunction'
-import { exportToFile } from '../../lib/exportToFile'
-import LoadingSkeleton from '../Loading/LoadingSkeleton'
+} from '@/lib/commonFunction'
+import { exportToFile } from '@/lib/exportToFile'
+import AnimatedNumber from 'animated-number-react'
+import moment from 'moment'
+import dynamic from 'next/dynamic'
+import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
+import { GrDocumentCsv } from 'react-icons/gr'
+import useSWR from 'swr'
+import useDarkMode from 'use-dark-mode'
 
 const Table = dynamic(
   () => {

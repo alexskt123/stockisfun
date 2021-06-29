@@ -1,11 +1,10 @@
 import { Fragment } from 'react'
 
+import TypeAhead from '@/components/Page/TypeAhead'
 import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-
-import TypeAhead from '../TypeAhead'
 
 const HighlightSearch = () => {
   const router = useRouter()

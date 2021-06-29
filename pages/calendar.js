@@ -1,13 +1,12 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import EarningsModal from '@/components/Page/Calendar/EarningsModal'
+import QuoteCard from '@/components/Parts/QuoteCard'
+import { useUser, useUserData } from '@/lib/firebaseResult'
 import moment from 'moment'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import Container from 'react-bootstrap/Container'
-
-import 'react-big-calendar/lib/css/react-big-calendar.css'
-import EarningsModal from '../components/Page/Calendar/EarningsModal'
-import QuoteCard from '../components/Parts/QuoteCard'
-import { useUser, useUserData } from '../lib/firebaseResult'
+import 'react-big-calendar/@/lib/css/react-big-calendar.css'
 
 const axios = require('axios').default
 

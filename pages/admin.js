@@ -1,5 +1,11 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import CustomContainer from '@/components/Layout/CustomContainer'
+import LoginAlert from '@/components/Parts/LoginAlert'
+import BoughtList from '@/components/Tab/Admin/BoughtList'
+import { updUserAllList, useUser, useUserData } from '@/lib/firebaseResult'
+import { useTab } from '@/lib/hooks/useTab'
+import { fireToast } from '@/lib/toast'
 import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
@@ -7,13 +13,6 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
-
-import CustomContainer from '../components/Layout/CustomContainer'
-import LoginAlert from '../components/Parts/LoginAlert'
-import BoughtList from '../components/Tab/Admin/BoughtList'
-import { updUserAllList, useUser, useUserData } from '../lib/firebaseResult'
-import { useTab } from '../lib/hooks/useTab'
-import { fireToast } from '../lib/toast'
 
 export default function Admin() {
   const user = useUser()

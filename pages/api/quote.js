@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import Quote from '../../lib/quote'
+import Quote from '@/lib/quote'
 
 export default async (req, res) => {
   const { ticker } = req.query

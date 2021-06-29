@@ -1,21 +1,21 @@
 import { Fragment, useState } from 'react'
 
-import CustomContainer from '../components/Layout/CustomContainer'
-import '../styles/ScrollMenu.module.css'
-import HighlightDetail from '../components/Page/Highlight/HighlightDetail'
-import HighlightPriceQuote from '../components/Page/Highlight/HighlightPriceQuote'
-import HighlightSearch from '../components/Page/Highlight/HighlightSearch'
-import HighlightSWRTable from '../components/Page/Highlight/HighlightSWRTable'
-import HighlightTickerAlert from '../components/Page/Highlight/HighlightTickerAlert'
-import TickerScrollMenuList from '../components/Page/TickerScrollMenuList'
-import UserPriceDayChange from '../components/Parts/UserPriceDayChange'
-import WatchListSuggestions from '../components/Parts/WatchListSuggestions'
+import CustomContainer from '@/components/Layout/CustomContainer'
+import 'styles/ScrollMenu.module.css'
+import HighlightDetail from '@/components/Page/Highlight/HighlightDetail'
+import HighlightPriceQuote from '@/components/Page/Highlight/HighlightPriceQuote'
+import HighlightSearch from '@/components/Page/Highlight/HighlightSearch'
+import HighlightSWRTable from '@/components/Page/Highlight/HighlightSWRTable'
+import HighlightTickerAlert from '@/components/Page/Highlight/HighlightTickerAlert'
+import TickerScrollMenuList from '@/components/Page/TickerScrollMenuList'
+import UserPriceDayChange from '@/components/Parts/UserPriceDayChange'
+import WatchListSuggestions from '@/components/Parts/WatchListSuggestions'
 import {
   highlightHeaders,
   highlightDetails,
   highlightMenuTickerList
-} from '../config/highlight'
-import { useUser, useUserData } from '../lib/firebaseResult'
+} from '@/config/highlight'
+import { useUser, useUserData } from '@/lib/firebaseResult'
 
 export default function Highlight() {
   const [watchList, setwatchList] = useState([])

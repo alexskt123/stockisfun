@@ -5,10 +5,10 @@
 import {
   getYahooBalanceSheetData,
   getYahooBasicsData
-} from '../../../lib/stockDetailsFunction'
-import { getYahooAssetProfile } from '../../../lib/yahoo/getYahooAssetProfile'
-import { getYahooBalanceSheet } from '../../../lib/yahoo/getYahooBalanceSheet'
-import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
+} from '@/lib/stockDetailsFunction'
+import { getYahooAssetProfile } from '@/lib/yahoo/getYahooAssetProfile'
+import { getYahooBalanceSheet } from '@/lib/yahoo/getYahooBalanceSheet'
+import { getYahooQuote } from '@/lib/yahoo/getYahooQuote'
 
 export default async (req, res) => {
   const { ticker } = req.query

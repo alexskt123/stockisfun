@@ -1,10 +1,9 @@
-import moment from 'moment-business-days'
-
-import Basics from '../components/Tab/ETFDetail/Basics'
-import ETFPrice from '../components/Tab/ETFDetail/ETFPrice'
-import Holdings from '../components/Tab/ETFDetail/Holdings'
+import Basics from '@/components/Tab/ETFDetail/Basics'
+import ETFPrice from '@/components/Tab/ETFDetail/ETFPrice'
+import Holdings from '@/components/Tab/ETFDetail/Holdings'
 // eslint-disable-next-line import/order
-import Stat from '../components/Tab/ETFDetail/Stat'
+import Stat from '@/components/Tab/ETFDetail/Stat'
+import moment from 'moment-business-days'
 
 //const selectedHeaders = "Issuer,Structure,Expense Ratio,Inception,Index Tracked,Category,Asset Class,52 Week Lo,52 Week Hi,AUM,1 Month Avg. Volume,3 Month Avg. Volume"
 const selectedHeaders =
