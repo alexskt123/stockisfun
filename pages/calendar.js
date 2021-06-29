@@ -6,7 +6,7 @@ import { useUser, useUserData } from '@/lib/firebaseResult'
 import moment from 'moment'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import Container from 'react-bootstrap/Container'
-import 'react-big-calendar/@/lib/css/react-big-calendar.css'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 const axios = require('axios').default
 
