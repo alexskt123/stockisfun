@@ -1,11 +1,10 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import { useBgColor } from '@/lib/hooks/useBgColor'
 import { useRouter } from 'next/router'
 import Accordion from 'react-bootstrap/Accordion'
 import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'
-
-import { useBgColor } from '../../lib/hooks/useBgColor'
 
 export default function SearchAccordion({ children, inputTicker }) {
   const [accordionActive, setAccordionActive] = useState('-1')

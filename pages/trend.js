@@ -1,8 +1,8 @@
 import { Fragment } from 'react'
 
-import CustomContainer from '../components/Layout/CustomContainer'
-import BirdMouth from '../components/Parts/BirdMouth'
-import { trend, trendTools } from '../config/trend'
+import CustomContainer from '@/components/Layout/CustomContainer'
+import BirdMouth from '@/components/Parts/BirdMouth'
+import { trend, trendTools } from '@/config/trend'
 
 export default function Trend() {
   return (

@@ -1,3 +1,4 @@
+import { convertToPercentage, convertToPriceChange } from '@/lib/commonFunction'
 import AnimatedNumber from 'animated-number-react'
 import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'
@@ -5,11 +6,6 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { IconContext } from 'react-icons'
 import { FaArrowAltCircleDown, FaArrowAltCircleUp } from 'react-icons/fa'
-
-import {
-  convertToPercentage,
-  convertToPriceChange
-} from '../../lib/commonFunction'
 
 export default function TickerCard({ Name, Price, Percentage, Change }) {
   return (

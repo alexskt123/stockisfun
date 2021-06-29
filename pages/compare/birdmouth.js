@@ -1,18 +1,17 @@
 import { Fragment, useState } from 'react'
 
-import { useRouter } from 'next/router'
-
-import CustomContainer from '../../components/Layout/CustomContainer'
-import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import StockInfoTable from '../../components/Page/StockInfoTable'
-import TickerInput from '../../components/Page/TickerInput'
-import BirdMouth from '../../components/Parts/BirdMouth'
+import CustomContainer from '@/components/Layout/CustomContainer'
+import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import StockInfoTable from '@/components/Page/StockInfoTable'
+import TickerInput from '@/components/Page/TickerInput'
+import BirdMouth from '@/components/Parts/BirdMouth'
 import {
   forecastSettingSchema,
   handleDebounceChange,
   handleFormSubmit
-} from '../../lib/commonFunction'
-import { useQuery } from '../../lib/hooks/useQuery'
+} from '@/lib/commonFunction'
+import { useQuery } from '@/lib/hooks/useQuery'
+import { useRouter } from 'next/router'
 
 const axios = require('axios').default
 

@@ -1,15 +1,14 @@
 import { Fragment, useEffect, useState } from 'react'
 
+import TickerCard from '@/components/Parts/TickerCard'
+import { extractYahooInfo } from '@/config/highlight'
+import { stockMarketIndexSWROptions, fetcher } from '@/config/settings'
 import { useRouter } from 'next/router'
 import ScrollMenu from 'react-horizontal-scrolling-menu'
 import { AiFillLeftCircle, AiFillRightCircle } from 'react-icons/ai'
 import useSWR from 'swr'
 
-import TickerCard from '../../components/Parts/TickerCard'
-import { extractYahooInfo } from '../../config/highlight'
-import { stockMarketIndexSWROptions, fetcher } from '../../config/settings'
-import { roundTo } from '../../lib/commonFunction'
-import '../../styles/ScrollMenu.module.css'
+import 'styles/ScrollMenu.module.css'
 
 export default function TickerScrollMenu({ inputList }) {
   const router = useRouter()

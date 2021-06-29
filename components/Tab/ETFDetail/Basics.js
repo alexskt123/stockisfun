@@ -1,11 +1,11 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import LoadingSpinner from '../../../components/Loading/LoadingSpinner'
-import StockInfoTable from '../../../components/Page/StockInfoTable'
-import { etfDetailsBasicSettings } from '../../../config/etf'
-import { getETFDetailBasics } from '../../../lib/commonFunction'
-import { fireToast } from '../../../lib/toast'
-import ValidTickerAlert from '../../Parts/ValidTickerAlert'
+import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import StockInfoTable from '@/components/Page/StockInfoTable'
+import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
+import { etfDetailsBasicSettings } from '@/config/etf'
+import { getETFDetailBasics } from '@/lib/commonFunction'
+import { fireToast } from '@/lib/toast'
 
 export default function Basics({ inputETFTicker }) {
   const [settings, setSettings] = useState({ ...etfDetailsBasicSettings })

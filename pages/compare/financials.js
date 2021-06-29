@@ -1,18 +1,17 @@
 import { Fragment, useState } from 'react'
 
-import { useRouter } from 'next/router'
-
-import CustomContainer from '../../components/Layout/CustomContainer'
-import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import TickerBullet from '../../components/Page/TickerBullet'
-import TickerInput from '../../components/Page/TickerInput'
-import FinancialsInfo from '../../components/Parts/FinancialsInfo'
+import CustomContainer from '@/components/Layout/CustomContainer'
+import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import TickerBullet from '@/components/Page/TickerBullet'
+import TickerInput from '@/components/Page/TickerInput'
+import FinancialsInfo from '@/components/Parts/FinancialsInfo'
 import {
   financialsSettingSchema,
   handleDebounceChange,
   handleFormSubmit
-} from '../../lib/commonFunction'
-import { useQuery } from '../../lib/hooks/useQuery'
+} from '@/lib/commonFunction'
+import { useQuery } from '@/lib/hooks/useQuery'
+import { useRouter } from 'next/router'
 
 export default function CompareFinancials() {
   const router = useRouter()

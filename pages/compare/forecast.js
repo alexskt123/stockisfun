@@ -1,18 +1,17 @@
 import { Fragment, useState } from 'react'
 
-import { useRouter } from 'next/router'
-
-import CustomContainer from '../../components/Layout/CustomContainer'
-import LoadingSpinner from '../../components/Loading/LoadingSpinner'
-import TickerBullet from '../../components/Page/TickerBullet'
-import TickerInput from '../../components/Page/TickerInput'
-import ForecastInfo from '../../components/Parts/ForecastInfo'
+import CustomContainer from '@/components/Layout/CustomContainer'
+import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import TickerBullet from '@/components/Page/TickerBullet'
+import TickerInput from '@/components/Page/TickerInput'
+import ForecastInfo from '@/components/Parts/ForecastInfo'
 import {
   forecastSettingSchema,
   handleDebounceChange,
   handleFormSubmit
-} from '../../lib/commonFunction'
-import { useQuery } from '../../lib/hooks/useQuery'
+} from '@/lib/commonFunction'
+import { useQuery } from '@/lib/hooks/useQuery'
+import { useRouter } from 'next/router'
 
 export default function CompareForecast() {
   const router = useRouter()
