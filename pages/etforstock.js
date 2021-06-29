@@ -1,11 +1,10 @@
 import { useEffect, Fragment } from 'react'
 
+import PageLoading from '@/components/Loading/PageLoading'
+import { staticSWROptions, fetcher } from '@/config/settings'
 import { useRouter } from 'next/router'
 import Container from 'react-bootstrap/Container'
 import useSWR from 'swr'
-
-import PageLoading from '../components/Loading/PageLoading'
-import { staticSWROptions, fetcher } from '../config/settings'
 
 //export default component
 export default function ETFOrStock() {

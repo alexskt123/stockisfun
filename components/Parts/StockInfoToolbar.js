@@ -1,4 +1,4 @@
-import CustomIcons from '../../lib/components/CustomIcons'
+import CustomIcons from '@/lib/components/CustomIcons'
 
 function StockInfoToolbar({ tools, inputTicker }) {
   return (

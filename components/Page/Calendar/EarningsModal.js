@@ -1,10 +1,9 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import StockInfoTable from '@/components/Page/StockInfoTable'
 import Badge from 'react-bootstrap/Badge'
 import Modal from 'react-bootstrap/Modal'
 import useDarkMode from 'use-dark-mode'
-
-import StockInfoTable from '../../Page/StockInfoTable'
 
 const axios = require('axios').default
 

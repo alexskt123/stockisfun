@@ -1,12 +1,11 @@
 import { Fragment } from 'react'
 
+import HappyShare from '@/components/Parts/HappyShare'
 import { useRouter } from 'next/router'
 import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
 import { IconContext } from 'react-icons'
 import { MdCancel } from 'react-icons/md'
-
-import HappyShare from '../../../components/Parts/HappyShare'
 
 const HighlightTickerAlert = () => {
   const router = useRouter()

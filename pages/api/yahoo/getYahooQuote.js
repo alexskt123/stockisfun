@@ -2,10 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import {
-  getYahooQuote,
-  getYahooMultiQuote
-} from '../../../lib/yahoo/getYahooQuote'
+import { getYahooQuote, getYahooMultiQuote } from '@/lib/yahoo/getYahooQuote'
 
 export default async (req, res) => {
   const { ticker } = req.query

@@ -1,18 +1,14 @@
 import { Fragment, useState } from 'react'
 
+import CustomContainer from '@/components/Layout/CustomContainer'
+import SWRTable from '@/components/Page/SWRTable'
+import TickerBullet from '@/components/Page/TickerBullet'
+import TickerInput from '@/components/Page/TickerInput'
+import { aumTableHeader } from '@/config/etf'
+import { staticSWROptions } from '@/config/settings'
+import { handleDebounceChange, handleFormSubmit } from '@/lib/commonFunction'
+import { useQuery } from '@/lib/hooks/useQuery'
 import { useRouter } from 'next/router'
-
-import CustomContainer from '../../components/Layout/CustomContainer'
-import SWRTable from '../../components/Page/SWRTable'
-import TickerBullet from '../../components/Page/TickerBullet'
-import TickerInput from '../../components/Page/TickerInput'
-import { aumTableHeader } from '../../config/etf'
-import { staticSWROptions } from '../../config/settings'
-import {
-  handleDebounceChange,
-  handleFormSubmit
-} from '../../lib/commonFunction'
-import { useQuery } from '../../lib/hooks/useQuery'
 
 export default function CompareAUM() {
   const router = useRouter()

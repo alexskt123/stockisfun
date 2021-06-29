@@ -6,7 +6,7 @@ import { FaUserCircle } from 'react-icons/fa'
 
 const DynamicAuth = dynamic(
   () => {
-    return import('../../Fire/FireAuth')
+    return import('@/components/Fire/FireAuth')
   },
   { ssr: false }
 )

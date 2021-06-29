@@ -2,20 +2,17 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import moment from 'moment-business-days'
-import percent from 'percent'
-
 import {
   dateRange,
   dateRangeByNoOfYears,
   quoteFilterList
-} from '../../../config/price'
+} from '@/config/price'
 import {
   getFormattedFromToDate,
   parseBoolean
-} from '../../../lib/commonFunction'
-import { getYahooHistoryPrice } from '../../../lib/yahoo/getYahooHistoryPrice'
-import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
+} from '@/lib/commonFunction'
+import { getYahooHistoryPrice } from '@/lib/yahoo/getYahooHistoryPrice'
+import { getYahooQuote } from '@/lib/yahoo/getYahooQuote'
 
 const handleYearPcnt = async (ticker, year) => {
   const newDateRange = year ? await dateRangeByNoOfYears(year) : dateRange

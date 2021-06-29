@@ -1,11 +1,10 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import ETFDetails from '@/components/ETFDetails'
+import CustomContainer from '@/components/Layout/CustomContainer'
+import SearchAccordion from '@/components/Page/SearchAccordion'
+import TypeAhead from '@/components/Page/TypeAhead'
 import { useRouter } from 'next/router'
-
-import ETFDetails from '../components/ETFDetails'
-import CustomContainer from '../components/Layout/CustomContainer'
-import SearchAccordion from '../components/Page/SearchAccordion'
-import TypeAhead from '../components/Page/TypeAhead'
 
 export default function ETFDetail() {
   const [ticker, setTicker] = useState('')

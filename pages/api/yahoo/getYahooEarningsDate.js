@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooEarningsDate } from '../../../lib/yahoo/getYahooEarningsDate'
+import { getYahooEarningsDate } from '@/lib/yahoo/getYahooEarningsDate'
 
 export default async (req, res) => {
   const { ticker } = req.query

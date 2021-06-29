@@ -1,14 +1,14 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import { Line } from 'react-chartjs-2'
-
+import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import StockInfoTable from '@/components/Page/StockInfoTable'
 import {
   getPriceInfo,
   sortTableItem,
   priceSettingSchema
-} from '../../lib/commonFunction'
-import LoadingSpinner from '../Loading/LoadingSpinner'
-import StockInfoTable from '../Page/StockInfoTable'
+} from '@/lib/commonFunction'
+import { Line } from 'react-chartjs-2'
+
 import QuoteCard from './QuoteCard'
 import ValidTickerAlert from './ValidTickerAlert'
 

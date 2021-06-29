@@ -1,8 +1,8 @@
 import { Fragment } from 'react'
 
+import CustomContainer from '@/components/Layout/CustomContainer'
 import Row from 'react-bootstrap/Row'
 
-import CustomContainer from '../../components/Layout/CustomContainer'
 import GooeySpinner from './GooeySpinner'
 
 export default function PageLoading() {

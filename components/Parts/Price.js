@@ -1,11 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import { ma, ema } from 'moving-averages'
-import Badge from 'react-bootstrap/Badge'
-import Form from 'react-bootstrap/Form'
-import { Line } from 'react-chartjs-2'
-import useSWR from 'swr'
-
+import LoadingSpinner from '@/components/Loading/LoadingSpinner'
 import {
   priceSchema,
   priceChartSettings,
@@ -15,9 +10,14 @@ import {
   ma60ChartSettings,
   dateRangeSelectAttr,
   maSelectAttr
-} from '../../config/price'
-import { staticSWROptions, fetcher } from '../../config/settings'
-import LoadingSpinner from '../Loading/LoadingSpinner'
+} from '@/config/price'
+import { staticSWROptions, fetcher } from '@/config/settings'
+import { ma, ema } from 'moving-averages'
+import Badge from 'react-bootstrap/Badge'
+import Form from 'react-bootstrap/Form'
+import { Line } from 'react-chartjs-2'
+import useSWR from 'swr'
+
 import YahooQuoteInfo from './YahooQuoteInfo'
 
 function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {

@@ -1,20 +1,19 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import AddDelStock from '@/components/Fire/AddDelStock'
+import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import HappyShare from '@/components/Parts/HappyShare'
+import Price from '@/components/Parts/Price'
+import QuoteCard from '@/components/Parts/QuoteCard'
+import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
+import { priceTabLabelPairs } from '@/config/price'
+import { staticSWROptions, fetcher } from '@/config/settings'
+import { convertToPercentage } from '@/lib/commonFunction'
+import { getBasics } from '@/lib/stockDetailsFunction'
+import { fireToast } from '@/lib/toast'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 import useSWR from 'swr'
-
-import QuoteCard from '../../../components/Parts/QuoteCard'
-import { priceTabLabelPairs } from '../../../config/price'
-import { staticSWROptions, fetcher } from '../../../config/settings'
-import { convertToPercentage } from '../../../lib/commonFunction'
-import { getBasics } from '../../../lib/stockDetailsFunction'
-import { fireToast } from '../../../lib/toast'
-import AddDelStock from '../../Fire/AddDelStock'
-import LoadingSpinner from '../../Loading/LoadingSpinner'
-import HappyShare from '../../Parts/HappyShare'
-import Price from '../../Parts/Price'
-import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 const defaultSettings = { basics: { tableData: [] }, floatingShareRatio: 'N/A' }
 

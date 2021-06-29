@@ -1,15 +1,14 @@
 import { Fragment } from 'react'
 
+import AddDelStock from '@/components/Fire/AddDelStock'
+import HappyShare from '@/components/Parts/HappyShare'
+import Price from '@/components/Parts/Price'
+import QuoteCard from '@/components/Parts/QuoteCard'
+import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
+import { etfTools } from '@/config/etf'
+import { staticSWROptions, fetcher } from '@/config/settings'
 import Badge from 'react-bootstrap/Badge'
 import useSWR from 'swr'
-
-import { etfTools } from '../../../config/etf'
-import { staticSWROptions, fetcher } from '../../../config/settings'
-import AddDelStock from '../../Fire/AddDelStock'
-import HappyShare from '../../Parts/HappyShare'
-import Price from '../../Parts/Price'
-import QuoteCard from '../../Parts/QuoteCard'
-import ValidTickerAlert from '../../Parts/ValidTickerAlert'
 
 export default function ETFPrice({ inputETFTicker }) {
   const { data } = useSWR(

@@ -1,15 +1,11 @@
 import { Fragment } from 'react'
 
+import { priceChangeDateRangeSelectAttr, buttonSettings } from '@/config/form'
+import { exportToFile } from '@/lib/exportToFile'
+import { useUser, useUserData } from '@/lib/firebaseResult'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-
-import {
-  priceChangeDateRangeSelectAttr,
-  buttonSettings
-} from '../../config/form'
-import { exportToFile } from '../../lib/exportToFile'
-import { useUser, useUserData } from '../../lib/firebaseResult'
 
 function TickerInput({
   validated,
@@ -101,11 +97,11 @@ function TickerInput({
               </Button>
             </Fragment>
           ) : null}
-          {handleTickers && user && userData.watchList ? (
+          {handleTickers && user && userData?.watchList ? (
             <Button
               {...buttonSettings.FromWatchList.attr}
               disabled={clicked}
-              onClick={() => handleTickers(userData.watchList)}
+              onClick={() => handleTickers(userData?.watchList)}
             >
               {buttonSettings.FromWatchList.label}
             </Button>

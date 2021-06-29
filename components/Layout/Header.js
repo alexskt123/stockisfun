@@ -2,6 +2,7 @@
 // react, next and hooks
 import { Fragment } from 'react'
 
+import { iconConfig } from '@/config/settings'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -11,7 +12,6 @@ import Navbar from 'react-bootstrap/Navbar'
 
 //import Toggle from 'react-toggle'
 // config
-import { iconConfig } from '../../config/settings'
 import CustNav from './Header/CustNav'
 import DarkModeSwitch from './Header/DarkModeSwitch'
 import UserDropdown from './Header/UserDropdown'

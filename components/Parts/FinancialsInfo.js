@@ -1,8 +1,9 @@
 import { Fragment } from 'react'
 
-import SWRTable from '../../components/Page/SWRTable'
-import { tableHeaderList } from '../../config/financials'
-import { staticSWROptions } from '../../config/settings'
+import SWRTable from '@/components/Page/SWRTable'
+import { tableHeaderList } from '@/config/financials'
+import { staticSWROptions } from '@/config/settings'
+
 import ValidTickerAlert from './ValidTickerAlert'
 
 function FinancialsInfo({ inputTickers }) {

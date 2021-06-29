@@ -2,9 +2,9 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { extractYahooInfo } from '../../../config/peers'
-import { getHost, millify } from '../../../lib/commonFunction'
-import { getPeers } from '../../../lib/moneycnn/getPeers'
+import { extractYahooInfo } from '@/config/peers'
+import { getHost, millify } from '@/lib/commonFunction'
+import { getPeers } from '@/lib/moneycnn/getPeers'
 
 const axios = require('axios').default
 
