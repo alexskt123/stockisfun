@@ -6,10 +6,10 @@ import { priceInfo } from '../../config/birdmouth'
 import { birdMouthOptions } from '../../config/price'
 import BirdMouthItem from './BirdMouthItem'
 
-function BirdMouth({ input, tools }) {
+function BirdMouth({ input, tools, className }) {
   return (
     <Fragment>
-      <CardDeck>
+      <CardDeck className={className}>
         {input
           ? input.map((item, idx) => {
               return (
