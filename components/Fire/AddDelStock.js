@@ -36,8 +36,8 @@ function AddDelStock({ inputTicker, handleList }) {
   return (
     <Fragment>
       {user ? (
-        (handleList === 'stock' && userData.stockList.includes(inputTicker)) ||
-        (handleList === 'etf' && userData.etfList.includes(inputTicker)) ? (
+        (handleList === 'stock' && userData?.stockList.includes(inputTicker)) ||
+        (handleList === 'etf' && userData?.etfList.includes(inputTicker)) ? (
           <Badge>
             <IconContext.Provider value={{ color: 'red', size: '15px' }}>
               <MdRemoveCircleOutline

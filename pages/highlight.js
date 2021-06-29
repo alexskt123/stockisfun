@@ -24,11 +24,10 @@ export default function Highlight() {
   const user = useUser()
   const userData = useUserData(user)
 
-  const onClickWatchListButton = (watchListButtonName, buttonWatchList) => {
-    const isShow =
-      watchListName !== watchListButtonName ? true : !(watchList.length > 0)
-    isShow ? setwatchList(buttonWatchList) : setwatchList([])
-    setWatchListName(watchListButtonName)
+  const onClickWatchListButton = ({ label, list }) => {
+    const isShow = watchListName !== label ? true : !(watchList.length > 0)
+    isShow ? setwatchList(list) : setwatchList([])
+    setWatchListName(label)
   }
 
   return (
