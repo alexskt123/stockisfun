@@ -7,12 +7,10 @@ import {
   dateRangeByNoOfYears,
   quoteFilterList
 } from '@/config/price'
-import {
-  getFormattedFromToDate,
-  parseBoolean
-} from '@/lib/commonFunction'
+import { getFormattedFromToDate, parseBoolean } from '@/lib/commonFunction'
 import { getYahooHistoryPrice } from '@/lib/yahoo/getYahooHistoryPrice'
 import { getYahooQuote } from '@/lib/yahoo/getYahooQuote'
+import moment from 'moment'
 
 const handleYearPcnt = async (ticker, year) => {
   const newDateRange = year ? await dateRangeByNoOfYears(year) : dateRange
