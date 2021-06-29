@@ -197,6 +197,7 @@ export default function SWRTable({ requests, options }) {
                 handleTableData={handleTableData}
                 viewTickerDetail={viewTickerDetail}
                 options={SWROptions}
+                colSpan={tableHeader.length}
               ></SWRTableRow>
             </tr>
           ))}
@@ -213,7 +214,8 @@ function SWRTableRow({
   tableHeader,
   handleTableData,
   viewTickerDetail,
-  options = {}
+  options = {},
+  colSpan
 }) {
   const fetcher = input => fetch(input).then(res => res.json())
 
@@ -225,12 +227,13 @@ function SWRTableRow({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
-  if (!data)
+  if (!data) {
     return (
-      <td colSpan={tableHeader.length}>
+      <td colSpan={colSpan}>
         <LoadingSkeleton />
       </td>
     )
+  }
 
   return (
     <Fragment>
