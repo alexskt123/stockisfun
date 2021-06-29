@@ -116,7 +116,7 @@ export default async (req, res) => {
   const { ticker, genChart } = req.query
   const isGenChart = genChart === 'true'
 
-  const fromtodate = await getFormattedFromToDate(80)
+  const fromtodate = await getFormattedFromToDate(80, true)
   const dateprice = await handleDays(
     ticker,
     fromtodate.formattedFromDate,

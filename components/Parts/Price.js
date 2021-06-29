@@ -26,7 +26,7 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   const dateprice = useSWR(
     `/api/yahoo/getYahooHistoryPrice?ticker=${inputTicker}&days=${
       parseInt(settings.days) + 60
-    }`,
+    }&isBus=true`,
     fetcher,
     staticSWROptions
   )

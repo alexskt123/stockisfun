@@ -46,3 +46,61 @@ export const trendTools = [
     redirectURL: 'etftostock'
   }
 ]
+
+export const barchartOptions = {
+  indexAxis: 'y',
+  elements: {
+    bar: {
+      borderWidth: 2
+    }
+  },
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false
+    },
+    title: {
+      display: true,
+      text: 'Trend Changes (%)'
+    }
+  },
+  scales: {
+    y: {
+      ticks: {
+        autoSkip: false
+      }
+    }
+  }
+}
+
+export const trendChangeDateRangeSelectAttr = {
+  formControl: {
+    as: 'select',
+    size: 'sm',
+    className: 'my-1 mr-sm-2',
+    defaultValue: 8,
+    name: 'formYear'
+  },
+  dateRangeOptions: [
+    {
+      label: '3 years',
+      value: '1095'
+    },
+    {
+      label: '1 year',
+      value: '365'
+    },
+    {
+      label: '3 months',
+      value: '90'
+    },
+    {
+      label: '1 month',
+      value: '30'
+    },
+    {
+      label: '1 week',
+      value: '8'
+    }
+  ]
+}
