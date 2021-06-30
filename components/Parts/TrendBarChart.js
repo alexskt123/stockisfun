@@ -81,7 +81,7 @@ const TrendBarChart = ({ input }) => {
     })()
 
     return () => setBarChartData(null)
-  }, [days])
+  }, [days, input])
 
   return (
     <Fragment>
