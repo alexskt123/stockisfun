@@ -28,6 +28,7 @@ export default function Trend() {
             className="mt-1"
             activeKey={tab}
             onSelect={k => changeTab(k)}
+            mountOnEnter={true}
           >
             <Tab eventKey="trendChart" title="Trend Chart">
               <TrendBarChart />
