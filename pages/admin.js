@@ -32,7 +32,8 @@ export default function Admin() {
     stockList: [],
     etfList: [],
     watchList: [],
-    boughtList: []
+    boughtList: [],
+    cash: 0
   })
 
   useEffect(() => {
@@ -58,7 +59,8 @@ export default function Admin() {
         type === 'stock' ? filterInput(e.target.value) : settings.stockList,
       etfList: type === 'etf' ? filterInput(e.target.value) : settings.etfList,
       watchList:
-        type === 'watchlist' ? filterInput(e.target.value) : settings.watchList
+        type === 'watchlist' ? filterInput(e.target.value) : settings.watchList,
+      cash: type === 'cash' ? parseFloat(e.target.value) : settings.cash
     })
   }
 
@@ -117,6 +119,15 @@ export default function Admin() {
                     aria-label="With textarea"
                     value={settings.watchList.join(',')}
                     onChange={e => handleChange(e, 'watchlist')}
+                  />
+                  <h5>
+                    <Badge variant="dark">{'Update Cash'}</Badge>
+                  </h5>
+                  <FormControl
+                    style={{ minHeight: '1rem' }}
+                    value={settings.cash || 0}
+                    type="number"
+                    onChange={e => handleChange(e, 'cash')}
                   />
                   <ButtonGroup aria-label="Basic example">
                     <Button
