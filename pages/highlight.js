@@ -1,18 +1,17 @@
-import { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
-import 'styles/ScrollMenu.module.css'
-import HighlightDetail from '@/components/Page/Highlight/HighlightDetail'
-import HighlightPriceQuote from '@/components/Page/Highlight/HighlightPriceQuote'
+import HighlightInfo from '@/components/Page/Highlight/HighlightInfo'
 import HighlightSearch from '@/components/Page/Highlight/HighlightSearch'
 import HighlightSWRTable from '@/components/Page/Highlight/HighlightSWRTable'
-import HighlightTickerAlert from '@/components/Page/Highlight/HighlightTickerAlert'
 import TickerScrollMenuList from '@/components/Page/TickerScrollMenuList'
 import UserPriceDayChange from '@/components/Parts/UserPriceDayChange'
 import WatchListSuggestions from '@/components/Parts/WatchListSuggestions'
 import { highlightMenuTickerList } from '@/config/highlight'
 import { useUser, useUserData } from '@/lib/firebaseResult'
 import { useRouter } from 'next/router'
+
+import 'styles/ScrollMenu.module.css'
 
 export default function Highlight() {
   const router = useRouter()
@@ -41,8 +40,8 @@ export default function Highlight() {
 
           {/* //todo: group together */}
           <HighlightSearch />
-          <HighlightTickerAlert />
-          <HignlightInfo query={router.query} />
+
+          <HighlightInfo query={router.query} />
 
           <WatchListSuggestions
             user={user}
@@ -54,19 +53,4 @@ export default function Highlight() {
       </CustomContainer>
     </Fragment>
   )
-}
-
-function HignlightInfo({ query }) {
-  const { type, query: ticker } = query
-
-  //todo: use json instead of switch
-  switch (type) {
-    case 'quote':
-      return <HighlightPriceQuote query={ticker} />
-    case 'detail':
-      return <HighlightDetail query={ticker} />
-
-    default:
-      return null
-  }
 }
