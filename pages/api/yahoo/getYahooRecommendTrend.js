@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooRecommendTrend } from '../../../lib/yahoo/getYahooRecommendTrend'
+import { getYahooRecommendTrend } from '@/lib/yahoo/getYahooRecommendTrend'
 
 export default async (req, res) => {
   const { ticker } = req.query

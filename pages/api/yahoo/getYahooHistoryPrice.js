@@ -2,17 +2,16 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import moment from 'moment-business-days'
-import percent from 'percent'
-
 import {
   dateRange,
   dateRangeByNoOfYears,
   quoteFilterList
-} from '../../../config/price'
-import { getFormattedFromToDate } from '../../../lib/commonFunction'
-import { getYahooHistoryPrice } from '../../../lib/yahoo/getYahooHistoryPrice'
-import { getYahooQuote } from '../../../lib/yahoo/getYahooQuote'
+} from '@/config/price'
+import { getFormattedFromToDate, parseBoolean } from '@/lib/commonFunction'
+import { getYahooHistoryPrice } from '@/lib/yahoo/getYahooHistoryPrice'
+import { getYahooQuote } from '@/lib/yahoo/getYahooQuote'
+import moment from 'moment'
+import percent from 'percent'
 
 const handleYearPcnt = async (ticker, year) => {
   const newDateRange = year ? await dateRangeByNoOfYears(year) : dateRange
@@ -81,9 +80,11 @@ const handleYearPcnt = async (ticker, year) => {
   return newTemp
 }
 
-const handleDays = async (ticker, days) => {
+const handleDays = async (ticker, days, isBus) => {
+  const isBusBool = parseBoolean(isBus)
   const { formattedFromDate, formattedToDate } = await getFormattedFromToDate(
-    days
+    days,
+    isBusBool
   )
 
   const outputItem = await getYahooHistoryPrice(
@@ -112,11 +113,11 @@ const handleDays = async (ticker, days) => {
 
   const { date: allDate, price: allPrice } = allPriceDate
   const price =
-    parseInt(days) !== allPrice?.length
+    parseInt(days) !== allPrice?.length && isBusBool
       ? allPrice?.slice(Math.abs(allPrice?.length - parseInt(days)))
       : allPrice
   const date =
-    parseInt(days) !== allPrice?.length
+    parseInt(days) !== allPrice?.length && isBusBool
       ? allDate?.slice(Math.abs(allPrice?.length - parseInt(days)))
       : allDate
   const quoteRes = await getYahooQuote(ticker.toUpperCase())
@@ -131,11 +132,11 @@ const handleDays = async (ticker, days) => {
 }
 
 export default async (req, res) => {
-  const { ticker, year, days } = req.query
+  const { ticker, year, days, isBus } = req.query
 
   const temp = year
     ? await handleYearPcnt(ticker, year)
-    : await handleDays(ticker, days)
+    : await handleDays(ticker, days, isBus)
 
   res.statusCode = 200
   res.json(temp)

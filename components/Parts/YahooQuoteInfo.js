@@ -1,14 +1,13 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import Badge from 'react-bootstrap/Badge'
-
 import {
   convertToPercentage,
   convertToPriceChange,
   indicatorVariant,
   millify,
   roundTo
-} from '../../lib/commonFunction'
+} from '@/lib/commonFunction'
+import Badge from 'react-bootstrap/Badge'
 
 function YahooQuoteInfo({ data, displayQuoteFields }) {
   const [quoteData, setQuoteData] = useState([])

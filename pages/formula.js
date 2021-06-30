@@ -1,13 +1,12 @@
 import { Fragment } from 'react'
 
+import { formulaSettings } from '@/config/formula'
 import dynamic from 'next/dynamic'
 import Container from 'react-bootstrap/Container'
 
-import { formulaSettings } from '../config/formula'
-
 const FormulaCard = dynamic(
   () => {
-    return import('../components/Parts/FormulaCard')
+    return import('@/components/Parts/FormulaCard')
   },
   { ssr: false }
 )

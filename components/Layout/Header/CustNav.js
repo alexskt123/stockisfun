@@ -1,6 +1,6 @@
+import { NavDropDown, NavItems } from '@/config/settings'
 import Nav from 'react-bootstrap/Nav'
 
-import { NavDropDown, NavItems } from '../../../config/settings'
 import CustNavDropdownItems from './CustNavDropdownItems'
 import CustNavItems from './CustNavItems'
 

@@ -29,9 +29,9 @@
       "error",
       {
         "groups": [
-          "builtin",
           "external",
-          "internal"
+          "internal",
+          "builtin"
         ],
         "pathGroups": [
           {
@@ -48,6 +48,13 @@
           "order": "asc",
           "caseInsensitive": true
         }
+      }
+    ],
+    "import/no-relative-parent-imports": "error",
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
       }
     ]
   }

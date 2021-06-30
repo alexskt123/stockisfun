@@ -1,5 +1,7 @@
 import { Fragment, useState } from 'react'
 
+import { getShareUrl } from '@/lib/commonFunction'
+import { useBgColor } from '@/lib/hooks/useBgColor'
 import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
 import Modal from 'react-bootstrap/Modal'
@@ -13,9 +15,6 @@ import {
   WhatsappShareButton,
   WhatsappIcon
 } from 'react-share'
-
-import { getShareUrl } from '../../lib/commonFunction'
-import { useBgColor } from '../../lib/hooks/useBgColor'
 
 export default function HappyShare({ inputStyle }) {
   const router = useRouter()

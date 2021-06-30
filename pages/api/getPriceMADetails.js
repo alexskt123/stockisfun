@@ -1,19 +1,18 @@
-import moment from 'moment-business-days'
-import { ma } from 'moving-averages'
-import QuickChart from 'quickchart-js'
-
-import { priceMAList } from '../../config/email'
+import { priceMAList } from '@/config/email'
 import {
   priceChartSettings,
   ma5ChartSettings,
   ma20ChartSettings,
   ma60ChartSettings,
   maChkRange
-} from '../../config/price'
-import { getFormattedFromToDate, millify } from '../../lib/commonFunction'
-import { getYahooAssetProfile } from '../../lib/yahoo/getYahooAssetProfile'
-import { getYahooHistoryPrice } from '../../lib/yahoo/getYahooHistoryPrice'
-import { getYahooQuote } from '../../lib/yahoo/getYahooQuote'
+} from '@/config/price'
+import { getFormattedFromToDate, millify } from '@/lib/commonFunction'
+import { getYahooAssetProfile } from '@/lib/yahoo/getYahooAssetProfile'
+import { getYahooHistoryPrice } from '@/lib/yahoo/getYahooHistoryPrice'
+import { getYahooQuote } from '@/lib/yahoo/getYahooQuote'
+import moment from 'moment-business-days'
+import { ma } from 'moving-averages'
+import QuickChart from 'quickchart-js'
 
 const handleDays = async (ticker, fromdate, todate) => {
   const outputItem = await getYahooHistoryPrice(ticker, fromdate, todate)
@@ -117,7 +116,7 @@ export default async (req, res) => {
   const { ticker, genChart } = req.query
   const isGenChart = genChart === 'true'
 
-  const fromtodate = await getFormattedFromToDate(80)
+  const fromtodate = await getFormattedFromToDate(80, true)
   const dateprice = await handleDays(
     ticker,
     fromtodate.formattedFromDate,

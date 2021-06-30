@@ -1,8 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 
+import { fireToast } from '@/lib/toast'
 import { useRouter } from 'next/router'
-
-import { fireToast } from '../../../lib/toast'
 
 const axios = require('axios').default
 

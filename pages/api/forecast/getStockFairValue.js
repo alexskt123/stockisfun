@@ -2,10 +2,10 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getFinanchill } from '../../../lib/forecast/getFinanchill'
-import { getMoneyCnnCouple } from '../../../lib/forecast/getMoneyCnn'
-import { getWalletInvestor } from '../../../lib/forecast/getWalletInvestor'
-import { getYahooRecommendTrend } from '../../../lib/yahoo/getYahooRecommendTrend'
+import { getFinanchill } from '@/lib/forecast/getFinanchill'
+import { getMoneyCnnCouple } from '@/lib/forecast/getMoneyCnn'
+import { getWalletInvestor } from '@/lib/forecast/getWalletInvestor'
+import { getYahooRecommendTrend } from '@/lib/yahoo/getYahooRecommendTrend'
 
 export default async (req, res) => {
   const { ticker } = req.query

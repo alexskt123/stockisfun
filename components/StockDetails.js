@@ -1,20 +1,19 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import FinancialsInfo from '@/components/Parts/FinancialsInfo'
+import ForecastInfo from '@/components/Parts/ForecastInfo'
+import PriceChange from '@/components/Parts/PriceChange'
+import BalanceSheet from '@/components/Tab/StockDetail/BalanceSheet'
+import Basics from '@/components/Tab/StockDetail/Basics'
+import Earnings from '@/components/Tab/StockDetail/Earnings'
+import ETFList from '@/components/Tab/StockDetail/ETFList'
+import Peers from '@/components/Tab/StockDetail/Peers'
+import Price from '@/components/Tab/StockDetail/Price'
+import { stockDetailsSettings } from '@/config/stock'
+import { useTab } from '@/lib/hooks/useTab'
 import { useRouter } from 'next/router'
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
-
-import FinancialsInfo from '../components/Parts/FinancialsInfo'
-import ForecastInfo from '../components/Parts/ForecastInfo'
-import PriceChange from '../components/Parts/PriceChange'
-import { stockDetailsSettings } from '../config/stock'
-import { useTab } from '../lib/hooks/useTab'
-import BalanceSheet from './Tab/StockDetail/BalanceSheet'
-import Basics from './Tab/StockDetail/Basics'
-import Earnings from './Tab/StockDetail/Earnings'
-import ETFList from './Tab/StockDetail/ETFList'
-import Peers from './Tab/StockDetail/Peers'
-import Price from './Tab/StockDetail/Price'
 
 function StockDetails({ inputTicker }) {
   const router = useRouter()
