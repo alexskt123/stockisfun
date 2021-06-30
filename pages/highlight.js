@@ -10,19 +10,19 @@ import HighlightTickerAlert from '@/components/Page/Highlight/HighlightTickerAle
 import TickerScrollMenuList from '@/components/Page/TickerScrollMenuList'
 import UserPriceDayChange from '@/components/Parts/UserPriceDayChange'
 import WatchListSuggestions from '@/components/Parts/WatchListSuggestions'
-import {
-  highlightHeaders,
-  highlightDetails,
-  highlightMenuTickerList
-} from '@/config/highlight'
+import { highlightMenuTickerList } from '@/config/highlight'
 import { useUser, useUserData } from '@/lib/firebaseResult'
+import { useRouter } from 'next/router'
 
 export default function Highlight() {
-  const [watchList, setwatchList] = useState([])
-  const [watchListName, setWatchListName] = useState(null)
+  const router = useRouter()
 
   const user = useUser()
   const userData = useUserData(user)
+
+  //todo: wrap watchlist
+  const [watchList, setwatchList] = useState([])
+  const [watchListName, setWatchListName] = useState(null)
 
   const onClickWatchListButton = ({ label, list }) => {
     const isShow = watchListName !== label ? true : !(watchList.length > 0)
@@ -38,10 +38,12 @@ export default function Highlight() {
             <UserPriceDayChange userID={user.uid} userData={userData} />
           ) : null}
           <TickerScrollMenuList tickerList={highlightMenuTickerList} />
+
+          {/* //todo: group together */}
           <HighlightSearch />
           <HighlightTickerAlert />
-          <HighlightPriceQuote highlightHeaders={highlightHeaders} />
-          <HighlightDetail highlightDetails={highlightDetails} />
+          <HignlightInfo query={router.query} />
+
           <WatchListSuggestions
             user={user}
             userData={userData}
@@ -52,4 +54,19 @@ export default function Highlight() {
       </CustomContainer>
     </Fragment>
   )
+}
+
+function HignlightInfo({ query }) {
+  const { type, query: ticker } = query
+
+  //todo: use json instead of switch
+  switch (type) {
+    case 'quote':
+      return <HighlightPriceQuote query={ticker} />
+    case 'detail':
+      return <HighlightDetail query={ticker} />
+
+    default:
+      return null
+  }
 }
