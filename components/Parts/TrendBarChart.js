@@ -1,17 +1,17 @@
 import { Fragment, useEffect, useState } from 'react'
 
+import GooeySpinner from '@/components/Loading/GooeySpinner'
+import {
+  trendChangeDateRangeSelectAttr,
+  trend,
+  barchartOptions
+} from '@/config/trend'
+import { randRGBColor } from '@/lib/commonFunction'
 import percent from 'percent'
 import Badge from 'react-bootstrap/Badge'
 import Form from 'react-bootstrap/Form'
 import { Bar } from 'react-chartjs-2'
 
-import {
-  trendChangeDateRangeSelectAttr,
-  trend,
-  barchartOptions
-} from '../../config/trend'
-import { randRGBColor } from '../../lib/commonFunction'
-import GooeySpinner from '../Loading/GooeySpinner'
 import QuoteCard from './QuoteCard'
 
 const axios = require('axios').default
@@ -91,21 +91,33 @@ const TrendBarChart = () => {
     <Fragment>
       <Form inline>
         <Form.Group>
-          <Form.Control
-            {...trendChangeDateRangeSelectAttr.formControl}
-            custom
-            onChange={e => handleChange(e)}
+          <div
+            style={{ display: 'inline-flex', alignItems: 'baseline' }}
+            className="ml-1 mt-2"
           >
-            {trendChangeDateRangeSelectAttr.dateRangeOptions.map(
-              (item, index) => {
-                return (
-                  <option key={`${item}${index}`} value={item.value}>
-                    {item.label}
-                  </option>
-                )
-              }
-            )}
-          </Form.Control>
+            <Form.Label className="my-1 mr-2">
+              <h5>
+                <Badge variant="dark">
+                  <span>{'Range'}</span>
+                </Badge>
+              </h5>
+            </Form.Label>
+            <Form.Control
+              {...trendChangeDateRangeSelectAttr.formControl}
+              custom
+              onChange={e => handleChange(e)}
+            >
+              {trendChangeDateRangeSelectAttr.dateRangeOptions.map(
+                (item, index) => {
+                  return (
+                    <option key={`${item}${index}`} value={item.value}>
+                      {item.label}
+                    </option>
+                  )
+                }
+              )}
+            </Form.Control>
+          </div>
         </Form.Group>
       </Form>
       {barChartData ? (
