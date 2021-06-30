@@ -26,7 +26,7 @@ const UserPriceDayChange = ({ userID, userData }) => {
         ? await axios.get(`/api/getUserBoughtList?uid=${userID}`)
         : { data: [] }
     const { data: boughtListData } = boughtListInfo
-    const dayChgAndTotal = boughtListData.reduce(
+    const dayChgAndTotal = boughtListData.boughtList.reduce(
       (acc, cur) => {
         const newAcc = {
           net: acc.net + cur.net,
@@ -36,6 +36,8 @@ const UserPriceDayChange = ({ userID, userData }) => {
       },
       { net: 0, sum: 0 }
     )
+
+    dayChgAndTotal.sum = dayChgAndTotal.sum + boughtListData.cash
 
     setDayChange(dayChgAndTotal)
   }
