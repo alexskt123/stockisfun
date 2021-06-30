@@ -117,38 +117,36 @@ export default function SWRTable({ requests, options }) {
     setSortedRequests(requests)
   }, [requests])
 
+  if (requests.length === 0) return null
+
   return (
     <Fragment>
       <Row
         className="justify-content-center mt-2"
         style={{ display: 'flex', alignItems: 'center' }}
       >
-        {requests?.length > 0 ? (
-          <Fragment>
-            <h5>
-              <Badge variant="info">{`Last Update: ${timestamp}`}</Badge>
-            </h5>
-            <h5>
-              <Button
-                className="ml-1"
-                size="sm"
-                variant="warning"
-                style={{ display: 'flex', alignItems: 'center' }}
-                onClick={() =>
-                  exportToFile(
-                    reactiveTableHeader.map(item => item.label),
-                    tableData.map(item =>
-                      reactiveTableHeader.map(header => item[header.item])
-                    ),
-                    exportFileName
-                  )
-                }
-              >
-                <GrDocumentCsv />
-              </Button>
-            </h5>
-          </Fragment>
-        ) : null}
+        <h5>
+          <Badge variant="info">{`Last Update: ${timestamp}`}</Badge>
+        </h5>
+        <h5>
+          <Button
+            className="ml-1"
+            size="sm"
+            variant="warning"
+            style={{ display: 'flex', alignItems: 'center' }}
+            onClick={() =>
+              exportToFile(
+                reactiveTableHeader.map(item => item.label),
+                tableData.map(item =>
+                  reactiveTableHeader.map(header => item[header.item])
+                ),
+                exportFileName
+              )
+            }
+          >
+            <GrDocumentCsv />
+          </Button>
+        </h5>
       </Row>
       <Table
         striped={striped}
@@ -161,28 +159,24 @@ export default function SWRTable({ requests, options }) {
       >
         <thead>
           <tr key={'tableFirstHeader'}>
-            {requests?.length > 0 && tableFirstHeader
-              ? tableFirstHeader.map((item, index) => (
-                  <th key={index} style={getStyle(item, darkMode.value)}>
-                    <h5>
-                      <Badge variant="light">{item.label}</Badge>
-                    </h5>
-                  </th>
-                ))
-              : null}
+            {tableFirstHeader?.map((item, index) => (
+              <th key={index} style={getStyle(item, darkMode.value)}>
+                <h5>
+                  <Badge variant="light">{item.label}</Badge>
+                </h5>
+              </th>
+            ))}
           </tr>
           <tr>
-            {requests?.length > 0 &&
-              reactiveTableHeader.map((header, index) => (
-                // @ts-ignore
-                <th
-                  onClick={() => sortTableItem(header.item)}
-                  style={getStyle(header, darkMode.value)}
-                  key={index}
-                >
-                  {header.label}
-                </th>
-              ))}
+            {reactiveTableHeader?.map((header, index) => (
+              <th
+                onClick={() => sortTableItem(header.item)}
+                style={getStyle(header, darkMode.value)}
+                key={index}
+              >
+                {header.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
