@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import CustomContainer from '@/components/Layout/CustomContainer'
 import BirdMouth from '@/components/Parts/BirdMouth'
 import TrendBarChart from '@/components/Parts/TrendBarChart'
-import { trend, trendTools } from '@/config/trend'
+import { trend, trendBarCategory, trendTools } from '@/config/trend'
 import { useTab } from '@/lib/hooks/useTab'
 import { useRouter } from 'next/router'
 import Tab from 'react-bootstrap/Tab'
@@ -31,7 +31,7 @@ export default function Trend() {
             mountOnEnter={true}
           >
             <Tab eventKey="trendChart" title="Trend Chart">
-              <TrendBarChart />
+              <TrendBarChart input={trendBarCategory} />
             </Tab>
             <Tab eventKey="birdMouth" title="Bird Mouth">
               <BirdMouth

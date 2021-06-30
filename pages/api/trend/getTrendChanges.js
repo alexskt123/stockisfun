@@ -2,11 +2,8 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import {
-  getFormattedFromToDate,
-  parseBoolean
-} from '../../../lib/commonFunction'
-import { getYahooHistoryPrice } from '../../../lib/yahoo/getYahooHistoryPrice'
+import { getFormattedFromToDate, parseBoolean } from '@/lib/commonFunction'
+import { getYahooHistoryPrice } from '@/lib/yahoo/getYahooHistoryPrice'
 
 export default async (req, res) => {
   const { ticker, days, isBus } = req.query
