@@ -39,6 +39,11 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
               <Link href={'/admin'}>{'Profile'}</Link>
             </Badge>
           </Col>
+          <Col>
+            <Badge className="ml-1" variant="light">
+              <Link href={'/profile'}>{'Bought Profile'}</Link>
+            </Badge>
+          </Col>
         </Row>
       </div>
       <Dropdown.Divider />

@@ -4,9 +4,6 @@
 
 import { roundTo, getStockEarningCapacity } from '@/lib/commonFunction'
 import { getYahooAssetProfile } from '@/lib/yahoo/getYahooAssetProfile'
-import { getYahooBalanceSheet } from '@/lib/yahoo/getYahooBalanceSheet'
-import { getYahooCashflowStatement } from '@/lib/yahoo/getYahooCashflowStatement'
-import { getYahooEarnings } from '@/lib/yahoo/getYahooEarnings'
 import { getYahooFinancialData } from '@/lib/yahoo/getYahooFinancialData'
 import { getYahooIncomeStatement } from '@/lib/yahoo/getYahooIncomeStatement'
 import { getYahooQuote } from '@/lib/yahoo/getYahooQuote'
@@ -15,19 +12,12 @@ import percent from 'percent'
 export default async (req, res) => {
   const { ticker } = req.query
 
-  const earnings = await getYahooEarnings(ticker)
   const income = await getYahooIncomeStatement(ticker)
-  const cashflow = await getYahooCashflowStatement(ticker)
-  const balanceSheet = await getYahooBalanceSheet(ticker)
   const financialData = await getYahooFinancialData(ticker)
   const quote = await getYahooQuote(ticker)
   const assetProfile = await getYahooAssetProfile(ticker)
 
-  const earningCapacity = getStockEarningCapacity(
-    earnings,
-    cashflow,
-    balanceSheet
-  )
+  const earningCapacity = await getStockEarningCapacity(ticker)
 
   const grossMargin = percent.calc(
     income.find(x => x)?.grossProfit?.raw,

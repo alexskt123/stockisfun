@@ -121,33 +121,35 @@ export default function SWRTable({ requests, options }) {
 
   return (
     <Fragment>
-      <Row
-        className="justify-content-center mt-2"
-        style={{ display: 'flex', alignItems: 'center' }}
-      >
-        <h5>
-          <Badge variant="info">{`Last Update: ${timestamp}`}</Badge>
-        </h5>
-        <h5>
-          <Button
-            className="ml-1"
-            size="sm"
-            variant="warning"
-            style={{ display: 'flex', alignItems: 'center' }}
-            onClick={() =>
-              exportToFile(
-                reactiveTableHeader.map(item => item.label),
-                tableData.map(item =>
-                  reactiveTableHeader.map(header => item[header.item])
-                ),
-                exportFileName
-              )
-            }
-          >
-            <GrDocumentCsv />
-          </Button>
-        </h5>
-      </Row>
+      {exportFileName ? (
+        <Row
+          className="justify-content-center mt-2"
+          style={{ display: 'flex', alignItems: 'center' }}
+        >
+          <h5>
+            <Badge variant="info">{`Last Update: ${timestamp}`}</Badge>
+          </h5>
+          <h5>
+            <Button
+              className="ml-1"
+              size="sm"
+              variant="warning"
+              style={{ display: 'flex', alignItems: 'center' }}
+              onClick={() =>
+                exportToFile(
+                  reactiveTableHeader.map(item => item.label),
+                  tableData.map(item =>
+                    reactiveTableHeader.map(header => item[header.item])
+                  ),
+                  exportFileName
+                )
+              }
+            >
+              <GrDocumentCsv />
+            </Button>
+          </h5>
+        </Row>
+      ) : null}
       <Table
         striped={striped}
         bordered={bordered}
