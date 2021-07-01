@@ -1,11 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 
 import GooeySpinner from '@/components/Loading/GooeySpinner'
-import {
-  trendChangeDateRangeSelectAttr,
-  trend,
-  barchartOptions
-} from '@/config/trend'
+import { trendChangeDateRangeSelectAttr, barchartOptions } from '@/config/trend'
 import { randRGBColor } from '@/lib/commonFunction'
 import percent from 'percent'
 import Badge from 'react-bootstrap/Badge'
@@ -16,7 +12,7 @@ import QuoteCard from './QuoteCard'
 
 const axios = require('axios').default
 
-const TrendBarChart = () => {
+const TrendBarChart = ({ input }) => {
   const [barChartData, setBarChartData] = useState(null)
   const [days, setDays] = useState(8)
 
@@ -29,7 +25,7 @@ const TrendBarChart = () => {
   useEffect(() => {
     ;(async () => {
       const responses = await Promise.all(
-        [...trend].map(async item => {
+        [...input].map(async item => {
           return axios
             .get(
               `/api/trend/getTrendChanges?ticker=${item.ticker}&days=${days}&isBus=false`
@@ -46,7 +42,7 @@ const TrendBarChart = () => {
         return percent.calc(end - start, start, 2)
       })
 
-      const trendChanges = [...trend].map((item, idx) => {
+      const trendChanges = [...input].map((item, idx) => {
         return {
           ...item,
           change: changes[idx]
@@ -85,7 +81,7 @@ const TrendBarChart = () => {
     })()
 
     return () => setBarChartData(null)
-  }, [days])
+  }, [days, input])
 
   return (
     <Fragment>
