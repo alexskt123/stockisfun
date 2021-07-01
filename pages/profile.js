@@ -1,10 +1,15 @@
 import { Fragment, useEffect, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
+import GooeySpinner from '@/components/Loading/GooeySpinner'
 import SWRTable from '@/components/Page/SWRTable'
 import ProfilePieChart from '@/components/Parts/ProfilePieChart'
 import TrendBarChart from '@/components/Parts/TrendBarChart'
-import { pieOptions, keyInfoTableHeaderList } from '@/config/profile'
+import {
+  pieOptions,
+  keyInfoTableHeaderList,
+  keyForecastInfoHeader
+} from '@/config/profile'
 import { staticSWROptions, fetcher } from '@/config/settings'
 import { useUser } from '@/lib/firebaseResult'
 import Badge from 'react-bootstrap/Badge'
@@ -116,17 +121,42 @@ const Profile = () => {
               {'Stock Revenue/Net Income Highlight'}
             </Badge>
           </h5>
-          <SWRTable
-            requests={stockList.map(x => ({
-              request: `/api/getIndexQuote?ticker=${x}`,
-              key: x
-            }))}
-            options={{
-              tableHeader: keyInfoTableHeaderList,
-              tableSize: 'sm',
-              SWROptions: staticSWROptions
-            }}
-          />
+          {stockList?.length > 0 ? (
+            <SWRTable
+              requests={stockList.map(x => ({
+                request: `/api/getIndexQuote?ticker=${x}`,
+                key: x
+              }))}
+              options={{
+                tableHeader: keyInfoTableHeaderList,
+                tableSize: 'sm',
+                SWROptions: staticSWROptions
+              }}
+            />
+          ) : (
+            <GooeySpinner />
+          )}
+          <h5>
+            <Badge variant="dark" className={'mt-4'}>
+              {'Stock Forecast'}
+            </Badge>
+          </h5>
+          {stockList?.length > 0 ? (
+            <SWRTable
+              requests={stockList.map(x => ({
+                request: `/api/forecast/getKeyInfo?ticker=${x}`,
+                key: x
+              }))}
+              options={{
+                tableHeader: keyForecastInfoHeader,
+                tableSize: 'sm',
+                SWROptions: staticSWROptions
+              }}
+            />
+          ) : (
+            <GooeySpinner />
+          )}
+
           <h5>
             <Badge variant="dark" className={'mt-4'}>
               {'Performance'}
@@ -135,11 +165,13 @@ const Profile = () => {
           {stockPie ? (
             <TrendBarChart
               input={stockPie.map(item => ({
-                label: item.name,
+                label: item.ticker,
                 ticker: item.ticker
               }))}
             />
-          ) : null}
+          ) : (
+            <GooeySpinner />
+          )}
         </Fragment>
       </CustomContainer>
     </Fragment>
