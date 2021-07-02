@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
 import HighlightInfo from '@/components/Page/Highlight/HighlightInfo'
-import HighlightSearch from '@/components/Page/Highlight/HighlightSearch'
 import HighlightSWRTable from '@/components/Page/Highlight/HighlightSWRTable'
 import TickerScrollMenuList from '@/components/Page/TickerScrollMenuList'
 import UserPriceDayChange from '@/components/Parts/UserPriceDayChange'
@@ -37,9 +36,6 @@ export default function Highlight() {
             <UserPriceDayChange userID={user.uid} userData={userData} />
           ) : null}
           <TickerScrollMenuList tickerList={highlightMenuTickerList} />
-
-          {/* //todo: group together */}
-          <HighlightSearch />
 
           <HighlightInfo query={router.query} />
 
