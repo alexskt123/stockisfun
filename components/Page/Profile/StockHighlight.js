@@ -26,9 +26,7 @@ const StockHighlight = ({ boughtListData }) => {
   return (
     <Fragment>
       <h5>
-        <Badge variant="dark" className={'mt-4'}>
-          {'Stock Revenue/Net Income Highlight'}
-        </Badge>
+        <Badge variant="dark">{'Stock Revenue/Net Income Highlight'}</Badge>
       </h5>
       {stockList?.length > 0 ? (
         <SWRTable

@@ -2,7 +2,6 @@ import { Fragment, useEffect, useState } from 'react'
 
 import ProfilePieChart from '@/components/Parts/ProfilePieChart'
 import { pieOptions } from '@/config/profile'
-import Badge from 'react-bootstrap/Badge'
 import CardDeck from 'react-bootstrap/CardDeck'
 
 const AccountSummary = ({ boughtListData }) => {
@@ -65,9 +64,6 @@ const AccountSummary = ({ boughtListData }) => {
 
   return (
     <Fragment>
-      <h5>
-        <Badge variant="dark">{'Account Summary'}</Badge>
-      </h5>
       <CardDeck>
         <ProfilePieChart
           header={'Individual Stock'}
