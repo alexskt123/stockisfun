@@ -24,6 +24,7 @@ export default function BoughtList({ boughtList }) {
       .map(item => {
         return {
           ...item,
+          ticker: item.ticker.toUpperCase(),
           total: parseFloat(item.total)
         }
       })
