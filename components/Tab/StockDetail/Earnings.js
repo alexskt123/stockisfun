@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
@@ -31,7 +31,7 @@ export default function Earnings({ inputTicker }) {
   return (
     <Fragment>
       {!data ? (
-        <LoadingSpinner />
+        <LoadingSkeletonTable />
       ) : data?.length > 0 ? (
         <Fragment>
           <StockInfoTable

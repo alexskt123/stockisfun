@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import TickerInput from '@/components/Page/TickerInput'
 import BirdMouth from '@/components/Parts/BirdMouth'
@@ -109,7 +109,7 @@ export default function CompareBirdMouth() {
             exportFileName={'birdmouth.csv'}
           />
           {tableLoading ? (
-            <LoadingSpinner />
+            <LoadingSkeletonTable />
           ) : (
             <StockInfoTable
               tableSize="sm"

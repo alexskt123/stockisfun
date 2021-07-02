@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { peersHeader, initSettings } from '@/config/peers'
@@ -37,7 +37,7 @@ export default function Peers({ inputTicker }) {
   return (
     <Fragment>
       {!data ? (
-        <LoadingSpinner />
+        <LoadingSkeletonTable />
       ) : data.length > 0 ? (
         <StockInfoTable
           tableSize="sm"

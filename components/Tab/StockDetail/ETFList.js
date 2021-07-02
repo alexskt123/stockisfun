@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { staticSWROptions, fetcher } from '@/config/settings'
@@ -51,7 +51,7 @@ function ETFList({ inputTicker }) {
   }
 
   return !data ? (
-    <LoadingSpinner />
+    <LoadingSkeletonTable />
   ) : data && data.etfCount !== 'N/A' ? (
     <Fragment>
       <Row className="ml-1 mt-3">
