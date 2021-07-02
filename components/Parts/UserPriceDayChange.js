@@ -23,7 +23,7 @@ const UserPriceDayChange = ({ userID, userData }) => {
   const setBoughtListDayChange = async boughtList => {
     const boughtListInfo =
       boughtList?.length > 0
-        ? await axios.get(`/api/getUserBoughtList?uid=${userID}`)
+        ? await axios.get(`/api/user/getUserBoughtList?uid=${userID}`)
         : { data: [] }
     const { data: boughtListData } = boughtListInfo
     const dayChgAndTotal = boughtListData.boughtList.reduce(

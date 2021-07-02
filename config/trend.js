@@ -47,6 +47,21 @@ export const trendTools = [
   }
 ]
 
+export const trendBarCategory = [
+  { label: 'Energy', ticker: 'XLE' },
+  { label: 'Health Care', ticker: 'XLV' },
+  { label: 'Consumer Defensive', ticker: 'XLP' },
+  { label: 'Financial', ticker: 'XLF' },
+  { label: 'Communication Services', ticker: 'XLC' },
+  { label: 'Real Estate', ticker: 'XLRE' },
+  { label: 'Utilities', ticker: 'XLU' },
+  { label: 'Industrials', ticker: 'XLI' },
+  { label: 'Basic Materials', ticker: 'XLB' },
+  { label: 'Consumer Cyclical', ticker: 'XLY' },
+  { label: 'Technology', ticker: 'XLK' },
+  { label: 'Semiconductor', ticker: '^SOX' }
+]
+
 export const barchartOptions = {
   indexAxis: 'y',
   elements: {
@@ -83,12 +98,20 @@ export const trendChangeDateRangeSelectAttr = {
   },
   dateRangeOptions: [
     {
+      label: '10 years',
+      value: '3650'
+    },
+    {
       label: '3 years',
       value: '1095'
     },
     {
       label: '1 year',
       value: '365'
+    },
+    {
+      label: 'half year',
+      value: '178'
     },
     {
       label: '3 months',
