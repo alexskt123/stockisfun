@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import {
   getPriceInfo,
@@ -65,8 +65,9 @@ function PriceChange({ inputTickers, inputYear }) {
 
   return (
     <Fragment>
-      {loading ? <LoadingSpinner /> : null}
-      {inputTickers.length > 0 && !loading ? (
+      {loading ? (
+        <LoadingSkeletonTable />
+      ) : inputTickers.length > 0 && !loading ? (
         <Fragment>
           <StockInfoTable
             tableSize="sm"

@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { staticSWROptions, fetcher } from '@/config/settings'
@@ -46,7 +46,7 @@ export default function Basics({ inputTicker }) {
   return (
     <Fragment>
       {!data ? (
-        <LoadingSpinner />
+        <LoadingSkeletonTable />
       ) : data.Name ? (
         <Fragment>
           <StockInfoTable

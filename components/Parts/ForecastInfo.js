@@ -6,7 +6,7 @@ import { staticSWROptions } from '@/config/settings'
 
 import ValidTickerAlert from './ValidTickerAlert'
 
-function ForecastInfo({ inputTickers }) {
+function ForecastInfo({ inputTickers, exportFileName }) {
   return (
     <Fragment>
       {inputTickers?.length > 0 ? (
@@ -19,7 +19,7 @@ function ForecastInfo({ inputTickers }) {
             bordered: true,
             tableFirstHeader: forecastTableFirstHeader,
             tableHeader: tableHeaderList,
-            exportFileName: 'Stock_forecast.csv',
+            exportFileName,
             tableSize: 'sm',
             SWROptions: staticSWROptions
           }}

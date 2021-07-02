@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { etfDetailsBasicSettings } from '@/config/etf'
@@ -48,7 +48,7 @@ export default function Basics({ inputETFTicker }) {
   return (
     <Fragment>
       {loading ? (
-        <LoadingSpinner />
+        <LoadingSkeletonTable />
       ) : settings.tableData
           .filter(x => x.find(x => x) === 'Price')
           .find(x => x) ? (
