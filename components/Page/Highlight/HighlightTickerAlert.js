@@ -9,11 +9,11 @@ import Badge from 'react-bootstrap/Badge'
 import { IconContext } from 'react-icons'
 import { MdCancel } from 'react-icons/md'
 
-const HighlightTickerAlert = () => {
+const HighlightTickerAlert = ({ valid }) => {
   const router = useRouter()
 
   //todo: change all query to ticker
-  const { query: ticker, type } = router.query
+  const { ticker, type } = router.query
 
   const cancelCurrentSearch = () => {
     router.push('/highlight')
@@ -58,11 +58,13 @@ const HighlightTickerAlert = () => {
             className="ml-1 cursor"
           />
         </IconContext.Provider>
-        <HappyShare />
 
-        {searchBadges.map(badge => (
-          <SearchBadges key={badge.type} pushRoute={pushRoute} {...badge} />
-        ))}
+        {valid && <HappyShare />}
+
+        {valid &&
+          searchBadges.map(badge => (
+            <SearchBadges key={badge.type} pushRoute={pushRoute} {...badge} />
+          ))}
       </Alert>
     </Fragment>
   )

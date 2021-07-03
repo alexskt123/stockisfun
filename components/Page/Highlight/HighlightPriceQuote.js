@@ -3,7 +3,9 @@ import { Fragment } from 'react'
 import { highlightHeaders } from '@/config/highlight'
 import CardDeck from 'react-bootstrap/CardDeck'
 
-const HighlightPriceQuote = ({ query }) => {
+const HighlightPriceQuote = ({ ticker, data }) => {
+  if (!data?.valid) return null
+
   return (
     <Fragment>
       <CardDeck>
@@ -11,7 +13,7 @@ const HighlightPriceQuote = ({ query }) => {
           <Fragment key={idx}>
             <header.component
               header={header.name}
-              inputTicker={query}
+              inputTicker={ticker}
               isShow={true}
               {...header.props}
             ></header.component>
