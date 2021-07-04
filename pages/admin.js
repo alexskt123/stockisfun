@@ -3,6 +3,7 @@ import { Fragment, useState, useEffect } from 'react'
 import CustomContainer from '@/components/Layout/CustomContainer'
 import LoginAlert from '@/components/Parts/LoginAlert'
 import BoughtList from '@/components/Tab/Admin/BoughtList'
+import EmailConfig from '@/components/Tab/Admin/EmailConfig'
 import { updUserAllList, useUser, useUserData } from '@/lib/firebaseResult'
 import { useTab } from '@/lib/hooks/useTab'
 import { fireToast } from '@/lib/toast'
@@ -141,6 +142,9 @@ export default function Admin() {
                 </Tab>
                 <Tab eventKey="BoughtList" title="Bought List">
                   <BoughtList boughtList={settings.boughtList} />
+                </Tab>
+                <Tab eventKey="EmailConfig" title="Email Configuration">
+                  <EmailConfig />
                 </Tab>
               </Tabs>
             </Fragment>
