@@ -1,28 +1,26 @@
-import { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
-import 'styles/ScrollMenu.module.css'
-import HighlightDetail from '@/components/Page/Highlight/HighlightDetail'
-import HighlightPriceQuote from '@/components/Page/Highlight/HighlightPriceQuote'
-import HighlightSearch from '@/components/Page/Highlight/HighlightSearch'
+import HighlightInfo from '@/components/Page/Highlight/HighlightInfo'
 import HighlightSWRTable from '@/components/Page/Highlight/HighlightSWRTable'
-import HighlightTickerAlert from '@/components/Page/Highlight/HighlightTickerAlert'
 import TickerScrollMenuList from '@/components/Page/TickerScrollMenuList'
 import UserPriceDayChange from '@/components/Parts/UserPriceDayChange'
 import WatchListSuggestions from '@/components/Parts/WatchListSuggestions'
-import {
-  highlightHeaders,
-  highlightDetails,
-  highlightMenuTickerList
-} from '@/config/highlight'
+import { highlightMenuTickerList } from '@/config/highlight'
 import { useUser, useUserData } from '@/lib/firebaseResult'
+import { useRouter } from 'next/router'
+
+import 'styles/ScrollMenu.module.css'
 
 export default function Highlight() {
-  const [watchList, setwatchList] = useState([])
-  const [watchListName, setWatchListName] = useState(null)
+  const router = useRouter()
 
   const user = useUser()
   const userData = useUserData(user)
+
+  //todo: wrap watchlist
+  const [watchList, setwatchList] = useState([])
+  const [watchListName, setWatchListName] = useState(null)
 
   const onClickWatchListButton = ({ label, list }) => {
     const isShow = watchListName !== label ? true : !(watchList.length > 0)
@@ -38,10 +36,9 @@ export default function Highlight() {
             <UserPriceDayChange userID={user.uid} userData={userData} />
           ) : null}
           <TickerScrollMenuList tickerList={highlightMenuTickerList} />
-          <HighlightSearch />
-          <HighlightTickerAlert />
-          <HighlightPriceQuote highlightHeaders={highlightHeaders} />
-          <HighlightDetail highlightDetails={highlightDetails} />
+
+          <HighlightInfo query={router.query} />
+
           <WatchListSuggestions
             user={user}
             userData={userData}
