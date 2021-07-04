@@ -1,10 +1,10 @@
 import { sendEmail } from '@/lib/autocodeEmail'
-import { sendUserBoughtListMA } from '@/lib/email/emailOptions'
+import { sendUserPriceMA } from '@/lib/email/emailOptions'
 
 export default async (req, res) => {
   const { type } = req.query
 
-  const options = type === 'boughtList' ? await sendUserBoughtListMA() : null
+  const options = type === 'priceMA' ? await sendUserPriceMA() : null
 
   const responses = await Promise.all(
     options.map(async option => await sendEmail(option))

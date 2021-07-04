@@ -26,6 +26,7 @@
     "chart.js": "^3.3.2",
     "date-holidays": "^3.3.0",
     "debounce": "^1.2.1",
+    "email-validator": "^2.0.4",
     "file-saver": "^2.0.5",
     "firebase": "^8.6.7",
     "firebaseui": "^4.8.0",
