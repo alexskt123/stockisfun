@@ -1,12 +1,14 @@
-import { Fragment, useState, useRef } from 'react'
+import { Fragment, useState, useRef, useEffect } from 'react'
 
 import { buttonSettings } from '@/config/form'
+import { fetcher } from '@/config/settings'
 import { AsyncTypeahead } from 'react-bootstrap-typeahead'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
+import useSWR from 'swr'
 
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 
@@ -15,15 +17,17 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
   const [options, setOptions] = useState([])
   const ref = useRef()
 
-  const handleSearch = query => {
-    setIsLoading(true)
+  const [query, setQuery] = useState(null)
 
-    fetch(`/api/yahoo/getTickerSuggestions?query=${query}&filter=${filter}`)
-      .then(resp => resp.json())
-      .then(items => {
-        setOptions(items)
-        setIsLoading(false)
-      })
+  const { data } = useSWR(query, fetcher)
+
+  useEffect(() => {
+    setOptions(data)
+    setIsLoading(!data)
+  }, [data])
+
+  const handleSearch = ticker => {
+    setQuery(`/api/yahoo/getTickerSuggestions?query=${ticker}&filter=${filter}`)
   }
 
   // Bypass client-side filtering by returning `true`. Results are already
@@ -35,7 +39,7 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
       <Form noValidate>
         <Form.Group controlId="exampleForm.ControlInput1">
           <AsyncTypeahead
-            className="shadow p-1 rounded"
+            className="shadow rounded"
             type="formTicker"
             name="formTicker"
             allowNew={true}
@@ -43,7 +47,6 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
             placeholder={placeholderText}
             onChange={e => {
               ref.current.blur()
-              ref.current.clear()
               handleChange(e)
             }}
             ref={ref}
@@ -71,7 +74,7 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
             )}
           />
         </Form.Group>
-        {clearItems ? (
+        {clearItems && (
           <Row className="mt-2">
             <Button
               {...buttonSettings.ClearAll.attr}
@@ -82,7 +85,7 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
               {buttonSettings.ClearAll.label}
             </Button>
           </Row>
-        ) : null}
+        )}
       </Form>
     </Fragment>
   )

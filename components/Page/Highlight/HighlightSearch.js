@@ -11,24 +11,22 @@ const HighlightSearch = () => {
 
   const handleChange = e => {
     const input = e.find(x => x)
-    //input ? setSelectedTicker({ ticker: input.symbol, show: true }) : null
-    //input ? router.push(`/highlight?query=${input.symbol}`) : null
-    const type = router.query.type
-    input
-      ? router.push(
-          {
-            query: {
-              ...router.query,
-              query: input.symbol,
-              tab: 'Price',
-              type: type ? type : 'quote',
-              show: true
-            }
-          },
-          undefined,
-          { shallow: true }
-        )
-      : null
+
+    if (input) {
+      const params = {
+        ...router.query,
+        ticker: input?.symbol || null,
+        type: 'quote'
+      }
+
+      router.push(
+        {
+          query: params
+        },
+        undefined,
+        { shallow: true }
+      )
+    }
   }
 
   return (

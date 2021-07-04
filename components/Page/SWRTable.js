@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 
 import LoadingSkeleton from '@/components/Loading/LoadingSkeleton'
+import { fetcher } from '@/config/settings'
 import {
   millify,
   roundTo,
@@ -212,8 +213,6 @@ function SWRTableRow({
   options = {},
   colSpan
 }) {
-  const fetcher = input => fetch(input).then(res => res.json())
-
   const { data } = useSWR(request, fetcher, options)
 
   useEffect(() => {
