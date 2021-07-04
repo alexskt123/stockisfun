@@ -62,7 +62,7 @@ export default function BigCalendar() {
             customBgColor={{ normal: 'white', darkmode: '#adadad' }}
           >
             <LoadingOverlay
-              active={eventList?.length <= 0}
+              active={user && eventList?.length <= 0}
               spinner
               text="Loading your content..."
             >
