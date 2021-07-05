@@ -48,9 +48,9 @@ export default function SWRTable({ requests, options }) {
     tableSize,
     striped,
     bordered,
-    viewTickerDetail,
     SWROptions,
-    exportFileName
+    exportFileName,
+    showSWRDetail
   } = options
 
   const [tableData, setTableData] = useState([])
@@ -191,7 +191,7 @@ export default function SWRTable({ requests, options }) {
                 request={x.request}
                 tableHeader={reactiveTableHeader}
                 handleTableData={handleTableData}
-                viewTickerDetail={viewTickerDetail}
+                showSWRDetail={showSWRDetail}
                 options={SWROptions}
                 colSpan={tableHeader.length}
               ></SWRTableRow>
@@ -209,7 +209,7 @@ function SWRTableRow({
   request,
   tableHeader,
   handleTableData,
-  viewTickerDetail,
+  showSWRDetail,
   options = {},
   colSpan
 }) {
@@ -235,7 +235,7 @@ function SWRTableRow({
         <td
           style={getStyle(header, darkMode)}
           key={header.item}
-          onClick={() => (viewTickerDetail ? viewTickerDetail(data) : null)}
+          onClick={() => (showSWRDetail ? showSWRDetail(data) : null)}
         >
           {getCell(data, header, darkMode)}
         </td>
