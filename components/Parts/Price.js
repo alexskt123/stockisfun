@@ -167,7 +167,10 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
             )
           })}
         </Form.Control>
-        <TradingViewModal ticker={inputTicker} />
+        <TradingViewModal
+          buttonClassName={'cursor ml-2'}
+          ticker={inputTicker}
+        />
       </div>
       <Line
         data={settings.chartData}

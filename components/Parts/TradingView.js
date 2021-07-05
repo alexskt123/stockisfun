@@ -11,7 +11,10 @@ const TradingView = ({ option }) => {
     theme: 'light',
     interval: 'D',
     studies: ['Volume@tv-basicstudies'],
-    allow_symbol_change: true
+    allow_symbol_change: true,
+    style: '1',
+    hide_side_toolbar: true,
+    range: null //library default is '1M', which will make the interval attribute above no use
   }
 
   const newOption = {

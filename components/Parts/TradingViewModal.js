@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal'
 
 import TradingView from './TradingView'
 
-export default function TradingViewModal({ ticker }) {
+export default function TradingViewModal({ buttonClassName, ticker }) {
   const bgColor = useBgColor('white', '#e3e3e3')
   const theme = useTVTheme()
 
@@ -21,7 +21,11 @@ export default function TradingViewModal({ ticker }) {
 
   return (
     <Fragment>
-      <Badge variant="light" className="cursor" onClick={() => handleClick()}>
+      <Badge
+        variant="info"
+        className={buttonClassName}
+        onClick={() => handleClick()}
+      >
         {'Trading View'}
       </Badge>
       <Modal centered size="xl" show={show} onHide={handleClose}>
