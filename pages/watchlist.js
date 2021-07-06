@@ -96,12 +96,12 @@ export default function WatchList() {
             />
             <TickerBullet tickers={tickers} removeItem={removeItem} />
           </SearchAccordion>
-          {clicked ? <LoadingSpinner /> : null}
+          {clicked && <LoadingSpinner />}
           <Row
             className="ml-1 mt-3"
             style={{ display: 'flex', alignItems: 'center' }}
           >
-            {user ? (
+            {user && (
               <Button
                 className="ml-2"
                 onClick={() => {
@@ -112,13 +112,13 @@ export default function WatchList() {
               >
                 {'Update Watch List'}
               </Button>
-            ) : null}
-            {tickers.length > 0 ? (
+            )}
+            {tickers.length > 0 && (
               <HappyShare inputStyle={{ color: 'blue', size: '25px' }} />
-            ) : null}
+            )}
           </Row>
 
-          {tickers.length > 0 ? (
+          {tickers?.length > 0 && (
             <SWRTable
               requests={tickers.map(x => ({
                 request: `/api/yahoo/getYahooQuote?ticker=${x}`,
@@ -133,7 +133,7 @@ export default function WatchList() {
                 SWROptions: { refreshInterval: 3000 }
               }}
             />
-          ) : null}
+          )}
         </Fragment>
       </CustomContainer>
       <ModalQuestion {...modalQuestionSettings} />

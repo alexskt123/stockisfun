@@ -78,7 +78,7 @@ export default function EmailSubscriptionCard({
           backgroundColor: '#f5f7f2'
         }}
       >
-        {inputData?.name ? (
+        {inputData?.name && (
           <Card.Header style={{ padding: '0.2rem' }}>
             <div style={{ display: 'flex', alignItems: 'baseline' }}>
               <h5>
@@ -88,7 +88,7 @@ export default function EmailSubscriptionCard({
               </h5>
             </div>
           </Card.Header>
-        ) : null}
+        )}
         <Card.Body style={{ padding: '0.2rem' }}>
           <Form.Group>
             {inputSettings.map((curInput, idx) => {

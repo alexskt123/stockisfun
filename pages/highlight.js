@@ -32,9 +32,7 @@ export default function Highlight() {
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          {user ? (
-            <UserPriceDayChange userID={user.uid} userData={userData} />
-          ) : null}
+          {user && <UserPriceDayChange userID={user.uid} userData={userData} />}
           <TickerScrollMenuList tickerList={highlightMenuTickerList} />
 
           <HighlightInfo query={router.query} />

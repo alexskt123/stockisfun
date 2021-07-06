@@ -122,7 +122,7 @@ export default function SWRTable({ requests, options }) {
 
   return (
     <Fragment>
-      {exportFileName ? (
+      {exportFileName && (
         <Row
           className="justify-content-center mt-2"
           style={{ display: 'flex', alignItems: 'center' }}
@@ -150,7 +150,7 @@ export default function SWRTable({ requests, options }) {
             </Button>
           </h5>
         </Row>
-      ) : null}
+      )}
       <Table
         striped={striped}
         bordered={bordered}

@@ -70,7 +70,7 @@ export default function CompareFinancials() {
             handleTickers={handleTickers}
           />
           <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
-          {clicked ? <LoadingSpinner /> : null}
+          {clicked && <LoadingSpinner />}
           <FinancialsInfo inputTickers={settings.tickers} />
         </Fragment>
       </CustomContainer>
