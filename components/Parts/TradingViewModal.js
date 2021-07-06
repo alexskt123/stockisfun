@@ -19,7 +19,7 @@ export default function TradingViewModal({ buttonClassName, ticker }) {
   )
 
   const bgColor = useBgColor('white', '#e3e3e3')
-  const theme = useTVTheme()
+  const theme = useTVTheme('light', 'dark')
   const symbol = useTVTicker(ticker)
 
   const [show, setShow] = useState(false)
