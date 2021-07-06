@@ -3,7 +3,6 @@ import { Fragment, useState } from 'react'
 import Wiggle from '@/components/Parts/Wiggle'
 import { fetcher } from '@/config/settings'
 import { useBgColor } from '@/lib/hooks/useBgColor'
-import { useTVTheme } from '@/lib/hooks/useTVTheme'
 import { useTVTicker } from '@/lib/hooks/useTVTicker'
 import { fireToast } from '@/lib/toast'
 import Badge from 'react-bootstrap/Badge'
@@ -19,7 +18,7 @@ export default function TradingViewModal({ buttonClassName, ticker }) {
   )
 
   const bgColor = useBgColor('white', '#e3e3e3')
-  const theme = useTVTheme('light', 'dark')
+  const theme = useBgColor('light', 'dark')
   const symbol = useTVTicker(ticker)
 
   const [show, setShow] = useState(false)
