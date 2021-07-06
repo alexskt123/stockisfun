@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 
 import ProfilePieChart from '@/components/Parts/ProfilePieChart'
 import { pieOptions } from '@/config/profile'
+import { decendingArrSort } from '@/lib/commonFunction'
 import CardDeck from 'react-bootstrap/CardDeck'
 
 const AccountSummary = ({ boughtListData }) => {
@@ -51,9 +52,13 @@ const AccountSummary = ({ boughtListData }) => {
       { sum: total / (cash + total), label: 'STOCK' }
     ]
 
-    setStockPie(boughtList)
-    setCatPie(boughtListByCategory)
-    setCashPie(boughtListByStockCash)
+    setStockPie(boughtList.sort((a, b) => decendingArrSort(a, b, 'pcnt')))
+    setCatPie(
+      boughtListByCategory.sort((a, b) => decendingArrSort(a, b, 'pcnt'))
+    )
+    setCashPie(
+      boughtListByStockCash.sort((a, b) => decendingArrSort(a, b, 'sum'))
+    )
 
     return () => {
       setStockPie(null)
