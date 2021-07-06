@@ -14,6 +14,7 @@ const TradingView = ({ option }) => {
     allow_symbol_change: true,
     style: '1',
     hide_side_toolbar: true,
+    timezone: 'Asia/Hong_Kong',
     range: null //library default is '1M', which will make the interval attribute above no use
   }
 

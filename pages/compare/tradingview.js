@@ -59,7 +59,6 @@ export default function CompareTradingView() {
               return (
                 <Fragment key={idx}>
                   <QuoteCard
-                    header={ticker}
                     isShow={true}
                     minWidth={'20rem'}
                     noClose={true}
