@@ -22,9 +22,10 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
   const { data } = useSWR(query, fetcher)
 
   useEffect(() => {
+    const loading = query ? !data : false
     setOptions(data)
-    setIsLoading(!data)
-  }, [data])
+    setIsLoading(loading)
+  }, [data, query])
 
   const handleSearch = ticker => {
     setQuery(`/api/yahoo/getTickerSuggestions?query=${ticker}&filter=${filter}`)
@@ -47,6 +48,7 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
             placeholder={placeholderText}
             onChange={e => {
               ref.current.blur()
+              ref.current.clear()
               handleChange(e)
             }}
             ref={ref}

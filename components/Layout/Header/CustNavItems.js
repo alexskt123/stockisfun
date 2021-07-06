@@ -9,20 +9,18 @@ const CustNavItems = ({ NavItems }) => {
 
   return (
     <Fragment>
-      {NavItems
-        ? NavItems.map((item, idx) => {
-            const href = `${item.href}`
-            const active = router.pathname === href
+      {NavItems?.map((item, idx) => {
+        const href = `${item.href}`
+        const active = router.pathname === href
 
-            return (
-              <Link key={`${idx}`} href={href} passHref>
-                <Nav.Link active={active} disabled={active}>
-                  {`${item.label}`}
-                </Nav.Link>
-              </Link>
-            )
-          })
-        : null}
+        return (
+          <Link key={`${idx}`} href={href} passHref>
+            <Nav.Link active={active} disabled={active}>
+              {`${item.label}`}
+            </Nav.Link>
+          </Link>
+        )
+      })}
     </Fragment>
   )
 }

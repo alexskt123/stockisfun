@@ -37,7 +37,7 @@ function TickerInput({
             onChange={e => handleChange(e)}
           />
         </Form.Group>
-        {yearControl ? (
+        {yearControl && (
           <Fragment>
             <div
               style={{ display: 'inline-flex', alignItems: 'baseline' }}
@@ -70,7 +70,7 @@ function TickerInput({
               </Form.Control>
             </div>
           </Fragment>
-        ) : null}
+        )}
         <div>
           <Button {...buttonSettings.Go.attr} disabled={clicked}>
             {buttonSettings.Go.label}
@@ -84,7 +84,7 @@ function TickerInput({
           >
             {buttonSettings.ClearAll.label}
           </Button>
-          {tableHeader && tableData ? (
+          {tableHeader && tableData && (
             <Fragment>
               <Button
                 {...buttonSettings.Export.attr}
@@ -96,8 +96,8 @@ function TickerInput({
                 {buttonSettings.Export.label}
               </Button>
             </Fragment>
-          ) : null}
-          {handleTickers && user && userData?.watchList ? (
+          )}
+          {handleTickers && user && userData?.watchList && (
             <Button
               {...buttonSettings.FromWatchList.attr}
               disabled={clicked}
@@ -105,7 +105,7 @@ function TickerInput({
             >
               {buttonSettings.FromWatchList.label}
             </Button>
-          ) : null}
+          )}
         </div>
       </Form>
     </Fragment>

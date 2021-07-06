@@ -120,13 +120,13 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
 
   return (
     <Fragment>
-      {!dateprice.data ? <LoadingSpinner /> : null}
-      {displayQuoteFields ? (
+      {!dateprice.data && <LoadingSpinner />}
+      {displayQuoteFields && (
         <YahooQuoteInfo
           data={dateprice?.data?.quote}
           displayQuoteFields={displayQuoteFields}
         />
-      ) : null}
+      )}
       <div
         style={{ display: 'inline-flex', alignItems: 'baseline' }}
         className="ml-1"

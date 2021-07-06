@@ -93,81 +93,71 @@ function StockInfoTable({
       >
         <thead>
           <tr key={'tableFirstHeader'}>
-            {tableFirstHeader
-              ? tableFirstHeader.map((item, index) => (
-                  <th style={index === 0 ? sticky : {}} key={index}>
-                    <h5>
-                      <Badge variant="light">{item}</Badge>
-                    </h5>
-                  </th>
-                ))
-              : null}
+            {tableFirstHeader?.map((item, index) => (
+              <th style={index === 0 ? sticky : {}} key={index}>
+                <h5>
+                  <Badge variant="light">{item}</Badge>
+                </h5>
+              </th>
+            ))}
           </tr>
           <tr key={'tableHeader'}>
-            {tableHeader
-              ? tableHeader.map((item, index) => (
-                  <th
+            {tableHeader?.map((item, index) => (
+              <th
+                style={
+                  index === 0
+                    ? Object.assign(
+                        { ...sticky },
+                        darkMode.value ? { backgroundColor: '#343a40' } : {}
+                      )
+                    : {}
+                }
+                onClick={() => {
+                  if (sortItem) sortItem(index)
+                }}
+                key={index}
+              >
+                {item}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {tableData?.map((item, index) => (
+            <Fragment key={index}>
+              <tr>
+                {item.map((xx, yy) => (
+                  <td
+                    onClick={() => {
+                      if (cellClick) checkCanClick(router, item, cellClick)
+                    }}
                     style={
-                      index === 0
+                      yy === 0
                         ? Object.assign(
                             { ...sticky },
                             darkMode.value ? { backgroundColor: '#343a40' } : {}
                           )
                         : {}
                     }
-                    onClick={() => {
-                      if (sortItem) sortItem(index)
-                    }}
-                    key={index}
+                    key={`${index}${yy}`}
                   >
-                    {item}
-                  </th>
-                ))
-              : null}
-          </tr>
-        </thead>
-        <tbody>
-          {tableData
-            ? tableData.map((item, index) => (
-                <Fragment key={index}>
-                  <tr>
-                    {item.map((xx, yy) => (
-                      <td
-                        onClick={() => {
-                          if (cellClick) checkCanClick(router, item, cellClick)
-                        }}
-                        style={
-                          yy === 0
-                            ? Object.assign(
-                                { ...sticky },
-                                darkMode.value
-                                  ? { backgroundColor: '#343a40' }
-                                  : {}
-                              )
-                            : {}
-                        }
-                        key={`${index}${yy}`}
-                      >
-                        <span style={getCellColor(xx, darkMode.value)}>
-                          {getCellItem(xx)}
-                        </span>
-                      </td>
-                    ))}
-                  </tr>
-                  {tableDataSkipRow
-                    ? tableDataSkipRow
-                        .filter(x => item.find(xx => xx && xx.includes(x)))
-                        .map((_item, idx) => {
-                          return (
-                            <tr key={idx}>
-                              <td />
-                            </tr>
-                          )
-                        })
-                    : null}
-                </Fragment>
-              ))
-            : null}
+                    <span style={getCellColor(xx, darkMode.value)}>
+                      {getCellItem(xx)}
+                    </span>
+                  </td>
+                ))}
+              </tr>
+              {tableDataSkipRow
+                ?.filter(x => item.find(xx => xx && xx.includes(x)))
+                ?.map((_item, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td />
+                    </tr>
+                  )
+                })}
+            </Fragment>
+          ))}
         </tbody>
       </Table>
     </Fragment>
