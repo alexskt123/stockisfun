@@ -35,7 +35,10 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
           <b>
             <span>{Name}</span>
             <IconContext.Provider
-              value={{ color: 'green', className: 'global-class-name' }}
+              value={{
+                color: getVariant(Percentage, 'green', 'red'),
+                className: 'global-class-name'
+              }}
             >
               <ArrowCircle className="ml-1" />
             </IconContext.Provider>
