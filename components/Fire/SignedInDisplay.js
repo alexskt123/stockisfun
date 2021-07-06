@@ -7,6 +7,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Row from 'react-bootstrap/Row'
 import { CgViewList } from 'react-icons/cg'
 import { FaUserCircle, FaList } from 'react-icons/fa'
+import { GrUserAdmin } from 'react-icons/gr'
 import { HiOutlineMail } from 'react-icons/hi'
 import { RiFundsBoxLine, RiProfileLine } from 'react-icons/ri'
 
@@ -32,16 +33,17 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
       </div>
       <Dropdown.Divider />
       <div className="container">
-        <Row>
+        <Row style={{ width: 'inherit' }}>
           <Col>
-            <RiProfileLine />
+            <GrUserAdmin />
             <Badge className="ml-1" variant="light">
-              <Link href={'/admin'}>{'Profile'}</Link>
+              <Link href={'/admin'}>{'Admin'}</Link>
             </Badge>
           </Col>
           <Col>
+            <RiProfileLine />
             <Badge className="ml-1" variant="light">
-              <Link href={'/profile'}>{'Bought Profile'}</Link>
+              <Link href={'/profile'}>{'Profile'}</Link>
             </Badge>
           </Col>
         </Row>
