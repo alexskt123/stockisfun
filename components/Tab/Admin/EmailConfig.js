@@ -24,12 +24,19 @@ const config = [
   }
 ]
 
-const EmailConfig = () => {
+const EmailConfig = ({ user, userData }) => {
   return (
     <Fragment>
       <CardDeck>
         {config.map((item, idx) => {
-          return <EmailSubscriptionCard key={idx} item={item} />
+          return (
+            <EmailSubscriptionCard
+              user={user}
+              userData={userData}
+              key={idx}
+              item={item}
+            />
+          )
         })}
       </CardDeck>
     </Fragment>

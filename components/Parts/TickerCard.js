@@ -1,4 +1,8 @@
-import { convertToPercentage, convertToPriceChange } from '@/lib/commonFunction'
+import {
+  convertToPercentage,
+  convertToPrice,
+  convertToPriceChange
+} from '@/lib/commonFunction'
 import AnimatedNumber from 'animated-number-react'
 import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'
@@ -7,7 +11,17 @@ import Row from 'react-bootstrap/Row'
 import { IconContext } from 'react-icons'
 import { FaArrowAltCircleDown, FaArrowAltCircleUp } from 'react-icons/fa'
 
+export const getVariant = (value, up, down) => {
+  return value >= 0 ? up : down
+}
+
 export default function TickerCard({ Name, Price, Percentage, Change }) {
+  const ArrowCircle = getVariant(
+    Percentage,
+    FaArrowAltCircleUp,
+    FaArrowAltCircleDown
+  )
+
   return (
     <Card
       bg={'Light'}
@@ -20,26 +34,23 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <b>
             <span>{Name}</span>
-            {Percentage >= 0 ? (
-              <IconContext.Provider
-                value={{ color: 'green', className: 'global-class-name' }}
-              >
-                <FaArrowAltCircleUp className="ml-1" />
-              </IconContext.Provider>
-            ) : (
-              <IconContext.Provider
-                value={{ color: 'red', className: 'global-class-name' }}
-              >
-                <FaArrowAltCircleDown className="ml-1" />
-              </IconContext.Provider>
-            )}
+            <IconContext.Provider
+              value={{ color: 'green', className: 'global-class-name' }}
+            >
+              <ArrowCircle className="ml-1" />
+            </IconContext.Provider>
           </b>
         </div>
       </Card.Header>
       <Card.Body style={{ padding: '0.2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <b>
-            <span>{Price}</span>
+            <span>
+              <AnimatedNumber
+                value={Price}
+                formatValue={value => convertToPrice(value)}
+              />
+            </span>
           </b>
         </div>
         <Row>

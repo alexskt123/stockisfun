@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import { useUser, useUserData } from '@/lib/firebaseResult'
 import { updUserEmailConfig } from '@/lib/firebaseResult'
 import { fireToast } from '@/lib/toast'
 import validator from 'email-validator'
@@ -8,16 +7,18 @@ import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 
-export default function EmailSubscriptionCard({ item, minWidth }) {
-  const user = useUser()
-  const userData = useUserData(user)
-
+export default function EmailSubscriptionCard({
+  user,
+  userData,
+  item,
+  minWidth
+}) {
   const [inputData, setInputData] = useState(item)
 
   useEffect(() => {
     const userEmailData = userData?.emailConfig?.find(x => x.id === item.id)
-    setInputData(userEmailData || item)
-  }, [item, userData])
+    setInputData(userEmailData || { ...item, to: user?.email })
+  }, [item, user, userData])
 
   const handleDataChange = (e, itemKey) => {
     const newData = {
