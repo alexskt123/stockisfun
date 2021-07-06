@@ -30,6 +30,11 @@ export const NavDropDown = [
     category: 'All'
   },
   {
+    href: '/compare/tradingview',
+    label: 'TradingView',
+    category: 'All'
+  },
+  {
     href: '/compare/etf',
     label: 'ETF',
     category: 'ETF'
