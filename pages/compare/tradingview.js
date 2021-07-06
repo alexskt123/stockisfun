@@ -18,6 +18,10 @@ export default function CompareTradingView() {
   const [formValue, setFormValue] = useState({})
 
   const handleChange = e => {
+    setSettings({
+      ...settings,
+      tickers: []
+    })
     handleDebounceChange(e, formValue, setFormValue)
   }
 
