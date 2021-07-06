@@ -7,7 +7,7 @@ import useDarkMode from 'use-dark-mode'
 
 const axios = require('axios').default
 
-const EarningsModal = ({ ticker }) => {
+const EarningsModal = ({ ticker, resetTicker }) => {
   const darkMode = useDarkMode(false)
   const [show, setShow] = useState(false)
   const [earnings, setEarnings] = useState({
@@ -37,7 +37,10 @@ const EarningsModal = ({ ticker }) => {
     })()
   }, [ticker])
 
-  const handleClose = () => setShow(false)
+  const handleClose = () => {
+    setShow(false)
+    resetTicker()
+  }
 
   return (
     <Fragment>

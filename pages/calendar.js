@@ -25,6 +25,10 @@ export default function BigCalendar() {
     setTicker(e.title)
   }
 
+  const resetTicker = () => {
+    setTicker(null)
+  }
+
   useEffect(() => {
     ;(async () => {
       const userWatchList = userData?.watchList ? userData?.watchList : []
@@ -78,7 +82,7 @@ export default function BigCalendar() {
               />
             </LoadingOverlay>
           </QuoteCard>
-          <EarningsModal ticker={ticker} />
+          <EarningsModal ticker={ticker} resetTicker={resetTicker} />
         </Fragment>
       </Container>
     </Fragment>
