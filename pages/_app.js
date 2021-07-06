@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'styles/ReactToggle.css'
 import 'styles/Gooey.css'
 import 'styles/AccessibleAccordion.css'
-import 'styles/wiggle.css'
 
 import { Fragment } from 'react'
 
