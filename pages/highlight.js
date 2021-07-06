@@ -34,15 +34,13 @@ export default function Highlight() {
         <Fragment>
           {user && <UserPriceDayChange userID={user.uid} userData={userData} />}
           <TickerScrollMenuList tickerList={highlightMenuTickerList} />
-
-          <HighlightInfo query={router.query} />
-
           <WatchListSuggestions
             user={user}
             userData={userData}
             onClickWatchListButton={onClickWatchListButton}
           />
           <HighlightSWRTable watchList={watchList} />
+          <HighlightInfo query={router.query} />
         </Fragment>
       </CustomContainer>
     </Fragment>

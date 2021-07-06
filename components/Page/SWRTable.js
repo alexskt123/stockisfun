@@ -17,6 +17,7 @@ import { exportToFile } from '@/lib/exportToFile'
 import AnimatedNumber from 'animated-number-react'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
@@ -48,7 +49,6 @@ export default function SWRTable({ requests, options }) {
     tableSize,
     striped,
     bordered,
-    viewTickerDetail,
     SWROptions,
     exportFileName
   } = options
@@ -60,6 +60,7 @@ export default function SWRTable({ requests, options }) {
 
   const timestamp = useTimestamp(tableData)
   const darkMode = useDarkMode(false)
+  const router = useRouter()
 
   const handleTableData = data => {
     const newData = { ...data }
@@ -191,9 +192,9 @@ export default function SWRTable({ requests, options }) {
                 request={x.request}
                 tableHeader={reactiveTableHeader}
                 handleTableData={handleTableData}
-                viewTickerDetail={viewTickerDetail}
                 options={SWROptions}
                 colSpan={tableHeader.length}
+                router={router}
               ></SWRTableRow>
             </tr>
           ))}
@@ -209,9 +210,9 @@ function SWRTableRow({
   request,
   tableHeader,
   handleTableData,
-  viewTickerDetail,
   options = {},
-  colSpan
+  colSpan,
+  router
 }) {
   const { data } = useSWR(request, fetcher, options)
 
@@ -233,9 +234,11 @@ function SWRTableRow({
     <Fragment>
       {tableHeader.map(header => (
         <td
+          onClick={() =>
+            header?.onClick ? header.onClick(data, router) : null
+          }
           style={getStyle(header, darkMode)}
           key={header.item}
-          onClick={() => (viewTickerDetail ? viewTickerDetail(data) : null)}
         >
           {getCell(data, header, darkMode)}
         </td>
@@ -254,7 +257,7 @@ function getCellColor(property, value, darkMode) {
     : getDefaultColor(darkMode)
 }
 
-function getFormattedValue(format, value) {
+function getFormattedValue(format, value, className) {
   return format === '%' ? (
     <AnimatedNumber
       value={value}
@@ -269,11 +272,19 @@ function getFormattedValue(format, value) {
   ) : format === 'toInteger' ? (
     <AnimatedNumber value={value} formatValue={toInteger} />
   ) : format === 'Badge' ? (
-    <Badge style={{ ['minWidth']: '3rem' }} variant={randVariant(value)}>
+    <Badge
+      className={className}
+      style={{ ['minWidth']: '3rem' }}
+      variant={randVariant(value)}
+    >
       {value}
     </Badge>
   ) : format === 'IndicatorVariant' ? (
-    <Badge style={{ ['minWidth']: '3rem' }} variant={indicatorVariant(value)}>
+    <Badge
+      className={className}
+      style={{ ['minWidth']: '3rem' }}
+      variant={indicatorVariant(value)}
+    >
       {value}
     </Badge>
   ) : value ? (
@@ -287,7 +298,8 @@ function getCell(data, header, darkMode) {
   const newData = {
     value: data[header.item],
     property: header.property,
-    format: header.format
+    format: header.format,
+    className: header?.className
   }
 
   return (
@@ -297,7 +309,7 @@ function getCell(data, header, darkMode) {
           color: getCellColor(newData.property, newData.value, darkMode)
         }}
       >
-        {getFormattedValue(newData.format, newData.value)}
+        {getFormattedValue(newData.format, newData.value, newData.className)}
       </span>
     </Fragment>
   )

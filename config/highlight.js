@@ -3,6 +3,7 @@ import IndexQuote from '@/components/Parts/IndexQuote'
 import Price from '@/components/Parts/Price'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import StockDetails from '@/components/StockDetails'
+import { showHighlightQuoteDetail } from '@/lib/commonFunction'
 
 import { SWRSticky } from './settings'
 
@@ -40,13 +41,23 @@ export const stockFutureIndex = [
   { Ticker: 'BTC=F', Name: 'Bitcoin F.' }
 ]
 
+const showSWRDetail = (input, router) => {
+  const inputQuery = {
+    ticker: input?.symbol || null,
+    type: 'detail'
+  }
+  showHighlightQuoteDetail(router, inputQuery)
+}
+
 export const tableHeaderList = [
   {
     label: 'Ticker',
     item: 'symbol',
     style: SWRSticky,
     show: true,
-    format: 'Badge'
+    format: 'Badge',
+    className: 'cursor',
+    onClick: showSWRDetail
   },
   {
     label: 'Name',
