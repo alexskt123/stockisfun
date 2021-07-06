@@ -144,7 +144,7 @@ export default function Admin() {
                   <BoughtList boughtList={settings.boughtList} />
                 </Tab>
                 <Tab eventKey="EmailConfig" title="Email Configuration">
-                  <EmailConfig />
+                  <EmailConfig user={user} userData={userData} />
                 </Tab>
               </Tabs>
             </Fragment>
