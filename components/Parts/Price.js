@@ -18,6 +18,7 @@ import Form from 'react-bootstrap/Form'
 import { Line } from 'react-chartjs-2'
 import useSWR from 'swr'
 
+import TradingViewModal from './TradingViewModal'
 import YahooQuoteInfo from './YahooQuoteInfo'
 
 function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
@@ -166,6 +167,12 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
             )
           })}
         </Form.Control>
+      </div>
+      <div
+        style={{ display: 'inline-flex', alignItems: 'baseline' }}
+        className="ml-1"
+      >
+        <TradingViewModal buttonClassName={'cursor'} ticker={inputTicker} />
       </div>
       <Line
         data={settings.chartData}
