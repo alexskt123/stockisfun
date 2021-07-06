@@ -7,7 +7,6 @@ import TickerScrollMenuList from '@/components/Page/TickerScrollMenuList'
 import UserPriceDayChange from '@/components/Parts/UserPriceDayChange'
 import WatchListSuggestions from '@/components/Parts/WatchListSuggestions'
 import { highlightMenuTickerList } from '@/config/highlight'
-import { showHighlightQuoteDetail } from '@/lib/commonFunction'
 import { useUser, useUserData } from '@/lib/firebaseResult'
 import { useRouter } from 'next/router'
 
@@ -29,14 +28,6 @@ export default function Highlight() {
     setWatchListName(label)
   }
 
-  const showSWRDetail = input => {
-    const inputQuery = {
-      ticker: input?.symbol || null,
-      type: 'detail'
-    }
-    showHighlightQuoteDetail(router, inputQuery)
-  }
-
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
@@ -45,18 +36,13 @@ export default function Highlight() {
             <UserPriceDayChange userID={user.uid} userData={userData} />
           ) : null}
           <TickerScrollMenuList tickerList={highlightMenuTickerList} />
-
-          <HighlightInfo query={router.query} />
-
           <WatchListSuggestions
             user={user}
             userData={userData}
             onClickWatchListButton={onClickWatchListButton}
           />
-          <HighlightSWRTable
-            watchList={watchList}
-            showSWRDetail={showSWRDetail}
-          />
+          <HighlightSWRTable watchList={watchList} />
+          <HighlightInfo query={router.query} />
         </Fragment>
       </CustomContainer>
     </Fragment>
