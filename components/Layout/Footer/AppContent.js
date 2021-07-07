@@ -1,14 +1,11 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
 import Col from 'react-bootstrap/Col'
 import Nav from 'react-bootstrap/Nav'
 import { GiBirdTwitter } from 'react-icons/gi'
 import { RiProfileLine, RiPagesLine } from 'react-icons/ri'
-import styled from 'styled-components'
 
-const WhiteLink = styled.a`
-  color: white;
-`
 const defaultNavElements = [
   {
     label: 'Profile',
@@ -28,9 +25,12 @@ const defaultNavElements = [
 ]
 
 const AppContent = () => {
+  const router = useRouter()
+
   return (
     <Nav className="mr-auto w-100">
       {defaultNavElements.map((item, idx) => {
+        const active = router.pathname === item.href
         return (
           <Col key={idx}>
             <Badge
@@ -40,7 +40,9 @@ const AppContent = () => {
             >
               {item.icon}
               <Link href={item.href} passHref>
-                <WhiteLink>{item.label}</WhiteLink>
+                <Nav.Link active={active} disabled={active}>
+                  {`${item.label}`}
+                </Nav.Link>
               </Link>
             </Badge>
           </Col>

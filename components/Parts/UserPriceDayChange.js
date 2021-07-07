@@ -46,6 +46,7 @@ const UserPriceDayChange = ({ userID, userData }) => {
     ;(async () => {
       if (userData) await setBoughtListDayChange(userData.boughtList)
     })()
+    return () => setDayChange(null)
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData])
