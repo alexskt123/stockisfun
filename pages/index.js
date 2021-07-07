@@ -1,21 +1,21 @@
-import { useEffect, Fragment } from 'react'
+import { Fragment } from 'react'
+import { useEffect } from 'react'
 
 import PageLoading from '@/components/Loading/PageLoading'
+import { useMobile } from '@/lib/hooks/useMobile'
 import { useRouter } from 'next/router'
 import Container from 'react-bootstrap/Container'
-
-const mobile = require('is-mobile')
 
 //export default component
 export default function Home() {
   const router = useRouter()
+  const redirectURL = useMobile()
+    ? 'https://stockisfun-git-pwa-alexskt123.vercel.app/highlight'
+    : '/highlight'
 
   useEffect(() => {
-    const redirectURL = mobile()
-      ? 'https://stockisfun-git-pwa-alexskt123.vercel.app/highlight'
-      : '/highlight'
     router.push(redirectURL)
-  }, [router])
+  }, [router, redirectURL])
 
   //template
   return (
