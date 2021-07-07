@@ -1,53 +1,43 @@
 import { Fragment, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
-import TickerBullet from '@/components/Page/TickerBullet'
 import TickerInput from '@/components/Page/TickerInput'
-import FinancialsInfo from '@/components/Parts/FinancialsInfo'
-import {
-  financialsSettingSchema,
-  handleDebounceChange,
-  handleFormSubmit
-} from '@/lib/commonFunction'
+import QuoteCard from '@/components/Parts/QuoteCard'
+import TradingView from '@/components/Parts/TradingView'
+import { handleDebounceChange, handleFormSubmit } from '@/lib/commonFunction'
 import { useQuery } from '@/lib/hooks/useQuery'
 import { useRouter } from 'next/router'
+import CardDeck from 'react-bootstrap/CardDeck'
 
-export default function CompareFinancials() {
+export default function CompareTradingView() {
   const router = useRouter()
   const { query } = router.query
 
-  const [settings, setSettings] = useState(financialsSettingSchema)
+  const [settings, setSettings] = useState({ tickers: [] })
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
-  const [clicked, setClicked] = useState(false)
 
   const handleChange = e => {
+    setSettings({
+      ...settings,
+      tickers: []
+    })
     handleDebounceChange(e, formValue, setFormValue)
   }
 
   const clearItems = () => {
+    setSettings({
+      ...settings,
+      tickers: []
+    })
     router.push(router.pathname)
   }
 
-  const removeItem = value => {
-    const removed = [...settings.tickers.filter(x => x !== value)]
-    setSettings({
-      ...settings,
-      tickers: removed
-    })
-    router.push(`${router.pathname}?query=${removed.join(',')}`)
-  }
-
   const handleTickers = inputTickers => {
-    setClicked(true)
-
     setSettings({
       ...settings,
       tickers: inputTickers
     })
-
-    setClicked(false)
   }
 
   const handleSubmit = event => {
@@ -65,13 +55,31 @@ export default function CompareFinancials() {
             handleSubmit={handleSubmit}
             placeholderText={'Single:  aapl /  Mulitple:  aapl,tdoc,fb,gh'}
             handleChange={handleChange}
-            clicked={clicked}
             clearItems={clearItems}
             handleTickers={handleTickers}
           />
-          <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
-          {clicked && <LoadingSpinner />}
-          <FinancialsInfo inputTickers={settings.tickers} />
+          <CardDeck>
+            {settings?.tickers?.map((ticker, idx) => {
+              return (
+                <Fragment key={idx}>
+                  <QuoteCard
+                    isShow={true}
+                    minWidth={'20rem'}
+                    noClose={true}
+                    className={'mt-2'}
+                  >
+                    <TradingView
+                      option={{
+                        symbol: ticker,
+                        container_id: `advanced-chart-widget-container-${idx}`,
+                        theme: 'dark'
+                      }}
+                    />
+                  </QuoteCard>
+                </Fragment>
+              )
+            })}
+          </CardDeck>
         </Fragment>
       </CustomContainer>
     </Fragment>

@@ -35,8 +35,9 @@ function AddDelStock({ inputTicker, handleList }) {
 
   return (
     <Fragment>
-      {user ? (
-        (handleList === 'stock' && userData?.stockList.includes(inputTicker)) ||
+      {user &&
+        ((handleList === 'stock' &&
+          userData?.stockList.includes(inputTicker)) ||
         (handleList === 'etf' && userData?.etfList.includes(inputTicker)) ? (
           <Badge>
             <IconContext.Provider value={{ color: 'red', size: '15px' }}>
@@ -52,8 +53,7 @@ function AddDelStock({ inputTicker, handleList }) {
               <MdAddCircleOutline className="cursor" onClick={handleAdd} />
             </IconContext.Provider>
           </Badge>
-        )
-      ) : null}
+        ))}
     </Fragment>
   )
 }

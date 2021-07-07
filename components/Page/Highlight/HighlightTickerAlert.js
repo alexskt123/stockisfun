@@ -1,92 +1,71 @@
 import { Fragment } from 'react'
 
+import { SearchBadges } from '@/components/Page/Highlight/SearchBadges'
 import HappyShare from '@/components/Parts/HappyShare'
+import { searchBadges } from '@/config/highlight'
 import { useRouter } from 'next/router'
 import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
 import { IconContext } from 'react-icons'
 import { MdCancel } from 'react-icons/md'
 
-const HighlightTickerAlert = () => {
+const HighlightTickerAlert = ({ valid }) => {
   const router = useRouter()
 
-  const { query, type, show } = router.query
+  //todo: change all query to ticker
+  const { ticker, type } = router.query
 
   const cancelCurrentSearch = () => {
     router.push('/highlight')
   }
 
-  const pushQuote = () => {
-    const isShow = !show || type === 'detail'
-    const params = isShow ? { type: 'quote', show: true } : {}
-    router.push(
-      { query: { query: router.query.query, ...params } },
-      undefined,
-      {
-        shallow: true
-      }
-    )
-  }
+  const pushRoute = query => {
+    const params = {
+      ...router.query,
+      ...query,
+      type: type === query.type ? null : query.type
+    }
 
-  const pushDetail = () => {
-    const isShow = !show || type === 'quote'
-    const params = isShow ? { type: 'detail', show: true } : {}
-    const tab = router.query.tab
     router.push(
       {
-        query: {
-          query: router.query.query,
-          tab: tab ? tab : 'Price',
-          ...params
-        }
+        query: params
       },
       undefined,
       { shallow: true }
     )
   }
 
+  if (!ticker) return null
+
   return (
     <Fragment>
-      {query ? (
-        <Fragment>
-          <Alert
-            style={{
-              backgroundColor: '#f5f5f5',
-              padding: '.3rem .3rem',
-              display: 'flex',
-              alignItems: 'center'
-            }}
-          >
-            <strong>{'Current Search:'}</strong>
-            <Badge className="ml-2" variant="info">
-              {query}
-            </Badge>
-            <IconContext.Provider value={{ color: 'red' }}>
-              <MdCancel
-                onClick={() => cancelCurrentSearch()}
-                className="ml-1 cursor"
-              />
-            </IconContext.Provider>
-            <HappyShare />
-            <Badge
-              as="button"
-              className="ml-3"
-              variant={show && type === 'quote' ? 'danger' : 'warning'}
-              onClick={() => pushQuote()}
-            >
-              {show && type === 'quote' ? 'Hide Price/Quote' : 'Price/Quote'}
-            </Badge>
-            <Badge
-              as="button"
-              className="ml-2"
-              variant={show && type === 'detail' ? 'danger' : 'success'}
-              onClick={() => pushDetail()}
-            >
-              {show && type === 'detail' ? 'Hide Details' : 'Details'}
-            </Badge>
-          </Alert>
-        </Fragment>
-      ) : null}
+      <Alert
+        style={{
+          backgroundColor: '#f5f5f5',
+          padding: '.3rem .3rem',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
+        <strong>{'Current Search:'}</strong>
+
+        <Badge className="ml-2" variant="info">
+          {ticker}
+        </Badge>
+        <IconContext.Provider value={{ color: 'red' }}>
+          <MdCancel
+            onClick={() => cancelCurrentSearch()}
+            className="ml-1 cursor"
+          />
+        </IconContext.Provider>
+
+        {valid && <HappyShare />}
+
+        {valid &&
+          searchBadges.map(badge => (
+            <SearchBadges key={badge.type} pushRoute={pushRoute} {...badge} />
+          ))}
+      </Alert>
     </Fragment>
   )
 }

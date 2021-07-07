@@ -54,7 +54,10 @@ function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
               <Button
                 size="sm"
                 className="w-100 my-2"
-                style={{ backgroundColor: randBackgroundColor() }}
+                style={{
+                  backgroundColor: randBackgroundColor(),
+                  border: 'none'
+                }}
                 onClick={() => onClickWatchListButton(item)}
               >
                 <Badge>{item.label}</Badge>

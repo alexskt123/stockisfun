@@ -10,20 +10,18 @@ function BirdMouth({ input, tools, className }) {
   return (
     <Fragment>
       <CardDeck className={className}>
-        {input
-          ? input.map((item, idx) => {
-              return (
-                <Fragment key={idx}>
-                  <BirdMouthItem
-                    birdMouthOptions={birdMouthOptions}
-                    priceInfo={priceInfo}
-                    tools={tools}
-                    item={item}
-                  />
-                </Fragment>
-              )
-            })
-          : null}
+        {input?.map((item, idx) => {
+          return (
+            <Fragment key={idx}>
+              <BirdMouthItem
+                birdMouthOptions={birdMouthOptions}
+                priceInfo={priceInfo}
+                tools={tools}
+                item={item}
+              />
+            </Fragment>
+          )
+        })}
       </CardDeck>
     </Fragment>
   )

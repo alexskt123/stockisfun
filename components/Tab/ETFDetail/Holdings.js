@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
@@ -64,7 +64,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
   return (
     <Fragment>
       {loading ? (
-        <LoadingSpinner />
+        <LoadingSkeletonTable />
       ) : inputETFTicker ? (
         <Fragment>
           <CardDeck className="mt-3">

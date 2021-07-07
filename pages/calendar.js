@@ -7,6 +7,7 @@ import moment from 'moment'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import Container from 'react-bootstrap/Container'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
+import LoadingOverlay from 'react-loading-overlay'
 
 const axios = require('axios').default
 
@@ -22,6 +23,10 @@ export default function BigCalendar() {
 
   const handleSelectSlot = async e => {
     setTicker(e.title)
+  }
+
+  const resetTicker = () => {
+    setTicker(null)
   }
 
   useEffect(() => {
@@ -60,18 +65,24 @@ export default function BigCalendar() {
             noClose={true}
             customBgColor={{ normal: 'white', darkmode: '#adadad' }}
           >
-            <Calendar
-              popup
-              localizer={localizer}
-              events={eventList}
-              views={['month']}
-              startAccessor="start"
-              endAccessor="end"
-              style={{ height: '90vh', fontSize: 'x-small' }}
-              onSelectEvent={handleSelectSlot}
-            />
+            <LoadingOverlay
+              active={user && eventList?.length <= 0}
+              spinner
+              text="Loading your content..."
+            >
+              <Calendar
+                popup
+                localizer={localizer}
+                events={eventList}
+                views={['month']}
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: '90vh', fontSize: 'x-small' }}
+                onSelectEvent={handleSelectSlot}
+              />
+            </LoadingOverlay>
           </QuoteCard>
-          <EarningsModal ticker={ticker} />
+          <EarningsModal ticker={ticker} resetTicker={resetTicker} />
         </Fragment>
       </Container>
     </Fragment>

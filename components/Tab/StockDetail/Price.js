@@ -10,7 +10,7 @@ import { priceTabLabelPairs } from '@/config/price'
 import { staticSWROptions, fetcher } from '@/config/settings'
 import { convertToPercentage } from '@/lib/commonFunction'
 import { getBasics } from '@/lib/stockDetailsFunction'
-import { fireToast } from '@/lib/toast'
+// import { fireToast } from '@/lib/toast'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 import useSWR from 'swr'
@@ -30,12 +30,12 @@ function PriceTab({ inputTicker }) {
   useEffect(() => {
     //todo: fix all problems with {} instead of null...
     if (!data?.basics.Name) {
-      if (data && inputTicker) {
-        fireToast({
-          icon: 'error',
-          title: 'Invalid Ticker'
-        })
-      }
+      // if (data && inputTicker) {
+      //   fireToast({
+      //     icon: 'error',
+      //     title: 'Invalid Ticker'
+      //   })
+      // }
       setSettings(defaultSettings)
       return
     }

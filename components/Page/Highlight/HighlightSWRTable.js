@@ -13,7 +13,6 @@ const HighlightSWRTable = ({ watchList }) => {
         }))}
         options={{
           tableHeader: tableHeaderList,
-          exportFileName: 'Watchlist.csv',
           tableSize: 'sm',
           SWROptions: { refreshInterval: 5000 }
         }}

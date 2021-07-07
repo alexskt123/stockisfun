@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 
 import TypeAhead from '@/components/Page/TypeAhead'
+import { showHighlightQuoteDetail } from '@/lib/commonFunction'
 import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
 import Col from 'react-bootstrap/Col'
@@ -11,24 +12,12 @@ const HighlightSearch = () => {
 
   const handleChange = e => {
     const input = e.find(x => x)
-    //input ? setSelectedTicker({ ticker: input.symbol, show: true }) : null
-    //input ? router.push(`/highlight?query=${input.symbol}`) : null
-    const type = router.query.type
-    input
-      ? router.push(
-          {
-            query: {
-              ...router.query,
-              query: input.symbol,
-              tab: 'Price',
-              type: type ? type : 'quote',
-              show: true
-            }
-          },
-          undefined,
-          { shallow: true }
-        )
-      : null
+
+    const inputQuery = {
+      ticker: input?.symbol || null,
+      type: 'quote'
+    }
+    showHighlightQuoteDetail(router, inputQuery)
   }
 
   return (
