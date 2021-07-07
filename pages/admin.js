@@ -4,7 +4,11 @@ import CustomContainer from '@/components/Layout/CustomContainer'
 import LoginAlert from '@/components/Parts/LoginAlert'
 import BoughtList from '@/components/Tab/Admin/BoughtList'
 import EmailConfig from '@/components/Tab/Admin/EmailConfig'
-import { updUserAllList, useUser, useUserData } from '@/lib/firebaseResult'
+import {
+  updUserAllList,
+  useUserData,
+  usePersistedUser
+} from '@/lib/firebaseResult'
 import { useTab } from '@/lib/hooks/useTab'
 import { fireToast } from '@/lib/toast'
 import { useRouter } from 'next/router'
@@ -16,7 +20,7 @@ import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
 
 export default function Admin() {
-  const user = useUser()
+  const user = usePersistedUser()
   const userData = useUserData(user)
 
   const router = useRouter()
