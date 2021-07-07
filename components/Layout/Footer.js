@@ -1,21 +1,30 @@
 import Settings from '@/config/settings'
-import Alert from 'react-bootstrap/Alert'
+import { useMobile } from '@/lib/hooks/useMobile'
 import Navbar from 'react-bootstrap/Navbar'
 
+import AppContent from './Footer/AppContent'
+import BrowserContent from './Footer/BrowserContent'
+
+const footerConfig = {
+  sticky: 'bottom',
+  bg: 'dark',
+  variant: 'dark'
+}
+
 export default function Footer() {
-  const footerConfig = {
-    sticky: 'bottom',
-    bg: 'dark',
-    variant: 'dark'
+  const isMobile = useMobile()
+  const newConfig = {
+    ...footerConfig,
+    fixed: isMobile ? 'bottom' : undefined
   }
 
   return (
-    <Navbar {...footerConfig}>
-      <Navbar.Brand className="mx-auto">
-        <Alert style={{ padding: '0.1rem' }} variant="secondary">
-          {Settings.Copyright}
-        </Alert>
-      </Navbar.Brand>
+    <Navbar {...newConfig}>
+      {isMobile ? (
+        <AppContent />
+      ) : (
+        <BrowserContent content={Settings.Copyright} />
+      )}
     </Navbar>
   )
 }

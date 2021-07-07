@@ -1,13 +1,14 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import CustomContainer from '@/components/Layout/CustomContainer'
 import EarningsModal from '@/components/Page/Calendar/EarningsModal'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import { useUser, useUserData } from '@/lib/firebaseResult'
 import moment from 'moment'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
-import Container from 'react-bootstrap/Container'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
 import LoadingOverlay from 'react-loading-overlay'
+
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 const axios = require('axios').default
 
@@ -54,10 +55,7 @@ export default function BigCalendar() {
 
   return (
     <Fragment>
-      <Container
-        style={{ minHeight: '100vh' }}
-        className="mt-5 shadow-lg p-3 mb-5 rounded"
-      >
+      <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
           <QuoteCard
             header={'Calendar'}
@@ -84,7 +82,7 @@ export default function BigCalendar() {
           </QuoteCard>
           <EarningsModal ticker={ticker} resetTicker={resetTicker} />
         </Fragment>
-      </Container>
+      </CustomContainer>
     </Fragment>
   )
 }

@@ -4,6 +4,7 @@ import CustomContainer from '@/components/Layout/CustomContainer'
 import AccountSummary from '@/components/Page/Profile/AccountSummary'
 import Performance from '@/components/Page/Profile/Performance'
 import StockHighlight from '@/components/Page/Profile/StockHighlight'
+import LoginAlert from '@/components/Parts/LoginAlert'
 import { staticSWROptions, fetcher } from '@/config/settings'
 import { useUser } from '@/lib/firebaseResult'
 import {
@@ -48,26 +49,30 @@ const Profile = () => {
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh' }}>
         <Fragment>
-          <Accordion
-            preExpanded={['AccountSummary', 'Performance']}
-            allowZeroExpanded={true}
-            allowMultipleExpanded={true}
-          >
-            {elements.map((item, idx) => {
-              return (
-                <Fragment key={idx}>
-                  <AccordionItem uuid={item.key}>
-                    <AccordionItemHeading>
-                      <AccordionItemButton>{item.header}</AccordionItemButton>
-                    </AccordionItemHeading>
-                    <AccordionItemPanel>
-                      <item.component boughtListData={item.boughtListData} />
-                    </AccordionItemPanel>
-                  </AccordionItem>
-                </Fragment>
-              )
-            })}
-          </Accordion>
+          {user ? (
+            <Accordion
+              preExpanded={['AccountSummary', 'Performance']}
+              allowZeroExpanded={true}
+              allowMultipleExpanded={true}
+            >
+              {elements.map((item, idx) => {
+                return (
+                  <Fragment key={idx}>
+                    <AccordionItem uuid={item.key}>
+                      <AccordionItemHeading>
+                        <AccordionItemButton>{item.header}</AccordionItemButton>
+                      </AccordionItemHeading>
+                      <AccordionItemPanel>
+                        <item.component boughtListData={item.boughtListData} />
+                      </AccordionItemPanel>
+                    </AccordionItem>
+                  </Fragment>
+                )
+              })}
+            </Accordion>
+          ) : (
+            <LoginAlert />
+          )}
         </Fragment>
       </CustomContainer>
     </Fragment>
