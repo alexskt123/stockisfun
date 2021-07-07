@@ -6,7 +6,7 @@ import Performance from '@/components/Page/Profile/Performance'
 import StockHighlight from '@/components/Page/Profile/StockHighlight'
 import LoginAlert from '@/components/Parts/LoginAlert'
 import { staticSWROptions, fetcher } from '@/config/settings'
-import { useUser } from '@/lib/firebaseResult'
+import { usePersistedUser } from '@/lib/firebaseResult'
 import {
   Accordion,
   AccordionItem,
@@ -17,7 +17,7 @@ import {
 import useSWR from 'swr'
 
 const Profile = () => {
-  const user = useUser()
+  const user = usePersistedUser()
   const { data: boughtListData } = useSWR(
     `/api/user/getUserBoughtListDetails?uid=${user?.uid}`,
     fetcher,

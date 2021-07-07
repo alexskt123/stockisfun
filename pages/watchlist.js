@@ -10,7 +10,7 @@ import HappyShare from '@/components/Parts/HappyShare'
 import ModalQuestion from '@/components/Parts/ModalQuestion'
 import { tableHeaderList } from '@/config/watchlist'
 import { handleDebounceChange, handleFormSubmit } from '@/lib/commonFunction'
-import { updUserWatchList, useUser } from '@/lib/firebaseResult'
+import { updUserWatchList, usePersistedUser } from '@/lib/firebaseResult'
 import { useQuery } from '@/lib/hooks/useQuery'
 import { fireToast } from '@/lib/toast'
 import { useRouter } from 'next/router'
@@ -30,7 +30,7 @@ export default function WatchList() {
   const [showUpdate, setShowUpdate] = useState(false)
   const handleUpdateClose = () => setShowUpdate(false)
 
-  const user = useUser()
+  const user = usePersistedUser()
 
   const handleChange = e => {
     handleDebounceChange(e, formValue, setFormValue)

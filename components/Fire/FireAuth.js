@@ -2,7 +2,7 @@ import { useState, Fragment, useEffect, useMemo } from 'react'
 
 import ModalQuestion from '@/components/Parts/ModalQuestion'
 import firebase, { auth, authUI } from '@/config/fireui-config'
-import { initUser, useUserData, useUser } from '@/lib/firebaseResult'
+import { initUser, useUserData } from '@/lib/firebaseResult'
 import { fireToast } from '@/lib/toast'
 
 import SignedInDisplay from './SignedInDisplay'
@@ -11,11 +11,10 @@ import SignInModal from './SignInModal'
 
 import 'firebaseui/dist/firebaseui.css'
 
-function FireAuth() {
+function FireAuth({ user }) {
   const [show, setShow] = useState(false)
   const [showSignOut, setShowSignOut] = useState(false)
 
-  const user = useUser()
   const userData = useUserData(user)
 
   const handleClose = () => setShow(false)

@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 
+import { useUser } from '@/lib/firebaseResult'
 import dynamic from 'next/dynamic'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { FaUserCircle } from 'react-icons/fa'
@@ -12,6 +13,8 @@ const DynamicAuth = dynamic(
 )
 
 const UserDropdown = () => {
+  const [user] = useUser()
+
   return (
     <Fragment>
       <Dropdown>
@@ -19,7 +22,7 @@ const UserDropdown = () => {
           <FaUserCircle />
         </Dropdown.Toggle>
         <Dropdown.Menu renderOnMount={true}>
-          <DynamicAuth />
+          <DynamicAuth user={user} />
         </Dropdown.Menu>
       </Dropdown>
     </Fragment>

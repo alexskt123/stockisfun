@@ -3,7 +3,7 @@ import { Fragment, useState, useEffect } from 'react'
 import CustomContainer from '@/components/Layout/CustomContainer'
 import EarningsModal from '@/components/Page/Calendar/EarningsModal'
 import QuoteCard from '@/components/Parts/QuoteCard'
-import { useUser, useUserData } from '@/lib/firebaseResult'
+import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
 import moment from 'moment'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import LoadingOverlay from 'react-loading-overlay'
@@ -16,7 +16,7 @@ const localizer = momentLocalizer(moment)
 
 //export default component
 export default function BigCalendar() {
-  const user = useUser()
+  const user = usePersistedUser()
   const userData = useUserData(user)
 
   const [eventList, setEventList] = useState([])
