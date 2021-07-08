@@ -1,8 +1,14 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import { convertToPriceChange, roundTo } from '@/lib/commonFunction'
+import {
+  convertToPercentage,
+  convertToPriceChange,
+  getVariant,
+  roundTo
+} from '@/lib/commonFunction'
 import { fireToast } from '@/lib/toast'
 import AnimatedNumber from 'animated-number-react'
+import percent from 'percent'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 
@@ -30,14 +36,23 @@ const UserPriceDayChange = ({ userID, userData }) => {
       (acc, cur) => {
         const newAcc = {
           net: acc.net + cur.net,
-          sum: acc.sum + cur.sum
+          sum: acc.sum + cur.sum,
+          prevSum: acc.prevSum + cur.prevSum
         }
         return newAcc
       },
-      { net: 0, sum: 0 }
+      { net: 0, sum: 0, prevSum: 0, pcnt: 0 }
     )
 
     dayChgAndTotal.sum = dayChgAndTotal.sum + boughtListData.cash
+    dayChgAndTotal.prevSum = dayChgAndTotal.prevSum + boughtListData.cash
+
+    dayChgAndTotal.pcnt =
+      percent.calc(
+        dayChgAndTotal.sum - dayChgAndTotal.prevSum,
+        dayChgAndTotal.prevSum,
+        2
+      ) / 100
 
     setDayChange(dayChgAndTotal)
   }
@@ -64,12 +79,31 @@ const UserPriceDayChange = ({ userID, userData }) => {
               />
             </Badge>
             <Badge
-              variant={dayChange?.net >= 0 ? 'success' : 'danger'}
+              variant={getVariant(
+                dayChange?.net,
+                'success',
+                'secondary',
+                'danger'
+              )}
               className="ml-1"
             >
               <AnimatedNumber
                 value={dayChange?.net}
                 formatValue={value => convertToPriceChange(value)}
+              />
+            </Badge>
+            <Badge
+              variant={getVariant(
+                dayChange?.pcnt,
+                'success',
+                'secondary',
+                'danger'
+              )}
+              className="ml-1"
+            >
+              <AnimatedNumber
+                value={dayChange?.pcnt}
+                formatValue={value => convertToPercentage(value)}
               />
             </Badge>
             <Badge
