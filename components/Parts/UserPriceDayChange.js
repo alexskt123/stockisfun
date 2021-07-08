@@ -4,11 +4,11 @@ import {
   convertToPercentage,
   convertToPriceChange,
   getVariant,
-  roundTo
+  roundTo,
+  calPcnt
 } from '@/lib/commonFunction'
 import { fireToast } from '@/lib/toast'
 import AnimatedNumber from 'animated-number-react'
-import percent from 'percent'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 
@@ -48,7 +48,7 @@ const UserPriceDayChange = ({ userID, userData }) => {
     dayChgAndTotal.prevSum = dayChgAndTotal.prevSum + boughtListData.cash
 
     dayChgAndTotal.pcnt =
-      percent.calc(
+      calPcnt(
         dayChgAndTotal.sum - dayChgAndTotal.prevSum,
         dayChgAndTotal.prevSum,
         2

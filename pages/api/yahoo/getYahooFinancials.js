@@ -2,13 +2,12 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { roundTo } from '@/lib/commonFunction'
+import { roundTo, calPcnt } from '@/lib/commonFunction'
 import { getStockEarningCapacity } from '@/lib/stockInfo'
 import { getYahooAssetProfile } from '@/lib/yahoo/getYahooAssetProfile'
 import { getYahooFinancialData } from '@/lib/yahoo/getYahooFinancialData'
 import { getYahooIncomeStatement } from '@/lib/yahoo/getYahooIncomeStatement'
 import { getYahooQuote } from '@/lib/yahoo/getYahooQuote'
-import percent from 'percent'
 
 export default async (req, res) => {
   const { ticker } = req.query
@@ -20,7 +19,7 @@ export default async (req, res) => {
 
   const earningCapacity = await getStockEarningCapacity(ticker)
 
-  const grossMargin = percent.calc(
+  const grossMargin = calPcnt(
     income.find(x => x)?.grossProfit?.raw,
     income.find(x => x)?.totalRevenue?.raw,
     2,

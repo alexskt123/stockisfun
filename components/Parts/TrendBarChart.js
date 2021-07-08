@@ -2,8 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 
 import GooeySpinner from '@/components/Loading/GooeySpinner'
 import { trendChangeDateRangeSelectAttr, barchartOptions } from '@/config/trend'
-import { randRGBColor } from '@/lib/commonFunction'
-import percent from 'percent'
+import { randRGBColor, calPcnt } from '@/lib/commonFunction'
 import Badge from 'react-bootstrap/Badge'
 import Form from 'react-bootstrap/Form'
 import { Bar } from 'react-chartjs-2'
@@ -39,7 +38,7 @@ const TrendBarChart = ({ input }) => {
         const close = closePrice || []
         const start = close.find(x => x)
         const end = close.reverse().find(x => x)
-        return percent.calc(end - start, start, 2)
+        return calPcnt(end - start, start, 2)
       })
 
       const trendChanges = [...input].map((item, idx) => {

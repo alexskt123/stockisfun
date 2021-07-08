@@ -7,11 +7,14 @@ import {
   dateRangeByNoOfYears,
   quoteFilterList
 } from '@/config/price'
-import { getFormattedFromToDate, parseBoolean } from '@/lib/commonFunction'
+import {
+  getFormattedFromToDate,
+  parseBoolean,
+  calPcnt
+} from '@/lib/commonFunction'
 import { getYahooHistoryPrice } from '@/lib/yahoo/getYahooHistoryPrice'
 import { getYahooQuote } from '@/lib/yahoo/getYahooQuote'
 import moment from 'moment'
-import percent from 'percent'
 
 const handleYearPcnt = async (ticker, year) => {
   const newDateRange = year ? await dateRangeByNoOfYears(year) : dateRange
@@ -65,7 +68,7 @@ const handleYearPcnt = async (ticker, year) => {
         data: [
           ...(acc.data || []),
           opening && closing
-            ? percent.calc(closing - opening, opening, 2, true)
+            ? calPcnt(closing - opening, opening, 2, true)
             : 'N/A'
         ],
         endPrice: idx === 0 && closing ? closing : acc.endPrice,
