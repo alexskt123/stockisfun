@@ -13,7 +13,7 @@ export default function BalanceSheet({ inputTicker }) {
   const [settings, setSettings] = useState({})
 
   const { data } = useSWR(
-    `/api/yahoo/getYahooBalanceSheet?ticker=${inputTicker}`,
+    `/api/yahoo/getBalanceSheet?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )

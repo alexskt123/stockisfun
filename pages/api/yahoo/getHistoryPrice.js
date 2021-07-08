@@ -12,8 +12,8 @@ import {
   parseBoolean,
   calPcnt
 } from '@/lib/commonFunction'
-import { getYahooHistoryPrice } from '@/lib/yahoo/getYahooHistoryPrice'
-import { getYahooQuote } from '@/lib/yahoo/getYahooQuote'
+import { getHistoryPrice } from '@/lib/yahoo/getHistoryPrice'
+import { getQuote } from '@/lib/yahoo/getQuote'
 import moment from 'moment'
 
 const handleYearPcnt = async (ticker, year) => {
@@ -25,7 +25,7 @@ const handleYearPcnt = async (ticker, year) => {
     }
   })
 
-  const quoteRes = await getYahooQuote(ticker.toUpperCase())
+  const quoteRes = await getQuote(ticker.toUpperCase())
   const quote = {
     ticker: ticker.toUpperCase(),
     ...quoteFilterList.reduce((acc, item) => {
@@ -49,7 +49,7 @@ const handleYearPcnt = async (ticker, year) => {
       const formattedFromDate = new Date(item.fromDate).getTime() / 1000
       const formattedToDate = new Date(item.toDate).getTime() / 1000
 
-      const outputItem = await getYahooHistoryPrice(
+      const outputItem = await getHistoryPrice(
         item.ticker,
         formattedFromDate,
         formattedToDate
@@ -90,7 +90,7 @@ const handleDays = async (ticker, days, isBus) => {
     isBusBool
   )
 
-  const outputItem = await getYahooHistoryPrice(
+  const outputItem = await getHistoryPrice(
     ticker,
     formattedFromDate,
     formattedToDate
@@ -123,7 +123,7 @@ const handleDays = async (ticker, days, isBus) => {
     parseInt(days) !== allPrice?.length && isBusBool
       ? allDate?.slice(Math.abs(allPrice?.length - parseInt(days)))
       : allDate
-  const quoteRes = await getYahooQuote(ticker.toUpperCase())
+  const quoteRes = await getQuote(ticker.toUpperCase())
 
   return {
     date,

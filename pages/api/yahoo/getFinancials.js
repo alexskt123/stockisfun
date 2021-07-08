@@ -4,18 +4,18 @@
 
 import { roundTo, calPcnt } from '@/lib/commonFunction'
 import { getStockEarningCapacity } from '@/lib/stockInfo'
-import { getYahooAssetProfile } from '@/lib/yahoo/getYahooAssetProfile'
-import { getYahooFinancialData } from '@/lib/yahoo/getYahooFinancialData'
-import { getYahooIncomeStatement } from '@/lib/yahoo/getYahooIncomeStatement'
-import { getYahooQuote } from '@/lib/yahoo/getYahooQuote'
+import { getAssetProfile } from '@/lib/yahoo/getAssetProfile'
+import { getFinancialData } from '@/lib/yahoo/getFinancialData'
+import { getIncomeStatement } from '@/lib/yahoo/getIncomeStatement'
+import { getQuote } from '@/lib/yahoo/getQuote'
 
 export default async (req, res) => {
   const { ticker } = req.query
 
-  const income = await getYahooIncomeStatement(ticker)
-  const financialData = await getYahooFinancialData(ticker)
-  const quote = await getYahooQuote(ticker)
-  const assetProfile = await getYahooAssetProfile(ticker)
+  const income = await getIncomeStatement(ticker)
+  const financialData = await getFinancialData(ticker)
+  const quote = await getQuote(ticker)
+  const assetProfile = await getAssetProfile(ticker)
 
   const earningCapacity = await getStockEarningCapacity(ticker)
 

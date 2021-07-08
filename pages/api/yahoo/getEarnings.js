@@ -2,12 +2,12 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooIncomeStatement } from '@/lib/yahoo/getYahooIncomeStatement'
+import { getIncomeStatement } from '@/lib/yahoo/getIncomeStatement'
 
 export default async (req, res) => {
   const { ticker } = req.query
 
-  const earnings = await getYahooIncomeStatement(ticker)
+  const earnings = await getIncomeStatement(ticker)
   const earningsExtract = earnings.map(item => {
     return {
       date: item.endDate.fmt,

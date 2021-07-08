@@ -19,7 +19,7 @@ export default async (req, res) => {
 
   const responses = await Promise.all(
     data.map(async item =>
-      axios.get(`${getHost()}/api/yahoo/getYahooQuote?ticker=${item.Ticker}`)
+      axios.get(`${getHost()}/api/yahoo/getQuote?ticker=${item.Ticker}`)
     )
   )
 

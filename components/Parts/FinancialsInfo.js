@@ -12,7 +12,7 @@ function FinancialsInfo({ inputTickers }) {
       {inputTickers?.length > 0 ? (
         <SWRTable
           requests={inputTickers.map(x => ({
-            request: `/api/yahoo/getYahooFinancials?ticker=${x}`,
+            request: `/api/yahoo/getFinancials?ticker=${x}`,
             key: x
           }))}
           options={{

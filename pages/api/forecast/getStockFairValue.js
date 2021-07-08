@@ -5,7 +5,7 @@
 import { getFinanchill } from '@/lib/forecast/getFinanchill'
 import { getMoneyCnnCouple } from '@/lib/forecast/getMoneyCnn'
 import { getWalletInvestor } from '@/lib/forecast/getWalletInvestor'
-import { getYahooRecommendTrend } from '@/lib/yahoo/getYahooRecommendTrend'
+import { getRecommendTrend } from '@/lib/yahoo/getRecommendTrend'
 
 export default async (req, res) => {
   const { ticker } = req.query
@@ -14,7 +14,7 @@ export default async (req, res) => {
     getWalletInvestor(ticker),
     getFinanchill(ticker),
     getMoneyCnnCouple(ticker),
-    getYahooRecommendTrend(ticker)
+    getRecommendTrend(ticker)
   ])
 
   res.statusCode = 200
