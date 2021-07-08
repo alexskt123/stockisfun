@@ -2,7 +2,8 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { roundTo, getStockEarningCapacity } from '@/lib/commonFunction'
+import { roundTo } from '@/lib/commonFunction'
+import { getStockEarningCapacity } from '@/lib/stockInfo'
 import { getYahooAssetProfile } from '@/lib/yahoo/getYahooAssetProfile'
 import { getYahooFinancialData } from '@/lib/yahoo/getYahooFinancialData'
 import { getYahooIncomeStatement } from '@/lib/yahoo/getYahooIncomeStatement'
