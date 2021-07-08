@@ -2,30 +2,25 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { calPcnt } from '@/lib/commonFunction'
 import { getYahooBasicsData } from '@/lib/stockDetailsFunction'
-import { getYahooAssetProfile } from '@/lib/yahoo/getYahooAssetProfile'
-import { getYahooKeyStatistics } from '@/lib/yahoo/getYahooKeyStatistics'
-import { getYahooQuote } from '@/lib/yahoo/getYahooQuote'
-import percent from 'percent'
+import { getAssetProfile } from '@/lib/yahoo/getAssetProfile'
+import { getYahooStatistics } from '@/lib/yahoo/getKeyStatistics'
+import { getQuote } from '@/lib/yahoo/getQuote'
 
 export default async (req, res) => {
   const { ticker } = req.query
 
-  const keyStat = await getYahooKeyStatistics(ticker)
+  const keyStat = await getYahooStatistics(ticker)
 
-  const data = await getYahooAssetProfile(ticker)
-  const quote = await getYahooQuote(ticker)
+  const data = await getAssetProfile(ticker)
+  const quote = await getQuote(ticker)
 
   const basics = getYahooBasicsData(data, quote)
 
   const floatingShareRatio =
     keyStat && keyStat.floatShares
-      ? percent.calc(
-          keyStat.floatShares.raw,
-          keyStat.sharesOutstanding.raw,
-          2,
-          true
-        )
+      ? calPcnt(keyStat.floatShares.raw, keyStat.sharesOutstanding.raw, 2, true)
       : 'N/A'
 
   res.statusCode = 200

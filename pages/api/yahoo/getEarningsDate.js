@@ -2,13 +2,13 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooRecommendTrend } from '@/lib/yahoo/getYahooRecommendTrend'
+import { getEarningsDate } from '@/lib/yahoo/getEarningsDate'
 
 export default async (req, res) => {
   const { ticker } = req.query
 
-  const data = await getYahooRecommendTrend(ticker)
+  const earningsDate = await getEarningsDate(ticker)
 
   res.statusCode = 200
-  res.json(data)
+  res.json(earningsDate)
 }

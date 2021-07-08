@@ -3,7 +3,7 @@ import IndexQuote from '@/components/Parts/IndexQuote'
 import Price from '@/components/Parts/Price'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import StockDetails from '@/components/StockDetails'
-import { showHighlightQuoteDetail } from '@/lib/commonFunction'
+import { showHighlightQuoteDetail } from '@/lib/stockInfo'
 
 import { SWRSticky } from './settings'
 

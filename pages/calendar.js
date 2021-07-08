@@ -36,7 +36,7 @@ export default function BigCalendar() {
       const responses = await Promise.all(
         [...userWatchList].map(async item => {
           return axios
-            .get(`/api/yahoo/getYahooEarningsDate?ticker=${item}`)
+            .get(`/api/yahoo/getEarningsDate?ticker=${item}`)
             .catch(err => console.error(err))
         })
       ).catch(error => console.error(error))

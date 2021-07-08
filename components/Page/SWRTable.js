@@ -13,7 +13,7 @@ import {
   getGreenColor,
   getDefaultColor
 } from '@/lib/commonFunction'
-import { exportToFile } from '@/lib/exportToFile'
+import { exportToFile } from '@/lib/commonFunction'
 import AnimatedNumber from 'animated-number-react'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
