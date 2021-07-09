@@ -2,7 +2,6 @@ import { Fragment, useState, useEffect } from 'react'
 
 import { CooldownButton } from '@/components/CooldownButton'
 import {
-  convertToPrice,
   convertToPercentage,
   convertToPriceChange,
   getVariant,
@@ -14,6 +13,8 @@ import { getUserBoughtList } from '@/lib/stockInfo'
 import AnimatedNumber from 'animated-number-react'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
+
+import CooldownBadge from './CooldownBadge'
 
 const UserPriceDayChange = ({ userData }) => {
   const [dayChange, setDayChange] = useState(null)
@@ -128,14 +129,6 @@ const RefreshBadge = ({ handleClick }) => {
       onClick={() => handleClick()}
     >
       {'Refresh'}
-    </Badge>
-  )
-}
-
-const CooldownBadge = ({ total }) => {
-  return (
-    <Badge className="ml-1" variant="secondary">
-      {`Wait ${convertToPrice(total / 1000)} second(s)`}
     </Badge>
   )
 }
