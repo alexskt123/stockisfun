@@ -1,6 +1,8 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import { CooldownButton } from '@/components/CooldownButton'
 import {
+  convertToPrice,
   convertToPercentage,
   convertToPriceChange,
   getVariant,
@@ -106,17 +108,38 @@ const UserPriceDayChange = ({ userID, userData }) => {
                 formatValue={value => convertToPercentage(value)}
               />
             </Badge>
-            <Badge
-              className="ml-1 cursor"
-              variant="warning"
-              onClick={() => refreshDayChange()}
-            >
-              {'Refresh'}
-            </Badge>
+
+            <CooldownButton
+              stateKey={'priceDayChange'}
+              cooldownTime={10 * 1000}
+              handleClick={refreshDayChange}
+              renderOnCDed={RefreshBadge}
+              renderOnCDing={CooldownBadge}
+            />
           </Row>
         </Fragment>
       }
     </Fragment>
+  )
+}
+
+const RefreshBadge = ({ handleClick }) => {
+  return (
+    <Badge
+      className="ml-1 cursor"
+      variant="warning"
+      onClick={() => handleClick()}
+    >
+      {'Refresh'}
+    </Badge>
+  )
+}
+
+const CooldownBadge = ({ total }) => {
+  return (
+    <Badge className="ml-1" variant="secondary">
+      {`Wait ${convertToPrice(total / 1000)} second(s)`}
+    </Badge>
   )
 }
 
