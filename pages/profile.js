@@ -1,12 +1,12 @@
-import { Fragment } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
 import AccountSummary from '@/components/Page/Profile/AccountSummary'
 import Performance from '@/components/Page/Profile/Performance'
 import StockHighlight from '@/components/Page/Profile/StockHighlight'
 import LoginAlert from '@/components/Parts/LoginAlert'
-import { staticSWROptions, fetcher } from '@/config/settings'
-import { usePersistedUser } from '@/lib/firebaseResult'
+import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
+import { getUserBoughtListDetails } from '@/lib/stockInfo'
 import {
   Accordion,
   AccordionItem,
@@ -14,15 +14,11 @@ import {
   AccordionItemButton,
   AccordionItemPanel
 } from 'react-accessible-accordion'
-import useSWR from 'swr'
 
 const Profile = () => {
   const user = usePersistedUser()
-  const { data: boughtListData } = useSWR(
-    `/api/user/getUserBoughtListDetails?uid=${user?.uid}`,
-    fetcher,
-    staticSWROptions
-  )
+  const userData = useUserData(user)
+  const [boughtListData, setBoughtListData] = useState(null)
 
   const elements = [
     {
@@ -44,6 +40,14 @@ const Profile = () => {
       key: 'StockHighlight'
     }
   ]
+
+  useEffect(() => {
+    ;(async () => {
+      const data = await getUserBoughtListDetails(userData)
+      setBoughtListData(data)
+    })()
+    return () => setBoughtListData(null)
+  }, [userData])
 
   return (
     <Fragment>

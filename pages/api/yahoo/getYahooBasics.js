@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getYahooBasicsData } from '@/lib/stockDetailsFunction'
+import { getYahooBasicsData } from '@/lib/stockInfo'
 import { getAssetProfile } from '@/lib/yahoo/getAssetProfile'
 import { getQuote } from '@/lib/yahoo/getQuote'
 

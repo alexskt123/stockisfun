@@ -2,8 +2,8 @@ import { useState, Fragment, useEffect, useMemo } from 'react'
 
 import ModalQuestion from '@/components/Parts/ModalQuestion'
 import firebase, { auth, authUI } from '@/config/fireui-config'
+import { fireToast } from '@/lib/commonFunction'
 import { initUser, useUserData } from '@/lib/firebaseResult'
-import { fireToast } from '@/lib/toast'
 
 import SignedInDisplay from './SignedInDisplay'
 import SignedOutDisplay from './SignedOutDisplay'

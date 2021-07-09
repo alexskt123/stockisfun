@@ -1,13 +1,19 @@
 import { Fragment, useState, useEffect } from 'react'
 
 import StockInfoTable from '@/components/Page/StockInfoTable'
+import { fetcher, staticSWROptions } from '@/config/settings'
 import Badge from 'react-bootstrap/Badge'
 import Modal from 'react-bootstrap/Modal'
+import useSWR from 'swr'
 import useDarkMode from 'use-dark-mode'
 
-const axios = require('axios').default
-
 const EarningsModal = ({ ticker, resetTicker }) => {
+  const { data } = useSWR(
+    () => ticker && `/api/nasdaq/getEarningsHistory?ticker=${ticker}`,
+    fetcher,
+    staticSWROptions
+  )
+
   const darkMode = useDarkMode(false)
   const [show, setShow] = useState(false)
   const [earnings, setEarnings] = useState({
@@ -23,11 +29,7 @@ const EarningsModal = ({ ticker, resetTicker }) => {
 
   useEffect(() => {
     ;(async () => {
-      if (ticker) {
-        const { data } = await axios
-          .get(`/api/nasdaq/getEarningsHistory?ticker=${ticker}`)
-          .catch(err => console.error(err))
-
+      if (data) {
         setShow(true)
         setEarnings(e => ({
           ...e,
@@ -35,7 +37,7 @@ const EarningsModal = ({ ticker, resetTicker }) => {
         }))
       } else setShow(false)
     })()
-  }, [ticker])
+  }, [data])
 
   const handleClose = () => {
     setShow(false)

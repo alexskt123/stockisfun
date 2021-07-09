@@ -5,7 +5,7 @@ import StockInfoTable from '@/components/Page/StockInfoTable'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { staticSWROptions, fetcher } from '@/config/settings'
-import { getBalanceSheetTableData } from '@/lib/stockDetailsFunction'
+import { getBalanceSheetTableData } from '@/lib/stockInfo'
 import { Bar } from 'react-chartjs-2'
 import useSWR from 'swr'
 

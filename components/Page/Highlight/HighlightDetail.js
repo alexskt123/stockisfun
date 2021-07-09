@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from 'react'
 
 import { highlightDetails } from '@/config/highlight'
-import { fireToast } from '@/lib/toast'
+import { fireToast } from '@/lib/commonFunction'
 
 const HighlightDetail = ({ ticker, data }) => {
   useEffect(() => {

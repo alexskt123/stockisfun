@@ -4,7 +4,7 @@ import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { staticSWROptions, fetcher } from '@/config/settings'
-import { getBasics } from '@/lib/stockDetailsFunction'
+import { getBasics } from '@/lib/stockInfo'
 import useSWR from 'swr'
 
 export default function Basics({ inputTicker }) {

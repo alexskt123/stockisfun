@@ -3,7 +3,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { calPcnt } from '@/lib/commonFunction'
-import { getYahooBasicsData } from '@/lib/stockDetailsFunction'
+import { getYahooBasicsData } from '@/lib/stockInfo'
 import { getAssetProfile } from '@/lib/yahoo/getAssetProfile'
 import { getYahooStatistics } from '@/lib/yahoo/getKeyStatistics'
 import { getQuote } from '@/lib/yahoo/getQuote'

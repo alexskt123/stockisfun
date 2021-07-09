@@ -9,18 +9,17 @@ import {
   roundTo,
   calPcnt
 } from '@/lib/commonFunction'
-import { fireToast } from '@/lib/toast'
+import { fireToast } from '@/lib/commonFunction'
+import { getUserBoughtList } from '@/lib/stockInfo'
 import AnimatedNumber from 'animated-number-react'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 
-const axios = require('axios').default
-
-const UserPriceDayChange = ({ userID, userData }) => {
+const UserPriceDayChange = ({ userData }) => {
   const [dayChange, setDayChange] = useState(null)
 
   const refreshDayChange = async () => {
-    await setBoughtListDayChange(userData.boughtList)
+    await setBoughtListDayChange()
 
     fireToast({
       icon: 'success',
@@ -28,13 +27,11 @@ const UserPriceDayChange = ({ userID, userData }) => {
     })
   }
 
-  const setBoughtListDayChange = async boughtList => {
-    const boughtListInfo =
-      boughtList?.length > 0
-        ? await axios.get(`/api/user/getUserBoughtList?uid=${userID}`)
-        : { data: [] }
-    const { data: boughtListData } = boughtListInfo
-    const dayChgAndTotal = boughtListData.boughtList.reduce(
+  const setBoughtListDayChange = async () => {
+    const data = await getUserBoughtList(userData)
+    const boughtListData = data?.boughtList || []
+    const cash = data?.cash || 0
+    const dayChgAndTotal = boughtListData.reduce(
       (acc, cur) => {
         const newAcc = {
           net: acc.net + cur.net,
@@ -43,11 +40,11 @@ const UserPriceDayChange = ({ userID, userData }) => {
         }
         return newAcc
       },
-      { net: 0, sum: 0, prevSum: 0, pcnt: 0 }
+      { net: 0, sum: 0, prevSum: 0 }
     )
 
-    dayChgAndTotal.sum = dayChgAndTotal.sum + boughtListData.cash
-    dayChgAndTotal.prevSum = dayChgAndTotal.prevSum + boughtListData.cash
+    dayChgAndTotal.sum = dayChgAndTotal.sum + cash
+    dayChgAndTotal.prevSum = dayChgAndTotal.prevSum + cash
 
     dayChgAndTotal.pcnt =
       calPcnt(
@@ -61,7 +58,7 @@ const UserPriceDayChange = ({ userID, userData }) => {
 
   useEffect(() => {
     ;(async () => {
-      if (userData) await setBoughtListDayChange(userData.boughtList)
+      await setBoughtListDayChange()
     })()
     return () => setDayChange(null)
     //todo: fix custom hooks
