@@ -1,6 +1,5 @@
+import { toAxios } from '@/lib/commonFunction'
 import { sendUserPriceMA } from '@/lib/email/emailOptions'
-
-const axios = require('axios').default
 
 export default async (req, res) => {
   const { type } = req.query
@@ -9,15 +8,13 @@ export default async (req, res) => {
 
   const responses = await Promise.all(
     options.map(async option => {
-      return await axios
-        .get(process.env.AUTOCODE_SENDEMAIL_ENDPOINT, {
-          params: {
-            to: option.to,
-            subject: option.subject,
-            html: option.html
-          }
-        })
-        .catch(console.error)
+      return await toAxios(process.env.AUTOCODE_SENDEMAIL_ENDPOINT, {
+        params: {
+          to: option.to,
+          subject: option.subject,
+          html: option.html
+        }
+      })
     })
   )
 
