@@ -1,8 +1,8 @@
 import { Fragment } from 'react'
 
+import { fireToast } from '@/lib/commonFunction'
 import { updUserEmailConfig } from '@/lib/firebaseResult'
 import { useUserEmailSubscription } from '@/lib/hooks/email'
-import { fireToast } from '@/lib/toast'
 import validator from 'email-validator'
 import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'

@@ -4,8 +4,8 @@ import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { etfDetailsBasicSettings } from '@/config/etf'
+import { fireToast } from '@/lib/commonFunction'
 import { getETFDetailBasics } from '@/lib/stockInfo'
-import { fireToast } from '@/lib/toast'
 
 export default function Basics({ inputETFTicker }) {
   const [settings, setSettings] = useState({ ...etfDetailsBasicSettings })
