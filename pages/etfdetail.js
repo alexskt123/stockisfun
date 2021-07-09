@@ -1,20 +1,16 @@
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment } from 'react'
 
 import ETFDetails from '@/components/ETFDetails'
 import CustomContainer from '@/components/Layout/CustomContainer'
 import SearchAccordion from '@/components/Page/SearchAccordion'
 import TypeAhead from '@/components/Page/TypeAhead'
+import { useQueryTicker } from '@/lib/hooks/page'
 import { useRouter } from 'next/router'
 
 export default function ETFDetail() {
-  const [ticker, setTicker] = useState('')
-
   const router = useRouter()
   const { query } = router.query
-
-  useEffect(() => {
-    setTicker(query || '')
-  }, [query])
+  const ticker = useQueryTicker(query)
 
   const handleChange = e => {
     const input = e.find(x => x)

@@ -1,7 +1,5 @@
-import { getHost } from '@/lib/commonFunction'
+import { getHost, toAxios } from '@/lib/commonFunction'
 import { getEmailsByCategory } from '@/lib/firebaseResult'
-
-const axios = require('axios').default
 
 export default async (req, res) => {
   const { category } = req.query
@@ -14,9 +12,7 @@ export default async (req, res) => {
 
   await Promise.all(
     emails.map(email => {
-      return axios
-        .get(`${getHost()}/api/sendEmailFor${category}?id=${email.id}`)
-        .catch(err => console.error(err))
+      return toAxios(`${getHost()}/api/sendEmailFor${category}?id=${email.id}`)
     })
   ).catch(error => console.error(error))
 

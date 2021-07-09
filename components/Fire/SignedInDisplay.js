@@ -37,7 +37,7 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
           <Col>
             <GrUserAdmin />
             <Badge className="ml-1" variant="light">
-              <Link href={'/admin'}>{'Admin'}</Link>
+              <Link href={'/admin'}>{'Settings'}</Link>
             </Badge>
           </Col>
           <Col>

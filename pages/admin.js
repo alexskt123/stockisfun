@@ -4,13 +4,13 @@ import CustomContainer from '@/components/Layout/CustomContainer'
 import LoginAlert from '@/components/Parts/LoginAlert'
 import BoughtList from '@/components/Tab/Admin/BoughtList'
 import EmailConfig from '@/components/Tab/Admin/EmailConfig'
+import { fireToast } from '@/lib/commonFunction'
 import {
   updUserAllList,
   useUserData,
   usePersistedUser
 } from '@/lib/firebaseResult'
 import { useTab } from '@/lib/hooks/useTab'
-import { fireToast } from '@/lib/toast'
 import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'

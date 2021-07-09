@@ -2,7 +2,7 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getBalanceSheetData } from '@/lib/stockDetailsFunction'
+import { getBalanceSheetData } from '@/lib/stockInfo'
 import { getBalanceSheet } from '@/lib/yahoo/getBalanceSheet'
 
 export default async (req, res) => {

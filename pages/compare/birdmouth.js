@@ -8,12 +8,11 @@ import BirdMouth from '@/components/Parts/BirdMouth'
 import {
   forecastSettingSchema,
   handleDebounceChange,
-  handleFormSubmit
+  handleFormSubmit,
+  toAxios
 } from '@/lib/commonFunction'
 import { useQuery } from '@/lib/hooks/useQuery'
 import { useRouter } from 'next/router'
-
-const axios = require('axios').default
 
 export default function CompareBirdMouth() {
   const router = useRouter()
@@ -59,7 +58,9 @@ export default function CompareBirdMouth() {
 
     const priceMAInfo = await Promise.all(
       input.map(async item => {
-        const response = await axios(`/api/getPriceMADetails?ticker=${item}`)
+        const response = await toAxios('/api/getPriceMADetails', {
+          ticker: item
+        })
         const { data } = response
         return data
       })

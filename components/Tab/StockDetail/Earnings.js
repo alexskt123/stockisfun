@@ -5,7 +5,7 @@ import StockInfoTable from '@/components/Page/StockInfoTable'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { staticSWROptions, fetcher } from '@/config/settings'
-import { getEarnings } from '@/lib/stockDetailsFunction'
+import { getEarningsData } from '@/lib/stockInfo'
 import { Bar } from 'react-chartjs-2'
 import useSWR from 'swr'
 
@@ -19,7 +19,7 @@ export default function Earnings({ inputTicker }) {
   )
 
   function handleEarnings(data) {
-    const { earnings } = getEarnings(data)
+    const { earnings } = getEarningsData(data)
     setSettings(earnings)
   }
 
