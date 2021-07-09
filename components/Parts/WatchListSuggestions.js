@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState, useMemo } from 'react'
 
 import { randBackgroundColor } from '@/lib/commonFunction'
 import { getHighlistWatchList } from '@/lib/firebaseResult'
@@ -9,6 +9,9 @@ import Row from 'react-bootstrap/Row'
 
 function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
   const [list, setList] = useState([])
+  const colorCallback = useMemo(() => {
+    return list.map(_item => randBackgroundColor())
+  }, [list])
 
   useEffect(() => {
     ;(async () => {
@@ -48,14 +51,14 @@ function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
         </h6>
       </Row>
       <Row className="justify-content-center">
-        {list.map(item => {
+        {list.map((item, idx) => {
           return (
             <Col key={item.label}>
               <Button
                 size="sm"
                 className="w-100 my-2"
                 style={{
-                  backgroundColor: randBackgroundColor(),
+                  backgroundColor: colorCallback[idx],
                   border: 'none'
                 }}
                 onClick={() => onClickWatchListButton(item)}
