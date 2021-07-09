@@ -1,7 +1,8 @@
 import {
   convertToPercentage,
   convertToPrice,
-  convertToPriceChange
+  convertToPriceChange,
+  getVariant
 } from '@/lib/commonFunction'
 import AnimatedNumber from 'animated-number-react'
 import Badge from 'react-bootstrap/Badge'
@@ -9,16 +10,17 @@ import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { IconContext } from 'react-icons'
-import { FaArrowAltCircleDown, FaArrowAltCircleUp } from 'react-icons/fa'
-
-export const getVariant = (value, up, down) => {
-  return value >= 0 ? up : down
-}
+import {
+  FaArrowAltCircleDown,
+  FaArrowAltCircleUp,
+  FaMinusCircle
+} from 'react-icons/fa'
 
 export default function TickerCard({ Name, Price, Percentage, Change }) {
   const ArrowCircle = getVariant(
     Percentage,
     FaArrowAltCircleUp,
+    FaMinusCircle,
     FaArrowAltCircleDown
   )
 
@@ -36,7 +38,7 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
             <span>{Name}</span>
             <IconContext.Provider
               value={{
-                color: getVariant(Percentage, 'green', 'red'),
+                color: getVariant(Percentage, 'green', 'grey', 'red'),
                 className: 'global-class-name'
               }}
             >
@@ -58,7 +60,9 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
         </div>
         <Row>
           <Col xs={5} md={5}>
-            <Badge variant={Change >= 0 ? 'success' : 'danger'}>
+            <Badge
+              variant={getVariant(Change, 'success', 'secondary', 'danger')}
+            >
               <AnimatedNumber
                 value={Change}
                 formatValue={value => convertToPriceChange(value)}
@@ -67,7 +71,7 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
           </Col>
           <Col xs={4} md={4}>
             <Badge
-              variant={Percentage >= 0 ? 'success' : 'danger'}
+              variant={getVariant(Percentage, 'success', 'secondary', 'danger')}
               className="ml-1"
             >
               <AnimatedNumber

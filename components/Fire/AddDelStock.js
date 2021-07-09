@@ -1,18 +1,18 @@
 import { Fragment } from 'react'
 
+import { fireToast } from '@/lib/commonFunction'
 import {
   addToUserList,
   delFromUserList,
-  useUser,
+  usePersistedUser,
   useUserData
 } from '@/lib/firebaseResult'
-import { fireToast } from '@/lib/toast'
 import Badge from 'react-bootstrap/Badge'
 import { IconContext } from 'react-icons'
 import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
 
 function AddDelStock({ inputTicker, handleList }) {
-  const user = useUser()
+  const user = usePersistedUser()
   const userData = useUserData(user)
 
   const handleRemove = async () => {

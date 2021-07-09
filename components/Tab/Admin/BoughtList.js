@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useState } from 'react'
 
 import EditTable from '@/components/Page/EditTable'
-import { updUserBoughtList, useUser } from '@/lib/firebaseResult'
-import { fireToast } from '@/lib/toast'
+import { fireToast } from '@/lib/commonFunction'
+import { updUserBoughtList, usePersistedUser } from '@/lib/firebaseResult'
 
 export default function BoughtList({ boughtList }) {
-  const user = useUser()
+  const user = usePersistedUser()
 
   const [data, setData] = useState([])
 

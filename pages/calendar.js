@@ -1,25 +1,24 @@
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
 import EarningsModal from '@/components/Page/Calendar/EarningsModal'
 import QuoteCard from '@/components/Parts/QuoteCard'
-import { useUser, useUserData } from '@/lib/firebaseResult'
+import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
+import { useUserCalendarEvents } from '@/lib/hooks/calendar'
 import moment from 'moment'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import LoadingOverlay from 'react-loading-overlay'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
-const axios = require('axios').default
-
 const localizer = momentLocalizer(moment)
 
 //export default component
 export default function BigCalendar() {
-  const user = useUser()
+  const user = usePersistedUser()
   const userData = useUserData(user)
+  const eventList = useUserCalendarEvents(user, userData)
 
-  const [eventList, setEventList] = useState([])
   const [ticker, setTicker] = useState(null)
 
   const handleSelectSlot = async e => {
@@ -29,29 +28,6 @@ export default function BigCalendar() {
   const resetTicker = () => {
     setTicker(null)
   }
-
-  useEffect(() => {
-    ;(async () => {
-      const userWatchList = userData?.watchList ? userData?.watchList : []
-      const responses = await Promise.all(
-        [...userWatchList].map(async item => {
-          return axios
-            .get(`/api/yahoo/getYahooEarningsDate?ticker=${item}`)
-            .catch(err => console.error(err))
-        })
-      ).catch(error => console.error(error))
-      const eventEarnings = [...userWatchList].map((item, idx) => {
-        return {
-          id: idx,
-          title: item,
-          start: moment.unix(responses[idx].data.raw),
-          end: moment.unix(responses[idx].data.raw)
-        }
-      })
-
-      setEventList(eventEarnings)
-    })()
-  }, [user, userData])
 
   return (
     <Fragment>

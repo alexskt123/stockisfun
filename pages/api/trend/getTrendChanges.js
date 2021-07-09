@@ -3,7 +3,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { getFormattedFromToDate, parseBoolean } from '@/lib/commonFunction'
-import { getYahooHistoryPrice } from '@/lib/yahoo/getYahooHistoryPrice'
+import { getHistoryPrice } from '@/lib/yahoo/getHistoryPrice'
 
 export default async (req, res) => {
   const { ticker, days, isBus } = req.query
@@ -14,7 +14,7 @@ export default async (req, res) => {
     isBusBoo
   )
 
-  const outputItem = await getYahooHistoryPrice(
+  const outputItem = await getHistoryPrice(
     ticker,
     formattedFromDate,
     formattedToDate

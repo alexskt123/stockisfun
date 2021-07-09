@@ -3,7 +3,7 @@ import IndexQuote from '@/components/Parts/IndexQuote'
 import Price from '@/components/Parts/Price'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import StockDetails from '@/components/StockDetails'
-import { showHighlightQuoteDetail } from '@/lib/commonFunction'
+import { showHighlightQuoteDetail } from '@/lib/stockInfo'
 
 import { SWRSticky } from './settings'
 
@@ -26,9 +26,11 @@ export const stockIndex = [
   { Ticker: '^DJI', Name: 'Dow Jones' },
   { Ticker: '^GSPC', Name: 'S&P 500' },
   { Ticker: '^IXIC', Name: 'NASDAQ' },
+  { Ticker: '^VIX', Name: 'Volatility' },
   { Ticker: '^RUT', Name: 'Russell 2000' },
   { Ticker: 'BTC-USD', Name: 'Bitcoin' },
   { Ticker: '^HSI', Name: 'HSI' },
+  { Ticker: 'HKD=X', Name: 'USD/HKD' },
   { Ticker: '^FTSE', Name: 'FTSE 100' },
   { Ticker: '^N225', Name: 'NKI' }
 ]
@@ -38,7 +40,10 @@ export const stockFutureIndex = [
   { Ticker: 'ES=F', Name: 'S&P 500 F.' },
   { Ticker: 'NQ=F', Name: 'NASDAQ F.' },
   { Ticker: 'RTY=F', Name: 'Russell 2000 F.' },
-  { Ticker: 'BTC=F', Name: 'Bitcoin F.' }
+  { Ticker: 'BTC=F', Name: 'Bitcoin F.' },
+  { Ticker: 'GC=F', Name: 'Gold F.' },
+  { Ticker: '^TNX', Name: 'Treasury Yield 10 Yrs' },
+  { Ticker: 'CL=F', Name: 'Crude Oil F.' }
 ]
 
 const showSWRDetail = (input, router) => {

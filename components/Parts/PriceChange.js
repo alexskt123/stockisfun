@@ -2,11 +2,8 @@ import { Fragment, useState, useEffect } from 'react'
 
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
-import {
-  getPriceInfo,
-  sortTableItem,
-  priceSettingSchema
-} from '@/lib/commonFunction'
+import { sortTableItem, priceSettingSchema } from '@/lib/commonFunction'
+import { getPriceInfo } from '@/lib/stockInfo'
 import { Line } from 'react-chartjs-2'
 
 import QuoteCard from './QuoteCard'

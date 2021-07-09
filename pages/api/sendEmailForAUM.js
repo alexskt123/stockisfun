@@ -1,10 +1,13 @@
 import { aumTableHeader } from '@/config/etf'
-import { getCSVContent, getHostForETFDb, getHost } from '@/lib/commonFunction'
+import {
+  getCSVContent,
+  getHostForETFDb,
+  getHost,
+  toAxios
+} from '@/lib/commonFunction'
 import { getEmailByID } from '@/lib/firebaseResult'
 import sendEmail from '@/lib/sendEmail'
 import moment from 'moment-business-days'
-
-const axios = require('axios').default
 
 export default async (req, res) => {
   const response = {
@@ -30,10 +33,10 @@ export default async (req, res) => {
 
   const temp = await Promise.all(
     tickerArr.map(async ticker => {
-      const etf = await axios(
+      const etf = await toAxios(
         `${getHostForETFDb()}/api/etfdb/getETFAUMSum?ticker=${ticker}`
       )
-      const cnn = await axios(
+      const cnn = await toAxios(
         `${getHost()}/api/forecast/getMoneyCnn?ticker=${ticker}`
       )
       const { data: etfData } = etf

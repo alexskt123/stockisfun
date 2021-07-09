@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 
 import TypeAhead from '@/components/Page/TypeAhead'
-import { showHighlightQuoteDetail } from '@/lib/commonFunction'
+import { showHighlightQuoteDetail } from '@/lib/stockInfo'
 import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
 import Col from 'react-bootstrap/Col'

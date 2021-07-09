@@ -1,87 +1,23 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 
 import GooeySpinner from '@/components/Loading/GooeySpinner'
 import { trendChangeDateRangeSelectAttr, barchartOptions } from '@/config/trend'
-import { randRGBColor } from '@/lib/commonFunction'
-import percent from 'percent'
+import { useTrendBarChartData } from '@/lib/hooks/charts'
 import Badge from 'react-bootstrap/Badge'
 import Form from 'react-bootstrap/Form'
 import { Bar } from 'react-chartjs-2'
 
 import QuoteCard from './QuoteCard'
 
-const axios = require('axios').default
-
 const TrendBarChart = ({ input }) => {
-  const [barChartData, setBarChartData] = useState(null)
   const [days, setDays] = useState(8)
+  const barChartData = useTrendBarChartData(input, days)
 
   const handleChange = async e => {
     if (e.target.name === 'formYear') {
       setDays(e.target.value)
     }
   }
-
-  useEffect(() => {
-    ;(async () => {
-      const responses = await Promise.all(
-        [...input].map(async item => {
-          return axios
-            .get(
-              `/api/trend/getTrendChanges?ticker=${item.ticker}&days=${days}&isBus=false`
-            )
-            .catch(err => console.error(err))
-        })
-      ).catch(error => console.error(error))
-
-      const changes = responses.map(item => {
-        const closePrice = item?.data?.indicators?.quote.find(x => x)?.close
-        const close = closePrice || []
-        const start = close.find(x => x)
-        const end = close.reverse().find(x => x)
-        return percent.calc(end - start, start, 2)
-      })
-
-      const trendChanges = [...input].map((item, idx) => {
-        return {
-          ...item,
-          change: changes[idx]
-        }
-      })
-
-      trendChanges.sort(function (a, b) {
-        return b.change - a.change
-      })
-
-      const barColors = trendChanges.map(_item => {
-        const [r, g, b] = randRGBColor()
-
-        const backgroundColor = `rgba(${r}, ${g}, ${b}, 0.2)`
-        const borderColor = `rgba(${r}, ${g}, ${b}, 1)`
-        return {
-          backgroundColor,
-          borderColor
-        }
-      })
-
-      const data = {
-        labels: trendChanges.map(item => item.label),
-        datasets: [
-          {
-            label: 'Category',
-            data: trendChanges.map(item => item.change),
-            backgroundColor: barColors.map(item => item.backgroundColor),
-            borderColor: barColors.map(item => item.borderColor),
-            borderWidth: 1
-          }
-        ]
-      }
-
-      setBarChartData(data)
-    })()
-
-    return () => setBarChartData(null)
-  }, [days, input])
 
   return (
     <Fragment>

@@ -1,8 +1,8 @@
 import { Fragment } from 'react'
 
 import { priceChangeDateRangeSelectAttr, buttonSettings } from '@/config/form'
-import { exportToFile } from '@/lib/exportToFile'
-import { useUser, useUserData } from '@/lib/firebaseResult'
+import { exportToFile } from '@/lib/commonFunction'
+import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -21,7 +21,7 @@ function TickerInput({
   yearControl,
   handleTickers
 }) {
-  const user = useUser()
+  const user = usePersistedUser()
   const userData = useUserData(user)
 
   return (

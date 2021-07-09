@@ -7,7 +7,7 @@ import TickerScrollMenuList from '@/components/Page/TickerScrollMenuList'
 import UserPriceDayChange from '@/components/Parts/UserPriceDayChange'
 import WatchListSuggestions from '@/components/Parts/WatchListSuggestions'
 import { highlightMenuTickerList } from '@/config/highlight'
-import { useUser, useUserData } from '@/lib/firebaseResult'
+import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
 import { useRouter } from 'next/router'
 
 import 'styles/ScrollMenu.module.css'
@@ -15,7 +15,7 @@ import 'styles/ScrollMenu.module.css'
 export default function Highlight() {
   const router = useRouter()
 
-  const user = useUser()
+  const user = usePersistedUser()
   const userData = useUserData(user)
 
   //todo: wrap watchlist
@@ -32,7 +32,7 @@ export default function Highlight() {
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          {user && <UserPriceDayChange userID={user.uid} userData={userData} />}
+          {user && <UserPriceDayChange userData={userData} />}
           <TickerScrollMenuList tickerList={highlightMenuTickerList} />
           <WatchListSuggestions
             user={user}

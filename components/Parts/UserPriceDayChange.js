@@ -1,18 +1,25 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import { convertToPriceChange, roundTo } from '@/lib/commonFunction'
-import { fireToast } from '@/lib/toast'
+import { CooldownButton } from '@/components/CooldownButton'
+import {
+  convertToPrice,
+  convertToPercentage,
+  convertToPriceChange,
+  getVariant,
+  roundTo,
+  calPcnt
+} from '@/lib/commonFunction'
+import { fireToast } from '@/lib/commonFunction'
+import { getUserBoughtList } from '@/lib/stockInfo'
 import AnimatedNumber from 'animated-number-react'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 
-const axios = require('axios').default
-
-const UserPriceDayChange = ({ userID, userData }) => {
+const UserPriceDayChange = ({ userData }) => {
   const [dayChange, setDayChange] = useState(null)
 
   const refreshDayChange = async () => {
-    await setBoughtListDayChange(userData.boughtList)
+    await setBoughtListDayChange()
 
     fireToast({
       icon: 'success',
@@ -20,31 +27,38 @@ const UserPriceDayChange = ({ userID, userData }) => {
     })
   }
 
-  const setBoughtListDayChange = async boughtList => {
-    const boughtListInfo =
-      boughtList?.length > 0
-        ? await axios.get(`/api/user/getUserBoughtList?uid=${userID}`)
-        : { data: [] }
-    const { data: boughtListData } = boughtListInfo
-    const dayChgAndTotal = boughtListData.boughtList.reduce(
+  const setBoughtListDayChange = async () => {
+    const data = await getUserBoughtList(userData)
+    const boughtListData = data?.boughtList || []
+    const cash = data?.cash || 0
+    const dayChgAndTotal = boughtListData.reduce(
       (acc, cur) => {
         const newAcc = {
           net: acc.net + cur.net,
-          sum: acc.sum + cur.sum
+          sum: acc.sum + cur.sum,
+          prevSum: acc.prevSum + cur.prevSum
         }
         return newAcc
       },
-      { net: 0, sum: 0 }
+      { net: 0, sum: 0, prevSum: 0 }
     )
 
-    dayChgAndTotal.sum = dayChgAndTotal.sum + boughtListData.cash
+    dayChgAndTotal.sum = dayChgAndTotal.sum + cash
+    dayChgAndTotal.prevSum = dayChgAndTotal.prevSum + cash
+
+    dayChgAndTotal.pcnt =
+      calPcnt(
+        dayChgAndTotal.sum - dayChgAndTotal.prevSum,
+        dayChgAndTotal.prevSum,
+        2
+      ) / 100
 
     setDayChange(dayChgAndTotal)
   }
 
   useEffect(() => {
     ;(async () => {
-      if (userData) await setBoughtListDayChange(userData.boughtList)
+      await setBoughtListDayChange()
     })()
     return () => setDayChange(null)
     //todo: fix custom hooks
@@ -64,7 +78,12 @@ const UserPriceDayChange = ({ userID, userData }) => {
               />
             </Badge>
             <Badge
-              variant={dayChange?.net >= 0 ? 'success' : 'danger'}
+              variant={getVariant(
+                dayChange?.net,
+                'success',
+                'secondary',
+                'danger'
+              )}
               className="ml-1"
             >
               <AnimatedNumber
@@ -73,16 +92,51 @@ const UserPriceDayChange = ({ userID, userData }) => {
               />
             </Badge>
             <Badge
-              className="ml-1 cursor"
-              variant="warning"
-              onClick={() => refreshDayChange()}
+              variant={getVariant(
+                dayChange?.pcnt,
+                'success',
+                'secondary',
+                'danger'
+              )}
+              className="ml-1"
             >
-              {'Refresh'}
+              <AnimatedNumber
+                value={dayChange?.pcnt}
+                formatValue={value => convertToPercentage(value)}
+              />
             </Badge>
+
+            <CooldownButton
+              stateKey={'priceDayChange'}
+              cooldownTime={10 * 1000}
+              handleClick={refreshDayChange}
+              renderOnCDed={RefreshBadge}
+              renderOnCDing={CooldownBadge}
+            />
           </Row>
         </Fragment>
       }
     </Fragment>
+  )
+}
+
+const RefreshBadge = ({ handleClick }) => {
+  return (
+    <Badge
+      className="ml-1 cursor"
+      variant="warning"
+      onClick={() => handleClick()}
+    >
+      {'Refresh'}
+    </Badge>
+  )
+}
+
+const CooldownBadge = ({ total }) => {
+  return (
+    <Badge className="ml-1" variant="secondary">
+      {`Wait ${convertToPrice(total / 1000)} second(s)`}
+    </Badge>
   )
 }
 

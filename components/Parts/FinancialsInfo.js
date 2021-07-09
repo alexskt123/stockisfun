@@ -6,19 +6,19 @@ import { staticSWROptions } from '@/config/settings'
 
 import ValidTickerAlert from './ValidTickerAlert'
 
-function FinancialsInfo({ inputTickers }) {
+function FinancialsInfo({ inputTickers, exportFileName }) {
   return (
     <Fragment>
       {inputTickers?.length > 0 ? (
         <SWRTable
           requests={inputTickers.map(x => ({
-            request: `/api/yahoo/getYahooFinancials?ticker=${x}`,
+            request: `/api/yahoo/getFinancials?ticker=${x}`,
             key: x
           }))}
           options={{
             bordered: true,
             tableHeader: tableHeaderList,
-            exportFileName: 'Stock_financial.csv',
+            exportFileName,
             tableSize: 'sm',
             SWROptions: staticSWROptions
           }}

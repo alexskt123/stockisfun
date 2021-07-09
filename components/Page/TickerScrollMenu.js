@@ -16,9 +16,7 @@ export default function TickerScrollMenu({ inputList }) {
   const [stockInfo, setStockInfo] = useState([])
 
   const { data: responses } = useSWR(
-    `/api/yahoo/getYahooQuote?ticker=${[...inputList].map(
-      item => item.Ticker
-    )}`,
+    `/api/yahoo/getQuote?ticker=${[...inputList].map(item => item.Ticker)}`,
     fetcher,
     stockMarketIndexSWROptions
   )
@@ -28,14 +26,16 @@ export default function TickerScrollMenu({ inputList }) {
       ? [...inputList].map(stock => {
           const data = responses.find(x => x && x.symbol === stock.Ticker)
 
-          const info = extractYahooInfo.reduce((acc, cur) => {
-            const newAcc = {
-              ...acc,
-              [cur.label]: data[cur.field]
-            }
+          const info = data
+            ? extractYahooInfo.reduce((acc, cur) => {
+                const newAcc = {
+                  ...acc,
+                  [cur.label]: data[cur.field]
+                }
 
-            return newAcc
-          }, {})
+                return newAcc
+              }, {})
+            : {}
 
           return { ...stock, ...info }
         })
