@@ -71,7 +71,10 @@ export default function CompareFinancials() {
           />
           <TickerBullet tickers={settings.tickers} removeItem={removeItem} />
           {clicked && <LoadingSpinner />}
-          <FinancialsInfo inputTickers={settings.tickers} />
+          <FinancialsInfo
+            inputTickers={settings.tickers}
+            exportFileName={'Stock_forecast.csv'}
+          />
         </Fragment>
       </CustomContainer>
     </Fragment>
