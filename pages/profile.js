@@ -6,7 +6,7 @@ import Performance from '@/components/Page/Profile/Performance'
 import StockHighlight from '@/components/Page/Profile/StockHighlight'
 import LoginAlert from '@/components/Parts/LoginAlert'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
-import { getUserBoughtListDetails } from '@/lib/stockDetailsFunction'
+import { getUserBoughtListDetails } from '@/lib/stockInfo'
 import {
   Accordion,
   AccordionItem,

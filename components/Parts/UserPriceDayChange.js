@@ -8,7 +8,7 @@ import {
   calPcnt
 } from '@/lib/commonFunction'
 import { fireToast } from '@/lib/commonFunction'
-import { getUserBoughtList } from '@/lib/stockDetailsFunction'
+import { getUserBoughtList } from '@/lib/stockInfo'
 import AnimatedNumber from 'animated-number-react'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
