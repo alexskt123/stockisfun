@@ -21,6 +21,8 @@ import useSWR from 'swr'
 import TradingViewModal from './TradingViewModal'
 import YahooQuoteInfo from './YahooQuoteInfo'
 
+const MADays = [5, 20, 60]
+
 function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
 
@@ -31,6 +33,10 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
     fetcher,
     staticSWROptions
   )
+
+  const getMA = (days, MACalculation, price) => {
+    return MACalculation([...price], days)
+  }
 
   useEffect(() => {
     handleTicker(dateprice, settings.days, settings.ma)
@@ -43,38 +49,27 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
     //temp solution to fix the warnings - [react-chartjs-2] Warning: Each dataset needs a unique key.
     if (!inputTicker) return
 
-    const date = dateprice.data?.date || []
-    const price = dateprice.data?.price || []
-    const ma5 =
-      inputMA === 'ma'
-        ? ma([...price], 5)
-        : inputMA === 'ema'
-        ? ema([...price], 5)
-        : []
-    const ma20 =
-      inputMA === 'ma'
-        ? ma([...price], 20)
-        : inputMA === 'ema'
-        ? ema([...price], 20)
-        : []
-    const ma60 =
-      inputMA === 'ma'
-        ? ma([...price], 60)
-        : inputMA === 'ema'
-        ? ema([...price], 60)
-        : []
+    const historyPrice = dateprice.data?.historyPrice || []
+    const calMA = inputMA === 'ema' ? ema : ma
+    const [ma5, ma20, ma60] = MADays.map(day =>
+      getMA(
+        day,
+        calMA,
+        historyPrice.map(item => item.price)
+      )
+    )
 
     setSettings({
       ticker: inputTicker,
       days: inputDays,
       ma: inputMA,
       chartData: {
-        labels: [...date.slice(60)],
+        labels: [...historyPrice.slice(60).map(item => item.date)],
         datasets: [
           {
             ...priceChartSettings,
             label: inputTicker,
-            data: [...price.slice(60)],
+            data: [...historyPrice.slice(60).map(item => item.price)],
             showLine: inputMA === '' ? true : false,
             pointRadius: inputMA === '' ? 0 : 3
           },
