@@ -32,7 +32,7 @@ const handleDays = async (ticker, days, isBus) => {
       date: closeDate[idx],
       price: cur
     }
-    acc.push(curDatePrice)
+    if (cur) acc.push(curDatePrice)
     return acc
   }, [])
 
