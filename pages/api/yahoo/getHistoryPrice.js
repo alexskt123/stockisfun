@@ -25,7 +25,8 @@ const handleYearPcnt = async (ticker, year) => {
     }
   })
 
-  const quoteRes = await getQuote(ticker.toUpperCase())
+  const quoteArr = await getQuote(ticker.toUpperCase())
+  const quoteRes = quoteArr.find(x => x) || {}
   const quote = {
     ticker: ticker.toUpperCase(),
     ...quoteFilterList.reduce((acc, item) => {
@@ -123,7 +124,8 @@ const handleDays = async (ticker, days, isBus) => {
     parseInt(days) !== allPrice?.length && isBusBool
       ? allDate?.slice(Math.abs(allPrice?.length - parseInt(days)))
       : allDate
-  const quoteRes = await getQuote(ticker.toUpperCase())
+  const quoteArr = await getQuote(ticker.toUpperCase())
+  const quoteRes = quoteArr.find(x => x) || {}
 
   return {
     date,

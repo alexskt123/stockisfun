@@ -9,7 +9,8 @@ export default async (req, res) => {
   const { ticker } = req.query
 
   const data = await getMoneyCnnCouple(ticker)
-  const quote = await getQuote(ticker)
+  const quoteArr = await getQuote(ticker)
+  const quote = quoteArr.find(x => x) || {}
 
   res.statusCode = 200
   res.json({ ticker, price: quote.regularMarketPrice, ...data })

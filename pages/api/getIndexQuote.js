@@ -8,8 +8,8 @@ import { getQuote } from '@/lib/yahoo/getQuote'
 export default async (req, res) => {
   const { ticker } = req.query
 
-  const quote = await getQuote(ticker)
-
+  const quoteArr = await getQuote(ticker)
+  const quote = quoteArr.find(x => x) || {}
   const earningCapacity = await getStockEarningCapacity(ticker)
 
   res.statusCode = 200

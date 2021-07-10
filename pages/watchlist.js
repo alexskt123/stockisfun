@@ -124,7 +124,7 @@ export default function WatchList() {
           {tickers?.length > 0 && (
             <SWRTable
               requests={tickers.map(x => ({
-                request: `/api/yahoo/getQuote?ticker=${x}`,
+                request: `/api/getWatchList?ticker=${x}`,
                 key: x
               }))}
               options={{
