@@ -8,8 +8,11 @@ import { getQuote } from '@/lib/yahoo/getQuote'
 export default async (req, res) => {
   const { ticker } = req.query
 
-  const quote = await getQuote(ticker)
-  const earningsDate = await getEarningsDate(ticker)
+  const quoteArr = await getQuote(ticker)
+  const quote = quoteArr.find(x => x) || {}
+  const earningsDate = quoteArr.find(x => x)
+    ? await getEarningsDate(ticker)
+    : null
 
   res.statusCode = 200
   res.json({ ...quote, earningsDate: earningsDate.fmt })

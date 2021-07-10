@@ -4,8 +4,12 @@ import { loadingSkeletonColors } from '@/config/settings'
 import { useLoadingSkeletonColor } from '@/lib/hooks/useLoadingSkeletonColor'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
-const LoadingSkeletonTable = () => {
-  const colors = useLoadingSkeletonColor(loadingSkeletonColors)
+const LoadingSkeletonTable = ({ customColors }) => {
+  const defaultColors = useLoadingSkeletonColor(loadingSkeletonColors)
+  const colors = {
+    ...defaultColors,
+    ...customColors
+  }
   return (
     <Fragment>
       <SkeletonTheme
