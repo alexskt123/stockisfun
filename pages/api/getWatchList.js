@@ -6,10 +6,9 @@ import { getQuote } from '@/lib/yahoo/getQuote'
 
 export default async (req, res) => {
   const { ticker } = req.query
-  const tickers = [].concat(ticker)
 
-  const data = await getQuote(tickers)
+  const data = await getQuote(ticker)
 
   res.statusCode = 200
-  res.json(data)
+  res.json(data.find(x => x))
 }

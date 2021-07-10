@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import {
   priceSchema,
   priceChartSettings,
@@ -11,7 +11,11 @@ import {
   dateRangeSelectAttr,
   maSelectAttr
 } from '@/config/price'
-import { staticSWROptions, fetcher } from '@/config/settings'
+import {
+  staticSWROptions,
+  fetcher,
+  loadingSkeletonColors
+} from '@/config/settings'
 import { ma, ema } from 'moving-averages'
 import Badge from 'react-bootstrap/Badge'
 import Form from 'react-bootstrap/Form'
@@ -20,6 +24,8 @@ import useSWR from 'swr'
 
 import TradingViewModal from './TradingViewModal'
 import YahooQuoteInfo from './YahooQuoteInfo'
+
+const MADays = [5, 20, 60]
 
 function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
@@ -32,6 +38,10 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
     staticSWROptions
   )
 
+  const getMA = (days, MACalculation, price) => {
+    return MACalculation([...price], days)
+  }
+
   useEffect(() => {
     handleTicker(dateprice, settings.days, settings.ma)
     return () => setSettings(null)
@@ -43,38 +53,27 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
     //temp solution to fix the warnings - [react-chartjs-2] Warning: Each dataset needs a unique key.
     if (!inputTicker) return
 
-    const date = dateprice.data?.date || []
-    const price = dateprice.data?.price || []
-    const ma5 =
-      inputMA === 'ma'
-        ? ma([...price], 5)
-        : inputMA === 'ema'
-        ? ema([...price], 5)
-        : []
-    const ma20 =
-      inputMA === 'ma'
-        ? ma([...price], 20)
-        : inputMA === 'ema'
-        ? ema([...price], 20)
-        : []
-    const ma60 =
-      inputMA === 'ma'
-        ? ma([...price], 60)
-        : inputMA === 'ema'
-        ? ema([...price], 60)
-        : []
+    const historyPrice = dateprice.data?.historyPrice || []
+    const calMA = inputMA === 'ema' ? ema : ma
+    const [ma5, ma20, ma60] = MADays.map(day =>
+      getMA(
+        day,
+        calMA,
+        historyPrice.map(item => item.price)
+      )
+    )
 
     setSettings({
       ticker: inputTicker,
       days: inputDays,
       ma: inputMA,
       chartData: {
-        labels: [...date.slice(60)],
+        labels: [...historyPrice.slice(60).map(item => item.date)],
         datasets: [
           {
             ...priceChartSettings,
             label: inputTicker,
-            data: [...price.slice(60)],
+            data: [...historyPrice.slice(60).map(item => item.price)],
             showLine: inputMA === '' ? true : false,
             pointRadius: inputMA === '' ? 0 : 3
           },
@@ -121,65 +120,73 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
 
   return (
     <Fragment>
-      {!dateprice.data && <LoadingSpinner />}
-      {displayQuoteFields && (
-        <YahooQuoteInfo
-          data={dateprice?.data?.quote}
-          displayQuoteFields={displayQuoteFields}
-        />
+      {!dateprice.data ? (
+        <LoadingSkeletonTable customColors={loadingSkeletonColors.light} />
+      ) : (
+        <Fragment>
+          {displayQuoteFields && (
+            <YahooQuoteInfo
+              data={dateprice?.data?.quote}
+              displayQuoteFields={displayQuoteFields}
+            />
+          )}
+          <div
+            style={{ display: 'inline-flex', alignItems: 'baseline' }}
+            className="ml-1"
+          >
+            <Form.Label
+              className="my-1 mr-2"
+              htmlFor="inlineFormCustomSelectPref"
+            >
+              <h6>
+                <Badge variant="dark">
+                  <span>{'In Business Days'}</span>
+                </Badge>
+              </h6>
+            </Form.Label>
+            <Form.Control
+              {...dateRangeSelectAttr.formControl}
+              value={settings.days}
+              custom
+              onChange={e => handleChange(e)}
+            >
+              {dateRangeSelectAttr.dateRangeOptions.map((item, index) => {
+                return (
+                  <option key={`${item}${index}`} value={item.value}>
+                    {item.label}
+                  </option>
+                )
+              })}
+            </Form.Control>
+            <Form.Control
+              {...maSelectAttr.formControl}
+              value={settings.ma}
+              custom
+              onChange={e => handleChange(e)}
+            >
+              {maSelectAttr.maOptions.map((item, index) => {
+                return (
+                  <option key={`${item}${index}`} value={item.value}>
+                    {item.label}
+                  </option>
+                )
+              })}
+            </Form.Control>
+          </div>
+          <div
+            style={{ display: 'inline-flex', alignItems: 'baseline' }}
+            className="ml-1"
+          >
+            <TradingViewModal buttonClassName={'cursor'} ticker={inputTicker} />
+          </div>
+          <Line
+            data={settings.chartData}
+            options={
+              options ? { ...priceChartOptions, ...options } : priceChartOptions
+            }
+          />
+        </Fragment>
       )}
-      <div
-        style={{ display: 'inline-flex', alignItems: 'baseline' }}
-        className="ml-1"
-      >
-        <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">
-          <h6>
-            <Badge variant="dark">
-              <span>{'In Business Days'}</span>
-            </Badge>
-          </h6>
-        </Form.Label>
-        <Form.Control
-          {...dateRangeSelectAttr.formControl}
-          value={settings.days}
-          custom
-          onChange={e => handleChange(e)}
-        >
-          {dateRangeSelectAttr.dateRangeOptions.map((item, index) => {
-            return (
-              <option key={`${item}${index}`} value={item.value}>
-                {item.label}
-              </option>
-            )
-          })}
-        </Form.Control>
-        <Form.Control
-          {...maSelectAttr.formControl}
-          value={settings.ma}
-          custom
-          onChange={e => handleChange(e)}
-        >
-          {maSelectAttr.maOptions.map((item, index) => {
-            return (
-              <option key={`${item}${index}`} value={item.value}>
-                {item.label}
-              </option>
-            )
-          })}
-        </Form.Control>
-      </div>
-      <div
-        style={{ display: 'inline-flex', alignItems: 'baseline' }}
-        className="ml-1"
-      >
-        <TradingViewModal buttonClassName={'cursor'} ticker={inputTicker} />
-      </div>
-      <Line
-        data={settings.chartData}
-        options={
-          options ? { ...priceChartOptions, ...options } : priceChartOptions
-        }
-      />
     </Fragment>
   )
 }

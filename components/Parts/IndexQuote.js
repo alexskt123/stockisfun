@@ -1,7 +1,12 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import { indexQuoteInfo } from '@/config/indexQuote'
-import { staticSWROptions, fetcher } from '@/config/settings'
+import {
+  staticSWROptions,
+  fetcher,
+  loadingSkeletonColors
+} from '@/config/settings'
 import useSWR from 'swr'
 
 import YahooQuoteInfo from './YahooQuoteInfo'
@@ -10,7 +15,7 @@ function IndexQuote({ inputTicker }) {
   const [quoteData, setQuoteData] = useState([])
 
   const { data } = useSWR(
-    `/api/getIndexQuote?ticker=${inputTicker}`,
+    () => inputTicker && `/api/getIndexQuote?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )
@@ -22,7 +27,11 @@ function IndexQuote({ inputTicker }) {
 
   return (
     <Fragment>
-      <YahooQuoteInfo data={quoteData} displayQuoteFields={indexQuoteInfo} />
+      {data ? (
+        <YahooQuoteInfo data={quoteData} displayQuoteFields={indexQuoteInfo} />
+      ) : (
+        <LoadingSkeletonTable customColors={loadingSkeletonColors.light} />
+      )}
     </Fragment>
   )
 }

@@ -14,7 +14,8 @@ export default async (req, res) => {
 
   const income = await getIncomeStatement(ticker)
   const financialData = await getFinancialData(ticker)
-  const quote = await getQuote(ticker)
+  const quoteArr = await getQuote(ticker)
+  const quote = quoteArr.find(x => x) || {}
   const assetProfile = await getAssetProfile(ticker)
 
   const earningCapacity = await getStockEarningCapacity(ticker)

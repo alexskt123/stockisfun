@@ -14,7 +14,8 @@ export default async (req, res) => {
   const keyStat = await getYahooStatistics(ticker)
 
   const data = await getAssetProfile(ticker)
-  const quote = await getQuote(ticker)
+  const quoteArr = await getQuote(ticker)
+  const quote = quoteArr.find(x => x) || {}
 
   const basics = getYahooBasicsData(data, quote)
 

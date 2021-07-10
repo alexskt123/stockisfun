@@ -1,7 +1,7 @@
 import { Fragment, useState, useEffect } from 'react'
 
 import AddDelStock from '@/components/Fire/AddDelStock'
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
+import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import HappyShare from '@/components/Parts/HappyShare'
 import Price from '@/components/Parts/Price'
 import QuoteCard from '@/components/Parts/QuoteCard'
@@ -66,7 +66,7 @@ function PriceTab({ inputTicker }) {
   }, [data, inputTicker])
 
   return !data ? (
-    <LoadingSpinner />
+    <LoadingSkeletonTable />
   ) : settings.basics.tableData
       .filter(x => x.find(x => x) === 'Price')
       .find(x => x) ? (

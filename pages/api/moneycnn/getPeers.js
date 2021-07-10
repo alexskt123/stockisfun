@@ -17,7 +17,10 @@ export default async (req, res) => {
   const data = await getPeers(ticker)
 
   const quotes = await Promise.all(
-    data.map(async item => await getQuote(item.Ticker))
+    data.map(async item => {
+      const quoteArr = await getQuote(item.Ticker)
+      return quoteArr.find(x => x) || {}
+    })
   )
 
   const newData = [...data].map(item => {

@@ -1,7 +1,6 @@
 import { Fragment, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
-import LoadingSpinner from '@/components/Loading/LoadingSpinner'
 import SearchAccordion from '@/components/Page/SearchAccordion'
 import SWRTable from '@/components/Page/SWRTable'
 import TickerBullet from '@/components/Page/TickerBullet'
@@ -28,7 +27,6 @@ export default function WatchList() {
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
-  const [clicked, setClicked] = useState(false)
 
   const [showUpdate, setShowUpdate] = useState(false)
   const handleUpdateClose = () => setShowUpdate(false)
@@ -62,10 +60,8 @@ export default function WatchList() {
   }
 
   async function handleTickers(inputTickersWithComma) {
-    setClicked(true)
     const newTickers = inputTickersWithComma.map(item => item.toUpperCase())
     setTickers([...newTickers])
-    setClicked(false)
   }
 
   const handleSubmit = event => {
@@ -93,13 +89,11 @@ export default function WatchList() {
               handleSubmit={handleSubmit}
               placeholderText={'Single:  voo /  Mulitple:  voo,arkk,smh'}
               handleChange={handleChange}
-              clicked={clicked}
               clearItems={clearItems}
               exportFileName={'Stock_watch_list.csv'}
             />
             <TickerBullet tickers={tickers} removeItem={removeItem} />
           </SearchAccordion>
-          {clicked && <LoadingSpinner />}
           <Row
             className="ml-1 mt-3"
             style={{ display: 'flex', alignItems: 'center' }}
@@ -124,7 +118,7 @@ export default function WatchList() {
           {tickers?.length > 0 && (
             <SWRTable
               requests={tickers.map(x => ({
-                request: `/api/yahoo/getQuote?ticker=${x}`,
+                request: `/api/getWatchList?ticker=${x}`,
                 key: x
               }))}
               options={{
