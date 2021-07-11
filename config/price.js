@@ -1,3 +1,7 @@
+import AddDelStock from '@/components/Fire/AddDelStock'
+import HappyShare from '@/components/Parts/HappyShare'
+import { convertToPercentage, getVariant } from '@/lib/commonFunction'
+
 export const chartDataSet = {
   fill: false,
   lineTension: 0.1,
@@ -246,29 +250,85 @@ export const maSelectAttr = {
   ]
 }
 
-export const priceTabLabelPairs = [
-  {
-    name: 'Name',
-    value: ''
-  },
-  {
-    name: 'Price',
-    value: ''
-  },
-  {
-    name: 'Price%',
-    value: ''
-  },
-  {
-    name: '52W-L-H',
-    value: ''
-  },
-  {
-    name: 'Market Cap.',
-    value: ''
-  },
-  {
-    name: 'Industry',
-    value: ''
-  }
+export const priceTabLabelPairs = inputTicker => [
+  [
+    {
+      name: 'Name',
+      value: '',
+      showLabel: true,
+      append: [
+        <AddDelStock
+          key={'AddDelStock'}
+          inputTicker={inputTicker}
+          handleList="stock"
+        />,
+        <HappyShare key={'HappyShare'} />
+      ]
+    }
+  ],
+  [
+    {
+      name: 'Price',
+      value: '',
+      showLabel: true
+    },
+    {
+      name: 'Price%',
+      value: '',
+      showLabel: false,
+      format: e => convertToPercentage(e / 100),
+      variant: getVariant
+    },
+    {
+      name: '52W-L-H',
+      value: '',
+      showLabel: true
+    }
+  ],
+  [
+    {
+      name: 'Floating Shares',
+      value: '',
+      showLabel: true
+    },
+    {
+      name: 'Market Cap.',
+      value: '',
+      showLabel: true
+    }
+  ],
+  [
+    {
+      name: 'Industry',
+      value: '',
+      showLabel: true
+    }
+  ]
 ]
+
+// export const priceTabLabelPairs = [
+//   {
+//     name: 'Name',
+//     value: ''
+//   },
+//   {
+//     name: 'Price',
+//     value: ''
+//   },
+//   {
+//     name: 'Price%',
+//     value: ''
+//   },
+//   {
+//     name: '52W-L-H',
+//     value: ''
+//   },
+//   {
+//     name: 'Market Cap.',
+//     value: ''
+//   },
+//   {
+//     name: 'Industry',
+//     value: ''
+//   }
+// ]

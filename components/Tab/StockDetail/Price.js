@@ -1,151 +1,79 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import AddDelStock from '@/components/Fire/AddDelStock'
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
-import HappyShare from '@/components/Parts/HappyShare'
 import Price from '@/components/Parts/Price'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { priceTabLabelPairs } from '@/config/price'
 import { staticSWROptions, fetcher } from '@/config/settings'
-import { convertToPercentage } from '@/lib/commonFunction'
-import { getBasics } from '@/lib/stockInfo'
-// import { fireToast } from '@/lib/toast'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 import useSWR from 'swr'
 
-const defaultSettings = { basics: { tableData: [] }, floatingShareRatio: 'N/A' }
-
 function PriceTab({ inputTicker }) {
   const { data } = useSWR(
-    `/api/getStockDetailPriceTab?ticker=${inputTicker}`,
+    () => inputTicker && `/api/getStockDetailPriceTab?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )
 
-  const [settings, setSettings] = useState(defaultSettings)
-  const [labels, setLabels] = useState([...priceTabLabelPairs])
+  const [valuePairs, setValuePairs] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    //todo: fix all problems with {} instead of null...
-    if (!data?.basics.Name) {
-      // if (data && inputTicker) {
-      //   fireToast({
-      //     icon: 'error',
-      //     title: 'Invalid Ticker'
-      //   })
-      // }
-      setSettings(defaultSettings)
+    if (!data) {
       return
     }
 
-    const handledData = data || { basics: {}, floatingShareRatio: 'N/A' }
+    setLoading(true)
 
-    const { basics } = handledData
-    const basicsData = getBasics(basics) || { tableData: [] }
-
-    setLabels(
-      priceTabLabelPairs.map(item => {
-        return {
-          name: item.name,
-          value: (basicsData.basics.tableData
-            .filter(x => x.find(x => x) === item.name)
-            .find(x => x) || [])[1]
-        }
+    setValuePairs(
+      priceTabLabelPairs(inputTicker).map(row => {
+        return row.map(item => {
+          return {
+            ...item,
+            value: data[item.name]
+          }
+        })
       })
     )
-
-    if (data && basicsData.basics.tableData) {
-      setSettings(s => ({
-        ...s,
-        basics: basicsData.basics,
-        floatingShareRatio: handledData.floatingShareRatio
-      }))
-    }
+    setLoading(false)
   }, [data, inputTicker])
 
-  return !data ? (
+  return loading ? (
     <LoadingSkeletonTable />
-  ) : settings.basics.tableData
-      .filter(x => x.find(x => x) === 'Price')
-      .find(x => x) ? (
+  ) : data ? (
     <Fragment>
-      <Row className="ml-1 mt-1" style={{ display: 'flex', alignItems: 'end' }}>
-        <h6>
-          <Badge variant="dark">{'Name: '}</Badge>
-        </h6>
-        <h6>
-          <Badge variant="light" className="ml-2">
-            {labels.find(x => x.name === 'Name').value}
-          </Badge>
-        </h6>
-        <AddDelStock inputTicker={inputTicker} handleList="stock" />
-        <HappyShare />
-      </Row>
-      <Row className="ml-1">
-        <h6>
-          <Badge variant="dark">{'Price: '}</Badge>
-        </h6>
-        <h6>
-          <Badge variant="light" className="ml-2">
-            {labels.find(x => x.name === 'Price').value}
-          </Badge>
-        </h6>
-        <h6>
-          <Badge
-            variant={
-              labels.find(x => x.name === 'Price%').value >= 0
-                ? 'success'
-                : 'danger'
-            }
+      {valuePairs.map((row, idx) => {
+        return (
+          <Row
+            key={idx}
+            className="ml-1 mt-1"
+            style={{ display: 'flex', alignItems: 'end' }}
           >
-            {convertToPercentage(
-              labels.find(x => x.name === 'Price%').value / 100
-            )}
-          </Badge>
-        </h6>
-        <h6>
-          <Badge className="ml-3" variant="dark">
-            {'52W-L-H: '}
-          </Badge>
-        </h6>
-        <h6>
-          <Badge variant="light" className="ml-2">
-            {labels.find(x => x.name === '52W-L-H').value}
-          </Badge>
-        </h6>
-      </Row>
-      <Row className="ml-1">
-        <h6>
-          <Badge variant="dark">{'Floating Shares: '}</Badge>
-        </h6>
-        <h6>
-          <Badge variant="light" className="ml-2">
-            {settings.floatingShareRatio}
-          </Badge>
-        </h6>
-        <h6>
-          <Badge variant="dark" className="ml-2">
-            {'Market Cap.: '}
-          </Badge>
-        </h6>
-        <h6>
-          <Badge variant="light" className="ml-2">
-            {labels.find(x => x.name === 'Market Cap.').value}
-          </Badge>
-        </h6>
-      </Row>
-      <Row className="ml-1">
-        <h6>
-          <Badge variant="dark">{'Industry: '}</Badge>
-        </h6>
-        <h6>
-          <Badge variant="light" className="ml-2">
-            {labels.find(x => x.name === 'Industry').value}
-          </Badge>
-        </h6>
-      </Row>
+            {row.map((item, idx) => {
+              const variant = item?.variant
+                ? item.variant(item.value, 'success', 'secondary', 'danger')
+                : 'light'
+              return (
+                <Fragment key={idx}>
+                  {item?.showLabel && (
+                    <h6>
+                      <Badge variant="dark">{item.name}</Badge>
+                    </h6>
+                  )}
+                  <h6>
+                    <Badge variant={variant} className="ml-2">
+                      {item?.format ? item?.format(item.value) : item.value}
+                    </Badge>
+                  </h6>
+                  {item?.append && item.append.map(append => append)}
+                </Fragment>
+              )
+            })}
+          </Row>
+        )
+      })}
       <QuoteCard
         inputTicker={inputTicker}
         isShow={true}
