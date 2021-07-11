@@ -2,21 +2,27 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import Quote from '@/lib/quote'
 import { getYahooBasicsData } from '@/lib/stockInfo'
 import { getAssetProfile } from '@/lib/yahoo/getAssetProfile'
-import { getQuote } from '@/lib/yahoo/getQuote'
+
+const getData = async (ticker, quoteData) => {
+  const assetProfileData = await getAssetProfile(ticker)
+  const newData = getYahooBasicsData(assetProfileData, quoteData)
+
+  return {
+    ...newData
+  }
+}
 
 export default async (req, res) => {
   const { ticker } = req.query
 
-  const data = await getAssetProfile(ticker)
-  const quoteArr = await getQuote(ticker)
-  const quote = quoteArr.find(x => x) || {}
+  const quote = new Quote(ticker)
+  await quote.request()
 
-  const newData = getYahooBasicsData(data, quote)
+  const result = quote.valid ? await getData(ticker, quote.quoteData) : null
 
   res.statusCode = 200
-  res.json({
-    ...newData
-  })
+  res.json(result)
 }

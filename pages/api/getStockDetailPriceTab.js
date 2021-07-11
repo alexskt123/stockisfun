@@ -18,7 +18,7 @@ const getData = async (ticker, quoteData) => {
     : 'N/A'
 
   return {
-    ...basics,
+    ...basics.basics,
     'Floating Shares': floatingShareRatio
   }
 }

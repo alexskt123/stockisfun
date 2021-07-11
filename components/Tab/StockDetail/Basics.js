@@ -20,9 +20,10 @@ export default function Basics({ inputTicker }) {
   }
 
   const [settings, setSettings] = useState({ ...defaultBasics })
+  const [loading, setLoading] = useState(false)
 
   const { data } = useSWR(
-    `/api/yahoo/getYahooBasics?ticker=${inputTicker}`,
+    () => inputTicker && `/api/yahoo/getYahooBasics?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )
@@ -37,7 +38,9 @@ export default function Basics({ inputTicker }) {
   }
 
   useEffect(() => {
+    setLoading(true)
     handleBasics(data)
+    setLoading(false)
     return () => setSettings(null)
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,9 +48,9 @@ export default function Basics({ inputTicker }) {
 
   return (
     <Fragment>
-      {!data ? (
+      {loading ? (
         <LoadingSkeletonTable />
-      ) : data.Name ? (
+      ) : data ? (
         <Fragment>
           <StockInfoTable
             tableSize="sm"

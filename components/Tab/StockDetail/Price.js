@@ -59,11 +59,13 @@ function PriceTab({ inputTicker }) {
                 <Fragment key={idx}>
                   {item?.showLabel && (
                     <h6>
-                      <Badge variant="dark">{item.name}</Badge>
+                      <Badge variant="dark" className="ml-1">
+                        {item.name}
+                      </Badge>
                     </h6>
                   )}
                   <h6>
-                    <Badge variant={variant} className="ml-2">
+                    <Badge variant={variant} className="ml-1">
                       {item?.format ? item?.format(item.value) : item.value}
                     </Badge>
                   </h6>
