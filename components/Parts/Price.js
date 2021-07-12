@@ -14,7 +14,8 @@ import {
 import {
   staticSWROptions,
   fetcher,
-  loadingSkeletonColors
+  loadingSkeletonColors,
+  loadingSkeletonPriceParts
 } from '@/config/settings'
 import { ma, ema } from 'moving-averages'
 import Badge from 'react-bootstrap/Badge'
@@ -121,7 +122,10 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   return (
     <Fragment>
       {!dateprice.data ? (
-        <LoadingSkeletonTable customColors={loadingSkeletonColors.light} />
+        <LoadingSkeletonTable
+          customColors={loadingSkeletonColors.light}
+          customSettings={loadingSkeletonPriceParts}
+        />
       ) : (
         <Fragment>
           {displayQuoteFields && (
