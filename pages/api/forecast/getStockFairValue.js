@@ -5,10 +5,11 @@
 import { getFinanchill } from '@/lib/forecast/getFinanchill'
 import { getMoneyCnnCouple } from '@/lib/forecast/getMoneyCnn'
 import { getWalletInvestor } from '@/lib/forecast/getWalletInvestor'
+import { getAPIResponse } from '@/lib/request'
 import { getRecommendTrend } from '@/lib/yahoo/getRecommendTrend'
 
-export default async (req, res) => {
-  const { ticker } = req.query
+const getData = async args => {
+  const { ticker } = args
 
   const responses = await Promise.all([
     getWalletInvestor(ticker),
@@ -17,16 +18,20 @@ export default async (req, res) => {
     getRecommendTrend(ticker)
   ])
 
-  res.statusCode = 200
-  res.json(
-    responses.reduce(
-      (acc, item) => {
-        return {
-          ...acc,
-          ...item
-        }
-      },
-      { symbol: ticker }
-    )
+  return responses.reduce(
+    (acc, item) => {
+      return {
+        ...acc,
+        ...item
+      }
+    },
+    { symbol: ticker }
   )
+}
+
+export default async (req, res) => {
+  const response = await getAPIResponse(req, getData)
+
+  res.statusCode = 200
+  res.json(response)
 }

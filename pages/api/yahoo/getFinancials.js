@@ -3,14 +3,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { roundTo, calPcnt } from '@/lib/commonFunction'
+import { getAPIResponse } from '@/lib/request'
 import { getStockEarningCapacity } from '@/lib/stockInfo'
 import { getAssetProfile } from '@/lib/yahoo/getAssetProfile'
 import { getFinancialData } from '@/lib/yahoo/getFinancialData'
 import { getIncomeStatement } from '@/lib/yahoo/getIncomeStatement'
 import { getQuote } from '@/lib/yahoo/getQuote'
 
-export default async (req, res) => {
-  const { ticker } = req.query
+const getData = async args => {
+  const { ticker } = args
 
   const income = await getIncomeStatement(ticker)
   const financialData = await getFinancialData(ticker)
@@ -41,6 +42,12 @@ export default async (req, res) => {
     ...earningCapacity
   }
 
+  return data
+}
+
+export default async (req, res) => {
+  const response = await getAPIResponse(req, getData)
+
   res.statusCode = 200
-  res.json(data)
+  res.json(response)
 }

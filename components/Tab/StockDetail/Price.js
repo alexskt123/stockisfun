@@ -5,7 +5,11 @@ import Price from '@/components/Parts/Price'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { priceTabLabelPairs } from '@/config/price'
-import { staticSWROptions, fetcher } from '@/config/settings'
+import {
+  staticSWROptions,
+  fetcher,
+  loadingSkeletonTableChart
+} from '@/config/settings'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 import useSWR from 'swr'
@@ -37,7 +41,7 @@ function PriceTab({ inputTicker }) {
   }, [data])
 
   return inputTicker && !data ? (
-    <LoadingSkeletonTable />
+    <LoadingSkeletonTable customSettings={loadingSkeletonTableChart} />
   ) : data?.result ? (
     <Fragment>
       {valuePairs.map((row, idx) => {

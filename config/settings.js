@@ -121,3 +121,8 @@ export const loadingSkeletonColors = {
     highlightColor: '#444'
   }
 }
+
+export const loadingSkeletonTableChart = [
+  { props: { count: 5 } },
+  { props: { height: 150 }, separator: 'mt-3' }
+]

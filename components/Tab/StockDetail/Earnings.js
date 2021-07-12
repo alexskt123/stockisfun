@@ -4,7 +4,11 @@ import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
-import { staticSWROptions, fetcher } from '@/config/settings'
+import {
+  staticSWROptions,
+  fetcher,
+  loadingSkeletonTableChart
+} from '@/config/settings'
 import { getEarningsData } from '@/lib/stockInfo'
 import { Bar } from 'react-chartjs-2'
 import useSWR from 'swr'
@@ -31,7 +35,7 @@ export default function Earnings({ inputTicker }) {
   return (
     <Fragment>
       {!data && inputTicker ? (
-        <LoadingSkeletonTable />
+        <LoadingSkeletonTable customSettings={loadingSkeletonTableChart} />
       ) : data?.result?.length > 0 ? (
         <Fragment>
           <StockInfoTable
