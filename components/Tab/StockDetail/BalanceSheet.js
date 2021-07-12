@@ -13,13 +13,13 @@ export default function BalanceSheet({ inputTicker }) {
   const [settings, setSettings] = useState({})
 
   const { data } = useSWR(
-    `/api/yahoo/getBalanceSheet?ticker=${inputTicker}`,
+    () => inputTicker && `/api/yahoo/getBalanceSheet?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )
 
   function handleBalanceSheet(data) {
-    const balanceSheetData = getBalanceSheetTableData(data)
+    const balanceSheetData = getBalanceSheetTableData(data?.result)
     setSettings(balanceSheetData)
   }
 
@@ -30,9 +30,9 @@ export default function BalanceSheet({ inputTicker }) {
 
   return (
     <Fragment>
-      {!data ? (
+      {!data && inputTicker ? (
         <LoadingSkeletonTable />
-      ) : data?.length > 0 ? (
+      ) : data?.result?.length > 0 ? (
         <Fragment>
           <StockInfoTable
             tableSize="sm"

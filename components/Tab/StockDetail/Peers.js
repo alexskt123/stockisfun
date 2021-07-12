@@ -11,13 +11,13 @@ export default function Peers({ inputTicker }) {
   const [settings, setSettings] = useState({ ...initSettings })
 
   const { data } = useSWR(
-    `/api/moneycnn/getPeers?ticker=${inputTicker}`,
+    () => inputTicker && `/api/moneycnn/getPeers?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )
 
   function handleQuote(data) {
-    const peers = (data || []).reduce(
+    const peers = (data?.result || []).reduce(
       (acc, cur) => {
         acc.tableHeader = [...peersHeader]
         acc.tableData.push([...peersHeader.map(item => cur[item])])
@@ -36,9 +36,9 @@ export default function Peers({ inputTicker }) {
 
   return (
     <Fragment>
-      {!data ? (
+      {!data && inputTicker ? (
         <LoadingSkeletonTable />
-      ) : data.length > 0 ? (
+      ) : data?.result?.length > 0 ? (
         <StockInfoTable
           tableSize="sm"
           tableHeader={settings.tableHeader}

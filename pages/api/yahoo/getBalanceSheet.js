@@ -2,15 +2,20 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { getAPIResponse } from '@/lib/request'
 import { getBalanceSheetData } from '@/lib/stockInfo'
 import { getBalanceSheet } from '@/lib/yahoo/getBalanceSheet'
 
-export default async (req, res) => {
-  const { ticker } = req.query
-
+const getData = async args => {
+  const { ticker } = args
   const balanceSheet = await getBalanceSheet(ticker)
   const balanceSheetExtract = getBalanceSheetData(balanceSheet)
+  return [...balanceSheetExtract]
+}
+
+export default async (req, res) => {
+  const response = await getAPIResponse(req, getData)
 
   res.statusCode = 200
-  res.json([...balanceSheetExtract])
+  res.json(response)
 }

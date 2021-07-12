@@ -1,5 +1,6 @@
-import { getHost, toAxios } from '@/lib/commonFunction'
+import { getHost } from '@/lib/commonFunction'
 import { getEmailsByCategory } from '@/lib/firebaseResult'
+import { toAxios } from '@/lib/request'
 
 export default async (req, res) => {
   const { category } = req.query

@@ -13,13 +13,13 @@ export default function Earnings({ inputTicker }) {
   const [settings, setSettings] = useState({})
 
   const { data } = useSWR(
-    `/api/yahoo/getEarnings?ticker=${inputTicker}`,
+    () => inputTicker && `/api/yahoo/getEarnings?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )
 
   function handleEarnings(data) {
-    const { earnings } = getEarningsData(data)
+    const { earnings } = getEarningsData(data?.result)
     setSettings(earnings)
   }
 
@@ -30,9 +30,9 @@ export default function Earnings({ inputTicker }) {
 
   return (
     <Fragment>
-      {!data ? (
+      {!data && inputTicker ? (
         <LoadingSkeletonTable />
-      ) : data?.length > 0 ? (
+      ) : data?.result?.length > 0 ? (
         <Fragment>
           <StockInfoTable
             tableSize="sm"

@@ -18,31 +18,27 @@ function PriceTab({ inputTicker }) {
   )
 
   const [valuePairs, setValuePairs] = useState([])
-  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (!data) {
+    if (!data?.result) {
       return
     }
 
-    setLoading(true)
-
     setValuePairs(
-      priceTabLabelPairs(inputTicker).map(row => {
+      priceTabLabelPairs(data.result?.Symbol).map(row => {
         return row.map(item => {
           return {
             ...item,
-            value: data[item.name]
+            value: data.result[item.name]
           }
         })
       })
     )
-    setLoading(false)
-  }, [data, inputTicker])
+  }, [data])
 
-  return loading ? (
+  return inputTicker && !data ? (
     <LoadingSkeletonTable />
-  ) : data ? (
+  ) : data?.result ? (
     <Fragment>
       {valuePairs.map((row, idx) => {
         return (
