@@ -8,7 +8,7 @@ const HighlightSWRTable = ({ watchList }) => {
     <Fragment>
       <SWRTable
         requests={watchList.map(x => ({
-          request: `/api/highlightWatchlist?ticker=${x}`,
+          request: `/api/page/highlightWatchlist?ticker=${x}`,
           key: x
         }))}
         options={{

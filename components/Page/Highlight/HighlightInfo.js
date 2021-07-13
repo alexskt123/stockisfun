@@ -17,14 +17,14 @@ export default function HighlightInfo({ query }) {
   }
 
   const { data } = useSWR(
-    () => ticker && `/api/quote?ticker=${ticker}`,
+    () => ticker && `/api/yahoo/getQuoteType?ticker=${ticker}`,
     fetcher
   )
 
   useEffect(() => {
     if (!data) return
 
-    if (!data.valid) {
+    if (!data?.result) {
       fireToast({
         icon: 'error',
         title: 'Please enter a valid symbol!'
@@ -39,9 +39,9 @@ export default function HighlightInfo({ query }) {
     <Fragment>
       <HighlightSearch />
 
-      <HighlightTickerAlert valid={data?.valid} />
+      <HighlightTickerAlert valid={data?.result?.valid} />
 
-      {Component && createElement(Component, { ticker, data })}
+      {Component && createElement(Component, { ticker, data: data?.result })}
     </Fragment>
   )
 }

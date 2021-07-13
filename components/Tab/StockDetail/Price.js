@@ -16,7 +16,8 @@ import useSWR from 'swr'
 
 function PriceTab({ inputTicker }) {
   const { data } = useSWR(
-    () => inputTicker && `/api/getStockDetailPriceTab?ticker=${inputTicker}`,
+    () =>
+      inputTicker && `/api/page/getStockDetailPriceTab?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )

@@ -101,7 +101,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
                   disabled={!allowCheck}
                   target="_blank"
                   className="ml-2"
-                  href={settings.priceHref}
+                  href={settings?.priceHref}
                   variant="dark"
                 >
                   {'All Price%'}
@@ -111,7 +111,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
                   disabled={!allowCheck}
                   target="_blank"
                   className="ml-2"
-                  href={settings.forecastHref}
+                  href={settings?.forecastHref}
                   variant="outline-dark"
                 >
                   {'All Forecast'}
@@ -121,7 +121,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
                   disabled={!allowCheck}
                   target="_blank"
                   className="ml-2"
-                  href={settings.watchlistHref}
+                  href={settings?.watchlistHref}
                   variant="outline-success"
                 >
                   <BsEye />
