@@ -124,5 +124,13 @@ const getQuoteModules = async (ticker, modules) => {
   const request = async m => await quote.requestModule(m)
   await Promise.all(modules.map(request))
 
-  return quote.moduleData
+  const quoteData = {
+    name: 'quote',
+    data: quote.valid ? { ...quote.quoteData } : undefined
+  }
+
+  return {
+    ...quote.moduleData,
+    modules: [...quote.moduleData.modules, quoteData]
+  }
 }
