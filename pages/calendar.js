@@ -37,7 +37,7 @@ export default function BigCalendar() {
             header={'Calendar'}
             isShow={true}
             noClose={true}
-            customBgColor={{ normal: 'white', darkmode: '#adadad' }}
+            customBgColor={{ normal: 'white', darkMode: '#adadad' }}
           >
             <LoadingOverlay
               active={user && eventList?.length <= 0}

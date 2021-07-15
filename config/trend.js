@@ -62,7 +62,7 @@ export const trendBarCategory = [
   { label: 'Semiconductor', ticker: '^SOX' }
 ]
 
-export const barchartOptions = {
+export const barChartOptions = {
   indexAxis: 'y',
   elements: {
     bar: {

@@ -51,7 +51,7 @@ export default function CompareAUM() {
           <TickerInput
             validated={validated}
             handleSubmit={handleSubmit}
-            placeholderText={'Single:  aapl /  Mulitple:  tsm,gh'}
+            placeholderText={'Single:  aapl /  Multiple:  tsm,gh'}
             handleChange={handleChange}
             clearItems={clearItems}
           />

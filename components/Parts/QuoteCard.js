@@ -24,7 +24,7 @@ export default function QuoteCard({
 
   const defaultBgColor = {
     normal: 'white',
-    darkmode: '#e3e3e3'
+    darkMode: '#e3e3e3'
   }
 
   const setBgColor = {
@@ -32,7 +32,7 @@ export default function QuoteCard({
     ...customBgColor
   }
 
-  const bgColor = useBgColor(setBgColor.normal, setBgColor.darkmode)
+  const bgColor = useBgColor(setBgColor.normal, setBgColor.darkMode)
 
   useEffect(() => {
     setShowCard(isShow)

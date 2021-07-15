@@ -11,7 +11,7 @@ import useSWR from 'swr'
 export default function HighlightInfo({ query }) {
   const { type, ticker } = query
 
-  const hightlightInfoConfig = {
+  const highlightInfoConfig = {
     quote: HighlightPriceQuote,
     detail: HighlightDetail
   }
@@ -33,7 +33,7 @@ export default function HighlightInfo({ query }) {
     }
   }, [data, ticker])
 
-  const Component = hightlightInfoConfig[type] || null
+  const Component = highlightInfoConfig[type] || null
 
   return (
     <Fragment>

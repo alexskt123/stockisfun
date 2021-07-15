@@ -232,7 +232,7 @@ export const maSelectAttr = {
     size: 'sm',
     as: 'select',
     className: 'my-1 mr-sm-2',
-    name: 'formma'
+    name: 'formMA'
   },
   maOptions: [
     {

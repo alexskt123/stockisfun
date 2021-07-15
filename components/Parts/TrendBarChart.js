@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
 
 import GooeySpinner from '@/components/Loading/GooeySpinner'
-import { trendChangeDateRangeSelectAttr, barchartOptions } from '@/config/trend'
+import { trendChangeDateRangeSelectAttr, barChartOptions } from '@/config/trend'
 import { useTrendBarChartData } from '@/lib/hooks/charts'
 import Badge from 'react-bootstrap/Badge'
 import Form from 'react-bootstrap/Form'
@@ -55,7 +55,7 @@ const TrendBarChart = ({ input }) => {
       {barChartData ? (
         <Fragment>
           <QuoteCard isShow={true} noClose={true}>
-            <Bar data={barChartData} options={barchartOptions} />
+            <Bar data={barChartData} options={barChartOptions} />
           </QuoteCard>
         </Fragment>
       ) : (
