@@ -5,7 +5,6 @@
 import { getFinanchill } from '@/lib/forecast/getFinanchill'
 import { getMoneyCnnCouple } from '@/lib/forecast/getMoneyCnn'
 import { getWalletInvestor } from '@/lib/forecast/getWalletInvestor'
-import { getAPIResponse } from '@/lib/request'
 import { getRecommendTrend } from '@/lib/yahoo/getRecommendTrend'
 
 const getData = async args => {
@@ -30,7 +29,7 @@ const getData = async args => {
 }
 
 export default async (req, res) => {
-  const response = await getAPIResponse(req, getData)
+  const response = await getData(req.query)
 
   res.statusCode = 200
   res.json(response)
