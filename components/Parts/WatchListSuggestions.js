@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState, useMemo } from 'react'
 
 import { randBackgroundColor } from '@/lib/commonFunction'
-import { getHighlistWatchList } from '@/lib/firebaseResult'
+import { getHighlightWatchList } from '@/lib/firebaseResult'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
@@ -15,7 +15,7 @@ function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
 
   useEffect(() => {
     ;(async () => {
-      const watchList = await getHighlistWatchList()
+      const watchList = await getHighlightWatchList()
       const newWatchList = Object.keys(watchList).reduce((acc, cur) => {
         const item = { label: cur, list: watchList[cur] }
         return acc.concat(item)

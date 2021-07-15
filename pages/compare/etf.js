@@ -51,7 +51,7 @@ export default function CompareETF() {
           <TickerInput
             validated={validated}
             handleSubmit={handleSubmit}
-            placeholderText={'Single:  voo /  Mulitple:  voo,arkk,smh'}
+            placeholderText={'Single:  voo /  Multiple:  voo,arkk,smh'}
             handleChange={handleChange}
             clearItems={clearItems}
           />
