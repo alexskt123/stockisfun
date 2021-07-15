@@ -19,12 +19,12 @@ export default function Highlight() {
   const userData = useUserData(user)
 
   //todo: wrap watchlist
-  const [watchList, setwatchList] = useState([])
+  const [watchList, setWatchList] = useState([])
   const [watchListName, setWatchListName] = useState(null)
 
   const onClickWatchListButton = ({ label, list }) => {
     const isShow = watchListName !== label ? true : !(watchList.length > 0)
-    isShow ? setwatchList(list) : setwatchList([])
+    isShow ? setWatchList(list) : setWatchList([])
     setWatchListName(label)
   }
 

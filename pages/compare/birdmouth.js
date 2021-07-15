@@ -101,7 +101,7 @@ export default function CompareBirdMouth() {
           <TickerInput
             validated={validated}
             handleSubmit={handleSubmit}
-            placeholderText={'Single:  aapl /  Mulitple:  aapl,tdoc,fb,gh'}
+            placeholderText={'Single:  aapl /  Multiple:  aapl,tdoc,fb,gh'}
             handleChange={handleChange}
             clearItems={clearItems}
             handleTickers={handleTickers}

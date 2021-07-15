@@ -20,7 +20,7 @@ export default async (req, res) => {
   const emailTemplate = await getPriceMAHTMLTemplate({
     tickerArr,
     genChart,
-    nane: curEmailTemplate.name
+    name: curEmailTemplate.name
   })
 
   const mailOptions = {
