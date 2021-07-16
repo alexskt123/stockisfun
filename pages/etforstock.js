@@ -12,17 +12,18 @@ export default function ETFOrStock() {
   const { ticker } = router.query
 
   const { data } = useSWR(
-    `/api/quote?ticker=${ticker}`,
+    () => ticker && `/api/yahoo/getQuoteType?ticker=${ticker}`,
     fetcher,
     staticSWROptions
   )
 
   useEffect(() => {
-    if (data && ticker) {
+    if (data?.result && ticker) {
+      const result = data.result
       const href =
-        data.valid && data.type === 'EQUITY'
+        result.valid && result.type === 'EQUITY'
           ? 'stockdetail'
-          : data.valid && data.type === 'ETF'
+          : result.valid && result.type === 'ETF'
           ? 'etfdetail'
           : ''
       router.replace(`/${href}?query=${ticker}`)

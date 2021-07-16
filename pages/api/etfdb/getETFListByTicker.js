@@ -4,10 +4,10 @@
 
 import { etfListByTickerCount } from '@/config/etf'
 import { getETFListByTicker } from '@/lib/etfdb/getETFListByTicker'
+import { getAPIResponse } from '@/lib/request'
 
-export default async (req, res) => {
-  const { ticker } = req.query
-
+const getData = async args => {
+  const { ticker } = args
   const etfInfo = await getETFListByTicker(ticker)
   const data = {
     ...etfInfo,
@@ -16,6 +16,12 @@ export default async (req, res) => {
     ]
   }
 
+  return data
+}
+
+export default async (req, res) => {
+  const response = await getAPIResponse(req, getData)
+
   res.statusCode = 200
-  res.json(data)
+  res.json(response)
 }

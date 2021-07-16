@@ -118,7 +118,7 @@ export default function WatchList() {
           {tickers?.length > 0 && (
             <SWRTable
               requests={tickers.map(x => ({
-                request: `/api/getWatchList?ticker=${x}`,
+                request: `/api/page/getWatchList?ticker=${x}`,
                 key: x
               }))}
               options={{

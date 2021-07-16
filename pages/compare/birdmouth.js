@@ -8,10 +8,10 @@ import BirdMouth from '@/components/Parts/BirdMouth'
 import {
   forecastSettingSchema,
   handleDebounceChange,
-  handleFormSubmit,
-  toAxios
+  handleFormSubmit
 } from '@/lib/commonFunction'
 import { useQuery } from '@/lib/hooks/useQuery'
+import { toAxios } from '@/lib/request'
 import { useRouter } from 'next/router'
 
 export default function CompareBirdMouth() {

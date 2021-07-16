@@ -2,11 +2,11 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { getAPIResponse } from '@/lib/request'
 import { getIncomeStatement } from '@/lib/yahoo/getIncomeStatement'
 
-export default async (req, res) => {
-  const { ticker } = req.query
-
+const getData = async args => {
+  const { ticker } = args
   const earnings = await getIncomeStatement(ticker)
   const earningsExtract = earnings.map(item => {
     return {
@@ -17,7 +17,12 @@ export default async (req, res) => {
       'Net Income': item.netIncome.raw
     }
   })
+  return earningsExtract
+}
+
+export default async (req, res) => {
+  const response = await getAPIResponse(req, getData)
 
   res.statusCode = 200
-  res.json(earningsExtract)
+  res.json(response)
 }

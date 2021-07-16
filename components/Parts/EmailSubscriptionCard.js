@@ -1,8 +1,9 @@
 import { Fragment, useEffect, useState } from 'react'
 
 import { CooldownButton } from '@/components/CooldownButton'
-import { fireToast, toAxios } from '@/lib/commonFunction'
+import { fireToast } from '@/lib/commonFunction'
 import { updUserEmailConfig } from '@/lib/firebaseResult'
+import { toAxios } from '@/lib/request'
 import validator from 'email-validator'
 import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'

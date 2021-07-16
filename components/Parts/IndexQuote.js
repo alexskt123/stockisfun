@@ -15,19 +15,19 @@ function IndexQuote({ inputTicker }) {
   const [quoteData, setQuoteData] = useState([])
 
   const { data } = useSWR(
-    () => inputTicker && `/api/getIndexQuote?ticker=${inputTicker}`,
+    () => inputTicker && `/api/page/getIndexQuote?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )
 
   useEffect(() => {
-    setQuoteData(data)
+    setQuoteData(data?.result)
     return () => setQuoteData(null)
   }, [data])
 
   return (
     <Fragment>
-      {data ? (
+      {data?.result ? (
         <YahooQuoteInfo data={quoteData} displayQuoteFields={indexQuoteInfo} />
       ) : (
         <LoadingSkeletonTable customColors={loadingSkeletonColors.light} />

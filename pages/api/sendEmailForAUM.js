@@ -1,11 +1,7 @@
 import { aumTableHeader } from '@/config/etf'
-import {
-  getCSVContent,
-  getHostForETFDb,
-  getHost,
-  toAxios
-} from '@/lib/commonFunction'
+import { getCSVContent, getHostForETFDb, getHost } from '@/lib/commonFunction'
 import { getEmailByID } from '@/lib/firebaseResult'
+import { toAxios } from '@/lib/request'
 import sendEmail from '@/lib/sendEmail'
 import moment from 'moment-business-days'
 

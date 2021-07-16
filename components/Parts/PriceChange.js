@@ -2,6 +2,7 @@ import { Fragment, useState, useEffect } from 'react'
 
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
+import { loadingSkeletonTableChart } from '@/config/settings'
 import { sortTableItem, priceSettingSchema } from '@/lib/commonFunction'
 import { getPriceInfo } from '@/lib/stockInfo'
 import { Line } from 'react-chartjs-2'
@@ -63,7 +64,7 @@ function PriceChange({ inputTickers, inputYear }) {
   return (
     <Fragment>
       {loading ? (
-        <LoadingSkeletonTable />
+        <LoadingSkeletonTable customSettings={loadingSkeletonTableChart} />
       ) : inputTickers.length > 0 && !loading ? (
         <Fragment>
           <StockInfoTable

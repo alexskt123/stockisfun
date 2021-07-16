@@ -4,7 +4,11 @@ import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
-import { staticSWROptions, fetcher } from '@/config/settings'
+import {
+  staticSWROptions,
+  fetcher,
+  loadingSkeletonTableChart
+} from '@/config/settings'
 import { getEarningsData } from '@/lib/stockInfo'
 import { Bar } from 'react-chartjs-2'
 import useSWR from 'swr'
@@ -13,13 +17,13 @@ export default function Earnings({ inputTicker }) {
   const [settings, setSettings] = useState({})
 
   const { data } = useSWR(
-    `/api/yahoo/getEarnings?ticker=${inputTicker}`,
+    () => inputTicker && `/api/yahoo/getEarnings?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )
 
   function handleEarnings(data) {
-    const { earnings } = getEarningsData(data)
+    const { earnings } = getEarningsData(data?.result)
     setSettings(earnings)
   }
 
@@ -30,9 +34,9 @@ export default function Earnings({ inputTicker }) {
 
   return (
     <Fragment>
-      {!data ? (
-        <LoadingSkeletonTable />
-      ) : data?.length > 0 ? (
+      {!data && inputTicker ? (
+        <LoadingSkeletonTable customSettings={loadingSkeletonTableChart} />
+      ) : data?.result?.length > 0 ? (
         <Fragment>
           <StockInfoTable
             tableSize="sm"

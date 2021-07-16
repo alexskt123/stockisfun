@@ -31,7 +31,7 @@ const StockHighlight = ({ boughtListData }) => {
       {stockList?.length > 0 ? (
         <SWRTable
           requests={stockList.map(x => ({
-            request: `/api/getIndexQuote?ticker=${x}`,
+            request: `/api/page/getIndexQuote?ticker=${x}`,
             key: x
           }))}
           options={{

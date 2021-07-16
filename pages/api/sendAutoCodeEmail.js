@@ -1,5 +1,5 @@
-import { toAxios } from '@/lib/commonFunction'
 import { sendUserPriceMA, sendUserByID } from '@/lib/email/emailOptions'
+import { toAxios } from '@/lib/request'
 
 export default async (req, res) => {
   const { type, id, uid } = req.query
