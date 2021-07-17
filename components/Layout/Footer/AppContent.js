@@ -10,7 +10,7 @@ const AppContent = () => {
   const router = useRouter()
 
   return (
-    <Container className="overflow-auto my-2">
+    <Container className="overflow-auto my-1">
       {defaultFooterNavElements.map((item, idx) => {
         const active = router.pathname === item.href
         return (
