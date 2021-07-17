@@ -13,7 +13,7 @@ import TradingView from './TradingView'
 
 export default function TradingViewModal({ buttonClassName, ticker }) {
   const { data } = useSWR(
-    () => ticker && `/api/quote?ticker=${ticker}`,
+    () => ticker && `/api/yahoo/getQuoteType?ticker=${ticker}`,
     fetcher
   )
 
@@ -28,7 +28,7 @@ export default function TradingViewModal({ buttonClassName, ticker }) {
   }
 
   const handleClick = () => {
-    if (!(data?.type === 'EQUITY' || data?.type === 'ETF')) {
+    if (!(data?.result?.type === 'EQUITY' || data?.result?.type === 'ETF')) {
       fireToast({
         icon: 'error',
         title: 'Please enter a valid symbol (Equity/ETF)!'

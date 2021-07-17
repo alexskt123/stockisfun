@@ -14,7 +14,8 @@ import {
 import {
   staticSWROptions,
   fetcher,
-  loadingSkeletonColors
+  loadingSkeletonColors,
+  loadingSkeletonPriceParts
 } from '@/config/settings'
 import { ma, ema } from 'moving-averages'
 import Badge from 'react-bootstrap/Badge'
@@ -30,7 +31,7 @@ const MADays = [5, 20, 60]
 function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
 
-  const dateprice = useSWR(
+  const datePrice = useSWR(
     `/api/yahoo/getHistoryPrice?ticker=${inputTicker}&days=${
       parseInt(settings.days) + 60
     }&isBus=true`,
@@ -43,17 +44,17 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   }
 
   useEffect(() => {
-    handleTicker(dateprice, settings.days, settings.ma)
+    handleTicker(datePrice, settings.days, settings.ma)
     return () => setSettings(null)
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dateprice, settings.days, settings.ma])
+  }, [datePrice, settings.days, settings.ma])
 
-  const getPrice = (dateprice, inputDays, inputMA) => {
+  const getPrice = (datePrice, inputDays, inputMA) => {
     //temp solution to fix the warnings - [react-chartjs-2] Warning: Each dataset needs a unique key.
     if (!inputTicker) return
 
-    const historyPrice = dateprice.data?.historyPrice || []
+    const historyPrice = datePrice.data?.historyPrice || []
     const calMA = inputMA === 'ema' ? ema : ma
     const [ma5, ma20, ma60] = MADays.map(day =>
       getMA(
@@ -98,14 +99,14 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
     e.target.name === 'formYear' &&
     parseInt(e.target.value) !== parseInt(settings.days)
       ? handleTicker(inputTicker, e.target.value, settings.ma)
-      : e.target.name === 'formma' && e.target.value !== settings.ma
+      : e.target.name === 'formMA' && e.target.value !== settings.ma
       ? handleTicker(inputTicker, settings.days, e.target.value)
       : handleTicker(null, null, null)
   }
 
-  function handleTicker(dateprice, inputDays, inputMA) {
+  function handleTicker(datePrice, inputDays, inputMA) {
     clearItems()
-    getPrice(dateprice, inputDays, inputMA)
+    getPrice(datePrice, inputDays, inputMA)
   }
 
   const clearItems = () => {
@@ -120,13 +121,16 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
 
   return (
     <Fragment>
-      {!dateprice.data ? (
-        <LoadingSkeletonTable customColors={loadingSkeletonColors.light} />
+      {!datePrice.data ? (
+        <LoadingSkeletonTable
+          customColors={loadingSkeletonColors.light}
+          customSettings={loadingSkeletonPriceParts}
+        />
       ) : (
         <Fragment>
           {displayQuoteFields && (
             <YahooQuoteInfo
-              data={dateprice?.data?.quote}
+              data={datePrice?.data?.quote}
               displayQuoteFields={displayQuoteFields}
             />
           )}

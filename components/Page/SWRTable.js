@@ -214,7 +214,9 @@ function SWRTableRow({
   colSpan,
   router
 }) {
-  const { data } = useSWR(request, fetcher, options)
+  // WIP - temporary solution until all API structure is synchronized
+  const { data: dataRes } = useSWR(request, fetcher, options)
+  const data = dataRes?.result || dataRes
 
   useEffect(() => {
     if (data) handleTableData(data)

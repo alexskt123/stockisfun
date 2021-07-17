@@ -12,14 +12,14 @@ import useSWR from 'swr'
 
 export default function ETFPrice({ inputETFTicker }) {
   const { data } = useSWR(
-    `/api/quote?ticker=${inputETFTicker}`,
+    () => inputETFTicker && `/api/yahoo/getQuoteType?ticker=${inputETFTicker}`,
     fetcher,
     staticSWROptions
   )
 
   return (
     <Fragment>
-      {data?.valid ? (
+      {data?.result ? (
         <QuoteCard
           tools={etfTools}
           inputTicker={inputETFTicker}

@@ -121,7 +121,7 @@ export const assetProfileResponse = {
   }
 }
 
-export const balanceSheetRespsone = {
+export const balanceSheetResponse = {
   quoteSummary: {
     result: [
       {

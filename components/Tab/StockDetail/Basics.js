@@ -22,13 +22,13 @@ export default function Basics({ inputTicker }) {
   const [settings, setSettings] = useState({ ...defaultBasics })
 
   const { data } = useSWR(
-    `/api/yahoo/getYahooBasics?ticker=${inputTicker}`,
+    () => inputTicker && `/api/yahoo/getYahooBasics?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )
 
   function handleBasics(data) {
-    const basics = getBasics(data)
+    const basics = getBasics(data?.result)
 
     setSettings({
       ...settings,
@@ -45,9 +45,9 @@ export default function Basics({ inputTicker }) {
 
   return (
     <Fragment>
-      {!data ? (
+      {inputTicker && !data ? (
         <LoadingSkeletonTable />
-      ) : data.Name ? (
+      ) : data?.result ? (
         <Fragment>
           <StockInfoTable
             tableSize="sm"

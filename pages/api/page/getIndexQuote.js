@@ -3,14 +3,17 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { getAPIResponse } from '@/lib/request'
-import { getBalanceSheetData } from '@/lib/stockInfo'
-import { getBalanceSheet } from '@/lib/yahoo/getBalanceSheet'
+import { getStockEarningCapacity } from '@/lib/stockInfo'
 
 const getData = async args => {
-  const { ticker } = args
-  const balanceSheet = await getBalanceSheet(ticker)
-  const balanceSheetExtract = getBalanceSheetData(balanceSheet)
-  return [...balanceSheetExtract]
+  const { ticker, quoteData } = args
+
+  const earningCapacity = await getStockEarningCapacity(ticker)
+
+  return {
+    ...quoteData,
+    ...earningCapacity
+  }
 }
 
 export default async (req, res) => {

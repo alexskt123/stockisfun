@@ -78,7 +78,7 @@ const AccountSummary = ({ boughtListData }) => {
           pieOptions={pieOptions}
         />
         <ProfilePieChart
-          header={'Cateogry'}
+          header={'Category'}
           inputList={catPie}
           label={'sector'}
           data={'pcnt'}

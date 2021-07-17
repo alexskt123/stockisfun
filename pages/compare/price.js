@@ -74,7 +74,7 @@ export default function ComparePrice() {
           <TickerInput
             validated={validated}
             handleSubmit={handleSubmit}
-            placeholderText={'Single:  aapl /  Mulitple:  tsm,0700.hk,voo'}
+            placeholderText={'Single:  aapl /  Multiple:  tsm,0700.hk,voo'}
             handleChange={handleChange}
             clearItems={clearItems}
             exportFileName={'Stock_price.csv'}

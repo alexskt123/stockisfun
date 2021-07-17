@@ -13,7 +13,7 @@ import useSWR from 'swr'
 
 function ETFList({ inputTicker }) {
   const { data } = useSWR(
-    `/api/etfdb/getETFListByTicker?ticker=${inputTicker}`,
+    () => inputTicker && `/api/etfdb/getETFListByTicker?ticker=${inputTicker}`,
     fetcher,
     staticSWROptions
   )
@@ -22,7 +22,7 @@ function ETFList({ inputTicker }) {
   const [ascSort, setAscSort] = useState(false)
 
   const handleSettings = data => {
-    const { etfCount, etfList } = data || {}
+    const { etfCount, etfList } = data?.result || {}
 
     const etfListToTableData = getETFList(etfList)
     setSettings({
@@ -50,9 +50,9 @@ function ETFList({ inputTicker }) {
     setAscSort(!ascSort)
   }
 
-  return !data ? (
+  return !data && inputTicker ? (
     <LoadingSkeletonTable />
-  ) : data && data.etfCount !== 'N/A' ? (
+  ) : data?.result ? (
     <Fragment>
       <Row className="ml-1 mt-3">
         <h5>

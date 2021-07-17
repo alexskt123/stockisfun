@@ -8,10 +8,10 @@ import BirdMouth from '@/components/Parts/BirdMouth'
 import {
   forecastSettingSchema,
   handleDebounceChange,
-  handleFormSubmit,
-  toAxios
+  handleFormSubmit
 } from '@/lib/commonFunction'
 import { useQuery } from '@/lib/hooks/useQuery'
+import { toAxios } from '@/lib/request'
 import { useRouter } from 'next/router'
 
 export default function CompareBirdMouth() {
@@ -101,7 +101,7 @@ export default function CompareBirdMouth() {
           <TickerInput
             validated={validated}
             handleSubmit={handleSubmit}
-            placeholderText={'Single:  aapl /  Mulitple:  aapl,tdoc,fb,gh'}
+            placeholderText={'Single:  aapl /  Multiple:  aapl,tdoc,fb,gh'}
             handleChange={handleChange}
             clearItems={clearItems}
             handleTickers={handleTickers}
