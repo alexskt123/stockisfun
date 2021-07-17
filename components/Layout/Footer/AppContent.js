@@ -14,7 +14,7 @@ const AppContent = () => {
       {defaultFooterNavElements.map((item, idx) => {
         const active = router.pathname === item.href
         return (
-          <Col xs={'auto'} key={idx}>
+          <Col style={{ padding: '0rem' }} xs={'auto'} key={idx}>
             <Link href={item.href} passHref>
               <Nav.Link active={active} disabled={active}>
                 <Badge
