@@ -8,6 +8,7 @@ import { useUserCalendarEvents } from '@/lib/hooks/calendar'
 import moment from 'moment'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import LoadingOverlay from 'react-loading-overlay'
+import useTypingEffect from 'use-typing-effect'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
@@ -18,6 +19,7 @@ export default function BigCalendar() {
   const user = usePersistedUser()
   const userData = useUserData(user)
   const eventList = useUserCalendarEvents(user, userData)
+  const loadingText = useTypingEffect(['Loading...'])
 
   const [ticker, setTicker] = useState(null)
 
@@ -37,7 +39,7 @@ export default function BigCalendar() {
             <LoadingOverlay
               active={user && eventList?.length <= 0}
               spinner
-              text="Loading your content..."
+              text={loadingText}
             >
               <Calendar
                 popup
