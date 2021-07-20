@@ -1,3 +1,8 @@
+import { BiTrendingUp } from 'react-icons/bi'
+import { BiCloud } from 'react-icons/bi'
+import { GoCalendar } from 'react-icons/go'
+import { RiProfileLine, RiPagesLine } from 'react-icons/ri'
+
 const Settings = {
   Copyright: '© 2021 StockIsFun Limited',
   LogoImgSrc: '/favicon.ico'
@@ -130,4 +135,32 @@ export const loadingSkeletonTableChart = [
 export const loadingSkeletonPriceParts = [
   { props: { count: 1 } },
   { props: { height: 120 }, separator: 'mt-3' }
+]
+
+export const defaultFooterNavElements = [
+  {
+    label: 'Main',
+    href: '/highlight',
+    icon: <RiPagesLine />
+  },
+  {
+    label: 'Trend',
+    href: '/trend',
+    icon: <BiTrendingUp />
+  },
+  {
+    label: 'Trading View',
+    href: '/compare/tradingview',
+    icon: <BiCloud />
+  },
+  {
+    label: 'Profile',
+    href: '/profile',
+    icon: <RiProfileLine />
+  },
+  {
+    label: 'Calendar',
+    href: '/calendar',
+    icon: <GoCalendar />
+  }
 ]

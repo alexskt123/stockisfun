@@ -65,7 +65,6 @@ const EarningsModal = ({ ticker, resetTicker }) => {
           />
         </Modal.Body>
       </Modal>
-      ∏
     </Fragment>
   )
 }
