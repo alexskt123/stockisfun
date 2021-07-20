@@ -69,7 +69,8 @@
     "sweetalert2": "^10.16.7",
     "swr": "^0.5.6",
     "use-dark-mode": "^2.3.1",
-    "use-persisted-state": "^0.3.3"
+    "use-persisted-state": "^0.3.3",
+    "use-typing-effect": "^1.1.0"
   },
   "devDependencies": {
     "eslint": "^7.28.0",

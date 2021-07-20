@@ -32,7 +32,7 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
       style={{ ['minWidth']: '6.5rem', fontSize: 'x-small' }}
       className="m-1"
     >
-      <Card.Header style={{ padding: '0.2rem' }}>
+      <Card.Header style={{ padding: '0.1rem' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <b>
             <span>{Name}</span>
@@ -47,7 +47,7 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
           </b>
         </div>
       </Card.Header>
-      <Card.Body style={{ padding: '0.2rem' }}>
+      <Card.Body style={{ padding: '0.1rem' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <b>
             <span>
@@ -59,7 +59,7 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
           </b>
         </div>
         <Row>
-          <Col xs={5} md={5}>
+          <Col>
             <Badge
               variant={getVariant(Change, 'success', 'secondary', 'danger')}
             >
@@ -69,7 +69,7 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
               />
             </Badge>
           </Col>
-          <Col xs={4} md={4}>
+          <Col>
             <Badge
               variant={getVariant(Percentage, 'success', 'secondary', 'danger')}
               className="ml-1"

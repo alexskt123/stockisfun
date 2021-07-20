@@ -59,7 +59,9 @@ function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
                 className="w-100 my-2"
                 style={{
                   backgroundColor: colorCallback[idx],
-                  border: 'none'
+                  border: 'none',
+                  paddingBottom: '0.2rem',
+                  paddingTop: '0.2rem'
                 }}
                 onClick={() => onClickWatchListButton(item)}
               >

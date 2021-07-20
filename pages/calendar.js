@@ -1,13 +1,14 @@
 import { Fragment, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
+import BgColor from '@/components/Page/BgColor'
 import EarningsModal from '@/components/Page/Calendar/EarningsModal'
-import QuoteCard from '@/components/Parts/QuoteCard'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
 import { useUserCalendarEvents } from '@/lib/hooks/calendar'
 import moment from 'moment'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import LoadingOverlay from 'react-loading-overlay'
+import useTypingEffect from 'use-typing-effect'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
@@ -18,6 +19,7 @@ export default function BigCalendar() {
   const user = usePersistedUser()
   const userData = useUserData(user)
   const eventList = useUserCalendarEvents(user, userData)
+  const loadingText = useTypingEffect(['Loading...'])
 
   const [ticker, setTicker] = useState(null)
 
@@ -31,18 +33,13 @@ export default function BigCalendar() {
 
   return (
     <Fragment>
-      <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
+      <CustomContainer>
         <Fragment>
-          <QuoteCard
-            header={'Calendar'}
-            isShow={true}
-            noClose={true}
-            customBgColor={{ normal: 'white', darkMode: '#adadad' }}
-          >
+          <BgColor customBgColor={{ normal: 'white', darkMode: '#b5c7c6' }}>
             <LoadingOverlay
               active={user && eventList?.length <= 0}
               spinner
-              text="Loading your content..."
+              text={loadingText}
             >
               <Calendar
                 popup
@@ -51,11 +48,11 @@ export default function BigCalendar() {
                 views={['month']}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: '90vh', fontSize: 'x-small' }}
+                style={{ height: '80vh', fontSize: 'x-small' }}
                 onSelectEvent={handleSelectSlot}
               />
             </LoadingOverlay>
-          </QuoteCard>
+          </BgColor>
           <EarningsModal ticker={ticker} resetTicker={resetTicker} />
         </Fragment>
       </CustomContainer>
