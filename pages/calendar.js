@@ -33,7 +33,7 @@ export default function BigCalendar() {
     <Fragment>
       <CustomContainer>
         <Fragment>
-          <BgColor customBgColor={{ normal: 'white', darkMode: '#d8ebed' }}>
+          <BgColor customBgColor={{ normal: 'white', darkMode: '#b5c7c6' }}>
             <LoadingOverlay
               active={user && eventList?.length <= 0}
               spinner
