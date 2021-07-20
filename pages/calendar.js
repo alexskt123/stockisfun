@@ -1,8 +1,8 @@
 import { Fragment, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
+import BgColor from '@/components/Page/BgColor'
 import EarningsModal from '@/components/Page/Calendar/EarningsModal'
-import QuoteCard from '@/components/Parts/QuoteCard'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
 import { useUserCalendarEvents } from '@/lib/hooks/calendar'
 import moment from 'moment'
@@ -31,14 +31,9 @@ export default function BigCalendar() {
 
   return (
     <Fragment>
-      <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
+      <CustomContainer>
         <Fragment>
-          <QuoteCard
-            header={'Calendar'}
-            isShow={true}
-            noClose={true}
-            customBgColor={{ normal: 'white', darkMode: '#adadad' }}
-          >
+          <BgColor customBgColor={{ normal: 'white', darkMode: '#d8ebed' }}>
             <LoadingOverlay
               active={user && eventList?.length <= 0}
               spinner
@@ -51,11 +46,11 @@ export default function BigCalendar() {
                 views={['month']}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: '90vh', fontSize: 'x-small' }}
+                style={{ height: '80vh', fontSize: 'x-small' }}
                 onSelectEvent={handleSelectSlot}
               />
             </LoadingOverlay>
-          </QuoteCard>
+          </BgColor>
           <EarningsModal ticker={ticker} resetTicker={resetTicker} />
         </Fragment>
       </CustomContainer>
