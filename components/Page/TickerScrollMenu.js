@@ -16,7 +16,9 @@ export default function TickerScrollMenu({ inputList }) {
   const [stockInfo, setStockInfo] = useState([])
 
   const { data: responses } = useSWR(
-    `/api/yahoo/getQuote?ticker=${[...inputList].map(item => item.Ticker)}`,
+    () =>
+      inputList &&
+      `/api/yahoo/getQuote?ticker=${[...inputList].map(item => item.Ticker)}`,
     fetcher,
     stockMarketIndexSWROptions
   )
