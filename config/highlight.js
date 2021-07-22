@@ -116,7 +116,8 @@ export const tableHeaderList = [
   {
     label: 'Earnings Date',
     item: 'earningsDate',
-    show: true
+    show: true,
+    hideInMobile: true
   }
 ]
 
