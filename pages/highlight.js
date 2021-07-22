@@ -4,6 +4,7 @@ import CustomContainer from '@/components/Layout/CustomContainer'
 import HighlightInfo from '@/components/Page/Highlight/HighlightInfo'
 import HighlightSWRTable from '@/components/Page/Highlight/HighlightSWRTable'
 import TickerScrollMenuList from '@/components/Page/TickerScrollMenuList'
+import DivWithHeight from '@/components/Parts/DivWithHeight'
 import UserPriceDayChange from '@/components/Parts/UserPriceDayChange'
 import WatchListSuggestions from '@/components/Parts/WatchListSuggestions'
 import { highlightMenuTickerList } from '@/config/highlight'
@@ -32,7 +33,7 @@ export default function Highlight() {
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          {user && <UserPriceDayChange userData={userData} />}
+          {user && userData && <UserPriceDayChange userData={userData} />}
           <TickerScrollMenuList tickerList={highlightMenuTickerList} />
           <WatchListSuggestions
             user={user}
@@ -41,6 +42,7 @@ export default function Highlight() {
           />
           <HighlightSWRTable watchList={watchList} />
           <HighlightInfo query={router.query} />
+          <DivWithHeight style={{ height: '200px' }} />
         </Fragment>
       </CustomContainer>
     </Fragment>

@@ -71,21 +71,21 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
       {(quoteData || []).map((dataRow, idx) => {
         return (
           <Fragment key={idx}>
-            <div
-              className="mt-2"
-              style={{ display: 'flex', alignItems: 'baseline' }}
-            >
+            <div style={{ display: 'flex', alignItems: 'baseline' }}>
               {dataRow.map((data, dataIdx) => {
-                return data.value && data.value !== 'N/A' ? (
-                  <Fragment key={dataIdx}>
-                    <h6>
-                      <Badge className="ml-1" variant="dark">
-                        {data.label}
-                      </Badge>
-                    </h6>
-                    <h6>{getFormattedValue(data.format, data.value)}</h6>
-                  </Fragment>
-                ) : null
+                return (
+                  data.value &&
+                  data.value !== 'N/A' && (
+                    <Fragment key={dataIdx}>
+                      <h6>
+                        <Badge className="ml-1" variant="dark">
+                          {data.label}
+                        </Badge>
+                      </h6>
+                      <h6>{getFormattedValue(data.format, data.value)}</h6>
+                    </Fragment>
+                  )
+                )
               })}
             </div>
           </Fragment>
