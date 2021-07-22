@@ -12,7 +12,7 @@ export default function ETFToStock() {
   const { ticker, href } = router.query
 
   const { data } = useSWR(
-    `/api/etfdb/getETFDB?ticker=${ticker}`,
+    () => ticker && `/api/etfdb/getETFDB?ticker=${ticker}`,
     fetcher,
     staticSWROptions
   )

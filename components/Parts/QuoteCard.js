@@ -24,7 +24,7 @@ export default function QuoteCard({
 
   const defaultBgColor = {
     normal: 'white',
-    darkMode: '#e3e3e3'
+    darkMode: '#ededed'
   }
 
   const setBgColor = {

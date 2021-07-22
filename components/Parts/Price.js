@@ -32,9 +32,11 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
 
   const datePrice = useSWR(
-    `/api/yahoo/getHistoryPrice?ticker=${inputTicker}&days=${
-      parseInt(settings.days) + 60
-    }&isBus=true`,
+    () =>
+      inputTicker &&
+      `/api/yahoo/getHistoryPrice?ticker=${inputTicker}&days=${
+        parseInt(settings.days) + 60
+      }&isBus=true`,
     fetcher,
     staticSWROptions
   )

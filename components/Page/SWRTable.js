@@ -14,6 +14,7 @@ import {
   getDefaultColor
 } from '@/lib/commonFunction'
 import { exportToFile } from '@/lib/commonFunction'
+import { useMobile } from '@/lib/hooks/useMobile'
 import AnimatedNumber from 'animated-number-react'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
@@ -61,6 +62,7 @@ export default function SWRTable({ requests, options }) {
   const timestamp = useTimestamp(tableData)
   const darkMode = useDarkMode(false)
   const router = useRouter()
+  const isMobile = useMobile()
 
   const handleTableData = data => {
     const newData = { ...data }
@@ -111,9 +113,10 @@ export default function SWRTable({ requests, options }) {
         show: tableData.some(x => x[header.item])
       }))
       .filter(x => x.show)
+      .filter(x => !isMobile || (isMobile && !x?.hideInMobile))
 
     setReactiveTableHeader(newReactiveTableHeader)
-  }, [tableData, tableHeader])
+  }, [tableData, tableHeader, isMobile])
 
   useEffect(() => {
     setSortedRequests(requests)
