@@ -1,0 +1,31 @@
+p
+    h5 #{name}
+p
+    b As of #{priceMADetails.asOfDate}
+
+each priceMA in priceMADetails.priceMAList
+    hr
+    p
+        b #{priceMA.name}
+        ol
+            each cur, index in priceMA.tickersInfo
+                li
+                    p Symbol:
+                        u
+                            a(href=`${href}${cur.Symbol}`)= cur.Symbol
+                    p Name: #{cur.Name}
+                    p Market Price: #{cur.Price}
+                    p Market Cap: #{cur.MarketCap}
+                    p Industry: #{cur.Industry}
+                    if genChart
+                        p
+                            img(src=priceMA.tickersChart[index])
+
+hr
+p
+    b Grabbing Ticker List:
+    ol
+        each item in tickerUrlItems
+            li
+                u
+                    a(href=`${href}${item}`)= item
