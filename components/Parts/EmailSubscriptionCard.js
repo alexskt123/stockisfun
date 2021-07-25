@@ -78,7 +78,7 @@ export default function EmailSubscriptionCard({
     setEmailSending(true)
 
     await updUserEmailConfig(user.uid, newEmailList)
-    const response = await toAxios('/api/sendAutoCodeEmail', {
+    const response = await toAxios('/api/sendUserEmail', {
       type: 'id',
       id: inputData.id,
       uid: user.uid
@@ -86,16 +86,15 @@ export default function EmailSubscriptionCard({
 
     setEmailSending(false)
 
-    const toast =
-      response?.data?.find(x => x)?.labelIds.find(x => x) === 'SENT'
-        ? {
-            icon: 'success',
-            title: 'Sent!'
-          }
-        : {
-            icon: 'error',
-            title: 'Some Error!'
-          }
+    const toast = response?.data?.find(x => x)?.accepted.find(x => x)
+      ? {
+          icon: 'success',
+          title: 'Sent!'
+        }
+      : {
+          icon: 'error',
+          title: 'Some Error!'
+        }
 
     fireToast(toast)
   }
