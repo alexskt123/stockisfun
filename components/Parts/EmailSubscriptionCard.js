@@ -86,14 +86,14 @@ export default function EmailSubscriptionCard({
 
     setEmailSending(false)
 
-    const toast = response?.data?.find(x => x)?.accepted.find(x => x)
+    const toast = response?.data?.error
       ? {
-          icon: 'success',
-          title: 'Sent!'
-        }
-      : {
           icon: 'error',
           title: 'Some Error!'
+        }
+      : {
+          icon: 'success',
+          title: 'Sent!'
         }
 
     fireToast(toast)
