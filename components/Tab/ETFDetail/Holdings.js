@@ -28,7 +28,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
         await handleTicker(inputETFTicker)
       }
     })()
-    return () => setSettings(null)
+    return () => clearItems()
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputETFTicker])
@@ -65,7 +65,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
     <Fragment>
       {loading ? (
         <LoadingSkeletonTable />
-      ) : inputETFTicker ? (
+      ) : settings?.tableData?.length > 0 ? (
         <Fragment>
           <CardDeck className="mt-3">
             <QuoteCard
