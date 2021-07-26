@@ -2,43 +2,18 @@
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import {
-  dateRange,
-  dateRangeByNoOfYears,
-  quoteFilterList
-} from '@/config/price'
+import { dateRangeByNoOfYears } from '@/config/price'
 import { calPcnt } from '@/lib/commonFunction'
 import { getHistoryPrice } from '@/lib/yahoo/getHistoryPrice'
-import { getQuote } from '@/lib/yahoo/getQuote'
 
 const handleYearPcnt = async (ticker, year) => {
-  const newDateRange = year ? await dateRangeByNoOfYears(year) : dateRange
+  const newDateRange = await dateRangeByNoOfYears(year)
   const inputItems = newDateRange.map(item => {
     return {
       ticker: ticker.toUpperCase(),
       ...item
     }
   })
-
-  const quoteArr = await getQuote(ticker.toUpperCase())
-  const quoteRes = quoteArr.find(x => x) || {}
-  const quote = {
-    ticker: ticker.toUpperCase(),
-    ...quoteFilterList.reduce((acc, item) => {
-      return {
-        ...acc,
-        [item.label]: quoteRes[item.column]
-      }
-    }, {})
-  }
-
-  const temp = {
-    ticker: ticker.toUpperCase(),
-    startPrice: null,
-    endPrice: null,
-    data: [],
-    quote: quote
-  }
 
   const historyPriceRes = await Promise.all(
     inputItems.map(async item => {
@@ -50,22 +25,30 @@ const handleYearPcnt = async (ticker, year) => {
         formattedFromDate,
         formattedToDate
       )
-      return outputItem.indicators.quote.find(x => x).close
+      return {
+        year: item.year,
+        price: outputItem.indicators.quote.find(x => x).close
+      }
     })
   )
 
   const newTemp = historyPriceRes.reduce(
     (acc, cur, idx) => {
-      const opening = cur?.find(x => x)
-      const closing = [...(cur || [])].reverse()?.find(x => x)
+      const price = cur.price
+      const opening = price?.find(x => x)
+      const closing = [...(price || [])].reverse()?.find(x => x)
 
       const newAcc = {
         ...acc,
         data: [
           ...(acc.data || []),
-          opening && closing
-            ? calPcnt(closing - opening, opening, 2, true)
-            : 'N/A'
+          {
+            year: cur.year,
+            price:
+              opening && closing
+                ? calPcnt(closing - opening, opening, 2, true)
+                : 'N/A'
+          }
         ],
         endPrice: idx === 0 && closing ? closing : acc.endPrice,
         startPrice: opening ? opening : acc.startPrice
@@ -73,7 +56,12 @@ const handleYearPcnt = async (ticker, year) => {
 
       return newAcc
     },
-    { ...temp }
+    {
+      ticker: ticker.toUpperCase(),
+      startPrice: null,
+      endPrice: null,
+      data: []
+    }
   )
 
   return newTemp
