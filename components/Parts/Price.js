@@ -41,8 +41,8 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
     staticSWROptions
   )
 
-  const getMA = (days, MACalculation, price) => {
-    return MACalculation([...price], days)
+  const getMA = (inputMA, days, MACalculation, price) => {
+    return inputMA !== '' ? MACalculation([...price], days) : []
   }
 
   useEffect(() => {
@@ -60,6 +60,7 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
     const calMA = inputMA === 'ema' ? ema : ma
     const [ma5, ma20, ma60] = MADays.map(day =>
       getMA(
+        inputMA,
         day,
         calMA,
         historyPrice.map(item => item.price)
