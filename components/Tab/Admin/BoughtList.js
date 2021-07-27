@@ -4,7 +4,7 @@ import EditTable from '@/components/Page/EditTable'
 import { fireToast } from '@/lib/commonFunction'
 import { updUserBoughtList, usePersistedUser } from '@/lib/firebaseResult'
 
-export default function BoughtList({ userData }) {
+export function BoughtList({ userData }) {
   const user = usePersistedUser()
 
   const [data, setData] = useState([])

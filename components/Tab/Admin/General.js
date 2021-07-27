@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import FormControl from 'react-bootstrap/FormControl'
 
-const General = ({ user, userData }) => {
+export const General = ({ user, userData }) => {
   //todo: remove settings, use readonly realtime data, let child component handle the rest
   const [settings, setSettings] = useState({
     stockList: [],
@@ -108,5 +108,3 @@ const General = ({ user, userData }) => {
     </Fragment>
   )
 }
-
-export default General

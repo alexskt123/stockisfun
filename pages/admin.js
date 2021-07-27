@@ -2,9 +2,7 @@ import { Fragment } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
 import LoginAlert from '@/components/Parts/LoginAlert'
-import BoughtList from '@/components/Tab/Admin/BoughtList'
-import EmailConfig from '@/components/Tab/Admin/EmailConfig'
-import General from '@/components/Tab/Admin/General'
+import { adminTabs } from '@/components/Tab/Admin'
 import { useUserData, usePersistedUser } from '@/lib/firebaseResult'
 import { useTab } from '@/lib/hooks/useTab'
 import { useRouter } from 'next/router'
@@ -36,15 +34,11 @@ export default function Admin() {
                 activeKey={tab}
                 onSelect={k => changeTab(k)}
               >
-                <Tab eventKey="General" title="General">
-                  <General user={user} userData={userData} />
-                </Tab>
-                <Tab eventKey="BoughtList" title="Bought List">
-                  <BoughtList userData={userData} />
-                </Tab>
-                <Tab eventKey="EmailConfig" title="Email Configuration">
-                  <EmailConfig user={user} userData={userData} />
-                </Tab>
+                {adminTabs.map(t => (
+                  <Tab key={t.eventKey} eventKey={t.eventKey} title={t.title}>
+                    <t.component user={user} userData={userData} />
+                  </Tab>
+                ))}
               </Tabs>
             </Fragment>
           ) : (

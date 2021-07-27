@@ -24,7 +24,7 @@ const config = [
   }
 ]
 
-const EmailConfig = ({ user, userData }) => {
+export const EmailConfig = ({ user, userData }) => {
   return (
     <Fragment>
       <CardDeck>
@@ -42,5 +42,3 @@ const EmailConfig = ({ user, userData }) => {
     </Fragment>
   )
 }
-
-export default EmailConfig
