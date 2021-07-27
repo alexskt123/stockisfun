@@ -3,19 +3,17 @@ import { Fragment, useState, useEffect } from 'react'
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
-import { staticSWROptions, fetcher } from '@/config/settings'
 import { etfListSettings } from '@/config/stock'
 import { sortTableItem } from '@/lib/commonFunction'
+import { useStaticSWR } from '@/lib/request'
 import { getETFList } from '@/lib/stockInfo'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
-import useSWR from 'swr'
 
 function ETFList({ inputTicker }) {
-  const { data } = useSWR(
-    () => inputTicker && `/api/etfdb/getETFListByTicker?ticker=${inputTicker}`,
-    fetcher,
-    staticSWROptions
+  const { data } = useStaticSWR(
+    inputTicker,
+    `/api/etfdb/getETFListByTicker?ticker=${inputTicker}`
   )
 
   const [settings, setSettings] = useState({ ...etfListSettings })

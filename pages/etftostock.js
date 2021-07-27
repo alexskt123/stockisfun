@@ -1,21 +1,16 @@
 import { useEffect, Fragment } from 'react'
 
 import PageLoading from '@/components/Loading/PageLoading'
-import { staticSWROptions, fetcher } from '@/config/settings'
+import { useStaticSWR } from '@/lib/request'
 import { useRouter } from 'next/router'
 import Container from 'react-bootstrap/Container'
-import useSWR from 'swr'
 
 //export default component
 export default function ETFToStock() {
   const router = useRouter()
   const { ticker, href } = router.query
 
-  const { data } = useSWR(
-    () => ticker && `/api/etfdb/getETFDB?ticker=${ticker}`,
-    fetcher,
-    staticSWROptions
-  )
+  const { data } = useStaticSWR(ticker, `/api/etfdb/getETFDB?ticker=${ticker}`)
 
   useEffect(() => {
     if (data && href && ticker) {

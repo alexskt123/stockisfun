@@ -3,9 +3,8 @@ import { Fragment, useEffect, useState } from 'react'
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
-import { staticSWROptions, fetcher } from '@/config/settings'
+import { useStaticSWR } from '@/lib/request'
 import { getBasics } from '@/lib/stockInfo'
-import useSWR from 'swr'
 
 export default function Basics({ inputTicker }) {
   const defaultBasics = {
@@ -21,10 +20,9 @@ export default function Basics({ inputTicker }) {
 
   const [settings, setSettings] = useState({ ...defaultBasics })
 
-  const { data } = useSWR(
-    () => inputTicker && `/api/yahoo/getYahooBasics?ticker=${inputTicker}`,
-    fetcher,
-    staticSWROptions
+  const { data } = useStaticSWR(
+    inputTicker,
+    `/api/yahoo/getYahooBasics?ticker=${inputTicker}`
   )
 
   function handleBasics(data) {

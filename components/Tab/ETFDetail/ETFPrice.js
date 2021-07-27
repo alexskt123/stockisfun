@@ -6,17 +6,14 @@ import Price from '@/components/Parts/Price'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { etfTools } from '@/config/etf'
-import { staticSWROptions, fetcher } from '@/config/settings'
+import { useStaticSWR } from '@/lib/request'
 import Badge from 'react-bootstrap/Badge'
-import useSWR from 'swr'
 
 export default function ETFPrice({ inputETFTicker }) {
-  const { data } = useSWR(
-    () => inputETFTicker && `/api/yahoo/getQuoteType?ticker=${inputETFTicker}`,
-    fetcher,
-    staticSWROptions
+  const { data } = useStaticSWR(
+    inputETFTicker,
+    `/api/yahoo/getQuoteType?ticker=${inputETFTicker}`
   )
-
   return (
     <Fragment>
       {data?.result ? (
