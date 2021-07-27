@@ -18,27 +18,31 @@ export const General = ({ user, userData }) => {
   })
 
   const filterInput = input => {
-    return input
+    return `${input}`
       .replace(/[^a-zA-Z,]/g, '')
       .toUpperCase()
       .split(',')
+      .sort()
+      .filter(x => x.trim().length > 0)
       .filter((value, idx, self) => self.indexOf(value) === idx)
   }
 
   const handleChange = (e, type) => {
-    setSettings({
-      ...settings,
-      stockList:
-        type === 'stock' ? filterInput(e.target.value) : settings.stockList,
-      etfList: type === 'etf' ? filterInput(e.target.value) : settings.etfList,
-      watchList:
-        type === 'watchlist' ? filterInput(e.target.value) : settings.watchList,
-      cash: type === 'cash' ? parseFloat(e.target.value) : settings.cash
-    })
+    setSettings(s => ({
+      ...s,
+      [type]: e.target.value
+    }))
   }
 
   const updateAllList = async () => {
-    await updUserAllList(user.uid, settings)
+    const newSettings = Object.keys({ ...settings }).reduce((acc, cur) => {
+      const cb = cur === 'cash' ? input => parseFloat(input) || 0 : filterInput
+      return Object.assign(acc, { [cur]: cb(settings[cur]) })
+    }, {})
+
+    await updUserAllList(user.uid, newSettings)
+
+    setSettings(newSettings)
 
     fireToast({
       icon: 'success',
@@ -59,47 +63,70 @@ export const General = ({ user, userData }) => {
     }
   }, [userData])
 
+  const list = [
+    {
+      key: 'stock',
+      name: 'stockList',
+      badge: {
+        title: 'Update Stock List'
+      },
+      control: {
+        as: 'textarea',
+        rows: '3'
+      }
+    },
+    {
+      key: 'etf',
+      name: 'etfList',
+      badge: {
+        title: 'Update ETF List'
+      },
+      control: {
+        as: 'textarea',
+        rows: '3'
+      }
+    },
+    {
+      key: 'watch',
+      name: 'watchList',
+      badge: {
+        title: 'Update Watch List'
+      },
+      control: {
+        as: 'textarea',
+        rows: '3'
+      }
+    },
+    {
+      key: 'cash',
+      name: 'cash',
+      badge: {
+        title: 'Update Cash'
+      },
+      control: {
+        type: 'number'
+      }
+    }
+  ]
+
   return (
     <Fragment>
-      <h5>
-        <Badge variant="dark">{'Update Stock List'}</Badge>
-      </h5>
-      <FormControl
-        style={{ minHeight: '6rem' }}
-        as="textarea"
-        aria-label="With textarea"
-        value={settings.stockList.join(',')}
-        onChange={e => handleChange(e, 'stock')}
-      />
-      <h5>
-        <Badge variant="dark">{'Update ETF List'}</Badge>
-      </h5>
-      <FormControl
-        style={{ minHeight: '6rem' }}
-        as="textarea"
-        aria-label="With textarea"
-        value={settings.etfList.join(',')}
-        onChange={e => handleChange(e, 'etf')}
-      />
-      <h5>
-        <Badge variant="dark">{'Update Watch List'}</Badge>
-      </h5>
-      <FormControl
-        style={{ minHeight: '6rem' }}
-        as="textarea"
-        aria-label="With textarea"
-        value={settings.watchList.join(',')}
-        onChange={e => handleChange(e, 'watchlist')}
-      />
-      <h5>
-        <Badge variant="dark">{'Update Cash'}</Badge>
-      </h5>
-      <FormControl
-        style={{ minHeight: '1rem' }}
-        value={settings.cash || 0}
-        type="number"
-        onChange={e => handleChange(e, 'cash')}
-      />
+      <div className="d-flex flex-column my-5">
+        {list.map(item => (
+          <Fragment key={item.key}>
+            <h5>
+              <Badge variant="dark">{item.badge.title}</Badge>
+            </h5>
+
+            <FormControl
+              value={settings[item.name]}
+              onChange={e => handleChange(e, item.name)}
+              {...(item?.control || {})}
+            />
+          </Fragment>
+        ))}
+      </div>
+
       <ButtonGroup aria-label="Basic example">
         <Button onClick={() => onUpdate()} size="sm" variant="success">
           {'Update'}
