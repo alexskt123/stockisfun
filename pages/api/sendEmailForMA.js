@@ -1,6 +1,5 @@
-import { getPriceMAHTMLTemplate } from '@/lib/email/priceMA'
+import { sendEmail, getPriceMAHTMLTemplate } from '@/lib/email'
 import { getEmailByID } from '@/lib/firebaseResult'
-import sendEmail from '@/lib/sendEmail'
 
 export default async (req, res) => {
   const response = {

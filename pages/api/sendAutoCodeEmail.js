@@ -1,4 +1,4 @@
-import { sendUserPriceMA, sendUserByID } from '@/lib/email/emailOptions'
+import { sendUserPriceMA, sendUserByID } from '@/lib/email'
 import { toAxios } from '@/lib/request'
 
 export default async (req, res) => {
