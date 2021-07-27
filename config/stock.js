@@ -41,6 +41,17 @@ export const stockDetailsSettings = {
 
 export const officersTableHeader = ['Officers Name', 'Title', 'Age', 'Pay']
 
+export const equityBasicsSchema = {
+  basics: {
+    tableHeader: [],
+    tableData: []
+  },
+  officers: {
+    tableHeader: [],
+    tableData: []
+  }
+}
+
 export const equityBasicData = (assetProfile, quote, get52WeekLowHigh) => {
   return {
     basics: {

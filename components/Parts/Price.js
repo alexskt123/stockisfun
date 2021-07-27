@@ -12,16 +12,14 @@ import {
   maSelectAttr
 } from '@/config/price'
 import {
-  staticSWROptions,
-  fetcher,
   loadingSkeletonColors,
   loadingSkeletonPriceParts
 } from '@/config/settings'
+import { useStaticSWR } from '@/lib/request'
 import { ma, ema } from 'moving-averages'
 import Badge from 'react-bootstrap/Badge'
 import Form from 'react-bootstrap/Form'
 import { Line } from 'react-chartjs-2'
-import useSWR from 'swr'
 
 import TradingViewModal from './TradingViewModal'
 import YahooQuoteInfo from './YahooQuoteInfo'
@@ -31,14 +29,11 @@ const MADays = [5, 20, 60]
 function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
 
-  const datePrice = useSWR(
-    () =>
-      inputTicker &&
-      `/api/yahoo/getHistoryPrice?ticker=${inputTicker}&days=${
-        parseInt(settings.days) + 60
-      }&isBus=true`,
-    fetcher,
-    staticSWROptions
+  const datePrice = useStaticSWR(
+    inputTicker,
+    `/api/yahoo/getHistoryPrice?ticker=${inputTicker}&days=${
+      parseInt(settings.days) + 60
+    }&isBus=true`
   )
 
   const getMA = (inputMA, days, MACalculation, price) => {

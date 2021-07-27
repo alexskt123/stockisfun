@@ -3,22 +3,14 @@ import { Fragment, useEffect, useState } from 'react'
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
+import { equityBasicsSchema } from '@/config/stock'
+import { cloneObj } from '@/lib/commonFunction'
 import { useStaticSWR } from '@/lib/request'
 import { getBasics } from '@/lib/stockInfo'
 
 export default function Basics({ inputTicker }) {
-  const defaultBasics = {
-    basics: {
-      tableHeader: [],
-      tableData: []
-    },
-    officers: {
-      tableHeader: [],
-      tableData: []
-    }
-  }
-
-  const [settings, setSettings] = useState({ ...defaultBasics })
+  const schema = cloneObj(equityBasicsSchema)
+  const [settings, setSettings] = useState(schema)
 
   const { data } = useStaticSWR(
     inputTicker,
@@ -36,7 +28,7 @@ export default function Basics({ inputTicker }) {
 
   useEffect(() => {
     handleBasics(data)
-    return () => setSettings(null)
+    return () => setSettings(schema)
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])

@@ -5,21 +5,15 @@ import Price from '@/components/Parts/Price'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { priceTabLabelPairs } from '@/config/price'
-import {
-  staticSWROptions,
-  fetcher,
-  loadingSkeletonTableChart
-} from '@/config/settings'
+import { loadingSkeletonTableChart } from '@/config/settings'
+import { useStaticSWR } from '@/lib/request'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
-import useSWR from 'swr'
 
 function PriceTab({ inputTicker }) {
-  const { data } = useSWR(
-    () =>
-      inputTicker && `/api/page/getStockDetailPriceTab?ticker=${inputTicker}`,
-    fetcher,
-    staticSWROptions
+  const { data } = useStaticSWR(
+    inputTicker,
+    `/api/page/getStockDetailPriceTab?ticker=${inputTicker}`
   )
 
   const [valuePairs, setValuePairs] = useState([])

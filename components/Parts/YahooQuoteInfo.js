@@ -14,7 +14,7 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
 
   useEffect(() => {
     setQuoteDataFields(data)
-    return () => setQuoteData(null)
+    return () => setQuoteData([])
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
