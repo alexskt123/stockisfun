@@ -107,6 +107,12 @@ export const equityBalanceSheetData = item => {
   }
 }
 
+export const equityBalanceChartLabels = [
+  'Total Assets',
+  'Total Liability',
+  'Total Stock Holder Equity'
+]
+
 export const equityBalanceSheetChartOptions = {
   scales: {
     y: {
