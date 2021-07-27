@@ -14,7 +14,7 @@ export default async (req, res) => {
   const tickerArr = curEmailTemplate.stock
     .split(',')
     .map(item => item.toUpperCase())
-  const genChart = curEmailTemplate.genChart ? true : false
+  const genChart = curEmailTemplate?.genChart
 
   const emailTemplate = await getPriceMAHTMLTemplate({
     tickerArr,

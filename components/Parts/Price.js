@@ -78,7 +78,7 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
             ...priceChartSettings,
             label: inputTicker,
             data: [...historyPrice.slice(60).map(item => item.price)],
-            showLine: inputMA === '' ? true : false,
+            showLine: inputMA === '',
             pointRadius: inputMA === '' ? 0 : 3
           },
           {
