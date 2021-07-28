@@ -26,7 +26,7 @@ export default function Admin() {
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
         <Fragment>
-          {user ? (
+          {userData ? (
             <Fragment>
               <Tabs
                 style={{ fontSize: '11px' }}

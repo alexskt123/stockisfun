@@ -35,25 +35,23 @@ export const General = ({ userData }) => {
   }, 1000)
 
   return (
-    userData && (
-      <Fragment key={Math.random()}>
-        <div className="d-flex flex-column my-3">
-          {userStockList.map(item => (
-            <Form.Group key={item.key} controlId={item.key}>
-              <Form.Label>
-                <h5>
-                  <Badge variant="dark">{item.badge.title}</Badge>
-                </h5>
-              </Form.Label>
-              <Form.Control
-                defaultValue={userData[item.name]}
-                onChange={e => handleChange(e, item.name)}
-                {...(item?.control || {})}
-              />
-            </Form.Group>
-          ))}
-        </div>
-      </Fragment>
-    )
+    <Fragment key={Math.random()}>
+      <div className="d-flex flex-column my-3">
+        {userStockList.map(item => (
+          <Form.Group key={item.key} controlId={item.key}>
+            <Form.Label>
+              <h5>
+                <Badge variant="dark">{item.badge.title}</Badge>
+              </h5>
+            </Form.Label>
+            <Form.Control
+              defaultValue={userData[item.name]}
+              onChange={e => handleChange(e, item.name)}
+              {...(item?.control || {})}
+            />
+          </Form.Group>
+        ))}
+      </div>
+    </Fragment>
   )
 }
