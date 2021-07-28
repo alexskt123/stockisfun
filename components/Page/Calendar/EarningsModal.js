@@ -1,17 +1,15 @@
 import { Fragment, useState, useEffect } from 'react'
 
 import StockInfoTable from '@/components/Page/StockInfoTable'
-import { fetcher, staticSWROptions } from '@/config/settings'
+import { useStaticSWR } from '@/lib/request'
 import Badge from 'react-bootstrap/Badge'
 import Modal from 'react-bootstrap/Modal'
-import useSWR from 'swr'
 import useDarkMode from 'use-dark-mode'
 
 const EarningsModal = ({ ticker, resetTicker }) => {
-  const { data } = useSWR(
-    () => ticker && `/api/nasdaq/getEarningsHistory?ticker=${ticker}`,
-    fetcher,
-    staticSWROptions
+  const { data } = useStaticSWR(
+    ticker,
+    `/api/nasdaq/getEarningsHistory?ticker=${ticker}`
   )
 
   const darkMode = useDarkMode(false)
