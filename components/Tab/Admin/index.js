@@ -1,5 +1,5 @@
 import { BoughtList } from './BoughtList'
-import { EmailConfig } from './EmailConfig'
+import { EmailSubscription } from './EmailSubscription'
 import { General } from './General'
 
 export const adminTabs = [
@@ -14,8 +14,8 @@ export const adminTabs = [
     component: BoughtList
   },
   {
-    eventKey: 'EmailConfig',
-    title: 'Email Configuration',
-    component: EmailConfig
+    eventKey: 'EmailSubscription',
+    title: 'Email Subscription',
+    component: EmailSubscription
   }
 ]

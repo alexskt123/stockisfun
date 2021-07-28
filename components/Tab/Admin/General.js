@@ -1,22 +1,13 @@
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment } from 'react'
 
+import { userStockList } from '@/config/admin'
 import { fireToast } from '@/lib/commonFunction'
-import { updUserAllList } from '@/lib/firebaseResult'
+import { updateUserData } from '@/lib/firebaseResult'
+import { debounce } from 'debounce'
 import Badge from 'react-bootstrap/Badge'
-import Button from 'react-bootstrap/Button'
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import FormControl from 'react-bootstrap/FormControl'
+import Form from 'react-bootstrap/Form'
 
-export const General = ({ user, userData }) => {
-  //todo: remove settings, use readonly realtime data, let child component handle the rest
-  const [settings, setSettings] = useState({
-    stockList: [],
-    etfList: [],
-    watchList: [],
-    boughtList: [],
-    cash: 0
-  })
-
+export const General = ({ userData }) => {
   const filterInput = input => {
     return `${input}`
       .replace(/[^a-zA-Z,]/g, '')
@@ -27,111 +18,42 @@ export const General = ({ user, userData }) => {
       .filter((value, idx, self) => self.indexOf(value) === idx)
   }
 
-  const handleChange = (e, type) => {
-    setSettings(s => ({
-      ...s,
-      [type]: e.target.value
-    }))
-  }
+  const handleChange = debounce(async (e, type) => {
+    const checking =
+      type === 'cash' ? input => parseFloat(input) || 0 : filterInput
 
-  const updateAllList = async () => {
-    const newSettings = Object.keys({ ...settings }).reduce((acc, cur) => {
-      const cb = cur === 'cash' ? input => parseFloat(input) || 0 : filterInput
-      return Object.assign(acc, { [cur]: cb(settings[cur]) })
-    }, {})
+    const data = {
+      [type]: checking(e.target.value)
+    }
 
-    await updUserAllList(user.uid, newSettings)
-
-    setSettings(newSettings)
+    await updateUserData(userData.docId, data)
 
     fireToast({
       icon: 'success',
       title: 'Updated'
     })
-  }
-
-  const onUpdate = async () => {
-    await updateAllList()
-  }
-
-  useEffect(() => {
-    if (userData) {
-      setSettings(s => ({
-        ...s,
-        ...userData
-      }))
-    }
-  }, [userData])
-
-  const list = [
-    {
-      key: 'stock',
-      name: 'stockList',
-      badge: {
-        title: 'Update Stock List'
-      },
-      control: {
-        as: 'textarea',
-        rows: '3'
-      }
-    },
-    {
-      key: 'etf',
-      name: 'etfList',
-      badge: {
-        title: 'Update ETF List'
-      },
-      control: {
-        as: 'textarea',
-        rows: '3'
-      }
-    },
-    {
-      key: 'watch',
-      name: 'watchList',
-      badge: {
-        title: 'Update Watch List'
-      },
-      control: {
-        as: 'textarea',
-        rows: '3'
-      }
-    },
-    {
-      key: 'cash',
-      name: 'cash',
-      badge: {
-        title: 'Update Cash'
-      },
-      control: {
-        type: 'number'
-      }
-    }
-  ]
+  }, 1000)
 
   return (
-    <Fragment>
-      <div className="d-flex flex-column my-5">
-        {list.map(item => (
-          <Fragment key={item.key}>
-            <h5>
-              <Badge variant="dark">{item.badge.title}</Badge>
-            </h5>
-
-            <FormControl
-              value={settings[item.name]}
-              onChange={e => handleChange(e, item.name)}
-              {...(item?.control || {})}
-            />
-          </Fragment>
-        ))}
-      </div>
-
-      <ButtonGroup aria-label="Basic example">
-        <Button onClick={() => onUpdate()} size="sm" variant="success">
-          {'Update'}
-        </Button>
-      </ButtonGroup>
-    </Fragment>
+    userData && (
+      <Fragment key={Math.random()}>
+        <div className="d-flex flex-column my-3">
+          {userStockList.map(item => (
+            <Form.Group key={item.key} controlId={item.key}>
+              <Form.Label>
+                <h5>
+                  <Badge variant="dark">{item.badge.title}</Badge>
+                </h5>
+              </Form.Label>
+              <Form.Control
+                defaultValue={userData[item.name]}
+                onChange={e => handleChange(e, item.name)}
+                {...(item?.control || {})}
+              />
+            </Form.Group>
+          ))}
+        </div>
+      </Fragment>
+    )
   )
 }
