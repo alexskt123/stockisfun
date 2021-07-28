@@ -71,7 +71,7 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
       {(quoteData || []).map((dataRow, idx) => {
         return (
           <Fragment key={idx}>
-            <div style={{ display: 'flex', alignItems: 'baseline' }}>
+            <div className="d-flex justify-content-start flex-wrap">
               {dataRow.map((data, dataIdx) => {
                 return (
                   data.value &&

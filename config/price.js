@@ -143,32 +143,32 @@ export const priceChartSettings = {
   pointRadius: 3
 }
 
-export const ma5ChartSettings = {
-  label: '5-MA',
+export const maChartSchema = {
   data: [],
   fill: false,
-  backgroundColor: 'rgba(255,2,2)',
-  borderColor: 'rgba(255,2,2,0.5)',
   pointRadius: 0
 }
 
-export const ma20ChartSettings = {
-  label: '20-MA',
-  data: [],
-  fill: false,
-  backgroundColor: 'rgba(218,165,32)',
-  borderColor: 'rgba(218,165,32,0.8)',
-  pointRadius: 0
-}
-
-export const ma60ChartSettings = {
-  label: '60-MA',
-  data: [],
-  fill: false,
-  backgroundColor: 'rgba(0,128,0)',
-  borderColor: 'rgba(0,128,0,0.8)',
-  pointRadius: 0
-}
+export const maChartSettings = [
+  {
+    value: 5,
+    label: '5-MA',
+    backgroundColor: 'rgba(255,2,2)',
+    borderColor: 'rgba(255,2,2,0.5)'
+  },
+  {
+    value: 20,
+    label: '20-MA',
+    backgroundColor: 'rgba(218,165,32)',
+    borderColor: 'rgba(218,165,32,0.8)'
+  },
+  {
+    value: 60,
+    label: '60-MA',
+    backgroundColor: 'rgba(0,128,0)',
+    borderColor: 'rgba(0,128,0,0.8)'
+  }
+]
 
 export const maChkRange = 5
 

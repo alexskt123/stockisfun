@@ -5,11 +5,10 @@ import {
   priceSchema,
   priceChartSettings,
   priceChartOptions,
-  ma5ChartSettings,
-  ma20ChartSettings,
-  ma60ChartSettings,
   dateRangeSelectAttr,
-  maSelectAttr
+  maSelectAttr,
+  maChartSettings,
+  maChartSchema
 } from '@/config/price'
 import {
   loadingSkeletonColors,
@@ -23,8 +22,6 @@ import { Line } from 'react-chartjs-2'
 
 import TradingViewModal from './TradingViewModal'
 import YahooQuoteInfo from './YahooQuoteInfo'
-
-const MADays = [5, 20, 60]
 
 function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
@@ -53,14 +50,19 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
 
     const historyPrice = datePrice.data?.historyPrice || []
     const calMA = inputMA === 'ema' ? ema : ma
-    const [ma5, ma20, ma60] = MADays.map(day =>
-      getMA(
+    const maCharts = maChartSettings.map(ma => {
+      const data = getMA(
         inputMA,
-        day,
+        ma.value,
         calMA,
         historyPrice.map(item => item.price)
-      )
-    )
+      ).slice(60)
+      return {
+        ...maChartSchema,
+        ...ma,
+        data
+      }
+    })
 
     setSettings({
       ticker: inputTicker,
@@ -76,18 +78,7 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
             showLine: inputMA === '',
             pointRadius: inputMA === '' ? 0 : 3
           },
-          {
-            ...ma5ChartSettings,
-            data: [...ma5.slice(60)]
-          },
-          {
-            ...ma20ChartSettings,
-            data: [...ma20.slice(60)]
-          },
-          {
-            ...ma60ChartSettings,
-            data: [...ma60.slice(60)]
-          }
+          ...maCharts
         ]
       }
     })
