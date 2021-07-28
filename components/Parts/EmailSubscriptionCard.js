@@ -81,7 +81,7 @@ export default function EmailSubscriptionCard({
     const response = await toAxios('/api/sendUserEmail', {
       type: 'id',
       id: inputData.id,
-      uid: user.uid
+      uid: userData.userID
     })
 
     setEmailSending(false)

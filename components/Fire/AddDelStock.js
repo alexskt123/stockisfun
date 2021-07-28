@@ -16,7 +16,7 @@ function AddDelStock({ inputTicker, handleList }) {
   const userData = useUserData(user)
 
   const handleRemove = async () => {
-    await delFromUserList(user.uid, inputTicker, handleList)
+    await delFromUserList(userData.userID, inputTicker, handleList)
 
     fireToast({
       icon: 'success',
@@ -25,7 +25,7 @@ function AddDelStock({ inputTicker, handleList }) {
   }
 
   const handleAdd = async () => {
-    await addToUserList(user.uid, inputTicker, handleList)
+    await addToUserList(userData.userID, inputTicker, handleList)
 
     fireToast({
       icon: 'success',
