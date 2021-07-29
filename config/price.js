@@ -292,30 +292,3 @@ export const priceTabLabelPairs = inputTicker =>
         ]
       ]
     : []
-
-// export const priceTabLabelPairs = [
-//   {
-//     name: 'Name',
-//     value: ''
-//   },
-//   {
-//     name: 'Price',
-//     value: ''
-//   },
-//   {
-//     name: 'Price%',
-//     value: ''
-//   },
-//   {
-//     name: '52W-L-H',
-//     value: ''
-//   },
-//   {
-//     name: 'Market Cap.',
-//     value: ''
-//   },
-//   {
-//     name: 'Industry',
-//     value: ''
-//   }
-// ]

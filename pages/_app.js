@@ -7,7 +7,6 @@ import 'styles/AccessibleAccordion.css'
 import { Fragment } from 'react'
 
 import Layout from '@/components/Layout/Layout'
-// lib
 import { StateProvider } from '@/lib/store'
 
 function MyApp({ Component, pageProps }) {

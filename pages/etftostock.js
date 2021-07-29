@@ -5,7 +5,6 @@ import { useStaticSWR } from '@/lib/request'
 import { useRouter } from 'next/router'
 import Container from 'react-bootstrap/Container'
 
-//export default component
 export default function ETFToStock() {
   const router = useRouter()
   const { ticker, href } = router.query
@@ -23,7 +22,6 @@ export default function ETFToStock() {
     }
   }, [data, href, router, ticker])
 
-  //template
   return (
     <Fragment>
       <Container

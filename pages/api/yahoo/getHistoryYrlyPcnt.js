@@ -1,7 +1,3 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { dateRangeByNoOfYears } from '@/config/price'
 import { calPcnt } from '@/lib/commonFunction'
 import { getHistoryPrice } from '@/lib/yahoo/getHistoryPrice'
