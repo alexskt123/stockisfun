@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 
+import FormOptions from '@/components/Form/FormOptions'
 import { priceChangeDateRangeSelectAttr, buttonSettings } from '@/config/form'
 import { exportToFile } from '@/lib/commonFunction'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
@@ -53,21 +54,10 @@ function TickerInput({
                   </Badge>
                 </h5>
               </Form.Label>
-              <Form.Control
-                {...priceChangeDateRangeSelectAttr.formControl}
-                custom
-                onChange={e => handleChange(e)}
-              >
-                {priceChangeDateRangeSelectAttr.dateRangeOptions.map(
-                  (item, index) => {
-                    return (
-                      <option key={`${item}${index}`} value={item.value}>
-                        {item.label}
-                      </option>
-                    )
-                  }
-                )}
-              </Form.Control>
+              <FormOptions
+                formOptionSettings={priceChangeDateRangeSelectAttr}
+                handleChange={handleChange}
+              />
             </div>
           </Fragment>
         )}

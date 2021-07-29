@@ -5,7 +5,7 @@ export const priceChangeDateRangeSelectAttr = {
     className: 'my-1 mr-sm-2',
     name: 'formYear'
   },
-  dateRangeOptions: [
+  options: [
     {
       label: '15 years',
       value: '15'

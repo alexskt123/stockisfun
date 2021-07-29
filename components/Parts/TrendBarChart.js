@@ -1,5 +1,6 @@
 import { Fragment, useState } from 'react'
 
+import FormOptions from '@/components/Form/FormOptions'
 import GooeySpinner from '@/components/Loading/GooeySpinner'
 import { trendChangeDateRangeSelectAttr, barChartOptions } from '@/config/trend'
 import { useTrendBarChartData } from '@/lib/hooks/charts'
@@ -34,21 +35,10 @@ const TrendBarChart = ({ input }) => {
                 </Badge>
               </h5>
             </Form.Label>
-            <Form.Control
-              {...trendChangeDateRangeSelectAttr.formControl}
-              custom
-              onChange={e => handleChange(e)}
-            >
-              {trendChangeDateRangeSelectAttr.dateRangeOptions.map(
-                (item, index) => {
-                  return (
-                    <option key={`${item}${index}`} value={item.value}>
-                      {item.label}
-                    </option>
-                  )
-                }
-              )}
-            </Form.Control>
+            <FormOptions
+              formOptionSettings={trendChangeDateRangeSelectAttr}
+              handleChange={handleChange}
+            />
           </div>
         </Form.Group>
       </Form>
