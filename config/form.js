@@ -37,6 +37,38 @@ export const priceChangeDateRangeSelectAttr = {
   ]
 }
 
+export const userListSelectAttr = {
+  formControl: {
+    as: 'select',
+    size: 'sm',
+    className: 'my-1 mr-sm-2 ml-3',
+    name: 'formList',
+    style: { width: 'auto' }
+  },
+  options: [
+    {
+      label: 'Your Choice',
+      value: null
+    },
+    {
+      label: 'Watch List',
+      value: 'watchList'
+    },
+    {
+      label: 'Bought List',
+      value: 'boughtList'
+    },
+    {
+      label: 'Stock List',
+      value: 'stockList'
+    },
+    {
+      label: 'ETF List',
+      value: 'etfList'
+    }
+  ]
+}
+
 export const buttonSettings = {
   Go: {
     label: 'Go',

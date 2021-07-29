@@ -1,8 +1,10 @@
 import { Fragment, useState } from 'react'
 
+import FormOptions from '@/components/Form/FormOptions'
 import CustomContainer from '@/components/Layout/CustomContainer'
 import BgColor from '@/components/Page/BgColor'
 import EarningsModal from '@/components/Page/Calendar/EarningsModal'
+import { userListSelectAttr } from '@/config/form'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
 import { useUserCalendarEvents } from '@/lib/hooks/calendar'
 import moment from 'moment'
@@ -15,12 +17,13 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 const localizer = momentLocalizer(moment)
 
 export default function BigCalendar() {
+  const [ticker, setTicker] = useState(null)
+  const [list, setList] = useState('watchList')
+
   const user = usePersistedUser()
   const userData = useUserData(user)
-  const eventList = useUserCalendarEvents(user, userData)
+  const eventList = useUserCalendarEvents(user, userData, list)
   const loadingText = useTypingEffect(['Loading...'])
-
-  const [ticker, setTicker] = useState(null)
 
   const handleSelectSlot = async e => {
     setTicker(e.title)
@@ -40,6 +43,16 @@ export default function BigCalendar() {
               spinner
               text={loadingText}
             >
+              {user && userData && (
+                <FormOptions
+                  formOptionSettings={userListSelectAttr}
+                  value={list}
+                  handleChange={e => {
+                    const list = e?.target?.value
+                    setList(list)
+                  }}
+                />
+              )}
               <Calendar
                 popup
                 localizer={localizer}
@@ -47,7 +60,7 @@ export default function BigCalendar() {
                 views={['month']}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: '80vh', fontSize: 'x-small' }}
+                style={{ height: '75vh', fontSize: 'x-small' }}
                 onSelectEvent={handleSelectSlot}
               />
             </LoadingOverlay>

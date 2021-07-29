@@ -1,8 +1,12 @@
 import { Fragment } from 'react'
 
 import FormOptions from '@/components/Form/FormOptions'
-import { priceChangeDateRangeSelectAttr, buttonSettings } from '@/config/form'
-import { exportToFile } from '@/lib/commonFunction'
+import {
+  priceChangeDateRangeSelectAttr,
+  buttonSettings,
+  userListSelectAttr
+} from '@/config/form'
+import { exportToFile, getUserTickerList } from '@/lib/commonFunction'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
@@ -87,14 +91,16 @@ function TickerInput({
               </Button>
             </Fragment>
           )}
-          {handleTickers && user && userData?.watchList && (
-            <Button
-              {...buttonSettings.FromWatchList.attr}
-              disabled={clicked}
-              onClick={() => handleTickers(userData?.watchList)}
-            >
-              {buttonSettings.FromWatchList.label}
-            </Button>
+          {handleTickers && user && userData && (
+            <FormOptions
+              formOptionSettings={userListSelectAttr}
+              handleChange={e => {
+                const list =
+                  (e?.target?.value && userData[e.target.value]) || []
+                const targetList = getUserTickerList(list)
+                handleTickers(targetList)
+              }}
+            />
           )}
         </div>
       </Form>
