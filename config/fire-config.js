@@ -1,8 +1,3 @@
-// const firebase = require('firebase/app')
-// // Required for side-effects
-// require('firebase/firestore')
-// require('firebase/database')
-
 import firebase from 'firebase/app'
 require('firebase/firestore')
 require('firebase/database')

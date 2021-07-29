@@ -1,7 +1,3 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { getFormattedFromToDate, parseBoolean } from '@/lib/commonFunction'
 import { getHistoryPrice } from '@/lib/yahoo/getHistoryPrice'
 import { getQuote } from '@/lib/yahoo/getQuote'

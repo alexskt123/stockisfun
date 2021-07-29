@@ -1,5 +1,4 @@
-import { sendUserPriceMA, sendUserByID } from '@/lib/email/emailOptions'
-import sendEmail from '@/lib/sendEmail'
+import { sendEmail, sendUserPriceMA, sendUserByID } from '@/lib/email'
 
 export default async (req, res) => {
   const { type, id, uid } = req.query

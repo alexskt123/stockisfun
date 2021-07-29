@@ -5,44 +5,36 @@ import {
   priceSchema,
   priceChartSettings,
   priceChartOptions,
-  ma5ChartSettings,
-  ma20ChartSettings,
-  ma60ChartSettings,
   dateRangeSelectAttr,
-  maSelectAttr
+  maSelectAttr,
+  maChartSettings,
+  maChartSchema
 } from '@/config/price'
 import {
-  staticSWROptions,
-  fetcher,
   loadingSkeletonColors,
   loadingSkeletonPriceParts
 } from '@/config/settings'
+import { useStaticSWR } from '@/lib/request'
 import { ma, ema } from 'moving-averages'
 import Badge from 'react-bootstrap/Badge'
 import Form from 'react-bootstrap/Form'
 import { Line } from 'react-chartjs-2'
-import useSWR from 'swr'
 
 import TradingViewModal from './TradingViewModal'
 import YahooQuoteInfo from './YahooQuoteInfo'
 
-const MADays = [5, 20, 60]
-
 function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
 
-  const datePrice = useSWR(
-    () =>
-      inputTicker &&
-      `/api/yahoo/getHistoryPrice?ticker=${inputTicker}&days=${
-        parseInt(settings.days) + 60
-      }&isBus=true`,
-    fetcher,
-    staticSWROptions
+  const datePrice = useStaticSWR(
+    inputTicker,
+    `/api/yahoo/getHistoryPrice?ticker=${inputTicker}&days=${
+      parseInt(settings.days) + 60
+    }&isBus=true`
   )
 
-  const getMA = (days, MACalculation, price) => {
-    return MACalculation([...price], days)
+  const getMA = (inputMA, days, MACalculation, price) => {
+    return inputMA !== '' ? MACalculation([...price], days) : []
   }
 
   useEffect(() => {
@@ -58,13 +50,19 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
 
     const historyPrice = datePrice.data?.historyPrice || []
     const calMA = inputMA === 'ema' ? ema : ma
-    const [ma5, ma20, ma60] = MADays.map(day =>
-      getMA(
-        day,
+    const maCharts = maChartSettings.map(ma => {
+      const data = getMA(
+        inputMA,
+        ma.value,
         calMA,
         historyPrice.map(item => item.price)
-      )
-    )
+      ).slice(60)
+      return {
+        ...maChartSchema,
+        ...ma,
+        data
+      }
+    })
 
     setSettings({
       ticker: inputTicker,
@@ -77,21 +75,10 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
             ...priceChartSettings,
             label: inputTicker,
             data: [...historyPrice.slice(60).map(item => item.price)],
-            showLine: inputMA === '' ? true : false,
+            showLine: inputMA === '',
             pointRadius: inputMA === '' ? 0 : 3
           },
-          {
-            ...ma5ChartSettings,
-            data: [...ma5.slice(60)]
-          },
-          {
-            ...ma20ChartSettings,
-            data: [...ma20.slice(60)]
-          },
-          {
-            ...ma60ChartSettings,
-            data: [...ma60.slice(60)]
-          }
+          ...maCharts
         ]
       }
     })

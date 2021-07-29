@@ -11,9 +11,7 @@ const FormulaCard = dynamic(
   { ssr: false }
 )
 
-//export default component
 export default function Formula() {
-  //template
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>

@@ -1,7 +1,3 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { getQuote } from '@/lib/yahoo/getQuote'
 
 const getData = async args => {

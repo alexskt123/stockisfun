@@ -1,23 +1,11 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment } from 'react'
 
 import EditTable from '@/components/Page/EditTable'
+import { tableHeader } from '@/config/admin'
 import { fireToast } from '@/lib/commonFunction'
-import { updUserBoughtList, usePersistedUser } from '@/lib/firebaseResult'
+import { updateUserData } from '@/lib/firebaseResult'
 
-export default function BoughtList({ boughtList }) {
-  const user = usePersistedUser()
-
-  const [data, setData] = useState([])
-
-  const tableHeader = [
-    { item: 'ticker', label: 'Ticker', type: 'text' },
-    { item: 'total', label: 'Quantity', type: 'number' }
-  ]
-
-  useEffect(() => {
-    setData(boughtList)
-  }, [boughtList])
-
+export function BoughtList({ userData }) {
   const onUpdate = async newData => {
     const data = newData
       .filter(x => x.ticker !== '' && x.total !== '')
@@ -29,7 +17,7 @@ export default function BoughtList({ boughtList }) {
         }
       })
 
-    await updUserBoughtList(user.uid, data)
+    await updateUserData(userData.docId, { boughtList: data })
 
     fireToast({
       icon: 'success',
@@ -39,7 +27,11 @@ export default function BoughtList({ boughtList }) {
 
   return (
     <Fragment>
-      <EditTable tableHeader={tableHeader} data={data} onUpdate={onUpdate} />
+      <EditTable
+        tableHeader={tableHeader}
+        data={userData.boughtList}
+        onUpdate={onUpdate}
+      />
     </Fragment>
   )
 }

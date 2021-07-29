@@ -13,7 +13,11 @@ import {
   handleFormSubmit,
   fireToast
 } from '@/lib/commonFunction'
-import { updUserWatchList, usePersistedUser } from '@/lib/firebaseResult'
+import {
+  updateUserData,
+  usePersistedUser,
+  useUserData
+} from '@/lib/firebaseResult'
 import { useQuery } from '@/lib/hooks/useQuery'
 import { useRouter } from 'next/router'
 import Button from 'react-bootstrap/Button'
@@ -32,6 +36,7 @@ export default function WatchList() {
   const handleUpdateClose = () => setShowUpdate(false)
 
   const user = usePersistedUser()
+  const userData = useUserData(user)
 
   const handleChange = e => {
     handleDebounceChange(e, formValue, setFormValue)
@@ -42,7 +47,9 @@ export default function WatchList() {
   }
 
   const updateWatchList = async () => {
-    await updUserWatchList(user.uid, tickers)
+    await updateUserData(userData.docId, {
+      watchList: [...tickers]
+    })
 
     fireToast({
       icon: 'success',

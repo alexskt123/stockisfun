@@ -14,7 +14,7 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
 
   useEffect(() => {
     setQuoteDataFields(data)
-    return () => setQuoteData(null)
+    return () => setQuoteData([])
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
@@ -71,7 +71,7 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
       {(quoteData || []).map((dataRow, idx) => {
         return (
           <Fragment key={idx}>
-            <div style={{ display: 'flex', alignItems: 'baseline' }}>
+            <div className="d-flex justify-content-start flex-wrap">
               {dataRow.map((data, dataIdx) => {
                 return (
                   data.value &&
