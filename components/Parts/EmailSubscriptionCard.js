@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 
 import { CooldownButton } from '@/components/CooldownButton'
 import { fireToast } from '@/lib/commonFunction'
-import { updUserEmailConfig } from '@/lib/firebaseResult'
+import { updateUserData } from '@/lib/firebaseResult'
 import { toAxios } from '@/lib/request'
 import validator from 'email-validator'
 import Badge from 'react-bootstrap/Badge'
@@ -59,7 +59,9 @@ export default function EmailSubscriptionCard({
       newInputData
     ]
 
-    await updUserEmailConfig(userData.docId, newEmailList)
+    await updateUserData(userData.docId, {
+      emailConfig: [...newEmailList]
+    })
 
     fireToast({
       icon: 'success',
@@ -77,7 +79,9 @@ export default function EmailSubscriptionCard({
 
     setEmailSending(true)
 
-    await updUserEmailConfig(userData.docId, newEmailList)
+    await updateUserData(userData.docId, {
+      emailConfig: [...newEmailList]
+    })
     const response = await toAxios('/api/sendUserEmail', {
       type: 'id',
       id: inputData.id,
