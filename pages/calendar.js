@@ -14,7 +14,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 const localizer = momentLocalizer(moment)
 
-//export default component
 export default function BigCalendar() {
   const user = usePersistedUser()
   const userData = useUserData(user)

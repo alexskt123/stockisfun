@@ -1,7 +1,3 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { extractYahooInfo } from '@/config/peers'
 import { millify } from '@/lib/commonFunction'
 import { getPeers } from '@/lib/moneycnn/getPeers'

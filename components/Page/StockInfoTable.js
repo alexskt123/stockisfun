@@ -83,7 +83,7 @@ function StockInfoTable({
   return (
     <Fragment>
       <Table
-        striped={striped ? true : false}
+        striped={striped}
         bordered
         hover
         size={tableSize ? tableSize : 'md'}

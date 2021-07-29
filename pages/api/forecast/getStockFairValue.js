@@ -1,7 +1,3 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import Quote from '@/lib/class/quote'
 import { getFinanchill } from '@/lib/forecast/getFinanchill'
 import { getMoneyCnnCouple } from '@/lib/forecast/getMoneyCnn'

@@ -6,7 +6,6 @@ import { useMobile } from '@/lib/hooks/useMobile'
 import { useRouter } from 'next/router'
 import Container from 'react-bootstrap/Container'
 
-//export default component
 export default function Home() {
   const router = useRouter()
   const redirectURL = useMobile()
@@ -17,7 +16,6 @@ export default function Home() {
     router.push(redirectURL)
   }, [router, redirectURL])
 
-  //template
   return (
     <Fragment>
       <Container

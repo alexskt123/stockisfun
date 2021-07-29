@@ -4,16 +4,14 @@ import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { peersHeader, initSettings } from '@/config/peers'
-import { staticSWROptions, fetcher } from '@/config/settings'
-import useSWR from 'swr'
+import { useStaticSWR } from '@/lib/request'
 
 export default function Peers({ inputTicker }) {
   const [settings, setSettings] = useState({ ...initSettings })
 
-  const { data } = useSWR(
-    () => inputTicker && `/api/moneycnn/getPeers?ticker=${inputTicker}`,
-    fetcher,
-    staticSWROptions
+  const { data } = useStaticSWR(
+    inputTicker,
+    `/api/moneycnn/getPeers?ticker=${inputTicker}`
   )
 
   function handleQuote(data) {

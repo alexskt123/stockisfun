@@ -1,7 +1,3 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { calPcnt } from '@/lib/commonFunction'
 import { getAPIResponse } from '@/lib/request'
 import { getYahooBasicsData } from '@/lib/stockInfo'
