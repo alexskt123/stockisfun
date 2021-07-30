@@ -39,7 +39,7 @@ export default function BigCalendar() {
         <Fragment>
           <BgColor customBgColor={{ normal: 'white', darkMode: '#b5c7c6' }}>
             <LoadingOverlay
-              active={user && eventList?.length <= 0}
+              active={user && list !== '' && eventList?.length <= 0}
               spinner
               text={loadingText}
             >

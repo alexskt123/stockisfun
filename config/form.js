@@ -40,23 +40,19 @@ export const priceChangeDateRangeSelectAttr = {
 export const userListOptions = [
   {
     label: 'Watch List',
-    value: 'watchList',
-    list: ['watchList']
+    value: ['watchList']
   },
   {
     label: 'Bought List',
-    value: 'boughtList',
-    list: ['boughtList']
+    value: ['boughtList']
   },
   {
     label: 'Stock List',
-    value: 'stockList',
-    list: ['stockList']
+    value: ['stockList']
   },
   {
     label: 'ETF List',
-    value: 'etfList',
-    list: ['etfList']
+    value: ['etfList']
   }
 ]
 
@@ -71,13 +67,12 @@ export const userListSelectAttr = {
   options: [
     {
       label: 'Your Choice',
-      value: null
+      value: ''
     },
     ...userListOptions,
     {
       label: 'ALL',
-      value: 'all',
-      list: userListOptions.map(u => u.list)
+      value: userListOptions.map(u => u.value)
     }
   ]
 }

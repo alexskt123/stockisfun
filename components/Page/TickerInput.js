@@ -86,10 +86,7 @@ function TickerInput({
               formOptionSettings={userListSelectAttr}
               handleChange={e => {
                 const value = e?.target?.value
-                const targetList = getUserTickerList(
-                  userData,
-                  userListSelectAttr.options.find(x => x.value === value).list
-                )
+                const targetList = getUserTickerList(userData, value.split(','))
                 handleTickers(targetList)
               }}
             />
