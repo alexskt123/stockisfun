@@ -25,6 +25,15 @@ export const emailConfig = [
     id: 'earningsDateBoughtList',
     subscribe: false,
     to: ''
+  },
+  {
+    category: 'earningsDate',
+    name: 'Next Earnings Date - Watch List',
+    subject: 'Next Earnings Date - Watch List',
+    type: 'watchList',
+    id: 'earningsDateWatchList',
+    subscribe: false,
+    to: ''
   }
 ]
 
