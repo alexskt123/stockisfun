@@ -8,7 +8,6 @@ import {
 } from '@/config/form'
 import { exportToFile, getUserTickerList } from '@/lib/commonFunction'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
-import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
@@ -48,19 +47,10 @@ function TickerInput({
               style={{ display: 'inline-flex', alignItems: 'baseline' }}
               className="ml-1"
             >
-              <Form.Label
-                className="my-1 mr-2"
-                htmlFor="inlineFormCustomSelectPref"
-              >
-                <h5>
-                  <Badge variant="dark">
-                    <span>{'No. of Years'}</span>
-                  </Badge>
-                </h5>
-              </Form.Label>
               <FormOptions
                 formOptionSettings={priceChangeDateRangeSelectAttr}
                 handleChange={handleChange}
+                label={'No. of Years'}
               />
             </div>
           </Fragment>

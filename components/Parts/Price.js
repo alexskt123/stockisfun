@@ -17,8 +17,6 @@ import {
 } from '@/config/settings'
 import { useStaticSWR } from '@/lib/request'
 import { ma, ema } from 'moving-averages'
-import Badge from 'react-bootstrap/Badge'
-import Form from 'react-bootstrap/Form'
 import { Line } from 'react-chartjs-2'
 
 import TradingViewModal from './TradingViewModal'
@@ -128,20 +126,11 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
             style={{ display: 'inline-flex', alignItems: 'baseline' }}
             className="ml-1"
           >
-            <Form.Label
-              className="my-1 mr-2"
-              htmlFor="inlineFormCustomSelectPref"
-            >
-              <h6>
-                <Badge variant="dark">
-                  <span>{'In Business Days'}</span>
-                </Badge>
-              </h6>
-            </Form.Label>
             <FormOptions
               formOptionSettings={dateRangeSelectAttr}
               value={settings.days}
               handleChange={handleChange}
+              label={'In Business Days'}
             />
             <FormOptions
               formOptionSettings={maSelectAttr}

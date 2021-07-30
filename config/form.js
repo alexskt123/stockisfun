@@ -41,7 +41,7 @@ export const userListSelectAttr = {
   formControl: {
     as: 'select',
     size: 'sm',
-    className: 'my-1 mr-sm-2 ml-3',
+    className: 'my-1 mr-sm-2 ml-1',
     name: 'formList',
     style: { width: 'auto' }
   },

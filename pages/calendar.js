@@ -44,14 +44,20 @@ export default function BigCalendar() {
               text={loadingText}
             >
               {user && userData && (
-                <FormOptions
-                  formOptionSettings={userListSelectAttr}
-                  value={list}
-                  handleChange={e => {
-                    const list = e?.target?.value
-                    setList(list)
-                  }}
-                />
+                <div
+                  style={{ display: 'inline-flex', alignItems: 'baseline' }}
+                  className="ml-1"
+                >
+                  <FormOptions
+                    formOptionSettings={userListSelectAttr}
+                    value={list}
+                    label={'From List'}
+                    handleChange={e => {
+                      const list = e?.target?.value
+                      setList(list)
+                    }}
+                  />
+                </div>
               )}
               <Calendar
                 popup
