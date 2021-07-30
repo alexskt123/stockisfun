@@ -37,6 +37,29 @@ export const priceChangeDateRangeSelectAttr = {
   ]
 }
 
+export const userListOptions = [
+  {
+    label: 'Watch List',
+    value: 'watchList',
+    list: ['watchList']
+  },
+  {
+    label: 'Bought List',
+    value: 'boughtList',
+    list: ['boughtList']
+  },
+  {
+    label: 'Stock List',
+    value: 'stockList',
+    list: ['stockList']
+  },
+  {
+    label: 'ETF List',
+    value: 'etfList',
+    list: ['etfList']
+  }
+]
+
 export const userListSelectAttr = {
   formControl: {
     as: 'select',
@@ -50,21 +73,11 @@ export const userListSelectAttr = {
       label: 'Your Choice',
       value: null
     },
+    ...userListOptions,
     {
-      label: 'Watch List',
-      value: 'watchList'
-    },
-    {
-      label: 'Bought List',
-      value: 'boughtList'
-    },
-    {
-      label: 'Stock List',
-      value: 'stockList'
-    },
-    {
-      label: 'ETF List',
-      value: 'etfList'
+      label: 'ALL',
+      value: 'all',
+      list: userListOptions.map(u => u.list)
     }
   ]
 }
