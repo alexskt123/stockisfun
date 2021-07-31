@@ -1,9 +1,13 @@
 import { Fragment } from 'react'
 
-import { priceChangeDateRangeSelectAttr, buttonSettings } from '@/config/form'
-import { exportToFile } from '@/lib/commonFunction'
+import FormOptions from '@/components/Form/FormOptions'
+import {
+  priceChangeDateRangeSelectAttr,
+  buttonSettings,
+  userListSelectAttr
+} from '@/config/form'
+import { exportToFile, getUserTickerList } from '@/lib/commonFunction'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
-import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
@@ -43,31 +47,11 @@ function TickerInput({
               style={{ display: 'inline-flex', alignItems: 'baseline' }}
               className="ml-1"
             >
-              <Form.Label
-                className="my-1 mr-2"
-                htmlFor="inlineFormCustomSelectPref"
-              >
-                <h5>
-                  <Badge variant="dark">
-                    <span>{'No. of Years'}</span>
-                  </Badge>
-                </h5>
-              </Form.Label>
-              <Form.Control
-                {...priceChangeDateRangeSelectAttr.formControl}
-                custom
-                onChange={e => handleChange(e)}
-              >
-                {priceChangeDateRangeSelectAttr.dateRangeOptions.map(
-                  (item, index) => {
-                    return (
-                      <option key={`${item}${index}`} value={item.value}>
-                        {item.label}
-                      </option>
-                    )
-                  }
-                )}
-              </Form.Control>
+              <FormOptions
+                formOptionSettings={priceChangeDateRangeSelectAttr}
+                handleChange={handleChange}
+                label={'No. of Years'}
+              />
             </div>
           </Fragment>
         )}
@@ -97,14 +81,15 @@ function TickerInput({
               </Button>
             </Fragment>
           )}
-          {handleTickers && user && userData?.watchList && (
-            <Button
-              {...buttonSettings.FromWatchList.attr}
-              disabled={clicked}
-              onClick={() => handleTickers(userData?.watchList)}
-            >
-              {buttonSettings.FromWatchList.label}
-            </Button>
+          {handleTickers && user && userData && (
+            <FormOptions
+              formOptionSettings={userListSelectAttr}
+              handleChange={e => {
+                const value = e?.target?.value
+                const targetList = getUserTickerList(userData, value.split(','))
+                handleTickers(targetList)
+              }}
+            />
           )}
         </div>
       </Form>

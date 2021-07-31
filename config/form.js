@@ -5,7 +5,7 @@ export const priceChangeDateRangeSelectAttr = {
     className: 'my-1 mr-sm-2',
     name: 'formYear'
   },
-  dateRangeOptions: [
+  options: [
     {
       label: '15 years',
       value: '15'
@@ -33,6 +33,46 @@ export const priceChangeDateRangeSelectAttr = {
     {
       label: '1 year',
       value: '1'
+    }
+  ]
+}
+
+export const userListOptions = [
+  {
+    label: 'Watch List',
+    value: ['watchList']
+  },
+  {
+    label: 'Bought List',
+    value: ['boughtList']
+  },
+  {
+    label: 'Stock List',
+    value: ['stockList']
+  },
+  {
+    label: 'ETF List',
+    value: ['etfList']
+  }
+]
+
+export const userListSelectAttr = {
+  formControl: {
+    as: 'select',
+    size: 'sm',
+    className: 'my-1 mr-sm-2 ml-1',
+    name: 'formList',
+    style: { width: 'auto' }
+  },
+  options: [
+    {
+      label: 'Your Choice',
+      value: ''
+    },
+    ...userListOptions,
+    {
+      label: 'ALL',
+      value: userListOptions.map(u => u.value)
     }
   ]
 }
