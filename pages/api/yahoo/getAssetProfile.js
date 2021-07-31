@@ -6,10 +6,7 @@ export default async (req, res) => {
   const tickers = [].concat(ticker)
 
   const assetProfiles = await Promise.all(
-    tickers.map(async item => {
-      const assetProfile = await getAssetProfile(item)
-      return assetProfile
-    })
+    tickers.map(item => getAssetProfile(item))
   ).catch(error => console.error(error))
 
   res.statusCode = 200

@@ -60,7 +60,7 @@ export default function EmailSubscriptionCard({
     ]
 
     await updateUserData(userData.docId, {
-      emailConfig: [...newEmailList]
+      emailConfig: newEmailList
     })
 
     fireToast({

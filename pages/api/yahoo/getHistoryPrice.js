@@ -7,7 +7,7 @@ const handleDays = async (ticker, days, isBus) => {
   const isBusBool = parseBoolean(isBus)
   const inputDays = parseInt(days)
 
-  const { formattedFromDate, formattedToDate } = await getFormattedFromToDate(
+  const { formattedFromDate, formattedToDate } = getFormattedFromToDate(
     days,
     isBusBool
   )

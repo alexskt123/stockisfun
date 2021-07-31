@@ -13,11 +13,7 @@ export default async (req, res) => {
         ? await sendUserByID(id, uid)
         : null
 
-    const result = await Promise.all(
-      options.map(async option => {
-        return sendEmail(option)
-      })
-    )
+    const result = await Promise.all(options.map(option => sendEmail(option)))
 
     response.result = result
   } catch (error) {
