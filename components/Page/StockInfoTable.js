@@ -3,7 +3,9 @@ import { Fragment } from 'react'
 import {
   getRedColor,
   getGreenColor,
-  getDefaultColor
+  getDefaultColor,
+  hasProperties,
+  toNumber
 } from '@/lib/commonFunction'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
@@ -19,32 +21,32 @@ const Table = dynamic(
 )
 
 const getItemData = item => {
-  return typeof item === 'object' && item?.data ? item.data : item
+  return item?.data || item || ''
 }
 
 const getCellColor = (item, darkMode) => {
-  const itemData = getItemData(item)
-  if (item?.style === 'green-red') {
-    const cur = (item.data || '').toString().replace(/%/, '')
-    return cur < 0
-      ? { color: getRedColor(darkMode) }
-      : cur > 0
-      ? { color: getGreenColor(darkMode) }
-      : { color: getDefaultColor(darkMode) }
-  } else if ((itemData || '').toString().replace(/%/, '') < 0)
-    return { color: getRedColor(darkMode) }
-  else return { color: getDefaultColor(darkMode) }
+  const number = toNumber(getItemData(item))
+  const getColor =
+    number < 0
+      ? getRedColor
+      : item?.style === 'green-red' && number > 0
+      ? getGreenColor
+      : getDefaultColor
+
+  return { color: getColor(darkMode) }
 }
 
 const getCellItem = item => {
+  const linkProperties = ['data', 'link']
+
   const itemData = getItemData(item)
-  if ((itemData || '').toString().match(/http:/gi))
+  if (itemData.match(/http:/gi))
     return (
       <a href={itemData} target="_blank" rel="noopener noreferrer">
         {itemData}
       </a>
     )
-  else if (typeof item === 'object' && item?.data && item?.link) {
+  else if (hasProperties(item, linkProperties)) {
     return (
       <Link href={item.link}>
         <a>
