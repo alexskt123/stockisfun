@@ -88,7 +88,7 @@ function StockInfoTable({
         striped={striped}
         bordered
         hover
-        size={tableSize ? tableSize : 'md'}
+        size={tableSize || 'md'}
         className="pl-3 mt-1"
         responsive
         variant={darkMode.value ? 'dark' : 'light'}

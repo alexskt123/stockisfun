@@ -27,10 +27,7 @@ const getData = async args => {
       ...extractYahooInfo.reduce((acc, cur) => {
         const newAcc = {
           ...acc,
-          [cur.label]: getFormattedValue(
-            cur.format,
-            (data ? data : {})[cur.field]
-          )
+          [cur.label]: getFormattedValue(cur.format, (data || {})[cur.field])
         }
         return newAcc
       }, {})

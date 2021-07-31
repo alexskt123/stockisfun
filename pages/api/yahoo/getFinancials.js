@@ -30,10 +30,10 @@ const getData = async args => {
   const data = {
     symbol: ticker,
     trailingPE,
-    returnOnEquity: returnOnEquity ? returnOnEquity : 'N/A',
-    grossMargin: grossMargin ? grossMargin : 'N/A',
-    returnOnAssets: returnOnAssets ? returnOnAssets : 'N/A',
-    industry: industry ? industry : 'N/A',
+    returnOnEquity: returnOnEquity || 'N/A',
+    grossMargin: grossMargin || 'N/A',
+    returnOnAssets: returnOnAssets || 'N/A',
+    industry: industry || 'N/A',
     ...earningCapacity
   }
 
