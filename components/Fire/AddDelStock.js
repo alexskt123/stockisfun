@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import { fireToast } from '@/lib/commonFunction'
+import { fireToast, hasProperties } from '@/lib/commonFunction'
 import {
   addToUserList,
   delFromUserList,
@@ -36,10 +36,8 @@ function AddDelStock({ inputTicker, handleList }) {
   return (
     <Fragment>
       {user &&
-        ((handleList === 'stockList' &&
-          userData?.stockList.includes(inputTicker)) ||
-        (handleList === 'etfList' &&
-          userData?.etfList.includes(inputTicker)) ? (
+        (hasProperties(userData, [handleList]) &&
+        userData[handleList].includes(inputTicker) ? (
           <Badge>
             <IconContext.Provider value={{ color: 'red', size: '15px' }}>
               <MdRemoveCircleOutline

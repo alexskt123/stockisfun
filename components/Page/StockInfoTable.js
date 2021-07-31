@@ -40,7 +40,7 @@ const getCellItem = item => {
   const linkProperties = ['data', 'link']
 
   const itemData = getItemData(item)
-  if (itemData.match(/http:/gi))
+  if (itemData.toString().match(/http:/gi))
     return (
       <a href={itemData} target="_blank" rel="noopener noreferrer">
         {itemData}
