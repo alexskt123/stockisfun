@@ -288,7 +288,7 @@ export const priceTabLabelPairs = inputTicker =>
               <AddDelStock
                 key={'AddDelStock'}
                 inputTicker={inputTicker}
-                handleList="stock"
+                handleList="stockList"
               />,
               <HappyShare key={'HappyShare'} />
             ]

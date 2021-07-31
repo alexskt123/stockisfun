@@ -16,7 +16,7 @@ function AddDelStock({ inputTicker, handleList }) {
   const userData = useUserData(user)
 
   const handleRemove = async () => {
-    await delFromUserList(userData.userID, inputTicker, handleList)
+    await delFromUserList(userData.docId, inputTicker, handleList)
 
     fireToast({
       icon: 'success',
@@ -25,7 +25,7 @@ function AddDelStock({ inputTicker, handleList }) {
   }
 
   const handleAdd = async () => {
-    await addToUserList(userData.userID, inputTicker, handleList)
+    await addToUserList(userData.docId, inputTicker, handleList)
 
     fireToast({
       icon: 'success',
@@ -36,9 +36,10 @@ function AddDelStock({ inputTicker, handleList }) {
   return (
     <Fragment>
       {user &&
-        ((handleList === 'stock' &&
+        ((handleList === 'stockList' &&
           userData?.stockList.includes(inputTicker)) ||
-        (handleList === 'etf' && userData?.etfList.includes(inputTicker)) ? (
+        (handleList === 'etfList' &&
+          userData?.etfList.includes(inputTicker)) ? (
           <Badge>
             <IconContext.Provider value={{ color: 'red', size: '15px' }}>
               <MdRemoveCircleOutline
