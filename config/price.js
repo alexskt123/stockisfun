@@ -221,7 +221,7 @@ export const dateRangeSelectAttr = {
     className: 'my-1 mr-sm-2',
     name: 'formYear'
   },
-  dateRangeOptions: [
+  options: [
     {
       label: '5D',
       value: '5'
@@ -260,7 +260,7 @@ export const maSelectAttr = {
     className: 'my-1 mr-sm-2',
     name: 'formMA'
   },
-  maOptions: [
+  options: [
     {
       label: 'N/A',
       value: ''

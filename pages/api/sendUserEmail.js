@@ -1,17 +1,15 @@
-import { sendEmail, sendUserPriceMA, sendUserByID } from '@/lib/email'
+import { typeFunctPairsSettings } from '@/config/email'
+import { sendEmail } from '@/lib/email'
 
 export default async (req, res) => {
   const { type, id, uid } = req.query
+  const typeFunctPairs = typeFunctPairsSettings({ id, uid })
 
   const response = {}
 
   try {
-    const options =
-      type === 'priceMA'
-        ? await sendUserPriceMA()
-        : type === 'id'
-        ? await sendUserByID(id, uid)
-        : null
+    const curAction = typeFunctPairs?.find(x => x.type === type)
+    const options = await curAction?.funct(curAction?.params)
 
     const result = await Promise.all(
       options.map(async option => {

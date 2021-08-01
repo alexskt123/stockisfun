@@ -1,3 +1,5 @@
+import { sendUserByType, sendUserByID } from '@/lib/email'
+
 export const priceMAList = [
   {
     id: '5<20',
@@ -34,5 +36,23 @@ export const priceMAList = [
     name: '20-MA higher than 60-MA',
     tickersInfo: [],
     tickersChart: []
+  }
+]
+
+export const typeFunctPairsSettings = ({ id, uid }) => [
+  {
+    type: 'priceMA',
+    funct: sendUserByType,
+    params: { type: 'priceMA' }
+  },
+  {
+    type: 'earningsDate',
+    funct: sendUserByType,
+    params: { type: 'earningsDate' }
+  },
+  {
+    type: 'id',
+    funct: sendUserByID,
+    params: { id, uid }
   }
 ]
