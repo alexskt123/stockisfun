@@ -1,5 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import FormOptions from '@/components/Form/FormOptions'
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import {
   priceSchema,
@@ -16,8 +17,6 @@ import {
 } from '@/config/settings'
 import { useStaticSWR } from '@/lib/request'
 import { ma, ema } from 'moving-averages'
-import Badge from 'react-bootstrap/Badge'
-import Form from 'react-bootstrap/Form'
 import { Line } from 'react-chartjs-2'
 
 import TradingViewModal from './TradingViewModal'
@@ -127,44 +126,17 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
             style={{ display: 'inline-flex', alignItems: 'baseline' }}
             className="ml-1"
           >
-            <Form.Label
-              className="my-1 mr-2"
-              htmlFor="inlineFormCustomSelectPref"
-            >
-              <h6>
-                <Badge variant="dark">
-                  <span>{'In Business Days'}</span>
-                </Badge>
-              </h6>
-            </Form.Label>
-            <Form.Control
-              {...dateRangeSelectAttr.formControl}
+            <FormOptions
+              formOptionSettings={dateRangeSelectAttr}
               value={settings.days}
-              custom
-              onChange={e => handleChange(e)}
-            >
-              {dateRangeSelectAttr.dateRangeOptions.map((item, index) => {
-                return (
-                  <option key={`${item}${index}`} value={item.value}>
-                    {item.label}
-                  </option>
-                )
-              })}
-            </Form.Control>
-            <Form.Control
-              {...maSelectAttr.formControl}
+              handleChange={handleChange}
+              label={'In Business Days'}
+            />
+            <FormOptions
+              formOptionSettings={maSelectAttr}
               value={settings.ma}
-              custom
-              onChange={e => handleChange(e)}
-            >
-              {maSelectAttr.maOptions.map((item, index) => {
-                return (
-                  <option key={`${item}${index}`} value={item.value}>
-                    {item.label}
-                  </option>
-                )
-              })}
-            </Form.Control>
+              handleChange={handleChange}
+            />
           </div>
           <div
             style={{ display: 'inline-flex', alignItems: 'baseline' }}
