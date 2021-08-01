@@ -1,27 +1,11 @@
-import { sendEmail, sendUserByType, sendUserByID } from '@/lib/email'
+import { typeFunctPairsSettings } from '@/config/email'
+import { sendEmail } from '@/lib/email'
 
 export default async (req, res) => {
   const { type, id, uid } = req.query
+  const typeFunctPairs = typeFunctPairsSettings({ id, uid })
 
   const response = {}
-
-  const typeFunctPairs = [
-    {
-      type: 'priceMA',
-      funct: sendUserByType,
-      params: { type: 'priceMA' }
-    },
-    {
-      type: 'earningsDate',
-      funct: sendUserByType,
-      params: { type: 'earningsDate' }
-    },
-    {
-      type: 'id',
-      funct: sendUserByID,
-      params: { id, uid }
-    }
-  ]
 
   try {
     const curAction = typeFunctPairs?.find(x => x.type === type)
