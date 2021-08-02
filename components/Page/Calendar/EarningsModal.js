@@ -1,6 +1,8 @@
 import { Fragment, useState, useEffect } from 'react'
 
 import StockInfoTable from '@/components/Page/StockInfoTable'
+import { earningsModalDefaultSettings } from '@/config/calendar'
+import { cloneObj } from '@/lib/commonFunction'
 import { useStaticSWR } from '@/lib/request'
 import Badge from 'react-bootstrap/Badge'
 import Modal from 'react-bootstrap/Modal'
@@ -14,27 +16,18 @@ const EarningsModal = ({ ticker, resetTicker }) => {
 
   const darkMode = useDarkMode(false)
   const [show, setShow] = useState(false)
-  const [earnings, setEarnings] = useState({
-    tableHeader: [
-      'Date Reported',
-      'Fiscal Quarter End',
-      'Consensus EPS Forecast',
-      'Earnings Per Share',
-      '% Surprise'
-    ],
-    tableData: []
-  })
+  const [earnings, setEarnings] = useState(
+    cloneObj(earningsModalDefaultSettings)
+  )
 
   useEffect(() => {
-    ;(async () => {
-      if (data) {
-        setShow(true)
-        setEarnings(e => ({
-          ...e,
-          tableData: data
-        }))
-      } else setShow(false)
-    })()
+    if (data) {
+      setShow(true)
+      setEarnings(e => ({
+        ...e,
+        tableData: data
+      }))
+    } else setShow(false)
   }, [data])
 
   const handleClose = () => {

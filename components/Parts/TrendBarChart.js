@@ -13,7 +13,7 @@ const TrendBarChart = ({ input }) => {
   const [days, setDays] = useState(8)
   const barChartData = useTrendBarChartData(input, days)
 
-  const handleChange = async e => {
+  const handleChange = e => {
     if (e.target.name === 'formYear') {
       setDays(e.target.value)
     }

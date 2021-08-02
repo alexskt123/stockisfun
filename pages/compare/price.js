@@ -16,7 +16,7 @@ export default function ComparePrice() {
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
 
-  const handleChange = async e => {
+  const handleChange = e => {
     if (e.target.name === 'formYear') {
       setSettings({
         ...settings,
@@ -53,7 +53,7 @@ export default function ComparePrice() {
     router.push(`${router.pathname}?query=${removed.join(',')}&year=${year}`)
   }
 
-  async function handleTickers(inputTickers, inputYear) {
+  function handleTickers(inputTickers, inputYear) {
     setSettings({
       ...settings,
       tickers: inputTickers,
@@ -61,7 +61,7 @@ export default function ComparePrice() {
     })
   }
 
-  const handleSubmit = async event => {
+  const handleSubmit = event => {
     handleFormSubmit(event, formValue, { query }, router, setValidated)
   }
 
