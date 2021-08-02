@@ -9,13 +9,14 @@ export default async (req, res) => {
 
   try {
     const curAction = typeFunctPairs?.find(x => x.type === type)
-    const options = await Promise.all(curAction?.funct(curAction?.params))
+    const options = await curAction?.funct(curAction?.params)
 
     const result = await Promise.all(options.map(option => sendEmail(option)))
 
     response.result = result
   } catch (error) {
     response.error = error.message
+    console.error(error)
   }
 
   res.statusCode = 200
