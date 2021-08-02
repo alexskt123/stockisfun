@@ -19,7 +19,7 @@ export const chartDataSet = {
 }
 
 const year = new Date().getFullYear()
-export const dateRangeByNoOfYears = async inputYears => {
+export const dateRangeByNoOfYears = inputYears => {
   const noOfYears = !inputYears ? 15 : inputYears
 
   return [...Array(parseInt(noOfYears) + 1)]

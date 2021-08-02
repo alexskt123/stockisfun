@@ -29,7 +29,7 @@ export default function EditTable({ tableHeader, data, onUpdate }) {
           ? item
           : {
               ...item,
-              ...{ [itemKey]: e.target.value }
+              [itemKey]: e.target.value
             }
       return newItem
     })

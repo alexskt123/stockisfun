@@ -3,7 +3,7 @@ import { calPcnt } from '@/lib/commonFunction'
 import { getHistoryPrice } from '@/lib/yahoo/getHistoryPrice'
 
 const handleYearPcnt = async (ticker, year) => {
-  const newDateRange = await dateRangeByNoOfYears(year)
+  const newDateRange = dateRangeByNoOfYears(year)
   const inputItems = newDateRange.map(item => {
     return {
       ticker: ticker.toUpperCase(),

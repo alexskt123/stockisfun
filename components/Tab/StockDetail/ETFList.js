@@ -33,16 +33,12 @@ function ETFList({ inputTicker }) {
     handleSettings(data)
   }, [data])
 
-  const sortItem = async index => {
+  const sortItem = index => {
     setSettings({
       ...settings,
       etfList: {
         ...settings.etfList,
-        tableData: await sortTableItem(
-          settings.etfList.tableData,
-          index,
-          ascSort
-        )
+        tableData: sortTableItem(settings.etfList.tableData, index, ascSort)
       }
     })
     setAscSort(!ascSort)

@@ -33,10 +33,10 @@ export default function Holdings({ inputETFTicker, cellClick }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputETFTicker])
 
-  const sortItem = async index => {
+  const sortItem = index => {
     setSettings({
       ...settings,
-      tableData: await sortTableItem(settings.tableData, index, ascSort)
+      tableData: sortTableItem(settings.tableData, index, ascSort)
     })
     setAscSort(!ascSort)
   }

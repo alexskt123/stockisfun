@@ -60,7 +60,7 @@ export default function EmailSubscriptionCard({
     ]
 
     await updateUserData(userData.docId, {
-      emailConfig: [...newEmailList]
+      emailConfig: newEmailList
     })
 
     fireToast({
@@ -80,7 +80,7 @@ export default function EmailSubscriptionCard({
     setEmailSending(true)
 
     await updateUserData(userData.docId, {
-      emailConfig: [...newEmailList]
+      emailConfig: newEmailList
     })
     const response = await toAxios('/api/sendUserEmail', {
       type: 'id',
