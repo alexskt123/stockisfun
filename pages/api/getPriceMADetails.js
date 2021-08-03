@@ -1,4 +1,4 @@
-import { getPriceMADetails } from '@/lib/email'
+import { getPriceMADetails } from '@/lib/email/template'
 
 export default async (req, res) => {
   const { ticker, genChart } = req.query
