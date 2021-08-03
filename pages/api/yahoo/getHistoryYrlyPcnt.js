@@ -46,8 +46,8 @@ const handleYearPcnt = async (ticker, year) => {
                 : 'N/A'
           }
         ],
-        endPrice: idx === 0 && closing ? closing : acc.endPrice,
-        startPrice: opening ? opening : acc.startPrice
+        endPrice: (idx === 0 && closing) || acc.endPrice,
+        startPrice: opening || acc.startPrice
       }
 
       return newAcc

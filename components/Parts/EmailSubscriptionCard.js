@@ -122,7 +122,7 @@ export default function EmailSubscriptionCard({
         text={'dark'}
         border={'light'}
         style={{
-          ['minWidth']: minWidth ? minWidth : '20rem',
+          ['minWidth']: minWidth || '20rem',
           backgroundColor: '#f5f7f2'
         }}
       >

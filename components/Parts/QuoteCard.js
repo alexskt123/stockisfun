@@ -45,7 +45,7 @@ export default function QuoteCard({
           text={'dark'}
           border={'light'}
           style={{
-            ['minWidth']: minWidth ? minWidth : '10rem',
+            ['minWidth']: minWidth || '10rem',
             backgroundColor: bgColor
           }}
         >
@@ -69,7 +69,7 @@ export default function QuoteCard({
                     </Badge>
                   </h5>
                 )}
-                {noClose ? null : (
+                {!noClose && (
                   <IconContext.Provider
                     value={{ color: 'red', className: 'global-class-name' }}
                   >

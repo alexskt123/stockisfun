@@ -31,12 +31,13 @@ export default function Basics({ inputETFTicker }) {
     })
 
     inputETFTicker &&
-    !newSettings.tableData.filter(x => x.find(x => x) === 'Price').find(x => x)
-      ? fireToast({
-          icon: 'error',
-          title: 'Invalid Ticker'
-        })
-      : null
+      !newSettings.tableData
+        .filter(x => x.find(x => x) === 'Price')
+        .find(x => x) &&
+      fireToast({
+        icon: 'error',
+        title: 'Invalid Ticker'
+      })
 
     setLoading(false)
   }

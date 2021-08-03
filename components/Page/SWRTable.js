@@ -11,7 +11,8 @@ import {
   indicatorVariant,
   getRedColor,
   getGreenColor,
-  getDefaultColor
+  getDefaultColor,
+  hasProperties
 } from '@/lib/commonFunction'
 import { exportToFile } from '@/lib/commonFunction'
 import { useMobile } from '@/lib/hooks/useMobile'
@@ -240,7 +241,7 @@ function SWRTableRow({
       {tableHeader.map(header => (
         <td
           onClick={() =>
-            header?.onClick ? header.onClick(data, router) : null
+            hasProperties(header, ['onClick']) && header.onClick(data, router)
           }
           style={getStyle(header, darkMode)}
           key={header.item}

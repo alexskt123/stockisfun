@@ -59,7 +59,7 @@ const getCellItem = item => {
 
 const checkCanClick = (router, item, cellClick) => {
   const itemData = getItemData(item)
-  cellClick ? cellClick(router, itemData) : null
+  cellClick && cellClick(router, itemData)
 }
 
 const sticky = {

@@ -20,7 +20,7 @@ export const chartDataSet = {
 
 const year = new Date().getFullYear()
 export const dateRangeByNoOfYears = inputYears => {
-  const noOfYears = !inputYears ? 15 : inputYears
+  const noOfYears = inputYears || 15
 
   return [...Array(parseInt(noOfYears) + 1)]
     .map((_x, i) => [`${year - i}-01-01`, `${year - i}-12-31`, year - i])

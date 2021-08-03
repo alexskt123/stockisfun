@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState, useMemo } from 'react'
 
-import { randBackgroundColor } from '@/lib/commonFunction'
+import { hasProperties, randBackgroundColor } from '@/lib/commonFunction'
 import { getHighlightWatchList } from '@/lib/firebaseResult'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
@@ -30,7 +30,7 @@ function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
         .map(x => {
           const { [x.name]: list = [] } = userData || {}
           const flatList = list.map(x =>
-            typeof x === typeof {} ? x?.ticker : x
+            hasProperties(x, ['ticker']) ? x.ticker : x
           )
           return { label: x.label, list: flatList }
         })
