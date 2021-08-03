@@ -22,13 +22,13 @@ const handleDays = async (ticker, days, isBus) => {
     moment.unix(item).format('DD MMM YYYY')
   )
   const closePrice = outputItem.indicators.quote.find(x => x).close
-  const allPriceDate = (closePrice || []).reduce((acc, cur, idx) => {
+  const allPriceDate = (closePrice || []).reduce((acc, price, idx) => {
     // price must have value
-    const curDatePrice = {
-      date: closeDate[idx],
-      price: cur
-    }
-    if (cur) acc.push(curDatePrice)
+    price &&
+      acc.push({
+        date: closeDate[idx],
+        price
+      })
     return acc
   }, [])
 

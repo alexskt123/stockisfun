@@ -8,13 +8,11 @@ const HighlightDetail = ({ ticker, data }) => {
     if (!data) return
 
     const detail = highlightDetails?.find(x => x.type === data?.type)
-    if (!detail) {
+    !detail &&
       fireToast({
         icon: 'error',
         title: 'Only Stock/ETF can be viewed!'
       })
-      return
-    }
   }, [data])
 
   return (

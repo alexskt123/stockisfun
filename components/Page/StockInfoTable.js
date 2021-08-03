@@ -40,21 +40,20 @@ const getCellItem = item => {
   const linkProperties = ['data', 'link']
 
   const itemData = getItemData(item)
-  if (itemData.toString().match(/http:/gi))
-    return (
-      <a href={itemData} target="_blank" rel="noopener noreferrer">
-        {itemData}
+  const element = itemData.toString().match(/http:/gi) ? (
+    <a href={itemData} target="_blank" rel="noopener noreferrer">
+      {itemData}
+    </a>
+  ) : hasProperties(item, linkProperties) ? (
+    <Link href={item.link}>
+      <a>
+        <u>{itemData}</u>
       </a>
-    )
-  else if (hasProperties(item, linkProperties)) {
-    return (
-      <Link href={item.link}>
-        <a>
-          <u>{itemData}</u>
-        </a>
-      </Link>
-    )
-  } else return itemData
+    </Link>
+  ) : (
+    itemData
+  )
+  return element
 }
 
 const checkCanClick = (router, item, cellClick) => {

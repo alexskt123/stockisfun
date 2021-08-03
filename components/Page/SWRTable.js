@@ -223,7 +223,7 @@ function SWRTableRow({
   const data = dataRes?.result || dataRes
 
   useEffect(() => {
-    if (data) handleTableData(data)
+    data && handleTableData(data)
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])

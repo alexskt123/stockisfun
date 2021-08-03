@@ -19,20 +19,17 @@ function PriceTab({ inputTicker }) {
   const [valuePairs, setValuePairs] = useState([])
 
   useEffect(() => {
-    if (!data?.result) {
-      return
-    }
-
-    setValuePairs(
-      priceTabLabelPairs(data.result?.Symbol).map(row => {
-        return row.map(item => {
-          return {
-            ...item,
-            value: data.result[item.name]
-          }
+    data?.result &&
+      setValuePairs(
+        priceTabLabelPairs(data.result?.Symbol).map(row => {
+          return row.map(item => {
+            return {
+              ...item,
+              value: data.result[item.name]
+            }
+          })
         })
-      })
-    )
+      )
   }, [data])
 
   return inputTicker && !data ? (
