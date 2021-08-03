@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 
 import LoadingSkeleton from '@/components/Loading/LoadingSkeleton'
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import { fetcher } from '@/config/settings'
 import {
   millify,
@@ -132,9 +133,11 @@ export default function SWRTable({ requests, options }) {
           className="justify-content-center mt-2"
           style={{ display: 'flex', alignItems: 'center' }}
         >
-          <h5>
-            <Badge variant="info">{`Last Update: ${timestamp}`}</Badge>
-          </h5>
+          <HeaderBadge
+            headerTag={'h5'}
+            title={`Last Update: ${timestamp}`}
+            badgeProps={{ variant: 'info' }}
+          />
           <h5>
             <Button
               className="ml-1"
@@ -169,9 +172,11 @@ export default function SWRTable({ requests, options }) {
           <tr key={'tableFirstHeader'}>
             {tableFirstHeader?.map((item, index) => (
               <th key={index} style={getStyle(item, darkMode.value)}>
-                <h5>
-                  <Badge variant="light">{item.label}</Badge>
-                </h5>
+                <HeaderBadge
+                  headerTag={'h5'}
+                  title={item.label}
+                  badgeProps={{ variant: 'light' }}
+                />
               </th>
             ))}
           </tr>

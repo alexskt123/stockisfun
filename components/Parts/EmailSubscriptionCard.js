@@ -11,6 +11,7 @@ import Form from 'react-bootstrap/Form'
 import LoadingOverlay from 'react-loading-overlay'
 
 import CooldownBadge from './CooldownBadge'
+import HeaderBadge from './HeaderBadge'
 
 export default function EmailSubscriptionCard({
   user,
@@ -129,11 +130,11 @@ export default function EmailSubscriptionCard({
         {inputData?.name && (
           <Card.Header style={{ padding: '0.2rem' }}>
             <div style={{ display: 'flex', alignItems: 'baseline' }}>
-              <h5>
-                <Badge variant="secondary">
-                  <b>{inputData.name}</b>
-                </Badge>
-              </h5>
+              <HeaderBadge
+                headerTag={'h5'}
+                title={inputData.name}
+                badgeProps={{ variant: 'secondary' }}
+              />
             </div>
           </Card.Header>
         )}

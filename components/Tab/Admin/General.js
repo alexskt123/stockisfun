@@ -1,10 +1,10 @@
 import { Fragment } from 'react'
 
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import { userStockList } from '@/config/admin'
 import { fireToast } from '@/lib/commonFunction'
 import { updateUserData } from '@/lib/firebaseResult'
 import { debounce } from 'debounce'
-import Badge from 'react-bootstrap/Badge'
 import Form from 'react-bootstrap/Form'
 
 export const General = ({ userData }) => {
@@ -40,9 +40,11 @@ export const General = ({ userData }) => {
         {userStockList.map(item => (
           <Form.Group key={item.key} controlId={item.key}>
             <Form.Label>
-              <h5>
-                <Badge variant="dark">{item.badge.title}</Badge>
-              </h5>
+              <HeaderBadge
+                headerTag={'h5'}
+                title={item.badge.title}
+                badgeProps={{ variant: 'dark' }}
+              />
             </Form.Label>
             <Form.Control
               defaultValue={userData[item.name]}

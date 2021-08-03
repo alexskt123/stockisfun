@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState, useMemo } from 'react'
 
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import { hasProperties, randBackgroundColor } from '@/lib/commonFunction'
 import { getHighlightWatchList } from '@/lib/firebaseResult'
 import Badge from 'react-bootstrap/Badge'
@@ -44,11 +45,11 @@ function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
   return (
     <Fragment>
       <Row className="justify-content-center mt-1">
-        <h6>
-          <Badge style={{ minWidth: '9rem' }} variant="dark">
-            {'Live Watch'}
-          </Badge>
-        </h6>
+        <HeaderBadge
+          headerTag={'h6'}
+          title={'Live Watch'}
+          badgeProps={{ variant: 'dark', style: { minWidth: '9rem' } }}
+        />
       </Row>
       <Row className="justify-content-center">
         {list.map((item, idx) => {

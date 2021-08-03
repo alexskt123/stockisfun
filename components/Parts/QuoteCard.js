@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from 'react'
 
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import { useBgColor } from '@/lib/hooks/useBgColor'
-import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import { IconContext } from 'react-icons'
@@ -63,11 +63,11 @@ export default function QuoteCard({
                     <b>{header}</b>
                   </Button>
                 ) : (
-                  <h5>
-                    <Badge variant="secondary">
-                      <b>{header}</b>
-                    </Badge>
-                  </h5>
+                  <HeaderBadge
+                    headerTag={'h5'}
+                    title={header}
+                    badgeProps={{ variant: 'secondary' }}
+                  />
                 )}
                 {!noClose && (
                   <IconContext.Provider

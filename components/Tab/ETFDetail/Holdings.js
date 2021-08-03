@@ -2,13 +2,13 @@ import { Fragment, useState, useEffect } from 'react'
 
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { etfDetailsHoldingSettings } from '@/config/etf'
 import { sortTableItem } from '@/lib/commonFunction'
 import { getETFDetailHoldings } from '@/lib/stockInfo'
 import Alert from 'react-bootstrap/Alert'
-import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Row from 'react-bootstrap/Row'
@@ -74,10 +74,16 @@ export default function Holdings({ inputETFTicker, cellClick }) {
               isShow={true}
               noClose={true}
             >
-              <h5>
-                <Badge variant="light">{'No. of Holdings: '}</Badge>
-                <Badge variant="dark">{settings?.noOfHoldings}</Badge>
-              </h5>
+              <HeaderBadge
+                headerTag={'h5'}
+                title={'No. of Holdings: '}
+                badgeProps={{ variant: 'light' }}
+              />
+              <HeaderBadge
+                headerTag={'h5'}
+                title={settings?.noOfHoldings}
+                badgeProps={{ variant: 'dark' }}
+              />
               <Doughnut data={settings?.pieData} />
             </QuoteCard>
             <QuoteCard

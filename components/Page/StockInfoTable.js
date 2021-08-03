@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import {
   getRedColor,
   getGreenColor,
@@ -10,7 +11,6 @@ import {
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import Badge from 'react-bootstrap/Badge'
 import useDarkMode from 'use-dark-mode'
 
 const Table = dynamic(
@@ -96,9 +96,11 @@ function StockInfoTable({
           <tr key={'tableFirstHeader'}>
             {tableFirstHeader?.map((item, index) => (
               <th style={index === 0 ? sticky : {}} key={index}>
-                <h5>
-                  <Badge variant="light">{item}</Badge>
-                </h5>
+                <HeaderBadge
+                  headerTag={'h5'}
+                  title={item}
+                  badgeProps={{ variant: 'light' }}
+                />
               </th>
             ))}
           </tr>

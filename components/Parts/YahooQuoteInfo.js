@@ -1,5 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import {
   convertToPercentage,
   convertToPriceChange,
@@ -77,11 +78,11 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
                   data.value &&
                   data.value !== 'N/A' && (
                     <Fragment key={dataIdx}>
-                      <h6>
-                        <Badge className="ml-1" variant="dark">
-                          {data.label}
-                        </Badge>
-                      </h6>
+                      <HeaderBadge
+                        headerTag={'h6'}
+                        title={data.label}
+                        badgeProps={{ variant: 'dark', className: 'ml-1' }}
+                      />
                       <h6>{getFormattedValue(data.format, data.value)}</h6>
                     </Fragment>
                   )
