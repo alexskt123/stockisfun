@@ -3,8 +3,10 @@ import { Fragment, useState } from 'react'
 import CustomContainer from '@/components/Layout/CustomContainer'
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
+import SWRTable from '@/components/Page/SWRTable'
 import TickerInput from '@/components/Page/TickerInput'
 import BirdMouth from '@/components/Parts/BirdMouth'
+import { priceMATableHeader } from '@/config/price'
 import {
   forecastSettingSchema,
   handleDebounceChange,
@@ -17,6 +19,8 @@ import { useRouter } from 'next/router'
 export default function CompareBirdMouth() {
   const router = useRouter()
   const { query } = router.query
+
+  const [tickers, setTickers] = useState([query])
 
   const [settings, setSettings] = useState(forecastSettingSchema)
   const [tableSettings, setTableSettings] = useState({
@@ -45,6 +49,8 @@ export default function CompareBirdMouth() {
       ...settings,
       tickers: inputTickers
     })
+
+    setTickers([].concat(inputTickers))
 
     handleTable(inputTickers)
   }
@@ -112,11 +118,23 @@ export default function CompareBirdMouth() {
           {tableLoading ? (
             <LoadingSkeletonTable />
           ) : (
-            <StockInfoTable
-              tableSize="sm"
-              tableHeader={tableSettings.tableHeader}
-              tableData={tableSettings.tableData}
-            />
+            <>
+              <SWRTable
+                requests={tickers.map(x => ({
+                  request: `/api/getPriceMA?ticker=${x}`,
+                  key: x
+                }))}
+                options={{
+                  tableHeader: priceMATableHeader,
+                  tableSize: 'sm'
+                }}
+              />
+              <StockInfoTable
+                tableSize="sm"
+                tableHeader={tableSettings.tableHeader}
+                tableData={tableSettings.tableData}
+              />
+            </>
           )}
           <BirdMouth
             input={settings.tickers.map(item => ({

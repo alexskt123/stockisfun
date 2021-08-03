@@ -2,6 +2,8 @@ import AddDelStock from '@/components/Fire/AddDelStock'
 import HappyShare from '@/components/Parts/HappyShare'
 import { convertToPercentage, getVariant } from '@/lib/commonFunction'
 
+import { SWRSticky } from './settings'
+
 export const chartDataSet = {
   fill: false,
   lineTension: 0.1,
@@ -167,6 +169,46 @@ export const maChartSettings = [
     label: '60-MA',
     backgroundColor: 'rgba(0,128,0)',
     borderColor: 'rgba(0,128,0,0.8)'
+  }
+]
+
+export const priceMATableHeader = [
+  {
+    label: 'Ticker',
+    item: 'ticker',
+    style: SWRSticky,
+    show: true,
+    format: 'Badge'
+  },
+  {
+    label: '5<20',
+    item: '5<20',
+    show: true
+  },
+  {
+    label: '5>20',
+    item: '5>20',
+    show: true
+  },
+  {
+    label: '5<60',
+    item: '5<60',
+    show: true
+  },
+  {
+    label: '5>60',
+    item: '5>60',
+    show: true
+  },
+  {
+    label: '20<60',
+    item: '20<60',
+    show: true
+  },
+  {
+    label: '20>60',
+    item: '20>60',
+    show: true
   }
 ]
 
