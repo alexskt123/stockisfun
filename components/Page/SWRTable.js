@@ -85,10 +85,10 @@ export default function SWRTable({ requests, options }) {
       const bfdata = tableData.find(x => x.symbol === a.key)
       const afdata = tableData.find(x => x.symbol === b.key)
 
-      const bf = (bfdata && bfdata[id] ? bfdata[id] : '')
+      const bf = ((hasProperties(bfdata, [id]) && bfdata[id]) || '')
         .toString()
         .replace(/\+|%/gi, '')
-      const af = (afdata && afdata[id] ? afdata[id] : '')
+      const af = ((hasProperties(afdata, [id]) && afdata[id]) || '')
         .toString()
         .replace(/\+|%/gi, '')
       if (isNaN(bf))

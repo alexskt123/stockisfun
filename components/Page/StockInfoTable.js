@@ -116,7 +116,7 @@ function StockInfoTable({
                     : {}
                 }
                 onClick={() => {
-                  if (sortItem) sortItem(index)
+                  sortItem && sortItem(index)
                 }}
                 key={index}
               >
@@ -132,7 +132,7 @@ function StockInfoTable({
                 {item.map((xx, yy) => (
                   <td
                     onClick={() => {
-                      if (cellClick) checkCanClick(router, item, cellClick)
+                      cellClick && checkCanClick(router, item, cellClick)
                     }}
                     style={
                       yy === 0

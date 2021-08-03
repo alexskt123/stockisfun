@@ -45,19 +45,17 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
 
   const getFormattedValue = (format, value) => {
     return format === 'PriceChange'
-      ? value
-        ? getValueBadge(
+      ? value &&
+          getValueBadge(
             value >= 0 ? 'success' : 'danger',
             convertToPriceChange(value)
           )
-        : null
       : format === 'PriceChange%'
-      ? value
-        ? getValueBadge(
-            value >= 0 ? 'success' : 'danger',
-            convertToPercentage(value / 100)
-          )
-        : null
+      ? value &&
+        getValueBadge(
+          value >= 0 ? 'success' : 'danger',
+          convertToPercentage(value / 100)
+        )
       : format === 'IndicatorVariant'
       ? getValueBadge(indicatorVariant(value), value)
       : format === 'millify'

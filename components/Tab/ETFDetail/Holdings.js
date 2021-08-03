@@ -24,9 +24,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
 
   useEffect(() => {
     ;(async () => {
-      if (inputETFTicker) {
-        await handleTicker(inputETFTicker)
-      }
+      inputETFTicker && (await handleTicker(inputETFTicker))
     })()
     return () => clearItems()
     //todo: fix custom hooks

@@ -21,13 +21,13 @@ const EarningsModal = ({ ticker, resetTicker }) => {
   )
 
   useEffect(() => {
-    if (data) {
-      setShow(true)
+    data &&
       setEarnings(e => ({
         ...e,
         tableData: data
       }))
-    } else setShow(false)
+
+    setShow(!!data)
   }, [data])
 
   const handleClose = () => {

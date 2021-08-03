@@ -277,60 +277,59 @@ export const maSelectAttr = {
 }
 
 export const priceTabLabelPairs = inputTicker =>
-  inputTicker
-    ? [
-        [
-          {
-            name: 'Name',
-            value: '',
-            showLabel: true,
-            append: [
-              <AddDelStock
-                key={'AddDelStock'}
-                inputTicker={inputTicker}
-                handleList="stockList"
-              />,
-              <HappyShare key={'HappyShare'} />
-            ]
-          }
-        ],
-        [
-          {
-            name: 'Price',
-            value: '',
-            showLabel: true
-          },
-          {
-            name: 'Price%',
-            value: '',
-            showLabel: false,
-            format: e => convertToPercentage(e / 100),
-            variant: getVariant
-          },
-          {
-            name: '52W-L-H',
-            value: '',
-            showLabel: true
-          }
-        ],
-        [
-          {
-            name: 'Floating Shares',
-            value: '',
-            showLabel: true
-          },
-          {
-            name: 'Market Cap.',
-            value: '',
-            showLabel: true
-          }
-        ],
-        [
-          {
-            name: 'Industry',
-            value: '',
-            showLabel: true
-          }
+  (inputTicker && [
+    [
+      {
+        name: 'Name',
+        value: '',
+        showLabel: true,
+        append: [
+          <AddDelStock
+            key={'AddDelStock'}
+            inputTicker={inputTicker}
+            handleList="stockList"
+          />,
+          <HappyShare key={'HappyShare'} />
         ]
-      ]
-    : []
+      }
+    ],
+    [
+      {
+        name: 'Price',
+        value: '',
+        showLabel: true
+      },
+      {
+        name: 'Price%',
+        value: '',
+        showLabel: false,
+        format: e => convertToPercentage(e / 100),
+        variant: getVariant
+      },
+      {
+        name: '52W-L-H',
+        value: '',
+        showLabel: true
+      }
+    ],
+    [
+      {
+        name: 'Floating Shares',
+        value: '',
+        showLabel: true
+      },
+      {
+        name: 'Market Cap.',
+        value: '',
+        showLabel: true
+      }
+    ],
+    [
+      {
+        name: 'Industry',
+        value: '',
+        showLabel: true
+      }
+    ]
+  ]) ||
+  []

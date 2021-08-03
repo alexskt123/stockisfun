@@ -24,7 +24,7 @@ const getData = async args => {
   )
   const returnOnEquity = financialData?.returnOnEquity?.fmt
   const returnOnAssets = financialData?.returnOnAssets?.fmt
-  const trailingPE = quote?.trailingPE ? roundTo(quote?.trailingPE) : 'N/A'
+  const trailingPE = (quote?.trailingPE && roundTo(quote?.trailingPE)) || 'N/A'
   const industry = assetProfile?.industry
 
   const data = {

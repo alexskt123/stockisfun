@@ -38,15 +38,13 @@ export default function EmailSubscriptionCard({
   const validEmail = () => {
     const validEmail = validator.validate(inputData.to)
 
-    if (!validEmail) {
+    !validEmail &&
       fireToast({
         icon: 'error',
         title: 'Invalid Email'
       })
-      return false
-    }
 
-    return true
+    return validEmail
   }
 
   const onSubscribe = async () => {

@@ -10,13 +10,12 @@ const StockHighlight = ({ boughtListData }) => {
   const [stockList, setStockList] = useState([])
 
   useEffect(() => {
-    if (!boughtListData?.boughtList) return
-
-    setStockList(
-      boughtListData.boughtList
-        .filter(item => item.type === 'EQUITY')
-        .map(item => item.ticker)
-    )
+    boughtListData?.boughtList &&
+      setStockList(
+        boughtListData.boughtList
+          .filter(item => item.type === 'EQUITY')
+          .map(item => item.ticker)
+      )
 
     return () => {
       setStockList([])

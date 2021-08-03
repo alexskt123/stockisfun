@@ -24,14 +24,12 @@ export default function HighlightInfo({ query }) {
   useEffect(() => {
     if (!data) return
 
-    if (!data?.result) {
+    !data?.result &&
       fireToast({
         icon: 'error',
         title: 'Please enter a valid symbol!'
       })
-      return
-    }
-  }, [data, ticker])
+  }, [data])
 
   const Component = highlightInfoConfig[type] || null
 
