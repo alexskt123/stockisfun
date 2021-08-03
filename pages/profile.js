@@ -1,12 +1,9 @@
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
-import AccountSummary from '@/components/Page/Profile/AccountSummary'
-import Performance from '@/components/Page/Profile/Performance'
-import StockHighlight from '@/components/Page/Profile/StockHighlight'
 import LoginAlert from '@/components/Parts/LoginAlert'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
-import { getUserBoughtListDetails } from '@/lib/stockInfo'
+import { useProfileElements } from '@/lib/hooks/admin'
 import {
   Accordion,
   AccordionItem,
@@ -18,36 +15,7 @@ import {
 const Profile = () => {
   const user = usePersistedUser()
   const userData = useUserData(user)
-  const [boughtListData, setBoughtListData] = useState(null)
-
-  const elements = [
-    {
-      component: AccountSummary,
-      boughtListData,
-      header: 'Account Summary',
-      key: 'AccountSummary'
-    },
-    {
-      component: Performance,
-      boughtListData,
-      header: 'Performance',
-      key: 'Performance'
-    },
-    {
-      component: StockHighlight,
-      boughtListData,
-      header: 'Stock Highlight',
-      key: 'StockHighlight'
-    }
-  ]
-
-  useEffect(() => {
-    ;(async () => {
-      const data = await getUserBoughtListDetails(userData)
-      setBoughtListData(data)
-    })()
-    return () => setBoughtListData(null)
-  }, [userData])
+  const elements = useProfileElements(userData)
 
   return (
     <Fragment>
@@ -59,7 +27,7 @@ const Profile = () => {
               allowZeroExpanded={true}
               allowMultipleExpanded={true}
             >
-              {elements.map((item, idx) => {
+              {elements?.map((item, idx) => {
                 return (
                   <Fragment key={idx}>
                     <AccordionItem uuid={item.key}>

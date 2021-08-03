@@ -47,13 +47,13 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
     return format === 'PriceChange'
       ? value &&
           getValueBadge(
-            value >= 0 ? 'success' : 'danger',
+            (value >= 0 && 'success') || 'danger',
             convertToPriceChange(value)
           )
       : format === 'PriceChange%'
       ? value &&
         getValueBadge(
-          value >= 0 ? 'success' : 'danger',
+          (value >= 0 && 'success') || 'danger',
           convertToPercentage(value / 100)
         )
       : format === 'IndicatorVariant'

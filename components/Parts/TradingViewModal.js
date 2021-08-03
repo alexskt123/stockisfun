@@ -27,14 +27,16 @@ export default function TradingViewModal({ buttonClassName, ticker }) {
   }
 
   const handleClick = () => {
-    if (!(data?.result?.type === 'EQUITY' || data?.result?.type === 'ETF')) {
+    const isStock =
+      data?.result?.type === 'EQUITY' || data?.result?.type === 'ETF'
+
+    !isStock &&
       fireToast({
         icon: 'error',
         title: 'Please enter a valid symbol (Equity/ETF)!'
       })
-      return
-    }
-    setShow(true)
+
+    setShow(isStock)
   }
 
   return (

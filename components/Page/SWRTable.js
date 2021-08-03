@@ -92,8 +92,8 @@ export default function SWRTable({ requests, options }) {
         .toString()
         .replace(/\+|%/gi, '')
       if (isNaN(bf))
-        return ascSort ? af.localeCompare(bf) : bf.localeCompare(af)
-      else return ascSort ? bf - af : af - bf
+        return (ascSort && af.localeCompare(bf)) || bf.localeCompare(af)
+      else return (ascSort && bf - af) || af - bf
     })
 
     setSortedRequests(sortedRequests)

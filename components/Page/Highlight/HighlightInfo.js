@@ -22,9 +22,8 @@ export default function HighlightInfo({ query }) {
   )
 
   useEffect(() => {
-    if (!data) return
-
-    !data?.result &&
+    data &&
+      !data?.result &&
       fireToast({
         icon: 'error',
         title: 'Please enter a valid symbol!'
