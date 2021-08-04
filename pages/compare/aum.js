@@ -34,7 +34,7 @@ export default function CompareAUM() {
     router.push(`${router.pathname}?query=${removed.join(',')}`)
   }
 
-  async function handleTickers(inputTickers) {
+  function handleTickers(inputTickers) {
     setTickers([...inputTickers])
   }
 

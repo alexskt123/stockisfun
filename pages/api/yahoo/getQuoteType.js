@@ -1,6 +1,6 @@
 import { getAPIResponse } from '@/lib/request'
 
-const getData = async args => {
+const getData = args => {
   const { valid, type } = args
   return {
     valid,

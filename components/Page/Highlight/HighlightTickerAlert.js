@@ -35,37 +35,34 @@ const HighlightTickerAlert = ({ valid }) => {
     )
   }
 
-  if (!ticker) return null
-
   return (
     <Fragment>
-      <Alert
-        style={{
-          backgroundColor: '#f5f5f5',
-          padding: '.3rem .3rem',
-          display: 'flex',
-          alignItems: 'center'
-        }}
-      >
-        <strong>{'Current Search:'}</strong>
-
-        <Badge className="ml-2" variant="info">
-          {ticker}
-        </Badge>
-        <IconContext.Provider value={{ color: 'red' }}>
-          <MdCancel
-            onClick={() => cancelCurrentSearch()}
-            className="ml-1 cursor"
-          />
-        </IconContext.Provider>
-
-        {valid && <HappyShare />}
-
-        {valid &&
-          searchBadges.map(badge => (
-            <SearchBadges key={badge.type} pushRoute={pushRoute} {...badge} />
-          ))}
-      </Alert>
+      {ticker && (
+        <Alert
+          style={{
+            backgroundColor: '#f5f5f5',
+            padding: '.3rem .3rem',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          <strong>{'Current Search:'}</strong>
+          <Badge className="ml-2" variant="info">
+            {ticker}
+          </Badge>
+          <IconContext.Provider value={{ color: 'red' }}>
+            <MdCancel
+              onClick={() => cancelCurrentSearch()}
+              className="ml-1 cursor"
+            />
+          </IconContext.Provider>
+          {valid && <HappyShare />}
+          {valid &&
+            searchBadges.map(badge => (
+              <SearchBadges key={badge.type} pushRoute={pushRoute} {...badge} />
+            ))}
+        </Alert>
+      )}
     </Fragment>
   )
 }

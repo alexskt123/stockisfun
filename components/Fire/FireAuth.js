@@ -87,7 +87,8 @@ function FireAuth({ user }) {
   }
 
   useEffect(() => {
-    if (show && document.querySelector('.firebaseui-auth-container'))
+    show &&
+      document.querySelector('.firebaseui-auth-container') &&
       authUI.start('.firebaseui-auth-container', uiConfig)
   }, [show, uiConfig])
 

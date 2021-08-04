@@ -11,6 +11,7 @@ import Form from 'react-bootstrap/Form'
 import LoadingOverlay from 'react-loading-overlay'
 
 import CooldownBadge from './CooldownBadge'
+import HeaderBadge from './HeaderBadge'
 
 export default function EmailSubscriptionCard({
   user,
@@ -37,15 +38,13 @@ export default function EmailSubscriptionCard({
   const validEmail = () => {
     const validEmail = validator.validate(inputData.to)
 
-    if (!validEmail) {
+    !validEmail &&
       fireToast({
         icon: 'error',
         title: 'Invalid Email'
       })
-      return false
-    }
 
-    return true
+    return validEmail
   }
 
   const onSubscribe = async () => {
@@ -60,7 +59,7 @@ export default function EmailSubscriptionCard({
     ]
 
     await updateUserData(userData.docId, {
-      emailConfig: [...newEmailList]
+      emailConfig: newEmailList
     })
 
     fireToast({
@@ -80,7 +79,7 @@ export default function EmailSubscriptionCard({
     setEmailSending(true)
 
     await updateUserData(userData.docId, {
-      emailConfig: [...newEmailList]
+      emailConfig: newEmailList
     })
     const response = await toAxios('/api/sendUserEmail', {
       type: 'id',
@@ -122,18 +121,18 @@ export default function EmailSubscriptionCard({
         text={'dark'}
         border={'light'}
         style={{
-          ['minWidth']: minWidth ? minWidth : '20rem',
+          ['minWidth']: minWidth || '20rem',
           backgroundColor: '#f5f7f2'
         }}
       >
         {inputData?.name && (
           <Card.Header style={{ padding: '0.2rem' }}>
             <div style={{ display: 'flex', alignItems: 'baseline' }}>
-              <h5>
-                <Badge variant="secondary">
-                  <b>{inputData.name}</b>
-                </Badge>
-              </h5>
+              <HeaderBadge
+                headerTag={'h5'}
+                title={inputData.name}
+                badgeProps={{ variant: 'secondary' }}
+              />
             </div>
           </Card.Header>
         )}

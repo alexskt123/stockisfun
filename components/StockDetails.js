@@ -27,7 +27,7 @@ function StockDetails({ inputTicker }) {
 
   const [settings, setSettings] = useState({ ...stockDetailsSettings })
 
-  async function handleTicker() {
+  function handleTicker() {
     const ticker = inputTicker.toUpperCase()
     const newSettings = { inputTickers: [ticker] }
 

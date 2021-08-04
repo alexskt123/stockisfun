@@ -5,7 +5,7 @@ export default async (req, res) => {
   const { ticker, days, isBus } = req.query
 
   const isBusBoo = parseBoolean(isBus)
-  const { formattedFromDate, formattedToDate } = await getFormattedFromToDate(
+  const { formattedFromDate, formattedToDate } = getFormattedFromToDate(
     days,
     isBusBoo
   )
