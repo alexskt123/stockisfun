@@ -89,15 +89,13 @@ export default function EmailSubscriptionCard({
 
     setEmailSending(false)
 
-    const toast = response?.data?.error
-      ? {
-          icon: 'error',
-          title: 'Some Error!'
-        }
-      : {
-          icon: 'success',
-          title: 'Sent!'
-        }
+    const toast = (response?.data?.error && {
+      icon: 'error',
+      title: 'Some Error!'
+    }) || {
+      icon: 'success',
+      title: 'Sent!'
+    }
 
     fireToast(toast)
   }
@@ -157,10 +155,10 @@ export default function EmailSubscriptionCard({
             </Form.Group>
             <Badge
               className="cursor"
-              variant={inputData?.subscribe ? 'danger' : 'success'}
+              variant={(inputData?.subscribe && 'danger') || 'success'}
               onClick={() => onSubscribe()}
             >
-              {inputData?.subscribe ? 'UnSubscribe' : 'Subscribe'}
+              {(inputData?.subscribe && 'UnSubscribe') || 'Subscribe'}
             </Badge>
             <CooldownButton
               stateKey={'testEmail'}

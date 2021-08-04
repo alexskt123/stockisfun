@@ -48,7 +48,7 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
     if (!inputTicker) return
 
     const historyPrice = datePrice.data?.historyPrice || []
-    const calMA = inputMA === 'ema' ? ema : ma
+    const calMA = (inputMA === 'ema' && ema) || ma
     const maCharts = maChartSettings.map(ma => {
       const data = getMA(
         inputMA,

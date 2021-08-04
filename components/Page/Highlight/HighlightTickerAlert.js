@@ -23,7 +23,7 @@ const HighlightTickerAlert = ({ valid }) => {
     const params = {
       ...router.query,
       ...query,
-      type: type === query.type ? null : query.type
+      type: (type !== query.type && query.type) || null
     }
 
     router.push(
