@@ -17,9 +17,10 @@ function PriceChange({ inputTickers, inputYear }) {
   async function handleTickers() {
     setLoading(true)
 
-    const noOfYears = inputYear ? inputYear : 15
+    const noOfYears = inputYear || 15
 
     clearItems()
+    //todo: cache this
     const priceInfo = await getPriceInfo(
       inputTickers,
       noOfYears,
@@ -30,14 +31,16 @@ function PriceChange({ inputTickers, inputYear }) {
     setLoading(false)
   }
 
-  const sortItem = async index => {
+  const sortItem = index => {
+    const yearlyPcnt = sortTableItem(
+      settings.yearlyPcnt,
+      index,
+      settings.ascSort
+    )
+
     setSettings({
       ...settings,
-      yearlyPcnt: await sortTableItem(
-        settings.yearlyPcnt,
-        index,
-        settings.ascSort
-      ),
+      yearlyPcnt,
       ascSort: !settings.ascSort
     })
   }

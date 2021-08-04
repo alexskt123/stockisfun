@@ -5,16 +5,12 @@ import { fireToast } from '@/lib/commonFunction'
 
 const HighlightDetail = ({ ticker, data }) => {
   useEffect(() => {
-    if (!data) return
-
-    const detail = highlightDetails?.find(x => x.type === data?.type)
-    if (!detail) {
+    data &&
+      !highlightDetails?.find(x => x.type === data?.type) &&
       fireToast({
         icon: 'error',
         title: 'Only Stock/ETF can be viewed!'
       })
-      return
-    }
   }, [data])
 
   return (

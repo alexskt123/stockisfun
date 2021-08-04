@@ -19,8 +19,8 @@ export const chartDataSet = {
 }
 
 const year = new Date().getFullYear()
-export const dateRangeByNoOfYears = async inputYears => {
-  const noOfYears = !inputYears ? 15 : inputYears
+export const dateRangeByNoOfYears = inputYears => {
+  const noOfYears = inputYears || 15
 
   return [...Array(parseInt(noOfYears) + 1)]
     .map((_x, i) => [`${year - i}-01-01`, `${year - i}-12-31`, year - i])
@@ -221,7 +221,7 @@ export const dateRangeSelectAttr = {
     className: 'my-1 mr-sm-2',
     name: 'formYear'
   },
-  dateRangeOptions: [
+  options: [
     {
       label: '5D',
       value: '5'
@@ -260,7 +260,7 @@ export const maSelectAttr = {
     className: 'my-1 mr-sm-2',
     name: 'formMA'
   },
-  maOptions: [
+  options: [
     {
       label: 'N/A',
       value: ''
@@ -277,60 +277,59 @@ export const maSelectAttr = {
 }
 
 export const priceTabLabelPairs = inputTicker =>
-  inputTicker
-    ? [
-        [
-          {
-            name: 'Name',
-            value: '',
-            showLabel: true,
-            append: [
-              <AddDelStock
-                key={'AddDelStock'}
-                inputTicker={inputTicker}
-                handleList="stock"
-              />,
-              <HappyShare key={'HappyShare'} />
-            ]
-          }
-        ],
-        [
-          {
-            name: 'Price',
-            value: '',
-            showLabel: true
-          },
-          {
-            name: 'Price%',
-            value: '',
-            showLabel: false,
-            format: e => convertToPercentage(e / 100),
-            variant: getVariant
-          },
-          {
-            name: '52W-L-H',
-            value: '',
-            showLabel: true
-          }
-        ],
-        [
-          {
-            name: 'Floating Shares',
-            value: '',
-            showLabel: true
-          },
-          {
-            name: 'Market Cap.',
-            value: '',
-            showLabel: true
-          }
-        ],
-        [
-          {
-            name: 'Industry',
-            value: '',
-            showLabel: true
-          }
+  (inputTicker && [
+    [
+      {
+        name: 'Name',
+        value: '',
+        showLabel: true,
+        append: [
+          <AddDelStock
+            key={'AddDelStock'}
+            inputTicker={inputTicker}
+            handleList="stockList"
+          />,
+          <HappyShare key={'HappyShare'} />
         ]
-      ]
-    : []
+      }
+    ],
+    [
+      {
+        name: 'Price',
+        value: '',
+        showLabel: true
+      },
+      {
+        name: 'Price%',
+        value: '',
+        showLabel: false,
+        format: e => convertToPercentage(e / 100),
+        variant: getVariant
+      },
+      {
+        name: '52W-L-H',
+        value: '',
+        showLabel: true
+      }
+    ],
+    [
+      {
+        name: 'Floating Shares',
+        value: '',
+        showLabel: true
+      },
+      {
+        name: 'Market Cap.',
+        value: '',
+        showLabel: true
+      }
+    ],
+    [
+      {
+        name: 'Industry',
+        value: '',
+        showLabel: true
+      }
+    ]
+  ]) ||
+  []

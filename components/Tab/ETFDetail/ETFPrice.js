@@ -30,7 +30,7 @@ export default function ETFPrice({ inputETFTicker }) {
             <Badge className="ml-1" variant={'light'}>
               {'Add/Remove:'}
             </Badge>
-            <AddDelStock inputTicker={inputETFTicker} handleList="etf" />
+            <AddDelStock inputTicker={inputETFTicker} handleList="etfList" />
           </div>
           <div
             className="mt-1"

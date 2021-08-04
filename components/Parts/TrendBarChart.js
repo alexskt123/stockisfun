@@ -1,9 +1,9 @@
 import { Fragment, useState } from 'react'
 
+import FormOptions from '@/components/Form/FormOptions'
 import GooeySpinner from '@/components/Loading/GooeySpinner'
 import { trendChangeDateRangeSelectAttr, barChartOptions } from '@/config/trend'
 import { useTrendBarChartData } from '@/lib/hooks/charts'
-import Badge from 'react-bootstrap/Badge'
 import Form from 'react-bootstrap/Form'
 import { Bar } from 'react-chartjs-2'
 
@@ -13,7 +13,7 @@ const TrendBarChart = ({ input }) => {
   const [days, setDays] = useState(8)
   const barChartData = useTrendBarChartData(input, days)
 
-  const handleChange = async e => {
+  const handleChange = e => {
     if (e.target.name === 'formYear') {
       setDays(e.target.value)
     }
@@ -27,28 +27,11 @@ const TrendBarChart = ({ input }) => {
             style={{ display: 'inline-flex', alignItems: 'baseline' }}
             className="ml-1 mt-2"
           >
-            <Form.Label className="my-1 mr-2">
-              <h5>
-                <Badge variant="dark">
-                  <span>{'Range'}</span>
-                </Badge>
-              </h5>
-            </Form.Label>
-            <Form.Control
-              {...trendChangeDateRangeSelectAttr.formControl}
-              custom
-              onChange={e => handleChange(e)}
-            >
-              {trendChangeDateRangeSelectAttr.dateRangeOptions.map(
-                (item, index) => {
-                  return (
-                    <option key={`${item}${index}`} value={item.value}>
-                      {item.label}
-                    </option>
-                  )
-                }
-              )}
-            </Form.Control>
+            <FormOptions
+              formOptionSettings={trendChangeDateRangeSelectAttr}
+              handleChange={handleChange}
+              label={'Range'}
+            />
           </div>
         </Form.Group>
       </Form>

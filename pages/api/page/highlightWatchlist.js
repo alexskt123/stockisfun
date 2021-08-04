@@ -4,7 +4,7 @@ import { getEarningsDate } from '@/lib/yahoo/getEarningsDate'
 const getData = async args => {
   const { ticker, quoteData } = args
 
-  const earningsDate = quoteData ? await getEarningsDate(ticker) : null
+  const earningsDate = quoteData && (await getEarningsDate(ticker))
 
   return { ...quoteData, earningsDate: earningsDate.fmt }
 }

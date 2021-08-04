@@ -96,7 +96,7 @@ export const trendChangeDateRangeSelectAttr = {
     defaultValue: 8,
     name: 'formYear'
   },
-  dateRangeOptions: [
+  options: [
     {
       label: '10 years',
       value: '3650'

@@ -59,7 +59,7 @@ export default function WatchList() {
 
   const handleUpdate = async () => {
     handleUpdateClose()
-    await updateWatchList()
+    updateWatchList()
   }
 
   const removeItem = value => {

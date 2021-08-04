@@ -10,6 +10,7 @@ export default async (req, res) => {
 
   res.statusCode = 200
   res.json({
+    //todo: ???
     ...[ticker, ...aumData].reduce(
       (acc, item, idx) => ({ ...acc, [aumTableHeader[idx].item]: item }),
       {}

@@ -2,12 +2,12 @@ import { Fragment, useState, useEffect } from 'react'
 
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { etfListSettings } from '@/config/stock'
 import { sortTableItem } from '@/lib/commonFunction'
 import { useStaticSWR } from '@/lib/request'
 import { getETFList } from '@/lib/stockInfo'
-import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 
 function ETFList({ inputTicker }) {
@@ -33,16 +33,12 @@ function ETFList({ inputTicker }) {
     handleSettings(data)
   }, [data])
 
-  const sortItem = async index => {
+  const sortItem = index => {
     setSettings({
       ...settings,
       etfList: {
         ...settings.etfList,
-        tableData: await sortTableItem(
-          settings.etfList.tableData,
-          index,
-          ascSort
-        )
+        tableData: sortTableItem(settings.etfList.tableData, index, ascSort)
       }
     })
     setAscSort(!ascSort)
@@ -53,14 +49,16 @@ function ETFList({ inputTicker }) {
   ) : data?.result ? (
     <Fragment>
       <Row className="ml-1 mt-3">
-        <h5>
-          <Badge variant="dark">{'No. of ETF Count: '}</Badge>
-        </h5>
-        <h5>
-          <Badge variant="light" className="ml-2">
-            {settings.etfCount}
-          </Badge>
-        </h5>
+        <HeaderBadge
+          headerTag={'h5'}
+          title={'No. of ETF Count: '}
+          badgeProps={{ variant: 'dark' }}
+        />
+        <HeaderBadge
+          headerTag={'h5'}
+          title={settings.etfCount}
+          badgeProps={{ variant: 'light', className: 'ml-2' }}
+        />
       </Row>
       <StockInfoTable
         tableSize="sm"
