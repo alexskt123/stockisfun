@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import Badge from 'react-bootstrap/Badge'
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import Form from 'react-bootstrap/Form'
 
 const FormOptions = ({ formOptionSettings, value, handleChange, label }) => {
@@ -8,11 +8,11 @@ const FormOptions = ({ formOptionSettings, value, handleChange, label }) => {
     <Fragment>
       {label && (
         <Form.Label className="my-1 mr-2">
-          <h5>
-            <Badge variant="dark">
-              <span>{label}</span>
-            </Badge>
-          </h5>
+          <HeaderBadge
+            headerTag={'h5'}
+            title={label}
+            badgeProps={{ variant: 'dark' }}
+          />
         </Form.Label>
       )}
       <Form.Control

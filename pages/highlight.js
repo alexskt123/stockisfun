@@ -25,7 +25,8 @@ export default function Highlight() {
 
   const onClickWatchListButton = ({ label, list }) => {
     const isShow = watchListName !== label || !(watchList.length > 0)
-    isShow ? setWatchList(list) : setWatchList([])
+    const showList = (isShow && list) || []
+    setWatchList(showList)
     setWatchListName(label)
   }
 

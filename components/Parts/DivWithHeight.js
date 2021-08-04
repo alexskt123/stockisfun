@@ -1,5 +1,5 @@
 const DivWithHeight = ({ style }) => {
-  return <div style={{ ...style }} />
+  return <div style={style} />
 }
 
 export default DivWithHeight

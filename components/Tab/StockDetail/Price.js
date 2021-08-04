@@ -1,13 +1,13 @@
 import { Fragment, useState, useEffect } from 'react'
 
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import Price from '@/components/Parts/Price'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { priceTabLabelPairs } from '@/config/price'
 import { loadingSkeletonTableChart } from '@/config/settings'
 import { useStaticSWR } from '@/lib/request'
-import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
 
 function PriceTab({ inputTicker }) {
@@ -19,20 +19,17 @@ function PriceTab({ inputTicker }) {
   const [valuePairs, setValuePairs] = useState([])
 
   useEffect(() => {
-    if (!data?.result) {
-      return
-    }
-
-    setValuePairs(
-      priceTabLabelPairs(data.result?.Symbol).map(row => {
-        return row.map(item => {
-          return {
-            ...item,
-            value: data.result[item.name]
-          }
+    data?.result &&
+      setValuePairs(
+        priceTabLabelPairs(data.result?.Symbol).map(row => {
+          return row.map(item => {
+            return {
+              ...item,
+              value: data.result[item.name]
+            }
+          })
         })
-      })
-    )
+      )
   }, [data])
 
   return inputTicker && !data ? (
@@ -53,18 +50,18 @@ function PriceTab({ inputTicker }) {
               return (
                 <Fragment key={idx}>
                   {item?.showLabel && (
-                    <h6>
-                      <Badge variant="dark" className="ml-1">
-                        {item.name}
-                      </Badge>
-                    </h6>
+                    <HeaderBadge
+                      headerTag={'h6'}
+                      title={item.name}
+                      badgeProps={{ variant: 'dark', className: 'ml-1' }}
+                    />
                   )}
-                  <h6>
-                    <Badge variant={variant} className="ml-1">
-                      {item?.format ? item?.format(item.value) : item.value}
-                    </Badge>
-                  </h6>
-                  {item?.append && item.append.map(append => append)}
+                  <HeaderBadge
+                    headerTag={'h6'}
+                    title={item?.format ? item?.format(item.value) : item.value}
+                    badgeProps={{ variant, className: 'ml-1' }}
+                  />
+                  {item?.append?.map(append => append)}
                 </Fragment>
               )
             })}

@@ -22,7 +22,7 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
   const { data } = useSWR(query, fetcher)
 
   useEffect(() => {
-    const loading = query ? !data : false
+    const loading = !!(query && !data)
     setOptions(data)
     setIsLoading(loading)
   }, [data, query])

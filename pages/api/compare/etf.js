@@ -13,7 +13,7 @@ export default async (req, res) => {
   res.json(
     responses.reduce(
       (acc, item) => {
-        const spreadItems = item.basicInfo ? item.basicInfo : item
+        const spreadItems = item?.basicInfo || item
         const selectedItemsArr = Object.keys(spreadItems).filter(x =>
           tableHeaderList.map(header => header.item).includes(x)
         )

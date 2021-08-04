@@ -58,9 +58,7 @@ export const equityBasicData = (assetProfile, quote, get52WeekLowHigh) => {
       Symbol: quote.symbol,
       Name: quote.longName,
       Price: quote.regularMarketPrice,
-      'Price%':
-        quote.regularMarketChangePercent &&
-        convertToPercentage(quote.regularMarketChangePercent / 100),
+      'Price%': quote.regularMarketChangePercent,
       '52W-L-H': get52WeekLowHigh(quote),
       Website: assetProfile.website,
       Industry: assetProfile.industry,

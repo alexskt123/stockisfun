@@ -14,9 +14,7 @@ export default function StockDetail() {
 
   const handleChange = e => {
     const input = e.find(x => x)
-    input
-      ? router.push({ query: { ...router.query, query: input.symbol } })
-      : null
+    input && router.push({ query: { ...router.query, query: input.symbol } })
   }
 
   const clearItems = () => {

@@ -1,14 +1,16 @@
 import { Fragment } from 'react'
 
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import {
   getRedColor,
   getGreenColor,
-  getDefaultColor
+  getDefaultColor,
+  hasProperties,
+  toNumber
 } from '@/lib/commonFunction'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import Badge from 'react-bootstrap/Badge'
 import useDarkMode from 'use-dark-mode'
 
 const Table = dynamic(
@@ -19,45 +21,44 @@ const Table = dynamic(
 )
 
 const getItemData = item => {
-  return typeof item === 'object' && item?.data ? item.data : item
+  return item?.data || item || ''
 }
 
 const getCellColor = (item, darkMode) => {
-  const itemData = getItemData(item)
-  if (item?.style === 'green-red') {
-    const cur = (item.data || '').toString().replace(/%/, '')
-    return cur < 0
-      ? { color: getRedColor(darkMode) }
-      : cur > 0
-      ? { color: getGreenColor(darkMode) }
-      : { color: getDefaultColor(darkMode) }
-  } else if ((itemData || '').toString().replace(/%/, '') < 0)
-    return { color: getRedColor(darkMode) }
-  else return { color: getDefaultColor(darkMode) }
+  const number = toNumber(getItemData(item))
+  const getColor =
+    number < 0
+      ? getRedColor
+      : item?.style === 'green-red' && number > 0
+      ? getGreenColor
+      : getDefaultColor
+
+  return { color: getColor(darkMode) }
 }
 
 const getCellItem = item => {
+  const linkProperties = ['data', 'link']
+
   const itemData = getItemData(item)
-  if ((itemData || '').toString().match(/http:/gi))
-    return (
-      <a href={itemData} target="_blank" rel="noopener noreferrer">
-        {itemData}
+  const element = itemData.toString().match(/http:/gi) ? (
+    <a href={itemData} target="_blank" rel="noopener noreferrer">
+      {itemData}
+    </a>
+  ) : hasProperties(item, linkProperties) ? (
+    <Link href={item.link}>
+      <a>
+        <u>{itemData}</u>
       </a>
-    )
-  else if (typeof item === 'object' && item?.data && item?.link) {
-    return (
-      <Link href={item.link}>
-        <a>
-          <u>{itemData}</u>
-        </a>
-      </Link>
-    )
-  } else return itemData
+    </Link>
+  ) : (
+    itemData
+  )
+  return element
 }
 
 const checkCanClick = (router, item, cellClick) => {
   const itemData = getItemData(item)
-  cellClick ? cellClick(router, itemData) : null
+  cellClick && cellClick(router, itemData)
 }
 
 const sticky = {
@@ -86,7 +87,7 @@ function StockInfoTable({
         striped={striped}
         bordered
         hover
-        size={tableSize ? tableSize : 'md'}
+        size={tableSize || 'md'}
         className="pl-3 mt-1"
         responsive
         variant={darkMode.value ? 'dark' : 'light'}
@@ -95,9 +96,11 @@ function StockInfoTable({
           <tr key={'tableFirstHeader'}>
             {tableFirstHeader?.map((item, index) => (
               <th style={index === 0 ? sticky : {}} key={index}>
-                <h5>
-                  <Badge variant="light">{item}</Badge>
-                </h5>
+                <HeaderBadge
+                  headerTag={'h5'}
+                  title={item}
+                  badgeProps={{ variant: 'light' }}
+                />
               </th>
             ))}
           </tr>
@@ -113,7 +116,7 @@ function StockInfoTable({
                     : {}
                 }
                 onClick={() => {
-                  if (sortItem) sortItem(index)
+                  sortItem && sortItem(index)
                 }}
                 key={index}
               >
@@ -129,7 +132,7 @@ function StockInfoTable({
                 {item.map((xx, yy) => (
                   <td
                     onClick={() => {
-                      if (cellClick) checkCanClick(router, item, cellClick)
+                      cellClick && checkCanClick(router, item, cellClick)
                     }}
                     style={
                       yy === 0
