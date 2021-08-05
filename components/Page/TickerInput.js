@@ -16,7 +16,7 @@ function TickerInput({
   handleSubmit,
   placeholderText,
   handleChange,
-  formTicker,
+  formValue,
   clicked,
   clearItems,
   tableHeader,
@@ -34,9 +34,9 @@ function TickerInput({
         <Form.Group controlId="exampleForm.ControlInput1">
           <Form.Control
             required
-            type="formTicker"
-            name="formTicker"
-            value={formTicker}
+            type="tickers"
+            name="tickers"
+            value={formValue?.tickers || ''}
             placeholder={placeholderText}
             onChange={e => handleChange(e)}
           />
@@ -49,6 +49,7 @@ function TickerInput({
             >
               <FormOptions
                 formOptionSettings={priceChangeDateRangeSelectAttr}
+                value={formValue?.year || 15}
                 handleChange={handleChange}
                 label={'No. of Years'}
               />
