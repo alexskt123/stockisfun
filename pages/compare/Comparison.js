@@ -10,13 +10,15 @@ import { useRouter } from 'next/router'
 const Comparison = ({ type, params }) => {
   const curType = ComparisonSettings[type]
 
-  const curTypComponentProps = {
-    ...curType.componentProps,
-    ...{
-      inputTickers: params?.tickers?.split(','),
-      inputYear: params?.year || 15
-    }
-  }
+  const curTypComponentProps =
+    (curType && {
+      ...curType.componentProps,
+      ...{
+        inputTickers: params?.tickers?.split(','),
+        inputYear: params?.year || 15
+      }
+    }) ||
+    {}
 
   return (
     <Fragment>
