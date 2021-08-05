@@ -3,7 +3,7 @@ export const priceChangeDateRangeSelectAttr = {
     as: 'select',
     size: 'sm',
     className: 'my-1 mr-sm-2',
-    name: 'formYear'
+    name: 'year'
   },
   options: [
     {
