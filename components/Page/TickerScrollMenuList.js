@@ -11,7 +11,7 @@ const TickerScrollMenuList = ({ tickerList }) => {
       {tickerList.map((item, idx) => {
         return (
           <Fragment key={idx}>
-            <Row className="justify-content-center mt-1">
+            <Row className="justify-content-center">
               <HeaderBadge
                 headerTag={'h6'}
                 title={item.name}

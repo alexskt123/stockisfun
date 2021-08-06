@@ -3,7 +3,7 @@ export const priceChangeDateRangeSelectAttr = {
     as: 'select',
     size: 'sm',
     className: 'my-1 mr-sm-2',
-    name: 'formYear'
+    name: 'year'
   },
   options: [
     {
@@ -90,7 +90,7 @@ export const buttonSettings = {
     label: 'Clear All',
     attr: {
       size: 'sm',
-      className: 'ml-3',
+      className: 'ml-1',
       variant: 'danger'
     }
   },
@@ -98,16 +98,8 @@ export const buttonSettings = {
     label: 'Export',
     attr: {
       size: 'sm',
-      className: 'ml-3',
+      className: 'ml-1',
       variant: 'info'
-    }
-  },
-  FromWatchList: {
-    label: 'Watch List',
-    attr: {
-      size: 'sm',
-      className: 'ml-3',
-      variant: 'secondary'
     }
   }
 }

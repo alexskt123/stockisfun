@@ -58,11 +58,7 @@ export const NavDropDown = [
 
 export const NavItems = [
   {
-    href: '/etfdetail',
-    label: 'ETF'
-  },
-  {
-    href: '/stockdetail',
+    href: '/stockinfo',
     label: 'Stock'
   },
   {
