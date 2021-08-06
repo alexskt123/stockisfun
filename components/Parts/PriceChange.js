@@ -68,7 +68,7 @@ function PriceChange({ inputTickers, inputYear }) {
     <Fragment>
       {loading ? (
         <LoadingSkeletonTable customSettings={loadingSkeletonTableChart} />
-      ) : inputTickers.length > 0 && !loading ? (
+      ) : inputTickers?.length > 0 && !loading ? (
         <Fragment>
           <StockInfoTable
             tableSize="sm"

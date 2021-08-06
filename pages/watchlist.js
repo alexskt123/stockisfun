@@ -8,11 +8,7 @@ import TickerInput from '@/components/Page/TickerInput'
 import HappyShare from '@/components/Parts/HappyShare'
 import ModalQuestion from '@/components/Parts/ModalQuestion'
 import { tableHeaderList } from '@/config/watchlist'
-import {
-  handleDebounceChange,
-  handleFormSubmit,
-  fireToast
-} from '@/lib/commonFunction'
+import { handleFormSubmit, fireToast } from '@/lib/commonFunction'
 import {
   updateUserData,
   usePersistedUser,
@@ -39,7 +35,11 @@ export default function WatchList() {
   const userData = useUserData(user)
 
   const handleChange = e => {
-    handleDebounceChange(e, formValue, setFormValue)
+    const form = {
+      ...formValue,
+      [e.target.name]: e.target.value
+    }
+    setFormValue(form)
   }
 
   const clearItems = () => {
@@ -98,8 +98,9 @@ export default function WatchList() {
               handleChange={handleChange}
               clearItems={clearItems}
               exportFileName={'Stock_watch_list.csv'}
+              formValue={formValue}
             />
-            <TickerBullet tickers={tickers} removeItem={removeItem} />
+            <TickerBullet tickers={tickers.join(',')} removeItem={removeItem} />
           </SearchAccordion>
           <Row
             className="ml-1 mt-3"
