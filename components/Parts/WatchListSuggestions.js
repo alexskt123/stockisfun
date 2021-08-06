@@ -7,11 +7,11 @@ import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
+import CustomScrollMenu from './CustomScrollMenu'
+import HeaderBadge from './HeaderBadge'
+
 function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
   const [list, setList] = useState([])
-  const colorCallback = useMemo(() => {
-    return list.map(_item => randBackgroundColor())
-  }, [list])
 
   useEffect(() => {
     ;(async () => {
@@ -36,36 +36,51 @@ function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
         })
         .filter(x => x.list.length > 0)
 
-      const list = newWatchList.concat(listFromUserData)
+      const list = listFromUserData.concat(newWatchList)
       setList(list)
     })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, userData])
+
+  const onSelect = key => {
+    onClickWatchListButton(list[key])
+  }
 
   return (
     <Fragment>
-      <Row className="justify-content-center mt-1">
-        {list.map((item, idx) => {
-          return (
-            <Col key={item.label}>
-              <Button
-                size="sm"
-                className="w-100 my-2"
-                style={{
-                  backgroundColor: colorCallback[idx],
-                  border: 'none',
-                  paddingBottom: '0.2rem',
-                  paddingTop: '0.2rem'
-                }}
-                onClick={() => onClickWatchListButton(item)}
-              >
-                <Badge>{item.label}</Badge>
-              </Button>
-            </Col>
-          )
-        })}
+      <Row className="justify-content-center">
+        <HeaderBadge
+          headerTag={'h6'}
+          title={'Live Watch'}
+          badgeProps={{ variant: 'dark', style: { minWidth: '9rem' } }}
+        />
       </Row>
+      <CustomScrollMenu data={list} ChildComponent={Item} onSelect={onSelect} />
     </Fragment>
   )
 }
 
 export default WatchListSuggestions
+
+export const Item = ({ label }) => {
+  const colorCallback = useMemo(() => {
+    return randBackgroundColor()
+  }, [])
+
+  return (
+    <Col>
+      <Button
+        size="sm"
+        className="w-100 my-2"
+        style={{
+          backgroundColor: colorCallback,
+          border: 'none',
+          paddingBottom: '0.2rem',
+          paddingTop: '0.2rem'
+        }}
+      >
+        <Badge>{label}</Badge>
+      </Button>
+    </Col>
+  )
+}
