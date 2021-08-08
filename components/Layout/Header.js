@@ -23,7 +23,7 @@ function Header() {
         bg="dark"
         variant="dark"
         expand="md"
-        style={{ zIndex: '998!important' }}
+        style={{ zIndex: '998!important', padding: '0.1rem' }}
       >
         <UserDropdown />
         <Link href={'/highlight'} passHref>

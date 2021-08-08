@@ -201,7 +201,7 @@ export const etfTools = [
 ]
 
 const cellClick = (router, item) => {
-  router.push(`/stockdetail?query=${item.find(x => x)}`)
+  router.push(`/stockinfo?ticker=${item.find(x => x)}&type=detail`)
 }
 
 export const buildTabs = inputETFTicker => {

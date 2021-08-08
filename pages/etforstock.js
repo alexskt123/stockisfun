@@ -16,11 +16,7 @@ export default function ETFOrStock() {
 
   useEffect(() => {
     if (data?.result && ticker) {
-      const result = data.result
-      const isEquity = result.valid && result.type === 'EQUITY'
-      const isETF = result.valid && result.type === 'ETF'
-      const href = (isEquity && 'stockdetail') || (isETF && 'etfdetail') || ''
-      router.replace(`/${href}?query=${ticker}`)
+      router.replace(`/stockinfo?ticker=${ticker}&type=detail`)
     }
   }, [data, router, ticker])
 
