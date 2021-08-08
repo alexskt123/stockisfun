@@ -1,10 +1,8 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import GooeySpinner from '@/components/Loading/GooeySpinner'
-import SWRTable from '@/components/Page/SWRTable'
+import CompareSWR from '@/components/Parts/CompareSWR'
 import HeaderBadge from '@/components/Parts/HeaderBadge'
 import { keyInfoTableHeaderList, keyForecastInfoHeader } from '@/config/profile'
-import { staticSWROptions } from '@/config/settings'
 
 const StockHighlight = ({ boughtListData }) => {
   const [stockList, setStockList] = useState([])
@@ -29,41 +27,25 @@ const StockHighlight = ({ boughtListData }) => {
         title={'Stock Revenue/Net Income Highlight'}
         badgeProps={{ variant: 'dark' }}
       />
-      {stockList?.length > 0 ? (
-        <SWRTable
-          requests={stockList.map(x => ({
-            request: `/api/page/getIndexQuote?ticker=${x}`,
-            key: x
-          }))}
-          options={{
-            tableHeader: keyInfoTableHeaderList,
-            tableSize: 'sm',
-            SWROptions: staticSWROptions
-          }}
-        />
-      ) : (
-        <GooeySpinner />
-      )}
+      <CompareSWR
+        inputTickers={stockList}
+        url={'/api/page/getIndexQuote'}
+        customOptions={{
+          tableHeader: keyInfoTableHeaderList
+        }}
+      />
       <HeaderBadge
         headerTag={'h5'}
         title={'Stock Forecast'}
         badgeProps={{ variant: 'dark', className: 'mt-4' }}
       />
-      {stockList?.length > 0 ? (
-        <SWRTable
-          requests={stockList.map(x => ({
-            request: `/api/forecast/getKeyInfo?ticker=${x}`,
-            key: x
-          }))}
-          options={{
-            tableHeader: keyForecastInfoHeader,
-            tableSize: 'sm',
-            SWROptions: staticSWROptions
-          }}
-        />
-      ) : (
-        <GooeySpinner />
-      )}
+      <CompareSWR
+        inputTickers={stockList}
+        url={'/api/forecast/getKeyInfo'}
+        customOptions={{
+          tableHeader: keyForecastInfoHeader
+        }}
+      />
     </Fragment>
   )
 }

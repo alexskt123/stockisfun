@@ -1,26 +1,23 @@
 import { Fragment } from 'react'
 
 import SWRTable from '@/components/Page/SWRTable'
-import { tableHeaderList } from '@/config/etf'
+import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { staticSWROptions } from '@/config/settings'
 
-import ValidTickerAlert from './ValidTickerAlert'
-
-function ETFInfo({ inputTickers, exportFileName }) {
+function CompareSWR({ inputTickers, customOptions, url }) {
   return (
     <Fragment>
       {inputTickers?.length > 0 ? (
         <SWRTable
           requests={inputTickers.map(x => ({
-            request: `/api/compare/etf?ticker=${x}`,
+            request: `${url}?ticker=${x}`,
             key: x
           }))}
           options={{
             bordered: true,
-            tableHeader: tableHeaderList,
-            exportFileName,
             tableSize: 'sm',
-            SWROptions: staticSWROptions
+            SWROptions: staticSWROptions,
+            ...customOptions
           }}
         />
       ) : (
@@ -30,4 +27,4 @@ function ETFInfo({ inputTickers, exportFileName }) {
   )
 }
 
-export default ETFInfo
+export default CompareSWR
