@@ -15,9 +15,9 @@ export default function ETFOrStock() {
   )
 
   useEffect(() => {
-    if (data?.result && ticker) {
+    data?.result &&
+      ticker &&
       router.replace(`/stockinfo?ticker=${ticker}&type=detail`)
-    }
   }, [data, router, ticker])
 
   return (

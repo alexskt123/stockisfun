@@ -44,9 +44,10 @@ function PriceTab({ inputTicker }) {
             style={{ display: 'flex', alignItems: 'end' }}
           >
             {row.map((item, idx) => {
-              const variant = item?.variant
-                ? item.variant(item.value, 'success', 'secondary', 'danger')
-                : 'light'
+              const variant =
+                (item?.variant &&
+                  item.variant(item.value, 'success', 'secondary', 'danger')) ||
+                'light'
               return (
                 <Fragment key={idx}>
                   {item?.showLabel && (
@@ -58,7 +59,9 @@ function PriceTab({ inputTicker }) {
                   )}
                   <HeaderBadge
                     headerTag={'h6'}
-                    title={item?.format ? item?.format(item.value) : item.value}
+                    title={
+                      (item?.format && item.format(item.value)) || item.value
+                    }
                     badgeProps={{ variant, className: 'ml-1' }}
                   />
                   {item?.append?.map(append => append)}
