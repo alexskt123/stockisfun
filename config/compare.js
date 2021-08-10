@@ -1,10 +1,17 @@
-import AUMInfo from '@/components/Parts/AUMInfo'
 import BirdMouthWithPriceMA from '@/components/Parts/BirdMouthWithPriceMA'
-import ETFInfo from '@/components/Parts/ETFInfo'
-import FinancialsInfo from '@/components/Parts/FinancialsInfo'
-import ForecastInfo from '@/components/Parts/ForecastInfo'
+import CompareSWR from '@/components/Parts/CompareSWR'
 import PriceChange from '@/components/Parts/PriceChange'
 import TradingViewDeck from '@/components/Parts/TradingViewDeck'
+import {
+  aumTableHeader,
+  tableHeaderList as etfTableHeaderList
+} from '@/config/etf'
+import { tableHeaderList as financialsTableHeaderList } from '@/config/financials'
+
+import {
+  forecastTableFirstHeader,
+  tableHeaderList as forecastTableHeaderList
+} from './forecast'
 
 export const ComparisonSettings = {
   forecast: {
@@ -14,10 +21,15 @@ export const ComparisonSettings = {
       allowFromList: true,
       showBullets: true
     },
-    component: ForecastInfo,
+    component: CompareSWR,
     componentProps: {
       inputTickers: [],
-      exportFileName: 'Stock_forecast.csv'
+      url: '/api/forecast/getStockFairValue',
+      customOptions: {
+        exportFileName: 'Stock_forecast.csv',
+        tableHeader: forecastTableHeaderList,
+        tableFirstHeader: forecastTableFirstHeader
+      }
     }
   },
   financials: {
@@ -27,10 +39,14 @@ export const ComparisonSettings = {
       allowFromList: true,
       showBullets: true
     },
-    component: FinancialsInfo,
+    component: CompareSWR,
     componentProps: {
       inputTickers: [],
-      exportFileName: 'Stock_financials.csv'
+      url: '/api/yahoo/getFinancials',
+      customOptions: {
+        exportFileName: 'Stock_financials.csv',
+        tableHeader: financialsTableHeaderList
+      }
     }
   },
   etf: {
@@ -39,10 +55,14 @@ export const ComparisonSettings = {
       placeholderText: 'Single:  voo /  Multiple:  voo,arkk,smh',
       showBullets: true
     },
-    component: ETFInfo,
+    component: CompareSWR,
     componentProps: {
       inputTickers: [],
-      exportFileName: 'etf.csv'
+      url: '/api/compare/etf',
+      customOptions: {
+        exportFileName: 'etf.csv',
+        tableHeader: etfTableHeaderList
+      }
     }
   },
   aum: {
@@ -51,10 +71,14 @@ export const ComparisonSettings = {
       placeholderText: 'Single:  aapl /  Multiple:  tsm,gh',
       showBullets: true
     },
-    component: AUMInfo,
+    component: CompareSWR,
     componentProps: {
       inputTickers: [],
-      exportFileName: 'Stock_aum_sum.csv'
+      url: '/api/compare/aum',
+      customOptions: {
+        exportFileName: 'Stock_aum_sum.csv',
+        tableHeader: aumTableHeader
+      }
     }
   },
   price: {

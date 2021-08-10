@@ -1,33 +1,19 @@
-import { Fragment } from 'react'
+import CompareSWR from '@/components/Parts/CompareSWR'
+import {
+  forecastTableFirstHeader,
+  tableHeaderList as forecastTableHeaderList
+} from '@/config/forecast'
 
-import SWRTable from '@/components/Page/SWRTable'
-import { tableHeaderList, forecastTableFirstHeader } from '@/config/forecast'
-import { staticSWROptions } from '@/config/settings'
-
-import ValidTickerAlert from './ValidTickerAlert'
-
-function ForecastInfo({ inputTickers, exportFileName }) {
+const ForecastInfo = ({ inputTickers }) => {
   return (
-    <Fragment>
-      {inputTickers?.length > 0 ? (
-        <SWRTable
-          requests={inputTickers.map(x => ({
-            request: `/api/forecast/getStockFairValue?ticker=${x}`,
-            key: x
-          }))}
-          options={{
-            bordered: true,
-            tableFirstHeader: forecastTableFirstHeader,
-            tableHeader: tableHeaderList,
-            exportFileName,
-            tableSize: 'sm',
-            SWROptions: staticSWROptions
-          }}
-        />
-      ) : (
-        <ValidTickerAlert />
-      )}
-    </Fragment>
+    <CompareSWR
+      inputTickers={inputTickers}
+      url={'/api/forecast/getStockFairValue'}
+      customOptions={{
+        tableHeader: forecastTableHeaderList,
+        tableFirstHeader: forecastTableFirstHeader
+      }}
+    />
   )
 }
 

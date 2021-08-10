@@ -2,9 +2,9 @@ import { Fragment, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
 import SearchAccordion from '@/components/Page/SearchAccordion'
-import SWRTable from '@/components/Page/SWRTable'
 import TickerBullet from '@/components/Page/TickerBullet'
 import TickerInput from '@/components/Page/TickerInput'
+import CompareSWR from '@/components/Parts/CompareSWR'
 import HappyShare from '@/components/Parts/HappyShare'
 import ModalQuestion from '@/components/Parts/ModalQuestion'
 import { tableHeaderList } from '@/config/watchlist'
@@ -122,23 +122,15 @@ export default function WatchList() {
               <HappyShare inputStyle={{ color: 'blue', size: '25px' }} />
             )}
           </Row>
-
-          {tickers?.length > 0 && (
-            <SWRTable
-              requests={tickers.map(x => ({
-                request: `/api/page/getWatchList?ticker=${x}`,
-                key: x
-              }))}
-              options={{
-                striped: true,
-                bordered: true,
-                tableHeader: tableHeaderList,
-                exportFileName: 'Watchlist.csv',
-                tableSize: 'sm',
-                SWROptions: { refreshInterval: 3000 }
-              }}
-            />
-          )}
+          <CompareSWR
+            inputTickers={tickers}
+            url={'/api/page/getWatchList'}
+            customOptions={{
+              exportFileName: 'Watchlist.csv',
+              tableHeader: tableHeaderList,
+              SWROptions: { refreshInterval: 3000 }
+            }}
+          />
         </Fragment>
       </CustomContainer>
       <ModalQuestion {...modalQuestionSettings} />

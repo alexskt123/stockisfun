@@ -16,14 +16,14 @@ const HighlightTickerAlert = ({ valid }) => {
   const { ticker, type } = router.query
 
   const cancelCurrentSearch = () => {
-    router.push('/highlight')
+    router.push(router.pathname)
   }
 
   const pushRoute = query => {
     const params = {
       ...router.query,
       ...query,
-      type: type === query.type ? null : query.type
+      type: (type !== query.type && query.type) || null
     }
 
     router.push(

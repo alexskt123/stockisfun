@@ -1,32 +1,15 @@
-import { Fragment } from 'react'
+import CompareSWR from '@/components/Parts/CompareSWR'
+import { tableHeaderList as financialsTableHeaderList } from '@/config/financials'
 
-import SWRTable from '@/components/Page/SWRTable'
-import { tableHeaderList } from '@/config/financials'
-import { staticSWROptions } from '@/config/settings'
-
-import ValidTickerAlert from './ValidTickerAlert'
-
-function FinancialsInfo({ inputTickers, exportFileName }) {
+const FinancialsInfo = ({ inputTickers }) => {
   return (
-    <Fragment>
-      {inputTickers?.length > 0 ? (
-        <SWRTable
-          requests={inputTickers.map(x => ({
-            request: `/api/yahoo/getFinancials?ticker=${x}`,
-            key: x
-          }))}
-          options={{
-            bordered: true,
-            tableHeader: tableHeaderList,
-            exportFileName,
-            tableSize: 'sm',
-            SWROptions: staticSWROptions
-          }}
-        />
-      ) : (
-        <ValidTickerAlert />
-      )}
-    </Fragment>
+    <CompareSWR
+      inputTickers={inputTickers}
+      url={'/api/yahoo/getFinancials'}
+      customOptions={{
+        tableHeader: financialsTableHeaderList
+      }}
+    />
   )
 }
 
