@@ -76,6 +76,10 @@ export const NavItems = [
   {
     href: '/trend',
     label: 'Trend'
+  },
+  {
+    href: '/trendingstock',
+    label: 'Trending Stock'
   }
 ]
 
