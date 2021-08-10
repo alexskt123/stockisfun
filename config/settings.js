@@ -123,10 +123,7 @@ export const loadingSkeletonColors = {
   }
 }
 
-export const loadingSkeletonTableChart = [
-  { props: { count: 5 } },
-  { props: { height: 150 }, separator: 'mt-3' }
-]
+export const loadingSkeletonTableChart = [{ props: { count: 4 } }]
 
 export const loadingSkeletonPriceParts = [
   { props: { count: 1 } },
