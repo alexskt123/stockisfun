@@ -1,6 +1,10 @@
 import AddDelStock from '@/components/Fire/AddDelStock'
 import HappyShare from '@/components/Parts/HappyShare'
-import { convertToPercentage, getVariant } from '@/lib/commonFunction'
+import {
+  arrFindByIdx,
+  convertToPercentage,
+  getVariant
+} from '@/lib/commonFunction'
 
 export const chartDataSet = {
   fill: false,
@@ -24,7 +28,11 @@ export const dateRangeByNoOfYears = inputYears => {
 
   return [...Array(parseInt(noOfYears) + 1)]
     .map((_x, i) => [`${year - i}-01-01`, `${year - i}-12-31`, year - i])
-    .map(x => ({ fromDate: x[0], toDate: x[1], year: x[2] }))
+    .map(x => ({
+      fromDate: arrFindByIdx(x, 0),
+      toDate: arrFindByIdx(x, 1),
+      year: arrFindByIdx(x, 2)
+    }))
 }
 
 export const quoteFilterList = [

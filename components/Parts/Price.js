@@ -22,6 +22,10 @@ import { Line } from 'react-chartjs-2'
 import TradingViewModal from './TradingViewModal'
 import YahooQuoteInfo from './YahooQuoteInfo'
 
+const getMA = (inputMA, days, MACalculation, price) => {
+  return (inputMA !== '' && MACalculation([...price], days)) || []
+}
+
 function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
 
@@ -32,23 +36,18 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
     }&isBus=true`
   )
 
-  const getMA = (inputMA, days, MACalculation, price) => {
-    return inputMA !== '' ? MACalculation([...price], days) : []
-  }
-
   useEffect(() => {
-    handleTicker(datePrice, settings.days, settings.ma)
-    return () => setSettings(null)
+    handleTicker({ inputDays: settings.days, inputMA: settings.ma })
+    return () => setSettings({ ...priceSchema, ma: inputMA })
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [datePrice, settings.days, settings.ma])
 
-  const getPrice = (datePrice, inputDays, inputMA) => {
-    //temp solution to fix the warnings - [react-chartjs-2] Warning: Each dataset needs a unique key.
-    if (!inputTicker) return
+  const getPrice = options => {
+    const { inputDays, inputMA } = options
 
     const historyPrice = datePrice.data?.historyPrice || []
-    const calMA = inputMA === 'ema' ? ema : ma
+    const calMA = (inputMA === 'ema' && ema) || ma
     const maCharts = maChartSettings.map(ma => {
       const data = getMA(
         inputMA,
@@ -75,7 +74,7 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
             label: inputTicker,
             data: [...historyPrice.slice(60).map(item => item.price)],
             showLine: inputMA === '',
-            pointRadius: inputMA === '' ? 0 : 3
+            pointRadius: (inputMA === '' && 0) || 3
           },
           ...maCharts
         ]
@@ -84,27 +83,25 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
   }
 
   const handleChange = e => {
-    e.target.name === 'formYear' &&
-    parseInt(e.target.value) !== parseInt(settings.days)
-      ? handleTicker(inputTicker, e.target.value, settings.ma)
-      : e.target.name === 'formMA' && e.target.value !== settings.ma
-      ? handleTicker(inputTicker, settings.days, e.target.value)
-      : handleTicker(null, null, null)
+    const inputDays =
+      (e.target.name === 'formYear' &&
+        parseInt(e.target.value) !== parseInt(settings.days) &&
+        e.target.value) ||
+      settings.days
+    const inputMA =
+      (e.target.name === 'formMA' &&
+        e.target.value !== settings.ma &&
+        e.target.value) ||
+      settings.ma
+    const options = {
+      inputDays,
+      inputMA
+    }
+    handleTicker(options)
   }
 
-  function handleTicker(datePrice, inputDays, inputMA) {
-    clearItems()
-    getPrice(datePrice, inputDays, inputMA)
-  }
-
-  const clearItems = () => {
-    setSettings({
-      ...settings,
-      ticker: '',
-      tableData: [],
-      tableHeader: [],
-      chartData: {}
-    })
+  function handleTicker(options) {
+    inputTicker && getPrice(options)
   }
 
   return (

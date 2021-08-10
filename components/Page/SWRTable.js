@@ -298,10 +298,8 @@ function getFormattedValue(format, value, className) {
     >
       {value}
     </Badge>
-  ) : value ? (
-    value
   ) : (
-    'N/A'
+    value || 'N/A'
   )
 }
 

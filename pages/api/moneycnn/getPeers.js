@@ -5,7 +5,7 @@ import { getAPIResponse } from '@/lib/request'
 import { getQuote } from '@/lib/yahoo/getQuote'
 
 const getFormattedValue = (format, value) => {
-  return format === 'millify' ? millify(value) : value
+  return (format === 'millify' && millify(value)) || value
 }
 
 const getData = async args => {
