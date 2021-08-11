@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
 import CompareSWR from '@/components/Parts/CompareSWR'
-import { tableHeaderList } from '@/config/watchlist'
+import { tableHeaderList } from '@/config/trendingstock'
 import { getHost } from '@/lib/commonFunction'
 import { toAxios } from '@/lib/request'
 
@@ -12,7 +12,7 @@ export default function TrendingStock({ trendTickers }) {
       <CustomContainer style={{ minHeight: '100vh' }}>
         <CompareSWR
           inputTickers={trendTickers}
-          url={'/api/page/getWatchList'}
+          url={'/api/page/getTrendingStockDetail'}
           customOptions={{
             tableHeader: tableHeaderList
           }}
