@@ -26,14 +26,14 @@ export const tableHeaderList = [
     show: true
   },
   {
-    label: 'Change',
+    label: 'Chg',
     item: 'regularMarketChange',
     format: 'roundTo',
     property: 'netChange',
     show: true
   },
   {
-    label: '% Change',
+    label: 'Chg %',
     item: 'regularMarketChangePercent',
     format: '%',
     property: 'netChange',
