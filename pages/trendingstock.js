@@ -3,6 +3,7 @@ import { Fragment } from 'react'
 import CustomContainer from '@/components/Layout/CustomContainer'
 import CompareSWR from '@/components/Parts/CompareSWR'
 import { tableHeaderList } from '@/config/watchlist'
+import { getHost } from '@/lib/commonFunction'
 import { toAxios } from '@/lib/request'
 
 export default function TrendingStock({ trendTickers }) {
@@ -22,7 +23,7 @@ export default function TrendingStock({ trendTickers }) {
 }
 
 export async function getServerSideProps() {
-  const res = await toAxios(`${process.env.ENV}/api/yahoo/getTrending`, {})
+  const res = await toAxios(`${getHost()}/api/yahoo/getTrending`, {})
 
   const { data: trendTickers } = res
 
