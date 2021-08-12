@@ -68,7 +68,7 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
                   </Col>
                   <Col xs={4} md={6} lg={9}>
                     <Badge variant="light" className="ml-1">
-                      {option.name}
+                      {option.shortname}
                     </Badge>
                   </Col>
                 </Row>
