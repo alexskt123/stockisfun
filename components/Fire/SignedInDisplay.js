@@ -54,7 +54,9 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
           <Col>
             <CgViewList />
             <Badge className="ml-1" variant="light">
-              <Link href={`/watchlist?query=${userData?.watchList.join(',')}`}>
+              <Link
+                href={`/watchlist?tickers=${userData?.watchList.join(',')}`}
+              >
                 {'Watch List'}
               </Link>
             </Badge>

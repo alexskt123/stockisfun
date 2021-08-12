@@ -18,7 +18,7 @@ export default function ETFToStock() {
           .map(item => item.find(x => x))
           .filter(x => x !== 'Others')
           .join(',') || ticker
-      router.replace(`/${href}?query=${tickerList}`)
+      router.replace(`/${href}?tickers=${tickerList}`)
     }
   }, [data, href, router, ticker])
 
