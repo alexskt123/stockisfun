@@ -21,9 +21,9 @@ import Row from 'react-bootstrap/Row'
 
 export default function WatchList() {
   const router = useRouter()
-  const { query } = router.query
+  const { tickers } = router.query
 
-  const [tickers, setTickers] = useState([])
+  const [curTickers, setCurTickers] = useState([])
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
@@ -48,7 +48,7 @@ export default function WatchList() {
 
   const updateWatchList = async () => {
     await updateUserData(userData.docId, {
-      watchList: [...tickers]
+      watchList: [...curTickers]
     })
 
     fireToast({
@@ -63,16 +63,16 @@ export default function WatchList() {
   }
 
   const removeItem = value => {
-    setTickers([...tickers.filter(x => x !== value)])
+    setCurTickers([...curTickers.filter(x => x !== value)])
   }
 
   async function handleTickers(inputTickersWithComma) {
     const newTickers = inputTickersWithComma.map(item => item.toUpperCase())
-    setTickers([...newTickers])
+    setCurTickers([...newTickers])
   }
 
   const handleSubmit = event => {
-    handleFormSubmit(event, formValue, { query }, router, setValidated)
+    handleFormSubmit(event, formValue, { tickers }, router, setValidated)
   }
 
   const modalQuestionSettings = {
@@ -84,13 +84,13 @@ export default function WatchList() {
     body: 'Are you sure the update watch list?'
   }
 
-  useQuery(handleTickers, { query })
+  useQuery(handleTickers, { tickers })
 
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh' }}>
         <Fragment>
-          <SearchAccordion inputTicker={tickers.join(',')}>
+          <SearchAccordion inputTicker={curTickers.join(',')}>
             <TickerInput
               validated={validated}
               handleSubmit={handleSubmit}
@@ -100,7 +100,10 @@ export default function WatchList() {
               exportFileName={'Stock_watch_list.csv'}
               formValue={formValue}
             />
-            <TickerBullet tickers={tickers.join(',')} removeItem={removeItem} />
+            <TickerBullet
+              tickers={curTickers.join(',')}
+              removeItem={removeItem}
+            />
           </SearchAccordion>
           <Row
             className="ml-1 mt-3"
@@ -118,12 +121,12 @@ export default function WatchList() {
                 {'Update Watch List'}
               </Button>
             )}
-            {tickers.length > 0 && (
+            {curTickers.length > 0 && (
               <HappyShare inputStyle={{ color: 'blue', size: '25px' }} />
             )}
           </Row>
           <CompareSWR
-            inputTickers={tickers}
+            inputTickers={curTickers}
             url={'/api/page/getWatchList'}
             customOptions={{
               exportFileName: 'Watchlist.csv',

@@ -4,15 +4,13 @@ const showSWRDetail = (input, router) => {
   router.push(`/stockinfo?ticker=${input?.symbol}&type=detail`)
 }
 
-export const excludeList = ['INX', 'INDU']
-
-export const peersHeader = [
+export const tableHeaderList = [
   {
     label: 'Ticker',
     item: 'symbol',
     style: SWRSticky,
-    show: true,
     format: 'Badge',
+    show: true,
     className: 'cursor',
     onClick: showSWRDetail
   },
@@ -24,29 +22,38 @@ export const peersHeader = [
   {
     label: 'Price',
     item: 'regularMarketPrice',
+    format: 'roundTo',
     show: true
   },
   {
-    label: 'Market Cap.',
+    label: 'Chg',
+    item: 'regularMarketChange',
+    format: 'roundTo',
+    property: 'netChange',
+    show: true
+  },
+  {
+    label: 'Chg %',
+    item: 'regularMarketChangePercent',
+    format: '%',
+    property: 'netChange',
+    show: true
+  },
+  {
+    label: 'Volume',
+    item: 'regularMarketVolume',
+    format: 'millify',
+    show: true
+  },
+  {
+    label: 'Market Cap',
     item: 'marketCap',
     format: 'millify',
     show: true
   },
   {
-    label: 'P/B',
-    item: 'priceToBook',
-    format: 'millify',
-    show: true
-  },
-  {
-    label: 'Trailing PE',
-    item: 'trailingPE',
-    format: 'millify',
-    show: true
-  },
-  {
-    label: 'Avg. Analyst Rating',
-    item: 'averageAnalystRating',
+    label: 'Day Range',
+    item: 'regularMarketDayRange',
     show: true
   },
   {
@@ -59,21 +66,6 @@ export const peersHeader = [
     label: 'Income',
     item: 'incomeIndicator',
     format: 'IndicatorVariant',
-    show: true
-  },
-  {
-    label: 'Revenue Annualized',
-    item: 'revenueAnnualized',
-    format: '%',
-    property: 'netChange',
-    show: true
-  },
-
-  {
-    label: 'Income Annualized',
-    item: 'incomeAnnualized',
-    format: '%',
-    property: 'netChange',
     show: true
   }
 ]
