@@ -15,11 +15,11 @@ export default function SearchAccordion({ children, inputTicker }) {
   const [expanded, setExpanded] = useState(false)
 
   const router = useRouter()
-  const { query } = router.query
+  const { tickers } = router.query
 
   useEffect(() => {
-    setExpanded(!query)
-  }, [query])
+    setExpanded(!tickers)
+  }, [tickers])
 
   const onChange = () => {
     setExpanded(!expanded)
