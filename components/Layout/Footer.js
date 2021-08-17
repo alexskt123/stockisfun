@@ -15,7 +15,7 @@ export default function Footer() {
   const isMobile = useMobile()
   const newConfig = {
     ...footerConfig,
-    fixed: isMobile ? 'bottom' : undefined
+    fixed: isMobile && 'bottom'
   }
 
   return (

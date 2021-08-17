@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 
 import LoadingSkeleton from '@/components/Loading/LoadingSkeleton'
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import { fetcher } from '@/config/settings'
 import {
   millify,
@@ -11,9 +12,11 @@ import {
   indicatorVariant,
   getRedColor,
   getGreenColor,
-  getDefaultColor
+  getDefaultColor,
+  hasProperties
 } from '@/lib/commonFunction'
 import { exportToFile } from '@/lib/commonFunction'
+import { useMobile } from '@/lib/hooks/useMobile'
 import AnimatedNumber from 'animated-number-react'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
@@ -61,6 +64,7 @@ export default function SWRTable({ requests, options }) {
   const timestamp = useTimestamp(tableData)
   const darkMode = useDarkMode(false)
   const router = useRouter()
+  const isMobile = useMobile()
 
   const handleTableData = data => {
     const newData = { ...data }
@@ -81,15 +85,15 @@ export default function SWRTable({ requests, options }) {
       const bfdata = tableData.find(x => x.symbol === a.key)
       const afdata = tableData.find(x => x.symbol === b.key)
 
-      const bf = (bfdata && bfdata[id] ? bfdata[id] : '')
+      const bf = ((hasProperties(bfdata, [id]) && bfdata[id]) || '')
         .toString()
         .replace(/\+|%/gi, '')
-      const af = (afdata && afdata[id] ? afdata[id] : '')
+      const af = ((hasProperties(afdata, [id]) && afdata[id]) || '')
         .toString()
         .replace(/\+|%/gi, '')
       if (isNaN(bf))
-        return ascSort ? af.localeCompare(bf) : bf.localeCompare(af)
-      else return ascSort ? bf - af : af - bf
+        return (ascSort && af.localeCompare(bf)) || bf.localeCompare(af)
+      else return (ascSort && bf - af) || af - bf
     })
 
     setSortedRequests(sortedRequests)
@@ -111,9 +115,10 @@ export default function SWRTable({ requests, options }) {
         show: tableData.some(x => x[header.item])
       }))
       .filter(x => x.show)
+      .filter(x => !isMobile || (isMobile && !x?.hideInMobile))
 
     setReactiveTableHeader(newReactiveTableHeader)
-  }, [tableData, tableHeader])
+  }, [tableData, tableHeader, isMobile])
 
   useEffect(() => {
     setSortedRequests(requests)
@@ -128,9 +133,11 @@ export default function SWRTable({ requests, options }) {
           className="justify-content-center mt-2"
           style={{ display: 'flex', alignItems: 'center' }}
         >
-          <h5>
-            <Badge variant="info">{`Last Update: ${timestamp}`}</Badge>
-          </h5>
+          <HeaderBadge
+            headerTag={'h5'}
+            title={`Last Update: ${timestamp}`}
+            badgeProps={{ variant: 'info' }}
+          />
           <h5>
             <Button
               className="ml-1"
@@ -165,9 +172,11 @@ export default function SWRTable({ requests, options }) {
           <tr key={'tableFirstHeader'}>
             {tableFirstHeader?.map((item, index) => (
               <th key={index} style={getStyle(item, darkMode.value)}>
-                <h5>
-                  <Badge variant="light">{item.label}</Badge>
-                </h5>
+                <HeaderBadge
+                  headerTag={'h5'}
+                  title={item.label}
+                  badgeProps={{ variant: 'light' }}
+                />
               </th>
             ))}
           </tr>
@@ -219,7 +228,7 @@ function SWRTableRow({
   const data = dataRes?.result || dataRes
 
   useEffect(() => {
-    if (data) handleTableData(data)
+    data && handleTableData(data)
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
@@ -237,7 +246,7 @@ function SWRTableRow({
       {tableHeader.map(header => (
         <td
           onClick={() =>
-            header?.onClick ? header.onClick(data, router) : null
+            hasProperties(header, ['onClick']) && header.onClick(data, router)
           }
           style={getStyle(header, darkMode)}
           key={header.item}
@@ -289,10 +298,8 @@ function getFormattedValue(format, value, className) {
     >
       {value}
     </Badge>
-  ) : value ? (
-    value
   ) : (
-    'N/A'
+    value || 'N/A'
   )
 }
 

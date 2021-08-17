@@ -1,17 +1,12 @@
-/* eslint-disable jsx-a11y/alt-text */
-// react, next and hooks
 import { Fragment } from 'react'
 
 import { iconConfig } from '@/config/settings'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-// lib
 import Badge from 'react-bootstrap/Badge'
 import Navbar from 'react-bootstrap/Navbar'
 
-//import Toggle from 'react-toggle'
-// config
 import CustNav from './Header/CustNav'
 import DarkModeSwitch from './Header/DarkModeSwitch'
 import UserDropdown from './Header/UserDropdown'
@@ -28,7 +23,7 @@ function Header() {
         bg="dark"
         variant="dark"
         expand="md"
-        style={{ zIndex: '998!important' }}
+        style={{ zIndex: '998!important', padding: '0.1rem' }}
       >
         <UserDropdown />
         <Link href={'/highlight'} passHref>

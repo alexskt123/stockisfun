@@ -1,7 +1,3 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { getFormattedFromToDate, parseBoolean } from '@/lib/commonFunction'
 import { getHistoryPrice } from '@/lib/yahoo/getHistoryPrice'
 import { getQuote } from '@/lib/yahoo/getQuote'
@@ -11,7 +7,7 @@ const handleDays = async (ticker, days, isBus) => {
   const isBusBool = parseBoolean(isBus)
   const inputDays = parseInt(days)
 
-  const { formattedFromDate, formattedToDate } = await getFormattedFromToDate(
+  const { formattedFromDate, formattedToDate } = getFormattedFromToDate(
     days,
     isBusBool
   )
@@ -26,13 +22,13 @@ const handleDays = async (ticker, days, isBus) => {
     moment.unix(item).format('DD MMM YYYY')
   )
   const closePrice = outputItem.indicators.quote.find(x => x).close
-  const allPriceDate = (closePrice || []).reduce((acc, cur, idx) => {
+  const allPriceDate = (closePrice || []).reduce((acc, price, idx) => {
     // price must have value
-    const curDatePrice = {
-      date: closeDate[idx],
-      price: cur
-    }
-    if (cur) acc.push(curDatePrice)
+    price &&
+      acc.push({
+        date: closeDate[idx],
+        price
+      })
     return acc
   }, [])
 

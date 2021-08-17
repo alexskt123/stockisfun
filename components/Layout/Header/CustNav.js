@@ -4,8 +4,6 @@ import Nav from 'react-bootstrap/Nav'
 import CustNavDropdownItems from './CustNavDropdownItems'
 import CustNavItems from './CustNavItems'
 
-// config
-
 const CustNav = () => {
   return (
     <Nav className="mr-auto">

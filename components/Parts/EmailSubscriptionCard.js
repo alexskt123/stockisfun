@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 
 import { CooldownButton } from '@/components/CooldownButton'
 import { fireToast } from '@/lib/commonFunction'
-import { updUserEmailConfig } from '@/lib/firebaseResult'
+import { updateUserData } from '@/lib/firebaseResult'
 import { toAxios } from '@/lib/request'
 import validator from 'email-validator'
 import Badge from 'react-bootstrap/Badge'
@@ -11,6 +11,7 @@ import Form from 'react-bootstrap/Form'
 import LoadingOverlay from 'react-loading-overlay'
 
 import CooldownBadge from './CooldownBadge'
+import HeaderBadge from './HeaderBadge'
 
 export default function EmailSubscriptionCard({
   user,
@@ -37,15 +38,13 @@ export default function EmailSubscriptionCard({
   const validEmail = () => {
     const validEmail = validator.validate(inputData.to)
 
-    if (!validEmail) {
+    !validEmail &&
       fireToast({
         icon: 'error',
         title: 'Invalid Email'
       })
-      return false
-    }
 
-    return true
+    return validEmail
   }
 
   const onSubscribe = async () => {
@@ -59,7 +58,9 @@ export default function EmailSubscriptionCard({
       newInputData
     ]
 
-    await updUserEmailConfig(user.uid, newEmailList)
+    await updateUserData(userData.docId, {
+      emailConfig: newEmailList
+    })
 
     fireToast({
       icon: 'success',
@@ -77,25 +78,24 @@ export default function EmailSubscriptionCard({
 
     setEmailSending(true)
 
-    await updUserEmailConfig(user.uid, newEmailList)
-    const response = await toAxios('/api/sendAutoCodeEmail', {
+    await updateUserData(userData.docId, {
+      emailConfig: newEmailList
+    })
+    const response = await toAxios('/api/sendUserEmail', {
       type: 'id',
       id: inputData.id,
-      uid: user.uid
+      uid: userData.userID
     })
 
     setEmailSending(false)
 
-    const toast =
-      response?.data?.find(x => x)?.labelIds.find(x => x) === 'SENT'
-        ? {
-            icon: 'success',
-            title: 'Sent!'
-          }
-        : {
-            icon: 'error',
-            title: 'Some Error!'
-          }
+    const toast = (response?.data?.error && {
+      icon: 'error',
+      title: 'Some Error!'
+    }) || {
+      icon: 'success',
+      title: 'Sent!'
+    }
 
     fireToast(toast)
   }
@@ -119,18 +119,18 @@ export default function EmailSubscriptionCard({
         text={'dark'}
         border={'light'}
         style={{
-          ['minWidth']: minWidth ? minWidth : '10rem',
+          ['minWidth']: minWidth || '20rem',
           backgroundColor: '#f5f7f2'
         }}
       >
         {inputData?.name && (
           <Card.Header style={{ padding: '0.2rem' }}>
             <div style={{ display: 'flex', alignItems: 'baseline' }}>
-              <h5>
-                <Badge variant="secondary">
-                  <b>{inputData.name}</b>
-                </Badge>
-              </h5>
+              <HeaderBadge
+                headerTag={'h5'}
+                title={inputData.name}
+                badgeProps={{ variant: 'secondary' }}
+              />
             </div>
           </Card.Header>
         )}
@@ -155,10 +155,10 @@ export default function EmailSubscriptionCard({
             </Form.Group>
             <Badge
               className="cursor"
-              variant={inputData?.subscribe ? 'danger' : 'success'}
+              variant={(inputData?.subscribe && 'danger') || 'success'}
               onClick={() => onSubscribe()}
             >
-              {inputData?.subscribe ? 'UnSubscribe' : 'Subscribe'}
+              {(inputData?.subscribe && 'UnSubscribe') || 'Subscribe'}
             </Badge>
             <CooldownButton
               stateKey={'testEmail'}

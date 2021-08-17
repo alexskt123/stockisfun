@@ -1,9 +1,4 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { roundTo, calPcnt } from '@/lib/commonFunction'
-import { getAPIResponse } from '@/lib/request'
 import { getStockEarningCapacity } from '@/lib/stockInfo'
 import { getAssetProfile } from '@/lib/yahoo/getAssetProfile'
 import { getFinancialData } from '@/lib/yahoo/getFinancialData'
@@ -29,16 +24,16 @@ const getData = async args => {
   )
   const returnOnEquity = financialData?.returnOnEquity?.fmt
   const returnOnAssets = financialData?.returnOnAssets?.fmt
-  const trailingPE = quote?.trailingPE ? roundTo(quote?.trailingPE) : 'N/A'
+  const trailingPE = (quote?.trailingPE && roundTo(quote?.trailingPE)) || 'N/A'
   const industry = assetProfile?.industry
 
   const data = {
     symbol: ticker,
     trailingPE,
-    returnOnEquity: returnOnEquity ? returnOnEquity : 'N/A',
-    grossMargin: grossMargin ? grossMargin : 'N/A',
-    returnOnAssets: returnOnAssets ? returnOnAssets : 'N/A',
-    industry: industry ? industry : 'N/A',
+    returnOnEquity: returnOnEquity || 'N/A',
+    grossMargin: grossMargin || 'N/A',
+    returnOnAssets: returnOnAssets || 'N/A',
+    industry: industry || 'N/A',
     ...earningCapacity
   }
 
@@ -46,7 +41,7 @@ const getData = async args => {
 }
 
 export default async (req, res) => {
-  const response = await getAPIResponse(req, getData)
+  const response = await getData(req.query)
 
   res.statusCode = 200
   res.json(response)

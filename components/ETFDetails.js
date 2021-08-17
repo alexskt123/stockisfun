@@ -28,7 +28,8 @@ function ETFDetails({ inputTicker }) {
   }
 
   useEffect(() => {
-    inputTicker?.length > 0 ? handleTicker(inputTicker) : clearItems()
+    clearItems()
+    inputTicker && handleTicker(inputTicker)
   }, [inputTicker])
 
   const clearItems = () => {

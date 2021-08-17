@@ -1,42 +1,33 @@
 import { Fragment, useState, useEffect } from 'react'
 
 import StockInfoTable from '@/components/Page/StockInfoTable'
-import { fetcher, staticSWROptions } from '@/config/settings'
+import { earningsModalDefaultSettings } from '@/config/calendar'
+import { cloneObj } from '@/lib/commonFunction'
+import { useBgColor } from '@/lib/hooks/useBgColor'
+import { useStaticSWR } from '@/lib/request'
 import Badge from 'react-bootstrap/Badge'
 import Modal from 'react-bootstrap/Modal'
-import useSWR from 'swr'
-import useDarkMode from 'use-dark-mode'
 
 const EarningsModal = ({ ticker, resetTicker }) => {
-  const { data } = useSWR(
-    () => ticker && `/api/nasdaq/getEarningsHistory?ticker=${ticker}`,
-    fetcher,
-    staticSWROptions
+  const { data } = useStaticSWR(
+    ticker,
+    `/api/nasdaq/getEarningsHistory?ticker=${ticker}`
   )
 
-  const darkMode = useDarkMode(false)
+  const backgroundColor = useBgColor('white', 'e3e3e3')
   const [show, setShow] = useState(false)
-  const [earnings, setEarnings] = useState({
-    tableHeader: [
-      'Date Reported',
-      'Fiscal Quarter End',
-      'Consensus EPS Forecast',
-      'Earnings Per Share',
-      '% Surprise'
-    ],
-    tableData: []
-  })
+  const [earnings, setEarnings] = useState(
+    cloneObj(earningsModalDefaultSettings)
+  )
 
   useEffect(() => {
-    ;(async () => {
-      if (data) {
-        setShow(true)
-        setEarnings(e => ({
-          ...e,
-          tableData: data
-        }))
-      } else setShow(false)
-    })()
+    data &&
+      setEarnings(e => ({
+        ...e,
+        tableData: data
+      }))
+
+    setShow(!!data)
   }, [data])
 
   const handleClose = () => {
@@ -47,17 +38,12 @@ const EarningsModal = ({ ticker, resetTicker }) => {
   return (
     <Fragment>
       <Modal size="xl" centered show={show} onHide={handleClose}>
-        <Modal.Header
-          closeButton
-          style={{ backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}
-        >
+        <Modal.Header closeButton style={{ backgroundColor }}>
           <Modal.Title>
             <Badge variant="dark">{`Earnings History - ${ticker}`}</Badge>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body
-          style={{ backgroundColor: darkMode.value ? '#e3e3e3' : 'white' }}
-        >
+        <Modal.Body style={{ backgroundColor }}>
           <StockInfoTable
             tableSize="sm"
             tableHeader={earnings.tableHeader}
@@ -65,7 +51,6 @@ const EarningsModal = ({ ticker, resetTicker }) => {
           />
         </Modal.Body>
       </Modal>
-      ∏
     </Fragment>
   )
 }

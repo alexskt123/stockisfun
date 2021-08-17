@@ -1,14 +1,10 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { getAPIResponse } from '@/lib/request'
 import { getEarningsDate } from '@/lib/yahoo/getEarningsDate'
 
 const getData = async args => {
   const { ticker, quoteData } = args
 
-  const earningsDate = quoteData ? await getEarningsDate(ticker) : null
+  const earningsDate = quoteData && (await getEarningsDate(ticker))
 
   return { ...quoteData, earningsDate: earningsDate.fmt }
 }

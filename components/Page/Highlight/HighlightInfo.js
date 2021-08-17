@@ -11,7 +11,7 @@ import useSWR from 'swr'
 export default function HighlightInfo({ query }) {
   const { type, ticker } = query
 
-  const hightlightInfoConfig = {
+  const highlightInfoConfig = {
     quote: HighlightPriceQuote,
     detail: HighlightDetail
   }
@@ -22,18 +22,15 @@ export default function HighlightInfo({ query }) {
   )
 
   useEffect(() => {
-    if (!data) return
-
-    if (!data?.result) {
+    data &&
+      !data?.result &&
       fireToast({
         icon: 'error',
         title: 'Please enter a valid symbol!'
       })
-      return
-    }
-  }, [data, ticker])
+  }, [data])
 
-  const Component = hightlightInfoConfig[type] || null
+  const Component = highlightInfoConfig[type] || null
 
   return (
     <Fragment>

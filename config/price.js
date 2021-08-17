@@ -1,6 +1,10 @@
 import AddDelStock from '@/components/Fire/AddDelStock'
 import HappyShare from '@/components/Parts/HappyShare'
-import { convertToPercentage, getVariant } from '@/lib/commonFunction'
+import {
+  arrFindByIdx,
+  convertToPercentage,
+  getVariant
+} from '@/lib/commonFunction'
 
 export const chartDataSet = {
   fill: false,
@@ -19,29 +23,17 @@ export const chartDataSet = {
 }
 
 const year = new Date().getFullYear()
-export const dateRange = [...Array(16)]
-  .map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`])
-  .map(x => ({ fromDate: x[0], toDate: x[1] }))
+export const dateRangeByNoOfYears = inputYears => {
+  const noOfYears = inputYears || 15
 
-export const dateRangeByNoOfYears = async inputYears => {
-  const noOfYears = !inputYears ? 15 : inputYears
-
-  //return Array.from({length: noOfYears + 1}, (x, i) => [`${year-i}-01-01`,`${year-i}-12-31`]).map(x=>({"fromDate":x[0],"toDate":x[1]}))
   return [...Array(parseInt(noOfYears) + 1)]
-    .map((x, i) => [`${year - i}-01-01`, `${year - i}-12-31`])
-    .map(x => ({ fromDate: x[0], toDate: x[1] }))
+    .map((_x, i) => [`${year - i}-01-01`, `${year - i}-12-31`, year - i])
+    .map(x => ({
+      fromDate: arrFindByIdx(x, 0),
+      toDate: arrFindByIdx(x, 1),
+      year: arrFindByIdx(x, 2)
+    }))
 }
-
-// [
-//     {
-//         'fromDate': '2021-01-01',
-//         'toDate': '2021-12-31'
-//     },
-//     {
-//         'fromDate': '2020-01-01',
-//         'toDate': '2020-12-31'
-//     }
-// ]
 
 export const quoteFilterList = [
   {
@@ -159,31 +151,73 @@ export const priceChartSettings = {
   pointRadius: 3
 }
 
-export const ma5ChartSettings = {
-  label: '5-MA',
+export const maChartSchema = {
   data: [],
   fill: false,
-  backgroundColor: 'rgba(255,2,2)',
-  borderColor: 'rgba(255,2,2,0.5)',
   pointRadius: 0
 }
 
-export const ma20ChartSettings = {
-  label: '20-MA',
-  data: [],
-  fill: false,
-  backgroundColor: 'rgba(218,165,32)',
-  borderColor: 'rgba(218,165,32,0.8)',
-  pointRadius: 0
-}
+export const maChartSettings = [
+  {
+    value: 5,
+    label: '5-MA',
+    backgroundColor: 'rgba(255,2,2)',
+    borderColor: 'rgba(255,2,2,0.5)'
+  },
+  {
+    value: 20,
+    label: '20-MA',
+    backgroundColor: 'rgba(218,165,32)',
+    borderColor: 'rgba(218,165,32,0.8)'
+  },
+  {
+    value: 60,
+    label: '60-MA',
+    backgroundColor: 'rgba(0,128,0)',
+    borderColor: 'rgba(0,128,0,0.8)'
+  }
+]
 
-export const ma60ChartSettings = {
-  label: '60-MA',
-  data: [],
-  fill: false,
-  backgroundColor: 'rgba(0,128,0)',
-  borderColor: 'rgba(0,128,0,0.8)',
-  pointRadius: 0
+export const priceMADetailsSettings = {
+  asOfDate: '',
+  priceMAList: [
+    {
+      id: '5<20',
+      name: '5-MA lower than 20-MA',
+      tickersInfo: [],
+      tickersChart: []
+    },
+    {
+      id: '5>20',
+      name: '5-MA higher than 20-MA',
+      tickersInfo: [],
+      tickersChart: []
+    },
+    {
+      id: '5<60',
+      name: '5-MA lower than 60-MA',
+      tickersInfo: [],
+      tickersChart: []
+    },
+    {
+      id: '5>60',
+      name: '5-MA higher than 60-MA',
+      tickersInfo: [],
+      tickersChart: []
+    },
+    {
+      id: '20<60',
+      name: '20-MA lower than 60-MA',
+      tickersInfo: [],
+      tickersChart: []
+    },
+    {
+      id: '20>60',
+      name: '20-MA higher than 60-MA',
+      tickersInfo: [],
+      tickersChart: []
+    }
+  ]
 }
 
 export const maChkRange = 5
@@ -195,7 +229,7 @@ export const dateRangeSelectAttr = {
     className: 'my-1 mr-sm-2',
     name: 'formYear'
   },
-  dateRangeOptions: [
+  options: [
     {
       label: '5D',
       value: '5'
@@ -232,9 +266,9 @@ export const maSelectAttr = {
     size: 'sm',
     as: 'select',
     className: 'my-1 mr-sm-2',
-    name: 'formma'
+    name: 'formMA'
   },
-  maOptions: [
+  options: [
     {
       label: 'N/A',
       value: ''
@@ -251,87 +285,59 @@ export const maSelectAttr = {
 }
 
 export const priceTabLabelPairs = inputTicker =>
-  inputTicker
-    ? [
-        [
-          {
-            name: 'Name',
-            value: '',
-            showLabel: true,
-            append: [
-              <AddDelStock
-                key={'AddDelStock'}
-                inputTicker={inputTicker}
-                handleList="stock"
-              />,
-              <HappyShare key={'HappyShare'} />
-            ]
-          }
-        ],
-        [
-          {
-            name: 'Price',
-            value: '',
-            showLabel: true
-          },
-          {
-            name: 'Price%',
-            value: '',
-            showLabel: false,
-            format: e => convertToPercentage(e / 100),
-            variant: getVariant
-          },
-          {
-            name: '52W-L-H',
-            value: '',
-            showLabel: true
-          }
-        ],
-        [
-          {
-            name: 'Floating Shares',
-            value: '',
-            showLabel: true
-          },
-          {
-            name: 'Market Cap.',
-            value: '',
-            showLabel: true
-          }
-        ],
-        [
-          {
-            name: 'Industry',
-            value: '',
-            showLabel: true
-          }
+  (inputTicker && [
+    [
+      {
+        name: 'Name',
+        value: '',
+        showLabel: true,
+        append: [
+          <AddDelStock
+            key={'AddDelStock'}
+            inputTicker={inputTicker}
+            handleList="stockList"
+          />,
+          <HappyShare key={'HappyShare'} />
         ]
-      ]
-    : []
-
-// export const priceTabLabelPairs = [
-//   {
-//     name: 'Name',
-//     value: ''
-//   },
-//   {
-//     name: 'Price',
-//     value: ''
-//   },
-//   {
-//     name: 'Price%',
-//     value: ''
-//   },
-//   {
-//     name: '52W-L-H',
-//     value: ''
-//   },
-//   {
-//     name: 'Market Cap.',
-//     value: ''
-//   },
-//   {
-//     name: 'Industry',
-//     value: ''
-//   }
-// ]
+      }
+    ],
+    [
+      {
+        name: 'Price',
+        value: '',
+        showLabel: true
+      },
+      {
+        name: 'Price%',
+        value: '',
+        showLabel: false,
+        format: e => convertToPercentage(e / 100),
+        variant: getVariant
+      },
+      {
+        name: '52W-L-H',
+        value: '',
+        showLabel: true
+      }
+    ],
+    [
+      {
+        name: 'Floating Shares',
+        value: '',
+        showLabel: true
+      },
+      {
+        name: 'Market Cap.',
+        value: '',
+        showLabel: true
+      }
+    ],
+    [
+      {
+        name: 'Industry',
+        value: '',
+        showLabel: true
+      }
+    ]
+  ]) ||
+  []

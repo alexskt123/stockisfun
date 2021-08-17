@@ -1,20 +1,15 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import dynamic from 'next/dynamic'
+import { useBgColor } from '@/lib/hooks/useBgColor'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Form from 'react-bootstrap/Form'
-import useDarkMode from 'use-dark-mode'
-
-const Table = dynamic(
-  () => {
-    return import('react-bootstrap/Table')
-  },
-  { ssr: false }
-)
+import Table from 'react-bootstrap/Table'
 
 export default function EditTable({ tableHeader, data, onUpdate }) {
-  const darkMode = useDarkMode(false)
+  const tableVariant = useBgColor('light', 'dark')
+  const formControlBgColor = useBgColor('white', 'grey')
+  const formControlColor = useBgColor('black', 'white')
 
   const [inputData, setInputData] = useState(data)
 
@@ -29,7 +24,7 @@ export default function EditTable({ tableHeader, data, onUpdate }) {
           ? item
           : {
               ...item,
-              ...{ [itemKey]: e.target.value }
+              [itemKey]: e.target.value
             }
       return newItem
     })
@@ -63,7 +58,7 @@ export default function EditTable({ tableHeader, data, onUpdate }) {
           size="sm"
           className="pl-3 mt-3"
           responsive
-          variant={darkMode.value ? 'dark' : 'light'}
+          variant={tableVariant}
         >
           <thead>
             <tr>
@@ -87,10 +82,8 @@ export default function EditTable({ tableHeader, data, onUpdate }) {
                               size="sm"
                               type={header.type}
                               style={{
-                                backgroundColor: darkMode.value
-                                  ? 'grey'
-                                  : 'white',
-                                color: darkMode.value ? 'white' : 'black'
+                                backgroundColor: formControlBgColor,
+                                color: formControlColor
                               }}
                               value={rowItem[header.item]}
                               onChange={e =>

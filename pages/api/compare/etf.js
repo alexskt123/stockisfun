@@ -1,7 +1,3 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { tableHeaderList } from '@/config/etf'
 import { getETFDB } from '@/lib/etfdb/getETFDB'
 import { getETFPerformance } from '@/lib/etfdb/getETFPerformance'
@@ -17,7 +13,7 @@ export default async (req, res) => {
   res.json(
     responses.reduce(
       (acc, item) => {
-        const spreadItems = item.basicInfo ? item.basicInfo : item
+        const spreadItems = item?.basicInfo || item
         const selectedItemsArr = Object.keys(spreadItems).filter(x =>
           tableHeaderList.map(header => header.item).includes(x)
         )

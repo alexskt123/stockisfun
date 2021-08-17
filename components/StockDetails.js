@@ -27,15 +27,15 @@ function StockDetails({ inputTicker }) {
 
   const [settings, setSettings] = useState({ ...stockDetailsSettings })
 
-  async function handleTicker() {
-    const ticker = (inputTicker || '').toUpperCase()
+  function handleTicker() {
+    const ticker = inputTicker.toUpperCase()
     const newSettings = { inputTickers: [ticker] }
 
     setSettings(newSettings)
   }
 
   useEffect(() => {
-    inputTicker !== '' ? handleTicker() : clearItems()
+    inputTicker ? handleTicker() : clearItems()
     //todo: fix custom hooks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputTicker])

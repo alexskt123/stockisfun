@@ -1,7 +1,3 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { aumTableHeader } from '@/config/etf'
 import { getAUM } from '@/lib/compare/aum'
 import { getMoneyCnnCouple } from '@/lib/forecast/getMoneyCnn'
@@ -14,6 +10,7 @@ export default async (req, res) => {
 
   res.statusCode = 200
   res.json({
+    //todo: ???
     ...[ticker, ...aumData].reduce(
       (acc, item, idx) => ({ ...acc, [aumTableHeader[idx].item]: item }),
       {}

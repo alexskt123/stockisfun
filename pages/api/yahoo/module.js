@@ -1,5 +1,5 @@
 import { yahooTrendHeader } from '@/config/forecast'
-import { ModuleQuote } from '@/lib/quote'
+import ModuleQuote from '@/lib/class/moduleQuote'
 
 const moduleMapping = {
   AssetProfile: {
@@ -119,7 +119,6 @@ export default async (req, res) => {
 
 const getQuoteModules = async (ticker, modules) => {
   const quote = new ModuleQuote(ticker)
-  await quote.request()
 
   const request = async m => await quote.requestModule(m)
   await Promise.all(modules.map(request))

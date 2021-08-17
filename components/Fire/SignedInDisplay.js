@@ -54,7 +54,9 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
           <Col>
             <CgViewList />
             <Badge className="ml-1" variant="light">
-              <Link href={`/watchlist?query=${userData?.watchList.join(',')}`}>
+              <Link
+                href={`/watchlist?tickers=${userData?.watchList.join(',')}`}
+              >
                 {'Watch List'}
               </Link>
             </Badge>
@@ -74,7 +76,9 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
             return (
               <Col key={`${item}${idx}`} xs={3} sm={3} md={3} lg={4}>
                 <Badge className="ml-1" key={idx} variant="light">
-                  <Link href={`/stockdetail?query=${item}`}>{item}</Link>
+                  <Link href={`/stockinfo?ticker=${item}&type=detail`}>
+                    {item}
+                  </Link>
                 </Badge>
               </Col>
             )
@@ -94,7 +98,9 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
             return (
               <Col key={`${item}${idx}`} xs={3} sm={3} md={3} lg={4}>
                 <Badge className="ml-1" key={idx} variant="light">
-                  <Link href={`/etfdetail?query=${item}`}>{item}</Link>
+                  <Link href={`/stockinfo?ticker=${item}&type=detail`}>
+                    {item}
+                  </Link>
                 </Badge>
               </Col>
             )

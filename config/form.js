@@ -3,9 +3,9 @@ export const priceChangeDateRangeSelectAttr = {
     as: 'select',
     size: 'sm',
     className: 'my-1 mr-sm-2',
-    name: 'formYear'
+    name: 'year'
   },
-  dateRangeOptions: [
+  options: [
     {
       label: '15 years',
       value: '15'
@@ -37,6 +37,46 @@ export const priceChangeDateRangeSelectAttr = {
   ]
 }
 
+export const userListOptions = [
+  {
+    label: 'Watch List',
+    value: ['watchList']
+  },
+  {
+    label: 'Bought List',
+    value: ['boughtList']
+  },
+  {
+    label: 'Stock List',
+    value: ['stockList']
+  },
+  {
+    label: 'ETF List',
+    value: ['etfList']
+  }
+]
+
+export const userListSelectAttr = {
+  formControl: {
+    as: 'select',
+    size: 'sm',
+    className: 'my-1 mr-sm-2 ml-1',
+    name: 'formList',
+    style: { width: 'auto' }
+  },
+  options: [
+    {
+      label: 'Your Choice',
+      value: ''
+    },
+    ...userListOptions,
+    {
+      label: 'ALL',
+      value: userListOptions.map(u => u.value)
+    }
+  ]
+}
+
 export const buttonSettings = {
   Go: {
     label: 'Go',
@@ -50,7 +90,7 @@ export const buttonSettings = {
     label: 'Clear All',
     attr: {
       size: 'sm',
-      className: 'ml-3',
+      className: 'ml-1',
       variant: 'danger'
     }
   },
@@ -58,16 +98,8 @@ export const buttonSettings = {
     label: 'Export',
     attr: {
       size: 'sm',
-      className: 'ml-3',
+      className: 'ml-1',
       variant: 'info'
-    }
-  },
-  FromWatchList: {
-    label: 'Watch List',
-    attr: {
-      size: 'sm',
-      className: 'ml-3',
-      variant: 'secondary'
     }
   }
 }

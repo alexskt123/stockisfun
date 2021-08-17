@@ -1,20 +1,19 @@
 import { Fragment, useState } from 'react'
 
 import Wiggle from '@/components/Parts/Wiggle'
-import { fetcher } from '@/config/settings'
 import { fireToast } from '@/lib/commonFunction'
 import { useBgColor } from '@/lib/hooks/useBgColor'
 import { useTVTicker } from '@/lib/hooks/useTVTicker'
+import { useStaticSWR } from '@/lib/request'
 import Badge from 'react-bootstrap/Badge'
 import Modal from 'react-bootstrap/Modal'
-import useSWR from 'swr'
 
 import TradingView from './TradingView'
 
 export default function TradingViewModal({ buttonClassName, ticker }) {
-  const { data } = useSWR(
-    () => ticker && `/api/yahoo/getQuoteType?ticker=${ticker}`,
-    fetcher
+  const { data } = useStaticSWR(
+    ticker,
+    `/api/yahoo/getQuoteType?ticker=${ticker}`
   )
 
   const bgColor = useBgColor('white', '#e3e3e3')
@@ -28,14 +27,16 @@ export default function TradingViewModal({ buttonClassName, ticker }) {
   }
 
   const handleClick = () => {
-    if (!(data?.result?.type === 'EQUITY' || data?.result?.type === 'ETF')) {
+    const isStock =
+      data?.result?.type === 'EQUITY' || data?.result?.type === 'ETF'
+
+    !isStock &&
       fireToast({
         icon: 'error',
         title: 'Please enter a valid symbol (Equity/ETF)!'
       })
-      return
-    }
-    setShow(true)
+
+    setShow(isStock)
   }
 
   return (

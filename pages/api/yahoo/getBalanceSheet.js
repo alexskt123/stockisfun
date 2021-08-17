@@ -1,7 +1,3 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { getAPIResponse } from '@/lib/request'
 import { getBalanceSheetData } from '@/lib/stockInfo'
 import { getBalanceSheet } from '@/lib/yahoo/getBalanceSheet'

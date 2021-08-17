@@ -1,10 +1,6 @@
-//GET https://zh.wikipedia.org/
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { getAPIResponse } from '@/lib/request'
 
-const getData = async args => {
+const getData = args => {
   const { valid, type } = args
   return {
     valid,

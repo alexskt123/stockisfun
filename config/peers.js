@@ -1,74 +1,79 @@
-//import { SWRSticky } from './settings'
+import { SWRSticky } from './settings'
+
+const showSWRDetail = (input, router) => {
+  router.push(`/stockinfo?ticker=${input?.symbol}&type=detail`)
+}
 
 export const excludeList = ['INX', 'INDU']
 
-export const extractYahooInfo = [
+export const peersHeader = [
+  {
+    label: 'Ticker',
+    item: 'symbol',
+    style: SWRSticky,
+    show: true,
+    format: 'Badge',
+    className: 'cursor',
+    onClick: showSWRDetail
+  },
+  {
+    label: 'Name',
+    item: 'shortName',
+    show: true
+  },
   {
     label: 'Price',
-    field: 'regularMarketPrice'
+    item: 'regularMarketPrice',
+    show: true
   },
   {
     label: 'Market Cap.',
-    field: 'marketCap',
-    format: 'millify'
+    item: 'marketCap',
+    format: 'millify',
+    show: true
   },
   {
     label: 'P/B',
-    field: 'priceToBook',
-    format: 'millify'
+    item: 'priceToBook',
+    format: 'millify',
+    show: true
   },
   {
     label: 'Trailing PE',
-    field: 'trailingPE',
-    format: 'millify'
+    item: 'trailingPE',
+    format: 'millify',
+    show: true
+  },
+  {
+    label: 'Avg. Analyst Rating',
+    item: 'averageAnalystRating',
+    show: true
+  },
+  {
+    label: 'Revenue',
+    item: 'revenueIndicator',
+    format: 'IndicatorVariant',
+    show: true
+  },
+  {
+    label: 'Income',
+    item: 'incomeIndicator',
+    format: 'IndicatorVariant',
+    show: true
+  },
+  {
+    label: 'Revenue Annualized',
+    item: 'revenueAnnualized',
+    format: '%',
+    property: 'netChange',
+    show: true
+  },
+
+  {
+    label: 'Income Annualized',
+    item: 'incomeAnnualized',
+    format: '%',
+    property: 'netChange',
+    show: true
   }
-]
-
-export const initSettings = { tableHeader: [], tableData: [] }
-
-// export const peersHeader = [
-//   {
-//     label: 'Ticker',
-//     item: 'symbol',
-//     style: SWRSticky,
-//     format: 'Badge',
-//     show: true
-//   },
-//   {
-//     label: 'Name',
-//     item: 'name',
-//     show: true
-//   },
-//   {
-//     label: 'Price',
-//     item: 'regularMarketPrice',
-//     show: true
-//   },
-//   {
-//     label: 'Market Cap.',
-//     item: 'marketCap',
-//     format: 'millify',
-//     show: true
-//   },
-//   {
-//     label: 'P/B',
-//     item: 'priceToBook',
-//     format: 'millify',
-//     show: true
-//   },
-//   {
-//     label: 'Trailing PE',
-//     item: 'trailingPE',
-//     format: 'millify',
-//     show: true
-//   }
-// ]
-
-export const peersHeader = [
-  'Ticker',
-  'Name',
-  'Price',
-  'Market Cap.',
-  'P/B',
-  'Trailing PE'
 ]

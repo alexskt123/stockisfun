@@ -3,7 +3,6 @@ import { Fragment } from 'react'
 import TypeAhead from '@/components/Page/TypeAhead'
 import { showHighlightQuoteDetail } from '@/lib/stockInfo'
 import { useRouter } from 'next/router'
-import Badge from 'react-bootstrap/Badge'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
@@ -22,17 +21,10 @@ const HighlightSearch = () => {
 
   return (
     <Fragment>
-      <Row className="justify-content-center mt-1">
-        <h6>
-          <Badge style={{ minWidth: '9rem' }} variant="dark">
-            {'Search'}
-          </Badge>
-        </h6>
-      </Row>
-      <Row>
+      <Row className="mt-1">
         <Col>
           <TypeAhead
-            placeholderText={'Search any Stock or ETF...'}
+            placeholderText={'🔎 Search any Stock or ETF...'}
             handleChange={handleChange}
             filter={'ETF,Equity'}
           />

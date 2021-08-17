@@ -1,22 +1,19 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import GooeySpinner from '@/components/Loading/GooeySpinner'
-import SWRTable from '@/components/Page/SWRTable'
+import CompareSWR from '@/components/Parts/CompareSWR'
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 import { keyInfoTableHeaderList, keyForecastInfoHeader } from '@/config/profile'
-import { staticSWROptions } from '@/config/settings'
-import Badge from 'react-bootstrap/Badge'
 
 const StockHighlight = ({ boughtListData }) => {
   const [stockList, setStockList] = useState([])
 
   useEffect(() => {
-    if (!boughtListData?.boughtList) return
-
-    setStockList(
-      boughtListData.boughtList
-        .filter(item => item.type === 'EQUITY')
-        .map(item => item.ticker)
-    )
+    boughtListData?.boughtList &&
+      setStockList(
+        boughtListData.boughtList
+          .filter(item => item.type === 'EQUITY')
+          .map(item => item.ticker)
+      )
 
     return () => {
       setStockList([])
@@ -25,44 +22,30 @@ const StockHighlight = ({ boughtListData }) => {
 
   return (
     <Fragment>
-      <h5>
-        <Badge variant="dark">{'Stock Revenue/Net Income Highlight'}</Badge>
-      </h5>
-      {stockList?.length > 0 ? (
-        <SWRTable
-          requests={stockList.map(x => ({
-            request: `/api/page/getIndexQuote?ticker=${x}`,
-            key: x
-          }))}
-          options={{
-            tableHeader: keyInfoTableHeaderList,
-            tableSize: 'sm',
-            SWROptions: staticSWROptions
-          }}
-        />
-      ) : (
-        <GooeySpinner />
-      )}
-      <h5>
-        <Badge variant="dark" className={'mt-4'}>
-          {'Stock Forecast'}
-        </Badge>
-      </h5>
-      {stockList?.length > 0 ? (
-        <SWRTable
-          requests={stockList.map(x => ({
-            request: `/api/forecast/getKeyInfo?ticker=${x}`,
-            key: x
-          }))}
-          options={{
-            tableHeader: keyForecastInfoHeader,
-            tableSize: 'sm',
-            SWROptions: staticSWROptions
-          }}
-        />
-      ) : (
-        <GooeySpinner />
-      )}
+      <HeaderBadge
+        headerTag={'h5'}
+        title={'Stock Revenue/Net Income Highlight'}
+        badgeProps={{ variant: 'dark' }}
+      />
+      <CompareSWR
+        inputTickers={stockList}
+        url={'/api/page/getIndexQuote'}
+        customOptions={{
+          tableHeader: keyInfoTableHeaderList
+        }}
+      />
+      <HeaderBadge
+        headerTag={'h5'}
+        title={'Stock Forecast'}
+        badgeProps={{ variant: 'dark', className: 'mt-4' }}
+      />
+      <CompareSWR
+        inputTickers={stockList}
+        url={'/api/forecast/getKeyInfo'}
+        customOptions={{
+          tableHeader: keyForecastInfoHeader
+        }}
+      />
     </Fragment>
   )
 }

@@ -1,6 +1,6 @@
-import { getPriceMAHTMLTemplate } from '@/lib/email/priceMA'
+import { sendEmail } from '@/lib/email'
+import { getPriceMAHTMLTemplate } from '@/lib/email/template'
 import { getEmailByID } from '@/lib/firebaseResult'
-import sendEmail from '@/lib/sendEmail'
 
 export default async (req, res) => {
   const response = {
@@ -15,12 +15,12 @@ export default async (req, res) => {
   const tickerArr = curEmailTemplate.stock
     .split(',')
     .map(item => item.toUpperCase())
-  const genChart = curEmailTemplate.genChart ? true : false
+  const genChart = curEmailTemplate?.genChart
 
   const emailTemplate = await getPriceMAHTMLTemplate({
     tickerArr,
     genChart,
-    nane: curEmailTemplate.name
+    name: curEmailTemplate.name
   })
 
   const mailOptions = {

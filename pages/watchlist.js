@@ -2,18 +2,18 @@ import { Fragment, useState } from 'react'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
 import SearchAccordion from '@/components/Page/SearchAccordion'
-import SWRTable from '@/components/Page/SWRTable'
 import TickerBullet from '@/components/Page/TickerBullet'
 import TickerInput from '@/components/Page/TickerInput'
+import CompareSWR from '@/components/Parts/CompareSWR'
 import HappyShare from '@/components/Parts/HappyShare'
 import ModalQuestion from '@/components/Parts/ModalQuestion'
 import { tableHeaderList } from '@/config/watchlist'
+import { handleFormSubmit, fireToast } from '@/lib/commonFunction'
 import {
-  handleDebounceChange,
-  handleFormSubmit,
-  fireToast
-} from '@/lib/commonFunction'
-import { updUserWatchList, usePersistedUser } from '@/lib/firebaseResult'
+  updateUserData,
+  usePersistedUser,
+  useUserData
+} from '@/lib/firebaseResult'
 import { useQuery } from '@/lib/hooks/useQuery'
 import { useRouter } from 'next/router'
 import Button from 'react-bootstrap/Button'
@@ -21,9 +21,9 @@ import Row from 'react-bootstrap/Row'
 
 export default function WatchList() {
   const router = useRouter()
-  const { query } = router.query
+  const { tickers } = router.query
 
-  const [tickers, setTickers] = useState([])
+  const [curTickers, setCurTickers] = useState([])
 
   const [validated, setValidated] = useState(false)
   const [formValue, setFormValue] = useState({})
@@ -32,9 +32,14 @@ export default function WatchList() {
   const handleUpdateClose = () => setShowUpdate(false)
 
   const user = usePersistedUser()
+  const userData = useUserData(user)
 
   const handleChange = e => {
-    handleDebounceChange(e, formValue, setFormValue)
+    const form = {
+      ...formValue,
+      [e.target.name]: e.target.value
+    }
+    setFormValue(form)
   }
 
   const clearItems = () => {
@@ -42,7 +47,9 @@ export default function WatchList() {
   }
 
   const updateWatchList = async () => {
-    await updUserWatchList(user.uid, tickers)
+    await updateUserData(userData.docId, {
+      watchList: [...curTickers]
+    })
 
     fireToast({
       icon: 'success',
@@ -52,20 +59,20 @@ export default function WatchList() {
 
   const handleUpdate = async () => {
     handleUpdateClose()
-    await updateWatchList()
+    updateWatchList()
   }
 
   const removeItem = value => {
-    setTickers([...tickers.filter(x => x !== value)])
+    setCurTickers([...curTickers.filter(x => x !== value)])
   }
 
   async function handleTickers(inputTickersWithComma) {
     const newTickers = inputTickersWithComma.map(item => item.toUpperCase())
-    setTickers([...newTickers])
+    setCurTickers([...newTickers])
   }
 
   const handleSubmit = event => {
-    handleFormSubmit(event, formValue, { query }, router, setValidated)
+    handleFormSubmit(event, formValue, { tickers }, router, setValidated)
   }
 
   const modalQuestionSettings = {
@@ -77,22 +84,26 @@ export default function WatchList() {
     body: 'Are you sure the update watch list?'
   }
 
-  useQuery(handleTickers, { query })
+  useQuery(handleTickers, { tickers })
 
   return (
     <Fragment>
       <CustomContainer style={{ minHeight: '100vh' }}>
         <Fragment>
-          <SearchAccordion inputTicker={tickers.join(',')}>
+          <SearchAccordion inputTicker={curTickers.join(',')}>
             <TickerInput
               validated={validated}
               handleSubmit={handleSubmit}
-              placeholderText={'Single:  voo /  Mulitple:  voo,arkk,smh'}
+              placeholderText={'Single:  voo /  Multiple:  voo,arkk,smh'}
               handleChange={handleChange}
               clearItems={clearItems}
               exportFileName={'Stock_watch_list.csv'}
+              formValue={formValue}
             />
-            <TickerBullet tickers={tickers} removeItem={removeItem} />
+            <TickerBullet
+              tickers={curTickers.join(',')}
+              removeItem={removeItem}
+            />
           </SearchAccordion>
           <Row
             className="ml-1 mt-3"
@@ -110,27 +121,19 @@ export default function WatchList() {
                 {'Update Watch List'}
               </Button>
             )}
-            {tickers.length > 0 && (
+            {curTickers.length > 0 && (
               <HappyShare inputStyle={{ color: 'blue', size: '25px' }} />
             )}
           </Row>
-
-          {tickers?.length > 0 && (
-            <SWRTable
-              requests={tickers.map(x => ({
-                request: `/api/page/getWatchList?ticker=${x}`,
-                key: x
-              }))}
-              options={{
-                striped: true,
-                bordered: true,
-                tableHeader: tableHeaderList,
-                exportFileName: 'Watchlist.csv',
-                tableSize: 'sm',
-                SWROptions: { refreshInterval: 3000 }
-              }}
-            />
-          )}
+          <CompareSWR
+            inputTickers={curTickers}
+            url={'/api/page/getWatchList'}
+            customOptions={{
+              exportFileName: 'Watchlist.csv',
+              tableHeader: tableHeaderList,
+              SWROptions: { refreshInterval: 3000 }
+            }}
+          />
         </Fragment>
       </CustomContainer>
       <ModalQuestion {...modalQuestionSettings} />

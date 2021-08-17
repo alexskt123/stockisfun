@@ -1,25 +1,29 @@
 import { Fragment, useState } from 'react'
 
+import FormOptions from '@/components/Form/FormOptions'
 import CustomContainer from '@/components/Layout/CustomContainer'
+import BgColor from '@/components/Page/BgColor'
 import EarningsModal from '@/components/Page/Calendar/EarningsModal'
-import QuoteCard from '@/components/Parts/QuoteCard'
+import { userListSelectAttr } from '@/config/form'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
 import { useUserCalendarEvents } from '@/lib/hooks/calendar'
 import moment from 'moment'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import LoadingOverlay from 'react-loading-overlay'
+import useTypingEffect from 'use-typing-effect'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 const localizer = momentLocalizer(moment)
 
-//export default component
 export default function BigCalendar() {
+  const [ticker, setTicker] = useState(null)
+  const [list, setList] = useState('watchList')
+
   const user = usePersistedUser()
   const userData = useUserData(user)
-  const eventList = useUserCalendarEvents(user, userData)
-
-  const [ticker, setTicker] = useState(null)
+  const eventList = useUserCalendarEvents(user, userData, list)
+  const loadingText = useTypingEffect(['Loading...'])
 
   const handleSelectSlot = async e => {
     setTicker(e.title)
@@ -31,19 +35,30 @@ export default function BigCalendar() {
 
   return (
     <Fragment>
-      <CustomContainer style={{ minHeight: '100vh', fontSize: '14px' }}>
+      <CustomContainer>
         <Fragment>
-          <QuoteCard
-            header={'Calendar'}
-            isShow={true}
-            noClose={true}
-            customBgColor={{ normal: 'white', darkmode: '#adadad' }}
-          >
+          <BgColor customBgColor={{ normal: 'white', darkMode: '#b5c7c6' }}>
             <LoadingOverlay
-              active={user && eventList?.length <= 0}
+              active={user && list !== '' && eventList?.length <= 0}
               spinner
-              text="Loading your content..."
+              text={loadingText}
             >
+              {user && userData && (
+                <div
+                  style={{ display: 'inline-flex', alignItems: 'baseline' }}
+                  className="ml-1"
+                >
+                  <FormOptions
+                    formOptionSettings={userListSelectAttr}
+                    value={list}
+                    label={'From List'}
+                    handleChange={e => {
+                      const list = e?.target?.value
+                      setList(list)
+                    }}
+                  />
+                </div>
+              )}
               <Calendar
                 popup
                 localizer={localizer}
@@ -51,11 +66,11 @@ export default function BigCalendar() {
                 views={['month']}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: '90vh', fontSize: 'x-small' }}
+                style={{ height: '75vh', fontSize: 'x-small' }}
                 onSelectEvent={handleSelectSlot}
               />
             </LoadingOverlay>
-          </QuoteCard>
+          </BgColor>
           <EarningsModal ticker={ticker} resetTicker={resetTicker} />
         </Fragment>
       </CustomContainer>

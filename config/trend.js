@@ -62,7 +62,7 @@ export const trendBarCategory = [
   { label: 'Semiconductor', ticker: '^SOX' }
 ]
 
-export const barchartOptions = {
+export const barChartOptions = {
   indexAxis: 'y',
   elements: {
     bar: {
@@ -96,7 +96,7 @@ export const trendChangeDateRangeSelectAttr = {
     defaultValue: 8,
     name: 'formYear'
   },
-  dateRangeOptions: [
+  options: [
     {
       label: '10 years',
       value: '3650'
