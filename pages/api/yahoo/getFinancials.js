@@ -1,7 +1,7 @@
 import { roundTo, calPcnt } from '@/lib/commonFunction'
 import { getStockEarningCapacity } from '@/lib/stockInfo'
+import { extractModulesData } from '@/lib/yahoo'
 import { getAssetProfile } from '@/lib/yahoo/getAssetProfile'
-import { getFinancialData } from '@/lib/yahoo/getFinancialData'
 import { getIncomeStatement } from '@/lib/yahoo/getIncomeStatement'
 import { getQuote } from '@/lib/yahoo/getQuote'
 
@@ -9,7 +9,10 @@ const getData = async args => {
   const { ticker } = args
 
   const income = await getIncomeStatement(ticker)
-  const financialData = await getFinancialData(ticker)
+  const financialData = await extractModulesData({
+    ticker,
+    moduleName: 'FinancialData'
+  })
   const quoteArr = await getQuote(ticker)
   const quote = quoteArr.find(x => x) || {}
   const assetProfile = await getAssetProfile(ticker)

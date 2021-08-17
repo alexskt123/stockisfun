@@ -2,7 +2,7 @@ import Quote from '@/lib/class/quote'
 import { getFinanchill } from '@/lib/forecast/getFinanchill'
 import { getMoneyCnnCouple } from '@/lib/forecast/getMoneyCnn'
 import { getWalletInvestor } from '@/lib/forecast/getWalletInvestor'
-import { getRecommendTrend } from '@/lib/yahoo/getRecommendTrend'
+import { extractModulesData } from '@/lib/yahoo'
 
 const getData = async args => {
   const { ticker } = args
@@ -15,7 +15,7 @@ const getData = async args => {
         getWalletInvestor(ticker),
         getFinanchill(ticker),
         getMoneyCnnCouple(ticker),
-        getRecommendTrend(ticker)
+        extractModulesData({ ticker, moduleName: 'RecommendTrend' })
       ])
     : []
 
