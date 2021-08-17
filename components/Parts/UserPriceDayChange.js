@@ -5,11 +5,10 @@ import {
   convertToPercentage,
   convertToPriceChange,
   getVariant,
-  roundTo,
-  calPcnt
+  roundTo
 } from '@/lib/commonFunction'
 import { fireToast } from '@/lib/commonFunction'
-import { getUserBoughtList } from '@/lib/stockInfo'
+import { getBoughtListDayChange } from '@/lib/stockInfo'
 import AnimatedNumber from 'animated-number-react'
 import Badge from 'react-bootstrap/Badge'
 import Row from 'react-bootstrap/Row'
@@ -29,30 +28,7 @@ const UserPriceDayChange = ({ userData }) => {
   }
 
   const setBoughtListDayChange = async () => {
-    const data = await getUserBoughtList(userData)
-    const boughtListData = data?.boughtList || []
-    const cash = data?.cash || 0
-    const dayChgAndTotal = boughtListData.reduce(
-      (acc, cur) => {
-        const newAcc = {
-          net: acc.net + cur.net,
-          sum: acc.sum + cur.sum,
-          prevSum: acc.prevSum + cur.prevSum
-        }
-        return newAcc
-      },
-      { net: 0, sum: 0, prevSum: 0 }
-    )
-
-    dayChgAndTotal.sum = dayChgAndTotal.sum + cash
-    dayChgAndTotal.prevSum = dayChgAndTotal.prevSum + cash
-
-    dayChgAndTotal.pcnt =
-      calPcnt(
-        dayChgAndTotal.sum - dayChgAndTotal.prevSum,
-        dayChgAndTotal.prevSum,
-        2
-      ) / 100
+    const dayChgAndTotal = await getBoughtListDayChange(userData)
 
     setDayChange(dayChgAndTotal)
   }
