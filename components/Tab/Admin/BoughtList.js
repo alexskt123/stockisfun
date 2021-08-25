@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 
 import EditTable from '@/components/Page/EditTable'
+import DivWithHeight from '@/components/Parts/DivWithHeight'
 import { tableHeader } from '@/config/admin'
 import { fireToast } from '@/lib/commonFunction'
 import { updateUserData } from '@/lib/firebaseResult'
@@ -32,6 +33,7 @@ export function BoughtList({ userData }) {
         data={userData.boughtList}
         onUpdate={onUpdate}
       />
+      <DivWithHeight style={{ height: '100px' }} />
     </Fragment>
   )
 }
