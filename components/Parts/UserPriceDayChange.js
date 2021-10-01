@@ -1,60 +1,63 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import { CooldownButton } from '@/components/CooldownButton'
-import {
-  convertToPercentage,
-  convertToPriceChange,
-  getVariant,
-  roundTo,
-  calPcnt
-} from '@/lib/commonFunction'
-import { fireToast } from '@/lib/commonFunction'
+import { calPcnt } from '@/lib/commonFunction'
 import { getUserBoughtList } from '@/lib/stockInfo'
-import AnimatedNumber from 'animated-number-react'
-import Badge from 'react-bootstrap/Badge'
-import Row from 'react-bootstrap/Row'
 
-import CooldownBadge from './CooldownBadge'
+import PriceDayChgRow from './PriceDayChgRow'
 
 const UserPriceDayChange = ({ userData }) => {
   const [dayChange, setDayChange] = useState(null)
 
-  const refreshDayChange = async () => {
-    await setBoughtListDayChange()
+  const calDayChgPcnt = (data, cash) => {
+    data.sum = data.sum + cash
+    data.prevSum = data.prevSum + cash
 
-    fireToast({
-      icon: 'success',
-      title: 'Refreshed!'
-    })
+    data.pcnt = calPcnt(data.sum - data.prevSum, data.prevSum, 2) / 100
+
+    return data
+  }
+
+  const calDayChg = (data, cash) => {
+    const dayChgAndTotal = data.reduce(
+      (acc, cur) => {
+        const { regular, pre } = cur
+        const newReg = {
+          net: acc.regular.net + regular.net,
+          sum: acc.regular.sum + regular.sum,
+          prevSum: acc.regular.prevSum + regular.prevSum
+        }
+
+        const newPre = {
+          net: acc.pre.net + pre.net,
+          sum: acc.pre.sum + pre.sum,
+          prevSum: acc.pre.prevSum + pre.prevSum
+        }
+        return {
+          regular: newReg,
+          pre: newPre
+        }
+      },
+      {
+        regular: { net: 0, sum: 0, prevSum: 0 },
+        pre: { net: 0, sum: 0, prevSum: 0 }
+      }
+    )
+
+    calDayChgPcnt(dayChgAndTotal.regular, cash)
+    calDayChgPcnt(dayChgAndTotal.pre, cash)
+
+    return dayChgAndTotal
   }
 
   const setBoughtListDayChange = async () => {
     const data = await getUserBoughtList(userData)
     const boughtListData = data?.boughtList || []
+
     const cash = data?.cash || 0
-    const dayChgAndTotal = boughtListData.reduce(
-      (acc, cur) => {
-        const newAcc = {
-          net: acc.net + cur.net,
-          sum: acc.sum + cur.sum,
-          prevSum: acc.prevSum + cur.prevSum
-        }
-        return newAcc
-      },
-      { net: 0, sum: 0, prevSum: 0 }
-    )
 
-    dayChgAndTotal.sum = dayChgAndTotal.sum + cash
-    dayChgAndTotal.prevSum = dayChgAndTotal.prevSum + cash
+    const dayChg = calDayChg(boughtListData, cash)
 
-    dayChgAndTotal.pcnt =
-      calPcnt(
-        dayChgAndTotal.sum - dayChgAndTotal.prevSum,
-        dayChgAndTotal.prevSum,
-        2
-      ) / 100
-
-    setDayChange(dayChgAndTotal)
+    setDayChange(dayChg)
   }
 
   useEffect(() => {
@@ -70,66 +73,25 @@ const UserPriceDayChange = ({ userData }) => {
     <Fragment>
       {
         <Fragment>
-          <Row className="mt-1 justify-content-center">
-            <Badge variant="light">{'Account Summary:'}</Badge>
-            <Badge variant={'secondary'} className="ml-1">
-              <AnimatedNumber
-                value={dayChange?.sum}
-                formatValue={value => roundTo(value)}
-              />
-            </Badge>
-            <Badge
-              variant={getVariant(
-                dayChange?.net,
-                'success',
-                'secondary',
-                'danger'
-              )}
-              className="ml-1"
-            >
-              <AnimatedNumber
-                value={dayChange?.net}
-                formatValue={value => convertToPriceChange(value)}
-              />
-            </Badge>
-            <Badge
-              variant={getVariant(
-                dayChange?.pcnt,
-                'success',
-                'secondary',
-                'danger'
-              )}
-              className="ml-1"
-            >
-              <AnimatedNumber
-                value={dayChange?.pcnt}
-                formatValue={value => convertToPercentage(value)}
-              />
-            </Badge>
-
-            <CooldownButton
-              stateKey={'priceDayChange'}
-              cooldownTime={10 * 1000}
-              handleClick={refreshDayChange}
-              renderOnCDed={RefreshBadge}
-              renderOnCDing={CooldownBadge}
-            />
-          </Row>
+          <PriceDayChgRow
+            data={dayChange?.regular}
+            key={'priceDayChange'}
+            header={'Account Summary'}
+            setBoughtListDayChange={setBoughtListDayChange}
+            hideIfNA={false}
+            showRefreshButton={true}
+          />
+          <PriceDayChgRow
+            data={dayChange?.pre}
+            key={'prePriceDayChange'}
+            header={'Pre'}
+            setBoughtListDayChange={setBoughtListDayChange}
+            hideIfNA={true}
+            showRefreshButton={false}
+          />
         </Fragment>
       }
     </Fragment>
-  )
-}
-
-const RefreshBadge = ({ handleClick }) => {
-  return (
-    <Badge
-      className="ml-1 cursor"
-      variant="warning"
-      onClick={() => handleClick()}
-    >
-      {'Refresh'}
-    </Badge>
   )
 }
 
