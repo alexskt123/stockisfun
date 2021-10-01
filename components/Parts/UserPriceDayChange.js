@@ -20,7 +20,7 @@ const UserPriceDayChange = ({ userData }) => {
   const calDayChg = (data, cash) => {
     const dayChgAndTotal = data.reduce(
       (acc, cur) => {
-        const { regular, pre } = cur
+        const { regular, pre, post } = cur
         const newReg = {
           net: acc.regular.net + regular.net,
           sum: acc.regular.sum + regular.sum,
@@ -32,19 +32,28 @@ const UserPriceDayChange = ({ userData }) => {
           sum: acc.pre.sum + pre.sum,
           prevSum: acc.pre.prevSum + pre.prevSum
         }
+
+        const newPost = {
+          net: acc.post.net + post.net,
+          sum: acc.post.sum + post.sum,
+          prevSum: acc.post.prevSum + post.prevSum
+        }
         return {
           regular: newReg,
-          pre: newPre
+          pre: newPre,
+          post: newPost
         }
       },
       {
         regular: { net: 0, sum: 0, prevSum: 0 },
-        pre: { net: 0, sum: 0, prevSum: 0 }
+        pre: { net: 0, sum: 0, prevSum: 0 },
+        post: { net: 0, sum: 0, prevSum: 0 }
       }
     )
 
     calDayChgPcnt(dayChgAndTotal.regular, cash)
     calDayChgPcnt(dayChgAndTotal.pre, cash)
+    calDayChgPcnt(dayChgAndTotal.post, cash)
 
     return dayChgAndTotal
   }
@@ -85,6 +94,14 @@ const UserPriceDayChange = ({ userData }) => {
             data={dayChange?.pre}
             key={'prePriceDayChange'}
             header={'Pre'}
+            setBoughtListDayChange={setBoughtListDayChange}
+            hideIfNA={true}
+            showRefreshButton={false}
+          />
+          <PriceDayChgRow
+            data={dayChange?.post}
+            key={'postPriceDayChange'}
+            header={'Post'}
             setBoughtListDayChange={setBoughtListDayChange}
             hideIfNA={true}
             showRefreshButton={false}

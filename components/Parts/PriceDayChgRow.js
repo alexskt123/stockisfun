@@ -33,7 +33,7 @@ const PriceDayChgRow = ({
 
   return (
     <Fragment>
-      {(!hideIfNA || (hideIfNA && data?.net)) && (
+      {(!hideIfNA || (hideIfNA && !Number.isNaN(data?.net))) && (
         <Row className="mt-1 justify-content-center">
           {header && <Badge variant="light">{header}</Badge>}
           <Badge variant={'secondary'} className="ml-1">
