@@ -18,7 +18,7 @@ const AccountSummary = ({ boughtListData }) => {
 
     //todo: maybe can tune
     const total = boughtListData.boughtList.reduce((acc, cur) => {
-      return acc + cur.sum
+      return acc + cur.regular.sum
     }, 0)
 
     const { cash } = boughtListData
@@ -26,7 +26,7 @@ const AccountSummary = ({ boughtListData }) => {
     const boughtList = boughtListData.boughtList.map(item => {
       return {
         ...item,
-        pcnt: item.sum / total
+        pcnt: item.regular.sum / total
       }
     })
 
@@ -38,13 +38,13 @@ const AccountSummary = ({ boughtListData }) => {
         const sec = curSector
           ? {
               ...curSector,
-              sum: curSector.sum + cur.sum,
-              pcnt: (curSector.sum + cur.sum) / total
+              sum: curSector.sum + cur.regular.sum,
+              pcnt: (curSector.sum + cur.regular.sum) / total
             }
           : {
-              sum: cur.sum,
+              sum: cur.regular.sum,
               sector: curCategory,
-              pcnt: cur.sum / total
+              pcnt: cur.regular.sum / total
             }
         return [...acc.filter(x => x.sector !== curCategory), sec]
       },
