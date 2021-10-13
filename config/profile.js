@@ -1,4 +1,4 @@
-import { convertToPercentage } from '@/lib/commonFunction'
+import { convertToPercentageNoSign } from '@/lib/commonFunction'
 
 import { SWRSticky } from './settings'
 
@@ -7,7 +7,7 @@ export const pieOptions = {
     tooltip: {
       callbacks: {
         label: function (context) {
-          return `${context.label}: ${convertToPercentage(
+          return `${context.label}: ${convertToPercentageNoSign(
             context.parsed,
             true
           )}`

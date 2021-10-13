@@ -84,7 +84,7 @@ const UserPriceDayChange = ({ userData }) => {
         <Fragment>
           <PriceDayChgRow
             data={dayChange?.regular}
-            key={'priceDayChange'}
+            stateKey={'priceDayChange'}
             header={'Account Summary'}
             setBoughtListDayChange={setBoughtListDayChange}
             hideIfNA={false}
@@ -92,19 +92,19 @@ const UserPriceDayChange = ({ userData }) => {
           />
           <PriceDayChgRow
             data={dayChange?.pre}
-            key={'prePriceDayChange'}
+            stateKey={'prePriceDayChange'}
             header={'Pre'}
             setBoughtListDayChange={setBoughtListDayChange}
             hideIfNA={true}
-            showRefreshButton={false}
+            showRefreshButton={true}
           />
           <PriceDayChgRow
             data={dayChange?.post}
-            key={'postPriceDayChange'}
+            stateKey={'postPriceDayChange'}
             header={'Post'}
             setBoughtListDayChange={setBoughtListDayChange}
             hideIfNA={true}
-            showRefreshButton={false}
+            showRefreshButton={true}
           />
         </Fragment>
       }

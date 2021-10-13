@@ -16,7 +16,7 @@ import CooldownBadge from './CooldownBadge'
 
 const PriceDayChgRow = ({
   data,
-  key,
+  stateKey,
   header,
   setBoughtListDayChange,
   hideIfNA,
@@ -62,7 +62,7 @@ const PriceDayChgRow = ({
           </Badge>
           {showRefreshButton && (
             <CooldownButton
-              stateKey={key}
+              stateKey={stateKey}
               cooldownTime={10 * 1000}
               handleClick={refreshDayChange}
               renderOnCDed={RefreshBadge}
