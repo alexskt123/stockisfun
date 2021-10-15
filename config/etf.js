@@ -117,6 +117,7 @@ export const etfHoldingHeader = [
   'Ticker',
   'Name',
   'Holding',
+  'Price',
   'YTD%',
   ...[...Array(3)].map(
     (_item, idx) =>
