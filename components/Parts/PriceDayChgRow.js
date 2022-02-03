@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 
 import { CooldownButton } from '@/components/CooldownButton'
+import LoadingSkeleton from '@/components/Loading/LoadingSkeleton'
 import {
   convertToPercentage,
   convertToPriceChange,
@@ -33,7 +34,8 @@ const PriceDayChgRow = ({
 
   return (
     <Fragment>
-      {(!hideIfNA || (hideIfNA && !Number.isNaN(data?.net))) && (
+      {!data?.net && !hideIfNA && <LoadingSkeleton />}
+      {((data?.net && !hideIfNA) || (hideIfNA && !Number.isNaN(data?.net))) && (
         <Row className="mt-1 justify-content-center">
           {header && <Badge variant="light">{header}</Badge>}
           <Badge variant={'secondary'} className="ml-1">
