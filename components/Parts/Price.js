@@ -19,6 +19,7 @@ import { useStaticSWR } from '@/lib/request'
 import { ma, ema } from 'moving-averages'
 import { Line } from 'react-chartjs-2'
 
+import RelativeStrength from './RelativeStrength'
 import TradingViewModal from './TradingViewModal'
 import YahooQuoteInfo from './YahooQuoteInfo'
 
@@ -146,6 +147,11 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
             options={
               options ? { ...priceChartOptions, ...options } : priceChartOptions
             }
+          />
+          <RelativeStrength
+            ticker={inputTicker}
+            datePrice={datePrice}
+            inputDays={settings.days}
           />
         </Fragment>
       )}

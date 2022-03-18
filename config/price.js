@@ -100,6 +100,45 @@ export const birdMouthOptions = {
   }
 }
 
+export const rsChartOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false
+    }
+  },
+  scales: {
+    y: {
+      ticks: {
+        maxTicksLimit: 6,
+        color: 'black',
+        font: {
+          weight: 'bold'
+        }
+      }
+    },
+    x: {
+      // TO-DO: set time property
+      // type: 'time',
+      // time: {
+      //   // Luxon format string
+      //   tooltipFormat: 'DD T'
+      // },
+      ticks: {
+        // maxTicksLimit: 7,
+        // color: 'black',
+        // font: {
+        //   weight: 'bold'
+        // }
+        display: false
+      },
+      grid: {
+        display: false
+      }
+    }
+  }
+}
+
 export const priceChartOptions = {
   responsive: true,
   plugins: {
