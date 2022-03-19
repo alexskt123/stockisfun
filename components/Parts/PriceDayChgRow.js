@@ -1,6 +1,12 @@
 import { Fragment } from 'react'
 
+import AnimatedNumber from 'animated-number-react'
+import Badge from 'react-bootstrap/Badge'
+import Row from 'react-bootstrap/Row'
+
+import CooldownBadge from './CooldownBadge'
 import { CooldownButton } from '@/components/CooldownButton'
+import LoadingSkeleton from '@/components/Loading/LoadingSkeleton'
 import {
   convertToPercentage,
   convertToPriceChange,
@@ -8,11 +14,6 @@ import {
   getVariant,
   roundTo
 } from '@/lib/commonFunction'
-import AnimatedNumber from 'animated-number-react'
-import Badge from 'react-bootstrap/Badge'
-import Row from 'react-bootstrap/Row'
-
-import CooldownBadge from './CooldownBadge'
 
 const PriceDayChgRow = ({
   data,
@@ -33,7 +34,8 @@ const PriceDayChgRow = ({
 
   return (
     <Fragment>
-      {(!hideIfNA || (hideIfNA && !Number.isNaN(data?.net))) && (
+      {!data?.net && !hideIfNA && <LoadingSkeleton />}
+      {((data?.net && !hideIfNA) || (hideIfNA && !Number.isNaN(data?.net))) && (
         <Row className="mt-1 justify-content-center">
           {header && <Badge variant="light">{header}</Badge>}
           <Badge variant={'secondary'} className="ml-1">

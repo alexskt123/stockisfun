@@ -17,6 +17,7 @@ const BirdMouthItem = ({ birdMouthOptions, priceInfo, item, tools }) => {
         inputMA={'ma'}
         options={birdMouthOptions}
         displayQuoteFields={priceInfo}
+        inputShowRS={true}
       />
     </QuoteCard>
   )
