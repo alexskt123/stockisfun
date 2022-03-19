@@ -109,6 +109,9 @@ export const rsChartOptions = {
   },
   scales: {
     y: {
+      min: -0.5,
+      max: 0.5,
+      stepSize: 0.1,
       ticks: {
         maxTicksLimit: 6,
         color: 'black',
@@ -201,7 +204,8 @@ export const maChartSettings = [
     value: 5,
     label: '5-MA',
     backgroundColor: 'rgba(255,2,2)',
-    borderColor: 'rgba(255,2,2,0.5)'
+    borderColor: 'rgba(255,2,2,0.3)',
+    borderDash: [10, 5]
   },
   {
     value: 20,
