@@ -121,18 +121,7 @@ export const rsChartOptions = {
       }
     },
     x: {
-      // TO-DO: set time property
-      // type: 'time',
-      // time: {
-      //   // Luxon format string
-      //   tooltipFormat: 'DD T'
-      // },
       ticks: {
-        // maxTicksLimit: 7,
-        // color: 'black',
-        // font: {
-        //   weight: 'bold'
-        // }
         display: false
       },
       grid: {
