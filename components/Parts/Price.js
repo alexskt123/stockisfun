@@ -17,8 +17,10 @@ import {
 } from '@/config/settings'
 import { useStaticSWR } from '@/lib/request'
 import { ma, ema } from 'moving-averages'
+import Badge from 'react-bootstrap/Badge'
 import { Line } from 'react-chartjs-2'
 
+import RelativeStrength from './RelativeStrength'
 import TradingViewModal from './TradingViewModal'
 import YahooQuoteInfo from './YahooQuoteInfo'
 
@@ -26,8 +28,15 @@ const getMA = (inputMA, days, MACalculation, price) => {
   return (inputMA !== '' && MACalculation([...price], days)) || []
 }
 
-function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
+function PriceInfo({
+  inputTicker,
+  inputMA,
+  options,
+  displayQuoteFields,
+  inputShowRS
+}) {
   const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
+  const [showRS, setShowRS] = useState(inputShowRS)
 
   const datePrice = useStaticSWR(
     inputTicker,
@@ -139,6 +148,13 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
             style={{ display: 'inline-flex', alignItems: 'baseline' }}
             className="ml-1"
           >
+            <Badge
+              variant={showRS ? 'danger' : 'success'}
+              className={'cursor mr-2'}
+              onClick={() => setShowRS(!showRS)}
+            >
+              {showRS ? 'Hide Relative Strength' : 'Show Relative Strength'}
+            </Badge>
             <TradingViewModal buttonClassName={'cursor'} ticker={inputTicker} />
           </div>
           <Line
@@ -147,6 +163,13 @@ function PriceInfo({ inputTicker, inputMA, options, displayQuoteFields }) {
               options ? { ...priceChartOptions, ...options } : priceChartOptions
             }
           />
+          {showRS && (
+            <RelativeStrength
+              ticker={inputTicker}
+              datePrice={datePrice}
+              inputDays={settings.days}
+            />
+          )}
         </Fragment>
       )}
     </Fragment>
