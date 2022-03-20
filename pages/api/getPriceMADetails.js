@@ -5,8 +5,14 @@ export default async (req, res) => {
   const { ticker, genChart } = req.query
 
   const result = await getPriceMADetails({ ticker, genChart })
-  const rs = await getRelativeStrengthByDays(ticker, 'SPY', 50)
+  const { rs, latestHigherInputRange } = await getRelativeStrengthByDays(
+    ticker,
+    'SPY',
+    50,
+    180,
+    3
+  )
 
   res.statusCode = 200
-  res.json({ ...result, rs })
+  res.json({ ...result, rs, latestHigherInputRange })
 }
