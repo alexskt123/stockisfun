@@ -1,11 +1,10 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import { Line } from 'react-chartjs-2'
-
 import { rsChartOptions } from '@/config/price'
 import { rsDays } from '@/config/rs'
 import { calRelativeStrength } from '@/lib/commonFunction'
 import { useStaticSWR } from '@/lib/request'
+import { Line } from 'react-chartjs-2'
 
 function RelativeStrength({ ticker, datePrice, inputDays }) {
   const [chartData, setChartData] = useState({ datasets: [] })
@@ -65,7 +64,6 @@ function RelativeStrength({ ticker, datePrice, inputDays }) {
 
   return (
     <Fragment>
-      aa
       <Line data={chartData} options={rsChartOptions} />
     </Fragment>
   )
