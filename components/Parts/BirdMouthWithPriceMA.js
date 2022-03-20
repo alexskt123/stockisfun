@@ -35,6 +35,8 @@ const BirdMouthWithPriceMA = ({ inputTickers }) => {
           priceMAInfo.length > 0
             ? [
                 'Ticker',
+                'RS>0',
+                '6M High',
                 ...(priceMAInfo
                   ?.find(x => x)
                   ?.priceMAList?.map(item => item.id) || [])
@@ -44,6 +46,8 @@ const BirdMouthWithPriceMA = ({ inputTickers }) => {
           .map(item => {
             return [
               item.ticker,
+              item.rs > 0 ? 'Yes' : '',
+              item.latestHigherInputRange ? 'Yes' : '',
               ...item.priceMAList.map(ma => {
                 return ma.tickersInfo.length > 0 ? 'Yes' : ''
               })
