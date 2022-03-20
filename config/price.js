@@ -70,7 +70,9 @@ export const priceSchema = {
   ticker: '',
   days: 30,
   ma: 'ma',
-  chartData: {}
+  chartData: {
+    datasets: []
+  }
 }
 
 export const birdMouthOptions = {
