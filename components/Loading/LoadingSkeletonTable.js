@@ -4,7 +4,6 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
 import { loadingSkeletonColors } from '@/config/settings'
 import { useLoadingSkeletonColor } from '@/lib/hooks/useLoadingSkeletonColor'
-import 'react-loading-skeleton/dist/skeleton.css'
 
 const LoadingSkeletonTable = ({ customColors, customSettings }) => {
   const defaultColors = useLoadingSkeletonColor(loadingSkeletonColors)
@@ -20,7 +19,7 @@ const LoadingSkeletonTable = ({ customColors, customSettings }) => {
   return (
     <Fragment>
       <SkeletonTheme
-        baseColor={colors.color}
+        color={colors.color}
         highlightColor={colors.highlightColor}
       >
         <div className="mt-1 mb-1">
