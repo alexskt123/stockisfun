@@ -9,7 +9,7 @@ export default async (req, res) => {
     ticker,
     'SPY',
     50,
-    180,
+    85,
     3
   )
 
