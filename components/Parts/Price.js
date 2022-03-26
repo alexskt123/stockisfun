@@ -1,5 +1,12 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import { ma, ema } from 'moving-averages'
+import Badge from 'react-bootstrap/Badge'
+import { Line } from 'react-chartjs-2'
+
+import RelativeStrength from './RelativeStrength'
+import TradingViewModal from './TradingViewModal'
+import YahooQuoteInfo from './YahooQuoteInfo'
 import FormOptions from '@/components/Form/FormOptions'
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import {
@@ -16,13 +23,6 @@ import {
   loadingSkeletonPriceParts
 } from '@/config/settings'
 import { useStaticSWR } from '@/lib/request'
-import { ma, ema } from 'moving-averages'
-import Badge from 'react-bootstrap/Badge'
-import { Line } from 'react-chartjs-2'
-
-import RelativeStrength from './RelativeStrength'
-import TradingViewModal from './TradingViewModal'
-import YahooQuoteInfo from './YahooQuoteInfo'
 
 const getMA = (inputMA, days, MACalculation, price) => {
   return (inputMA !== '' && MACalculation([...price], days)) || []
@@ -31,11 +31,16 @@ const getMA = (inputMA, days, MACalculation, price) => {
 function PriceInfo({
   inputTicker,
   inputMA,
+  inputDays,
   options,
   displayQuoteFields,
   inputShowRS
 }) {
-  const [settings, setSettings] = useState({ ...priceSchema, ma: inputMA })
+  const [settings, setSettings] = useState({
+    ...priceSchema,
+    ma: inputMA,
+    days: inputDays || priceSchema.days
+  })
   const [showRS, setShowRS] = useState(inputShowRS)
 
   const datePrice = useStaticSWR(

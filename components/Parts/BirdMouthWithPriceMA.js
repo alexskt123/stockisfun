@@ -36,7 +36,7 @@ const BirdMouthWithPriceMA = ({ inputTickers }) => {
             ? [
                 'Ticker',
                 'RS>0',
-                '6M High',
+                '85D High',
                 ...(priceMAInfo
                   ?.find(x => x)
                   ?.priceMAList?.map(item => item.id) || [])
