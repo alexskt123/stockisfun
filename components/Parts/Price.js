@@ -46,7 +46,7 @@ function PriceInfo({
   const datePrice = useStaticSWR(
     inputTicker,
     `/api/yahoo/getHistoryPrice?ticker=${inputTicker}&days=${
-      parseInt(settings.days) + 60
+      parseInt(settings.days) + 150
     }&isBus=true`
   )
 
@@ -68,7 +68,8 @@ function PriceInfo({
         ma.value,
         calMA,
         historyPrice.map(item => item.price)
-      ).slice(60)
+      ).slice(150)
+
       return {
         ...maChartSchema,
         ...ma,
@@ -81,12 +82,12 @@ function PriceInfo({
       days: inputDays,
       ma: inputMA,
       chartData: {
-        labels: [...historyPrice.slice(60).map(item => item.date)],
+        labels: [...historyPrice.slice(150).map(item => item.date)],
         datasets: [
           {
             ...priceChartSettings,
             label: inputTicker,
-            data: [...historyPrice.slice(60).map(item => item.price)],
+            data: [...historyPrice.slice(150).map(item => item.price)],
             showLine: inputMA === '',
             pointRadius: (inputMA === '' && 0) || 3
           },

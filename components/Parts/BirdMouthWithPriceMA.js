@@ -12,6 +12,14 @@ const BirdMouthWithPriceMA = ({ inputTickers }) => {
   })
   const [tableLoading, setTableLoading] = useState(false)
 
+  const conditionMatches = (id, priceMAList) => {
+    const matches = !!priceMAList.find(
+      x => x.id === id && x.tickersInfo.length > 0
+    )
+
+    return matches
+  }
+
   useEffect(() => {
     ;(async () => {
       setTableSettings({
@@ -38,21 +46,31 @@ const BirdMouthWithPriceMA = ({ inputTickers }) => {
                 'Price Not Avail.',
                 'RS>0',
                 '85D High',
-                ...(priceMAInfo
-                  ?.find(x => x)
-                  ?.priceMAList?.map(item => item.id) || [])
+                '20>50 & 50>150',
+                '20>50 & 50<150'
               ]
             : []
         const tableData = priceMAInfo
           .map(item => {
+            const twentyHigherFifty = conditionMatches(
+              '20>50',
+              item.priceMAList
+            )
+            const fiftyHigherHundredFifty = conditionMatches(
+              '50>150',
+              item.priceMAList
+            )
+            const fiftyLowerHundredFifty = conditionMatches(
+              '50<150',
+              item.priceMAList
+            )
             return [
               item.ticker,
               !item.priceAvail ? 'Yes' : '',
               item.rs > 0 ? 'Yes' : '',
               item.latestHigherInputRange ? 'Yes' : '',
-              ...item.priceMAList.map(ma => {
-                return ma.tickersInfo.length > 0 ? 'Yes' : ''
-              })
+              twentyHigherFifty && fiftyHigherHundredFifty ? 'Yes' : '',
+              twentyHigherFifty && fiftyLowerHundredFifty ? 'Yes' : ''
             ]
           })
           .filter(item => item.find(x => x.includes('Yes')))
