@@ -1,5 +1,6 @@
-import { convertToPrice } from '@/lib/commonFunction'
 import Badge from 'react-bootstrap/Badge'
+
+import { convertToPrice } from '@/lib/commonFunction'
 
 const CooldownBadge = ({ total }) => {
   return (

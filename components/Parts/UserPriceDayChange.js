@@ -1,9 +1,8 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import PriceDayChgRow from './PriceDayChgRow'
 import { calPcnt } from '@/lib/commonFunction'
 import { getUserBoughtList } from '@/lib/stockInfo'
-
-import PriceDayChgRow from './PriceDayChgRow'
 
 const UserPriceDayChange = ({ userData }) => {
   const [dayChange, setDayChange] = useState(null)

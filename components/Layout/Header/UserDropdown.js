@@ -1,9 +1,10 @@
 import { Fragment } from 'react'
 
-import { useUser } from '@/lib/firebaseResult'
 import dynamic from 'next/dynamic'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { FaUserCircle } from 'react-icons/fa'
+
+import { useUser } from '@/lib/firebaseResult'
 
 const DynamicAuth = dynamic(
   () => {

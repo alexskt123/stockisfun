@@ -1,6 +1,7 @@
-import { arrFindByIdx } from '@/lib/commonFunction'
 import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
+
+import { arrFindByIdx } from '@/lib/commonFunction'
 
 export const SearchBadges = ({ type, query, variant, label, pushRoute }) => {
   const router = useRouter()

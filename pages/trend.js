@@ -1,13 +1,14 @@
 import { Fragment } from 'react'
 
+import { useRouter } from 'next/router'
+import Tab from 'react-bootstrap/Tab'
+import Tabs from 'react-bootstrap/Tabs'
+
 import CustomContainer from '@/components/Layout/CustomContainer'
 import BirdMouth from '@/components/Parts/BirdMouth'
 import TrendBarChart from '@/components/Parts/TrendBarChart'
 import { trend, trendBarCategory, trendTools } from '@/config/trend'
 import { useTab } from '@/lib/hooks/useTab'
-import { useRouter } from 'next/router'
-import Tab from 'react-bootstrap/Tab'
-import Tabs from 'react-bootstrap/Tabs'
 
 export default function Trend() {
   const router = useRouter()

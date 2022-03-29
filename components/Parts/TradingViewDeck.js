@@ -1,8 +1,9 @@
 import { Fragment } from 'react'
 
+import CardDeck from 'react-bootstrap/CardDeck'
+
 import QuoteCard from '@/components/Parts/QuoteCard'
 import TradingView from '@/components/Parts/TradingView'
-import CardDeck from 'react-bootstrap/CardDeck'
 
 const TradingViewDeck = ({ inputTickers }) => {
   return (

@@ -1,10 +1,11 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import Row from 'react-bootstrap/Row'
+
 import ForecastInfo from '@/components/Parts/ForecastInfo'
 import HeaderBadge from '@/components/Parts/HeaderBadge'
 import PriceChange from '@/components/Parts/PriceChange'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
-import Row from 'react-bootstrap/Row'
 
 export default function Stat({ inputETFTicker }) {
   const [ticker, setTicker] = useState([])

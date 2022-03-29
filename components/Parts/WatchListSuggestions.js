@@ -1,7 +1,5 @@
 import { Fragment, useEffect, useState, useMemo } from 'react'
 
-import { hasProperties, randBackgroundColor } from '@/lib/commonFunction'
-import { getHighlightWatchList } from '@/lib/firebaseResult'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
@@ -9,6 +7,8 @@ import Row from 'react-bootstrap/Row'
 
 import CustomScrollMenu from './CustomScrollMenu'
 import HeaderBadge from './HeaderBadge'
+import { hasProperties, randBackgroundColor } from '@/lib/commonFunction'
+import { getHighlightWatchList } from '@/lib/firebaseResult'
 
 function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
   const [list, setList] = useState([])

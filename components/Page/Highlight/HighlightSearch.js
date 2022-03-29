@@ -1,10 +1,11 @@
 import { Fragment } from 'react'
 
-import TypeAhead from '@/components/Page/TypeAhead'
-import { showHighlightQuoteDetail } from '@/lib/stockInfo'
 import { useRouter } from 'next/router'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+
+import TypeAhead from '@/components/Page/TypeAhead'
+import { showHighlightQuoteDetail } from '@/lib/stockInfo'
 
 const HighlightSearch = () => {
   const router = useRouter()

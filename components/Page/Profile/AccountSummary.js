@@ -1,8 +1,9 @@
 import { Fragment, useEffect, useState } from 'react'
 
+import CardDeck from 'react-bootstrap/CardDeck'
+
 import ProfilePieChart from '@/components/Parts/ProfilePieChart'
 import { pieOptions } from '@/config/profile'
-import CardDeck from 'react-bootstrap/CardDeck'
 
 const descendingArrSort = (list, key) => {
   return list.sort((a, b) => b[key] - a[key])

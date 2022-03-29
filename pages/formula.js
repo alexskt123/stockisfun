@@ -1,8 +1,9 @@
 import { Fragment } from 'react'
 
+import dynamic from 'next/dynamic'
+
 import CustomContainer from '@/components/Layout/CustomContainer'
 import { formulaSettings } from '@/config/formula'
-import dynamic from 'next/dynamic'
 
 const FormulaCard = dynamic(
   () => {

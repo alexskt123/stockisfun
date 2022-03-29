@@ -1,9 +1,10 @@
+import moment from 'moment-business-days'
+
 import { aumTableHeader } from '@/config/etf'
 import { getCSVContent, getHostForETFDb, getHost } from '@/lib/commonFunction'
 import { sendEmail } from '@/lib/email'
 import { getEmailByID } from '@/lib/firebaseResult'
 import { toAxios } from '@/lib/request'
-import moment from 'moment-business-days'
 
 export default async (req, res) => {
   const response = {

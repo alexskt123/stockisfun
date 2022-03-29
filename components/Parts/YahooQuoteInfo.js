@@ -1,5 +1,7 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import Badge from 'react-bootstrap/Badge'
+
 import HeaderBadge from '@/components/Parts/HeaderBadge'
 import {
   convertToPercentage,
@@ -8,7 +10,6 @@ import {
   millify,
   roundTo
 } from '@/lib/commonFunction'
-import Badge from 'react-bootstrap/Badge'
 
 function YahooQuoteInfo({ data, displayQuoteFields }) {
   const [quoteData, setQuoteData] = useState([])

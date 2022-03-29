@@ -1,9 +1,10 @@
 import { Fragment, useEffect, useState } from 'react'
 
+import { Pie } from 'react-chartjs-2'
+
 import GooeySpinner from '@/components/Loading/GooeySpinner'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import { getPieChartData, randChartColors } from '@/lib/chart'
-import { Pie } from 'react-chartjs-2'
 
 const ProfilePieChart = ({ inputList, label, data, header, pieOptions }) => {
   const [pieData, setPieData] = useState(null)

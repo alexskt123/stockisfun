@@ -7,13 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --fix **/*.js",
+    "next-lint": "next lint",
     "fix": "lint-staged",
     "prepare": "husky install"
   },
   "lint-staged": {
     "**/*.js": [
-      "eslint --fix",
-      "prettier --write"
+      "prettier --write",
+      "eslint --fix"
     ]
   },
   "dependencies": {

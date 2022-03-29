@@ -1,3 +1,7 @@
+import {
+  forecastTableFirstHeader,
+  tableHeaderList as forecastTableHeaderList
+} from './forecast'
 import BirdMouthWithPriceMA from '@/components/Parts/BirdMouthWithPriceMA'
 import CompareSWR from '@/components/Parts/CompareSWR'
 import PriceChange from '@/components/Parts/PriceChange'
@@ -7,11 +11,6 @@ import {
   tableHeaderList as etfTableHeaderList
 } from '@/config/etf'
 import { tableHeaderList as financialsTableHeaderList } from '@/config/financials'
-
-import {
-  forecastTableFirstHeader,
-  tableHeaderList as forecastTableHeaderList
-} from './forecast'
 
 export const ComparisonSettings = {
   forecast: {

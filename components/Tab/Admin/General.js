@@ -1,11 +1,12 @@
 import { Fragment } from 'react'
 
+import { debounce } from 'debounce'
+import Form from 'react-bootstrap/Form'
+
 import HeaderBadge from '@/components/Parts/HeaderBadge'
 import { userStockList } from '@/config/admin'
 import { fireToast } from '@/lib/commonFunction'
 import { updateUserData } from '@/lib/firebaseResult'
-import { debounce } from 'debounce'
-import Form from 'react-bootstrap/Form'
 
 export const General = ({ userData }) => {
   const filterInput = input => {

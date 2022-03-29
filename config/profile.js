@@ -1,6 +1,5 @@
-import { convertToPercentageNoSign } from '@/lib/commonFunction'
-
 import { SWRSticky } from './settings'
+import { convertToPercentageNoSign } from '@/lib/commonFunction'
 
 export const pieOptions = {
   plugins: {
