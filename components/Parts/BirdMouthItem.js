@@ -15,6 +15,7 @@ const BirdMouthItem = ({ birdMouthOptions, priceInfo, item, tools }) => {
       <Price
         inputTicker={item.ticker}
         inputMA={'ma'}
+        inputDays={90}
         options={birdMouthOptions}
         displayQuoteFields={priceInfo}
         inputShowRS={true}
