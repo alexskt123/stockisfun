@@ -1,13 +1,12 @@
 import { useState, Fragment, useEffect, useMemo } from 'react'
 
+import SignedInDisplay from './SignedInDisplay'
+import SignedOutDisplay from './SignedOutDisplay'
+import SignInModal from './SignInModal'
 import ModalQuestion from '@/components/Parts/ModalQuestion'
 import firebase, { auth, authUI } from '@/config/fireui-config'
 import { fireToast } from '@/lib/commonFunction'
 import { initUser, useUserData } from '@/lib/firebaseResult'
-
-import SignedInDisplay from './SignedInDisplay'
-import SignedOutDisplay from './SignedOutDisplay'
-import SignInModal from './SignInModal'
 
 import 'firebaseui/dist/firebaseui.css'
 

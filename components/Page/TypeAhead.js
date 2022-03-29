@@ -1,7 +1,5 @@
 import { Fragment, useState, useRef, useEffect } from 'react'
 
-import { buttonSettings } from '@/config/form'
-import { fetcher } from '@/config/settings'
 import { AsyncTypeahead } from 'react-bootstrap-typeahead'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
@@ -9,6 +7,9 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import useSWR from 'swr'
+
+import { buttonSettings } from '@/config/form'
+import { fetcher } from '@/config/settings'
 
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 

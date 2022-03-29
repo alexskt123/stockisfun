@@ -1,10 +1,11 @@
-import { defaultFooterNavElements } from '@/config/settings'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Badge from 'react-bootstrap/Badge'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
+
+import { defaultFooterNavElements } from '@/config/settings'
 
 const AppContent = () => {
   const router = useRouter()

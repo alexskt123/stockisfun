@@ -1,5 +1,7 @@
 import React, { Fragment, useState } from 'react'
 
+import { useRouter } from 'next/router'
+
 import CustomContainer from '@/components/Layout/CustomContainer'
 import HighlightInfo from '@/components/Page/Highlight/HighlightInfo'
 import HighlightSWRTable from '@/components/Page/Highlight/HighlightSWRTable'
@@ -9,7 +11,6 @@ import UserPriceDayChange from '@/components/Parts/UserPriceDayChange'
 import WatchListSuggestions from '@/components/Parts/WatchListSuggestions'
 import { highlightMenuTickerList } from '@/config/highlight'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
-import { useRouter } from 'next/router'
 
 import 'styles/ScrollMenu.module.css'
 

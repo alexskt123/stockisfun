@@ -1,7 +1,8 @@
 import { Fragment } from 'react'
 
-import HeaderBadge from '@/components/Parts/HeaderBadge'
 import Form from 'react-bootstrap/Form'
+
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 
 const FormOptions = ({ formOptionSettings, value, handleChange, label }) => {
   return (

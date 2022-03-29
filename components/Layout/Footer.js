@@ -1,9 +1,9 @@
-import Settings from '@/config/settings'
-import { useMobile } from '@/lib/hooks/useMobile'
 import Navbar from 'react-bootstrap/Navbar'
 
 import AppContent from './Footer/AppContent'
 import BrowserContent from './Footer/BrowserContent'
+import Settings from '@/config/settings'
+import { useMobile } from '@/lib/hooks/useMobile'
 
 const footerConfig = {
   sticky: 'bottom',

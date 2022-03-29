@@ -1,7 +1,8 @@
+import moment from 'moment'
+
 import { getFormattedFromToDate, parseBoolean } from '@/lib/commonFunction'
 import { getHistoryPrice } from '@/lib/yahoo/getHistoryPrice'
 import { getQuote } from '@/lib/yahoo/getQuote'
-import moment from 'moment'
 
 const handleDays = async (ticker, days, isBus) => {
   const isBusBool = parseBoolean(isBus)

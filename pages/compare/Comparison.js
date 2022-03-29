@@ -1,11 +1,12 @@
 import { Fragment } from 'react'
 
+import { useRouter } from 'next/router'
+
 import CustomContainer from '@/components/Layout/CustomContainer'
 import TickerBullet from '@/components/Page/TickerBullet'
 import TickerInput from '@/components/Page/TickerInput'
 import { ComparisonSettings } from '@/config/compare'
 import { useParams } from '@/lib/hooks/form'
-import { useRouter } from 'next/router'
 
 const Comparison = ({ type, params }) => {
   const curType = ComparisonSettings[type]

@@ -1,6 +1,5 @@
 import { Fragment } from 'react'
 
-import { iconConfig } from '@/config/settings'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -10,6 +9,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import CustNav from './Header/CustNav'
 import DarkModeSwitch from './Header/DarkModeSwitch'
 import UserDropdown from './Header/UserDropdown'
+import { iconConfig } from '@/config/settings'
 
 function Header() {
   return (
@@ -28,7 +28,7 @@ function Header() {
         <UserDropdown />
         <Link href={'/highlight'} passHref>
           <Navbar.Brand style={{ display: 'flex', alignItems: 'center' }}>
-            <Image {...iconConfig} />
+            <Image alt="Logo" {...iconConfig} />
             <Badge variant="dark">{'Stock is Fun'}</Badge>
           </Navbar.Brand>
         </Link>

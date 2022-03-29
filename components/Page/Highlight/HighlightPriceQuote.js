@@ -1,7 +1,8 @@
 import { Fragment } from 'react'
 
-import { highlightHeaders } from '@/config/highlight'
 import CardDeck from 'react-bootstrap/CardDeck'
+
+import { highlightHeaders } from '@/config/highlight'
 
 const HighlightPriceQuote = ({ ticker, data }) => {
   return (

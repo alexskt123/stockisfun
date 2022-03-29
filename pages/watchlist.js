@@ -1,5 +1,9 @@
 import { Fragment, useState } from 'react'
 
+import { useRouter } from 'next/router'
+import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
+
 import CustomContainer from '@/components/Layout/CustomContainer'
 import SearchAccordion from '@/components/Page/SearchAccordion'
 import TickerBullet from '@/components/Page/TickerBullet'
@@ -15,9 +19,6 @@ import {
   useUserData
 } from '@/lib/firebaseResult'
 import { useQuery } from '@/lib/hooks/useQuery'
-import { useRouter } from 'next/router'
-import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
 
 export default function WatchList() {
   const router = useRouter()

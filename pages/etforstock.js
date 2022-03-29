@@ -1,9 +1,10 @@
 import { useEffect, Fragment } from 'react'
 
-import PageLoading from '@/components/Loading/PageLoading'
-import { useStaticSWR } from '@/lib/request'
 import { useRouter } from 'next/router'
 import Container from 'react-bootstrap/Container'
+
+import PageLoading from '@/components/Loading/PageLoading'
+import { useStaticSWR } from '@/lib/request'
 
 export default function ETFOrStock() {
   const router = useRouter()

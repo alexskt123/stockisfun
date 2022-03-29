@@ -1,12 +1,13 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import Row from 'react-bootstrap/Row'
+
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import HeaderBadge from '@/components/Parts/HeaderBadge'
 import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { priceTabLabelPairs } from '@/config/price'
 import { loadingSkeletonTableChart } from '@/config/settings'
 import { useStaticSWR } from '@/lib/request'
-import Row from 'react-bootstrap/Row'
 
 const PriceSummary = ({ inputTicker }) => {
   const { data } = useStaticSWR(
