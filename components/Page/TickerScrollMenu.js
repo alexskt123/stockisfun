@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 
+import { useRouter } from 'next/router'
+import useSWR from 'swr'
+
 import CustomScrollMenu from '@/components/Parts/CustomScrollMenu'
 import TickerCard from '@/components/Parts/TickerCard'
 import { extractYahooInfo } from '@/config/highlight'
 import { stockMarketIndexSWROptions, fetcher } from '@/config/settings'
-import { useRouter } from 'next/router'
-import useSWR from 'swr'
 
 export default function TickerScrollMenu({ inputList }) {
   const router = useRouter()

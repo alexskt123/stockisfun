@@ -1,10 +1,10 @@
 import { Fragment } from 'react'
 
-import { priceInfo } from '@/config/birdmouth'
-import { birdMouthOptions } from '@/config/price'
 import CardDeck from 'react-bootstrap/CardDeck'
 
 import BirdMouthItem from './BirdMouthItem'
+import { priceInfo } from '@/config/birdmouth'
+import { birdMouthOptions } from '@/config/price'
 
 function BirdMouth({ input, tools, className }) {
   return (

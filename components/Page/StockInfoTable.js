@@ -1,5 +1,10 @@
 import { Fragment } from 'react'
 
+import dynamic from 'next/dynamic'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import useDarkMode from 'use-dark-mode'
+
 import HeaderBadge from '@/components/Parts/HeaderBadge'
 import {
   getRedColor,
@@ -8,10 +13,6 @@ import {
   hasProperties,
   toNumber
 } from '@/lib/commonFunction'
-import dynamic from 'next/dynamic'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import useDarkMode from 'use-dark-mode'
 
 const Table = dynamic(
   () => {

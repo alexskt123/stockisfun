@@ -1,12 +1,13 @@
 import { createElement, Fragment, useEffect } from 'react'
 
+import useSWR from 'swr'
+
 import HighlightDetail from '@/components/Page/Highlight/HighlightDetail'
 import HighlightPriceQuote from '@/components/Page/Highlight/HighlightPriceQuote'
 import HighlightSearch from '@/components/Page/Highlight/HighlightSearch'
 import HighlightTickerAlert from '@/components/Page/Highlight/HighlightTickerAlert'
 import { fetcher } from '@/config/settings'
 import { fireToast } from '@/lib/commonFunction'
-import useSWR from 'swr'
 
 export default function HighlightInfo({ query }) {
   const { type, ticker } = query

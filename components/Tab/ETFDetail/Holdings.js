@@ -1,5 +1,12 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import Alert from 'react-bootstrap/Alert'
+import Button from 'react-bootstrap/Button'
+import CardDeck from 'react-bootstrap/CardDeck'
+import Row from 'react-bootstrap/Row'
+import { Doughnut } from 'react-chartjs-2'
+import { BsEye } from 'react-icons/bs'
+
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import HeaderBadge from '@/components/Parts/HeaderBadge'
@@ -8,12 +15,6 @@ import ValidTickerAlert from '@/components/Parts/ValidTickerAlert'
 import { etfDetailsHoldingSettings } from '@/config/etf'
 import { sortTableItem } from '@/lib/commonFunction'
 import { getETFDetailHoldings } from '@/lib/stockInfo'
-import Alert from 'react-bootstrap/Alert'
-import Button from 'react-bootstrap/Button'
-import CardDeck from 'react-bootstrap/CardDeck'
-import Row from 'react-bootstrap/Row'
-import { Doughnut } from 'react-chartjs-2'
-import { BsEye } from 'react-icons/bs'
 
 export default function Holdings({ inputETFTicker, cellClick }) {
   const [allowCheck, setAllowCheck] = useState(false)

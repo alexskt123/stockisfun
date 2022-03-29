@@ -1,9 +1,8 @@
 import { Fragment } from 'react'
 
+import PriceSummary from './PriceSummary'
 import Price from '@/components/Parts/Price'
 import QuoteCard from '@/components/Parts/QuoteCard'
-
-import PriceSummary from './PriceSummary'
 
 function PriceTab({ inputTicker }) {
   return (

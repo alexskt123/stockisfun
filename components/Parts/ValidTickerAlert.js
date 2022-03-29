@@ -1,6 +1,7 @@
-import { useBgColor } from '@/lib/hooks/useBgColor'
 import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
+
+import { useBgColor } from '@/lib/hooks/useBgColor'
 
 export default function ValidTickerAlert() {
   const bgColor = useBgColor('#9edce8', '#8fc3dbda')

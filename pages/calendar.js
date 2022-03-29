@@ -1,5 +1,10 @@
 import { Fragment, useState } from 'react'
 
+import moment from 'moment'
+import { Calendar, momentLocalizer } from 'react-big-calendar'
+import LoadingOverlay from 'react-loading-overlay'
+import useTypingEffect from 'use-typing-effect'
+
 import FormOptions from '@/components/Form/FormOptions'
 import CustomContainer from '@/components/Layout/CustomContainer'
 import BgColor from '@/components/Page/BgColor'
@@ -7,10 +12,6 @@ import EarningsModal from '@/components/Page/Calendar/EarningsModal'
 import { userListSelectAttr } from '@/config/form'
 import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
 import { useUserCalendarEvents } from '@/lib/hooks/calendar'
-import moment from 'moment'
-import { Calendar, momentLocalizer } from 'react-big-calendar'
-import LoadingOverlay from 'react-loading-overlay'
-import useTypingEffect from 'use-typing-effect'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 

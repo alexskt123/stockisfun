@@ -5,7 +5,6 @@ import CompareSWR from '@/components/Parts/CompareSWR'
 import HeaderBadge from '@/components/Parts/HeaderBadge'
 import { tableHeaderList } from '@/config/trendingstock'
 import { getHost } from '@/lib/commonFunction'
-import { toAxios } from '@/lib/request'
 
 export default function TrendingStock({ trendTickers }) {
   return (
@@ -31,9 +30,8 @@ export default function TrendingStock({ trendTickers }) {
 }
 
 export async function getServerSideProps() {
-  const res = await toAxios(`${getHost()}/api/yahoo/getTrending`, {})
-
-  const { data: trendTickers } = res
+  const res = await fetch(`${getHost()}/api/yahoo/getTrending`)
+  const trendTickers = await res.json()
 
   if (!trendTickers) {
     return {

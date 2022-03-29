@@ -1,10 +1,11 @@
 import { Fragment, useState, useEffect } from 'react'
 
-import { useBgColor } from '@/lib/hooks/useBgColor'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Form from 'react-bootstrap/Form'
 import Table from 'react-bootstrap/Table'
+
+import { useBgColor } from '@/lib/hooks/useBgColor'
 
 export default function EditTable({ tableHeader, data, onUpdate }) {
   const tableVariant = useBgColor('light', 'dark')

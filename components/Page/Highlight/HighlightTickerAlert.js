@@ -1,13 +1,14 @@
 import { Fragment } from 'react'
 
-import { SearchBadges } from '@/components/Page/Highlight/SearchBadges'
-import HappyShare from '@/components/Parts/HappyShare'
-import { searchBadges } from '@/config/highlight'
 import { useRouter } from 'next/router'
 import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
 import { IconContext } from 'react-icons'
 import { MdCancel } from 'react-icons/md'
+
+import { SearchBadges } from '@/components/Page/Highlight/SearchBadges'
+import HappyShare from '@/components/Parts/HappyShare'
+import { searchBadges } from '@/config/highlight'
 
 const HighlightTickerAlert = ({ valid }) => {
   const router = useRouter()

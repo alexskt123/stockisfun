@@ -1,5 +1,9 @@
 import { Fragment } from 'react'
 
+import Badge from 'react-bootstrap/Badge'
+import { IconContext } from 'react-icons'
+import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
+
 import { fireToast, hasProperties } from '@/lib/commonFunction'
 import {
   addToUserList,
@@ -7,9 +11,6 @@ import {
   usePersistedUser,
   useUserData
 } from '@/lib/firebaseResult'
-import Badge from 'react-bootstrap/Badge'
-import { IconContext } from 'react-icons'
-import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
 
 function AddDelStock({ inputTicker, handleList }) {
   const user = usePersistedUser()

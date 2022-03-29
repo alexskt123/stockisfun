@@ -1,5 +1,6 @@
-import CustomContainer from '@/components/Layout/CustomContainer'
 import Alert from 'react-bootstrap/Alert'
+
+import CustomContainer from '@/components/Layout/CustomContainer'
 
 const Error = () => {
   return (

@@ -1,9 +1,5 @@
 import { Fragment } from 'react'
 
-import CustomContainer from '@/components/Layout/CustomContainer'
-import LoginAlert from '@/components/Parts/LoginAlert'
-import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
-import { useProfileElements } from '@/lib/hooks/admin'
 import {
   Accordion,
   AccordionItem,
@@ -11,6 +7,11 @@ import {
   AccordionItemButton,
   AccordionItemPanel
 } from 'react-accessible-accordion'
+
+import CustomContainer from '@/components/Layout/CustomContainer'
+import LoginAlert from '@/components/Parts/LoginAlert'
+import { usePersistedUser, useUserData } from '@/lib/firebaseResult'
+import { useProfileElements } from '@/lib/hooks/admin'
 
 const Profile = () => {
   const user = usePersistedUser()

@@ -1,5 +1,10 @@
 import { Fragment } from 'react'
 
+import AnimatedNumber from 'animated-number-react'
+import Badge from 'react-bootstrap/Badge'
+import Row from 'react-bootstrap/Row'
+
+import CooldownBadge from './CooldownBadge'
 import { CooldownButton } from '@/components/CooldownButton'
 import LoadingSkeleton from '@/components/Loading/LoadingSkeleton'
 import {
@@ -9,11 +14,6 @@ import {
   getVariant,
   roundTo
 } from '@/lib/commonFunction'
-import AnimatedNumber from 'animated-number-react'
-import Badge from 'react-bootstrap/Badge'
-import Row from 'react-bootstrap/Row'
-
-import CooldownBadge from './CooldownBadge'
 
 const PriceDayChgRow = ({
   data,

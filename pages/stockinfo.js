@@ -1,8 +1,9 @@
 import React from 'react'
 
+import { useRouter } from 'next/router'
+
 import CustomContainer from '@/components/Layout/CustomContainer'
 import HighlightInfo from '@/components/Page/Highlight/HighlightInfo'
-import { useRouter } from 'next/router'
 
 const StockInfo = () => {
   const router = useRouter()

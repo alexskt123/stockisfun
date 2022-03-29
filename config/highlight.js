@@ -1,11 +1,10 @@
+import { SWRSticky } from './settings'
 import ETFDetails from '@/components/ETFDetails'
 import IndexQuote from '@/components/Parts/IndexQuote'
 import Price from '@/components/Parts/Price'
 import QuoteCard from '@/components/Parts/QuoteCard'
 import StockDetails from '@/components/StockDetails'
 import { showHighlightQuoteDetail } from '@/lib/stockInfo'
-
-import { SWRSticky } from './settings'
 
 export const extractYahooInfo = [
   {

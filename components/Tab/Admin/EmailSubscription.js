@@ -1,8 +1,9 @@
 import { Fragment } from 'react'
 
+import CardDeck from 'react-bootstrap/CardDeck'
+
 import EmailSubscriptionCard from '@/components/Parts/EmailSubscriptionCard'
 import { emailConfig } from '@/config/admin'
-import CardDeck from 'react-bootstrap/CardDeck'
 
 export const EmailSubscription = ({ user, userData }) => {
   return (

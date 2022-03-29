@@ -1,5 +1,9 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import { useRouter } from 'next/router'
+import Tab from 'react-bootstrap/Tab'
+import Tabs from 'react-bootstrap/Tabs'
+
 import FinancialsInfo from '@/components/Parts/FinancialsInfo'
 import ForecastInfo from '@/components/Parts/ForecastInfo'
 import PriceChange from '@/components/Parts/PriceChange'
@@ -11,9 +15,6 @@ import Peers from '@/components/Tab/StockDetail/Peers'
 import Price from '@/components/Tab/StockDetail/Price'
 import { stockDetailsSettings } from '@/config/stock'
 import { useTab } from '@/lib/hooks/useTab'
-import { useRouter } from 'next/router'
-import Tab from 'react-bootstrap/Tab'
-import Tabs from 'react-bootstrap/Tabs'
 
 function StockDetails({ inputTicker }) {
   const router = useRouter()

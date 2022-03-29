@@ -1,5 +1,7 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import Row from 'react-bootstrap/Row'
+
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import HeaderBadge from '@/components/Parts/HeaderBadge'
@@ -8,7 +10,6 @@ import { etfListSettings } from '@/config/stock'
 import { sortTableItem } from '@/lib/commonFunction'
 import { useStaticSWR } from '@/lib/request'
 import { getETFList } from '@/lib/stockInfo'
-import Row from 'react-bootstrap/Row'
 
 function ETFList({ inputTicker }) {
   const { data } = useStaticSWR(

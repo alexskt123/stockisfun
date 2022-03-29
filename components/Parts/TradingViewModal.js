@@ -1,14 +1,14 @@
 import { Fragment, useState } from 'react'
 
+import Badge from 'react-bootstrap/Badge'
+import Modal from 'react-bootstrap/Modal'
+
+import TradingView from './TradingView'
 import Wiggle from '@/components/Parts/Wiggle'
 import { fireToast } from '@/lib/commonFunction'
 import { useBgColor } from '@/lib/hooks/useBgColor'
 import { useTVTicker } from '@/lib/hooks/useTVTicker'
 import { useStaticSWR } from '@/lib/request'
-import Badge from 'react-bootstrap/Badge'
-import Modal from 'react-bootstrap/Modal'
-
-import TradingView from './TradingView'
 
 export default function TradingViewModal({ buttonClassName, ticker }) {
   const { data } = useStaticSWR(

@@ -1,9 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import { CooldownButton } from '@/components/CooldownButton'
-import { fireToast } from '@/lib/commonFunction'
-import { updateUserData } from '@/lib/firebaseResult'
-import { toAxios } from '@/lib/request'
 import validator from 'email-validator'
 import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'
@@ -12,6 +8,10 @@ import LoadingOverlay from 'react-loading-overlay'
 
 import CooldownBadge from './CooldownBadge'
 import HeaderBadge from './HeaderBadge'
+import { CooldownButton } from '@/components/CooldownButton'
+import { fireToast } from '@/lib/commonFunction'
+import { updateUserData } from '@/lib/firebaseResult'
+import { toAxios } from '@/lib/request'
 
 export default function EmailSubscriptionCard({
   user,

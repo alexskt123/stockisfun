@@ -11,7 +11,6 @@ const Settings = {
 export default Settings
 
 export const iconConfig = {
-  alt: '',
   src: Settings.LogoImgSrc,
   width: '30',
   height: '30',
