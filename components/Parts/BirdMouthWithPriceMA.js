@@ -31,10 +31,15 @@ const BirdMouthWithPriceMA = ({ inputTickers }) => {
           })
         )
 
-        const tableHeader = Object.keys(priceMAInfo || {})
-        const tableData = Object.values(priceMAInfo || {})
-          .map(item => (item ? 'Yes' : ''))
+        const tableHeader = Object.keys(priceMAInfo?.find(x => x) || {})
+        const tableData = priceMAInfo
+          .map(item => {
+            const itemValues = Object.values(item)
+            const [ticker, ...strengthValues] = itemValues
+            return [ticker, ...strengthValues.map(x => (x ? 'Yes' : ''))]
+          })
           .filter(item => item.find(x => x.includes('Yes')))
+
         const tableHeaderData = {
           tableHeader,
           tableData
