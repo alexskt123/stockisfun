@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 
-import { ComparisonSettings } from '@/config/compare'
-import { sortUniqCommaStr } from '@/lib/commonFunction'
 import { useRouter } from 'next/router'
 
 import Comparison from './Comparison'
+import { ComparisonSettings } from '@/config/compare'
+import { sortUniqCommaStr } from '@/lib/commonFunction'
 
 const CompareType = () => {
   const router = useRouter()
@@ -12,7 +12,10 @@ const CompareType = () => {
 
   const { tickers } = params
   const removedDupTickers = tickers && sortUniqCommaStr(tickers)
-  const newParams = Object.assign({ ...params }, { tickers: removedDupTickers })
+  const newParams = Object.assign(
+    { ...params },
+    { tickers: removedDupTickers, type }
+  )
   const chkType = ComparisonSettings[type]
 
   useEffect(() => {
