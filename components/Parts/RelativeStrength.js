@@ -56,6 +56,7 @@ function RelativeStrength({ ticker, datePrice, inputDays }) {
       tickerData &&
       tickerData.length > 0 &&
       spxData &&
+      tickerData.length >= parseInt(inputDays) + rsDays &&
       calRS(
         inputDays,
         tickerData.slice(tickerData.length - (parseInt(inputDays) + rsDays)),
