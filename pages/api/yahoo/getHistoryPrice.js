@@ -1,5 +1,5 @@
 import { getFormattedFromToDate, parseBoolean } from '@/lib/commonFunction'
-import { getFormattedHistoryPrice } from '@/lib/stockinfo'
+import { getFormattedHistoryPrice } from '@/lib/stockInfo'
 import { getQuote } from '@/lib/yahoo/getQuote'
 
 const handleDays = async (ticker, days, isBus) => {
