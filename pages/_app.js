@@ -6,9 +6,10 @@ import 'styles/AccessibleAccordion.css'
 
 import { Fragment } from 'react'
 
+import Head from 'next/head'
+
 import Layout from '@/components/Layout/Layout'
 import { StateProvider } from '@/lib/store'
-import Head from 'next/head'
 
 function MyApp({ Component, pageProps }) {
   return (
