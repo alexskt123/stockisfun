@@ -1,41 +1,28 @@
 import { getFormattedFromToDate, parseBoolean } from '@/lib/commonFunction'
-import { getHistoryPrice } from '@/lib/yahoo/getHistoryPrice'
+import { getFormattedHistoryPrice } from '@/lib/stockInfo'
 import { getQuote } from '@/lib/yahoo/getQuote'
-import moment from 'moment'
 
 const handleDays = async (ticker, days, isBus) => {
   const isBusBool = parseBoolean(isBus)
   const inputDays = parseInt(days)
 
   const { formattedFromDate, formattedToDate } = getFormattedFromToDate(
-    days,
+    inputDays,
     isBusBool
   )
 
-  const outputItem = await getHistoryPrice(
+  const outputItem = await getFormattedHistoryPrice(
     ticker,
     formattedFromDate,
     formattedToDate
   )
 
-  const closeDate = (outputItem.timestamp || []).map(item =>
-    moment.unix(item).format('DD MMM YYYY')
-  )
-  const closePrice = outputItem.indicators.quote.find(x => x).close
-  const allPriceDate = (closePrice || []).reduce((acc, price, idx) => {
-    // price must have value
-    price &&
-      acc.push({
-        date: closeDate[idx],
-        price
-      })
-    return acc
-  }, [])
-
-  const newPriceDate =
-    isBusBool && inputDays !== allPriceDate?.length
-      ? allPriceDate.slice(Math.abs(allPriceDate?.length - inputDays))
-      : allPriceDate
+  const newPriceDate = [...Array(outputItem.date.length)].map((x, i) => {
+    return {
+      date: outputItem.date[i],
+      price: outputItem.price[i]
+    }
+  })
   const quoteArr = await getQuote(ticker.toUpperCase())
   const quoteRes = quoteArr.find(x => x) || {}
 

@@ -1,9 +1,3 @@
-import {
-  convertToPercentage,
-  convertToPrice,
-  convertToPriceChange,
-  getVariant
-} from '@/lib/commonFunction'
 import AnimatedNumber from 'animated-number-react'
 import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'
@@ -15,6 +9,13 @@ import {
   FaArrowAltCircleUp,
   FaMinusCircle
 } from 'react-icons/fa'
+
+import {
+  convertToPercentage,
+  convertToPrice,
+  convertToPriceChange,
+  getVariant
+} from '@/lib/commonFunction'
 
 export default function TickerCard({ Name, Price, Percentage, Change }) {
   const ArrowCircle = getVariant(

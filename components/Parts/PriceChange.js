@@ -1,14 +1,14 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import { Line } from 'react-chartjs-2'
+
+import QuoteCard from './QuoteCard'
+import ValidTickerAlert from './ValidTickerAlert'
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import { loadingSkeletonTableChart } from '@/config/settings'
 import { sortTableItem, priceSettingSchema } from '@/lib/commonFunction'
 import { getPriceInfo } from '@/lib/stockInfo'
-import { Line } from 'react-chartjs-2'
-
-import QuoteCard from './QuoteCard'
-import ValidTickerAlert from './ValidTickerAlert'
 
 function PriceChange({ inputTickers, inputYear }) {
   const [settings, setSettings] = useState(priceSettingSchema)

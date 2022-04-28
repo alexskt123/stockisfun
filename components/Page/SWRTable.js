@@ -1,8 +1,20 @@
 import React, { Fragment, useState, useEffect } from 'react'
 
+import AnimatedNumber from 'animated-number-react'
+import moment from 'moment'
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
+import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
+import { GrDocumentCsv } from 'react-icons/gr'
+import useSWR from 'swr'
+import useDarkMode from 'use-dark-mode'
+
 import LoadingSkeleton from '@/components/Loading/LoadingSkeleton'
 import HeaderBadge from '@/components/Parts/HeaderBadge'
 import { fetcher } from '@/config/settings'
+import { exportToFile } from '@/lib/commonFunction'
 import {
   millify,
   roundTo,
@@ -15,18 +27,7 @@ import {
   getDefaultColor,
   hasProperties
 } from '@/lib/commonFunction'
-import { exportToFile } from '@/lib/commonFunction'
 import { useMobile } from '@/lib/hooks/useMobile'
-import AnimatedNumber from 'animated-number-react'
-import moment from 'moment'
-import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
-import Badge from 'react-bootstrap/Badge'
-import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
-import { GrDocumentCsv } from 'react-icons/gr'
-import useSWR from 'swr'
-import useDarkMode from 'use-dark-mode'
 
 const Table = dynamic(
   () => {

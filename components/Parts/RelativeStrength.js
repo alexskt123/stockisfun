@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2'
 
 import { rsChartOptions } from '@/config/price'
 import { rsDays } from '@/config/rs'
+import { calRelativeStrength } from '@/lib/commonFunction'
 import { useStaticSWR } from '@/lib/request'
 
 function RelativeStrength({ ticker, datePrice, inputDays }) {
@@ -11,10 +12,13 @@ function RelativeStrength({ ticker, datePrice, inputDays }) {
 
   const calRS = (inputDays, tickerData, spxData) => {
     const rsList = [...Array(parseInt(inputDays))].map((_x, i) => {
-      const tickerStrength =
-        tickerData[i + rsDays].price / tickerData[i].price / rsDays
-      const spxStrength = spxData[i + rsDays].price / spxData[i].price / rsDays
-      const rsValue = tickerStrength / spxStrength - 1
+      const rsValue = calRelativeStrength(
+        tickerData[i].price,
+        tickerData[i + rsDays].price,
+        spxData[i].price,
+        spxData[i + rsDays].price,
+        rsDays
+      )
       return rsValue
     })
 
@@ -50,7 +54,9 @@ function RelativeStrength({ ticker, datePrice, inputDays }) {
 
     inputDays &&
       tickerData &&
+      tickerData.length > 0 &&
       spxData &&
+      tickerData.length >= parseInt(inputDays) + rsDays &&
       calRS(
         inputDays,
         tickerData.slice(tickerData.length - (parseInt(inputDays) + rsDays)),
@@ -61,7 +67,6 @@ function RelativeStrength({ ticker, datePrice, inputDays }) {
 
   return (
     <Fragment>
-      aa
       <Line data={chartData} options={rsChartOptions} />
     </Fragment>
   )

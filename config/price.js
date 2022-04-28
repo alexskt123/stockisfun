@@ -70,7 +70,9 @@ export const priceSchema = {
   ticker: '',
   days: 30,
   ma: 'ma',
-  chartData: {}
+  chartData: {
+    datasets: []
+  }
 }
 
 export const birdMouthOptions = {
@@ -190,21 +192,21 @@ export const maChartSchema = {
 
 export const maChartSettings = [
   {
-    value: 5,
-    label: '5-MA',
+    value: 20,
+    label: '20-MA',
     backgroundColor: 'rgba(255,2,2)',
     borderColor: 'rgba(255,2,2,0.3)',
     borderDash: [10, 5]
   },
   {
-    value: 20,
-    label: '20-MA',
+    value: 50,
+    label: '50-MA',
     backgroundColor: 'rgba(218,165,32)',
     borderColor: 'rgba(218,165,32,0.8)'
   },
   {
-    value: 60,
-    label: '60-MA',
+    value: 150,
+    label: '150-MA',
     backgroundColor: 'rgba(0,128,0)',
     borderColor: 'rgba(0,128,0,0.8)'
   }
@@ -214,38 +216,38 @@ export const priceMADetailsSettings = {
   asOfDate: '',
   priceMAList: [
     {
-      id: '5<20',
-      name: '5-MA lower than 20-MA',
+      id: '20<50',
+      name: '20-MA lower than 50-MA',
       tickersInfo: [],
       tickersChart: []
     },
     {
-      id: '5>20',
-      name: '5-MA higher than 20-MA',
+      id: '20>50',
+      name: '20-MA higher than 50-MA',
       tickersInfo: [],
       tickersChart: []
     },
     {
-      id: '5<60',
-      name: '5-MA lower than 60-MA',
+      id: '20<150',
+      name: '20-MA lower than 150-MA',
       tickersInfo: [],
       tickersChart: []
     },
     {
-      id: '5>60',
-      name: '5-MA higher than 60-MA',
+      id: '20>150',
+      name: '20-MA higher than 150-MA',
       tickersInfo: [],
       tickersChart: []
     },
     {
-      id: '20<60',
-      name: '20-MA lower than 60-MA',
+      id: '50<150',
+      name: '50-MA lower than 150-MA',
       tickersInfo: [],
       tickersChart: []
     },
     {
-      id: '20>60',
-      name: '20-MA higher than 60-MA',
+      id: '50>150',
+      name: '50-MA higher than 150-MA',
       tickersInfo: [],
       tickersChart: []
     }

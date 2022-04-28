@@ -1,10 +1,11 @@
 import { Fragment } from 'react'
 import { useEffect } from 'react'
 
-import PageLoading from '@/components/Loading/PageLoading'
-import { useMobile } from '@/lib/hooks/useMobile'
 import { useRouter } from 'next/router'
 import Container from 'react-bootstrap/Container'
+
+import PageLoading from '@/components/Loading/PageLoading'
+import { useMobile } from '@/lib/hooks/useMobile'
 
 export default function Home() {
   const router = useRouter()

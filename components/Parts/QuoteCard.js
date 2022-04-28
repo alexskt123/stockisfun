@@ -1,13 +1,13 @@
 import { useState, useEffect, Fragment } from 'react'
 
-import HeaderBadge from '@/components/Parts/HeaderBadge'
-import { useBgColor } from '@/lib/hooks/useBgColor'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import { IconContext } from 'react-icons'
 import { RiCloseCircleFill } from 'react-icons/ri'
 
 import StockInfoToolbar from './StockInfoToolbar'
+import HeaderBadge from '@/components/Parts/HeaderBadge'
+import { useBgColor } from '@/lib/hooks/useBgColor'
 
 export default function QuoteCard({
   children,

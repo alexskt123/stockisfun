@@ -1,12 +1,13 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import Badge from 'react-bootstrap/Badge'
+import Modal from 'react-bootstrap/Modal'
+
 import StockInfoTable from '@/components/Page/StockInfoTable'
 import { earningsModalDefaultSettings } from '@/config/calendar'
 import { cloneObj } from '@/lib/commonFunction'
 import { useBgColor } from '@/lib/hooks/useBgColor'
 import { useStaticSWR } from '@/lib/request'
-import Badge from 'react-bootstrap/Badge'
-import Modal from 'react-bootstrap/Modal'
 
 const EarningsModal = ({ ticker, resetTicker }) => {
   const { data } = useStaticSWR(

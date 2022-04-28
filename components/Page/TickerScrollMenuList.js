@@ -1,9 +1,9 @@
 import { Fragment } from 'react'
 
-import HeaderBadge from '@/components/Parts/HeaderBadge'
 import Row from 'react-bootstrap/Row'
 
 import TickerScrollMenu from './TickerScrollMenu'
+import HeaderBadge from '@/components/Parts/HeaderBadge'
 
 const TickerScrollMenuList = ({ tickerList }) => {
   return (
