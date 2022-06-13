@@ -6,7 +6,7 @@ import BirdMouthItem from './BirdMouthItem'
 import { priceInfo } from '@/config/birdmouth'
 import { birdMouthOptions } from '@/config/price'
 
-function BirdMouth({ input, tools, className }) {
+function BirdMouth({ input, rsTicker, tools, className }) {
   return (
     <Fragment>
       <CardDeck className={className}>
@@ -18,6 +18,7 @@ function BirdMouth({ input, tools, className }) {
                 priceInfo={priceInfo}
                 tools={tools}
                 item={item}
+                rsTicker={rsTicker}
               />
             </Fragment>
           )

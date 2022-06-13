@@ -10,13 +10,13 @@ const conditionMatches = (id, priceMAList) => {
 }
 
 export default async (req, res) => {
-  const { ticker } = req.query
+  const { ticker, rsTicker } = req.query
 
   const genChart = false
   const priceDetails = await getPriceMADetails({ ticker, genChart })
   const { rs, latestHigherInputRange } = await getRelativeStrengthByDays(
     ticker,
-    'SPY',
+    rsTicker || 'SPY',
     50,
     85,
     3

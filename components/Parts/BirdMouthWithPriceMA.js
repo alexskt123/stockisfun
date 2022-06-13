@@ -5,7 +5,7 @@ import StockInfoTable from '@/components/Page/StockInfoTable'
 import BirdMouth from '@/components/Parts/BirdMouth'
 import { toAxios } from '@/lib/request'
 
-const BirdMouthWithPriceMA = ({ inputTickers }) => {
+const BirdMouthWithPriceMA = ({ inputTickers, rsTicker }) => {
   const [tableSettings, setTableSettings] = useState({
     tableHeader: [],
     tableData: []
@@ -24,7 +24,8 @@ const BirdMouthWithPriceMA = ({ inputTickers }) => {
         const priceMAInfo = await Promise.all(
           inputTickers.map(async item => {
             const response = await toAxios('/api/getStockStrength', {
-              ticker: item
+              ticker: item,
+              rsTicker
             })
             const { data } = response
             return data
@@ -66,6 +67,7 @@ const BirdMouthWithPriceMA = ({ inputTickers }) => {
           label: item,
           ticker: item
         }))}
+        rsTicker={rsTicker}
       />
     </Fragment>
   )

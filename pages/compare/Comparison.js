@@ -16,7 +16,8 @@ const Comparison = ({ type, params }) => {
       ...curType.componentProps,
       ...{
         inputTickers: params?.tickers?.split(','),
-        inputYear: params?.year || 15
+        inputYear: params?.year || 15,
+        rsTicker: params?.rsTicker
       }
     }) ||
     {}

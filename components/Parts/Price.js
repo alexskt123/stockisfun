@@ -34,7 +34,8 @@ function PriceInfo({
   inputDays,
   options,
   displayQuoteFields,
-  inputShowRS
+  inputShowRS,
+  rsTicker
 }) {
   const [settings, setSettings] = useState({
     ...priceSchema,
@@ -172,6 +173,7 @@ function PriceInfo({
           {showRS && (
             <RelativeStrength
               ticker={inputTicker}
+              rsTicker={rsTicker}
               datePrice={datePrice}
               inputDays={settings.days}
             />
