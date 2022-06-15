@@ -118,7 +118,7 @@ export const SWRSticky = {
 export const loadingSkeletonColors = {
   light: {
     color: '#dbdbdb',
-    highlightColor: 'f0f0f0'
+    highlightColor: '#f0f0f0'
   },
   dark: {
     color: '#202020',
