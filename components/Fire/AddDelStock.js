@@ -1,6 +1,5 @@
 import { Fragment } from 'react'
 
-import Badge from 'react-bootstrap/Badge'
 import { IconContext } from 'react-icons'
 import { MdRemoveCircleOutline, MdAddCircleOutline } from 'react-icons/md'
 
@@ -39,20 +38,20 @@ function AddDelStock({ inputTicker, handleList }) {
       {user &&
         (hasProperties(userData, [handleList]) &&
         userData[handleList].includes(inputTicker) ? (
-          <Badge>
+          <span>
             <IconContext.Provider value={{ color: 'red', size: '15px' }}>
               <MdRemoveCircleOutline
                 className="cursor"
                 onClick={handleRemove}
               />
             </IconContext.Provider>
-          </Badge>
+          </span>
         ) : (
-          <Badge>
+          <span>
             <IconContext.Provider value={{ color: 'green', size: '15px' }}>
               <MdAddCircleOutline className="cursor" onClick={handleAdd} />
             </IconContext.Provider>
-          </Badge>
+          </span>
         ))}
     </Fragment>
   )

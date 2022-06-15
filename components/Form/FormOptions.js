@@ -12,7 +12,7 @@ const FormOptions = ({ formOptionSettings, value, handleChange, label }) => {
           <HeaderBadge
             headerTag={'h5'}
             title={label}
-            badgeProps={{ variant: 'dark' }}
+            badgeProps={{ bg: 'dark' }}
           />
         </Form.Label>
       )}

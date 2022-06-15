@@ -65,10 +65,10 @@ function TypeAhead({ placeholderText, handleChange, clearItems, filter }) {
               <Fragment>
                 <Row>
                   <Col xs={2} md={3} lg={3}>
-                    <Badge variant="dark">{option.symbol}</Badge>
+                    <Badge bg="dark">{option.symbol}</Badge>
                   </Col>
                   <Col xs={4} md={6} lg={9}>
-                    <Badge variant="light" className="ml-1">
+                    <Badge bg="light" text="dark" className="ml-1">
                       {option.name}
                     </Badge>
                   </Col>

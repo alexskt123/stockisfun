@@ -2,7 +2,6 @@ import { Fragment } from 'react'
 
 import AnimatedNumber from 'animated-number-react'
 import Badge from 'react-bootstrap/Badge'
-import Row from 'react-bootstrap/Row'
 
 import CooldownBadge from './CooldownBadge'
 import { CooldownButton } from '@/components/CooldownButton'
@@ -36,16 +35,23 @@ const PriceDayChgRow = ({
     <Fragment>
       {!data?.net && !hideIfNA && <LoadingSkeleton />}
       {((data?.net && !hideIfNA) || (hideIfNA && !Number.isNaN(data?.net))) && (
-        <Row className="mt-1 justify-content-center">
-          {header && <Badge variant="light">{header}</Badge>}
-          <Badge variant={'secondary'} className="ml-1">
+        <div
+          className="mt-1 justify-content-center"
+          style={{ display: 'flex' }}
+        >
+          {header && (
+            <Badge bg="light" text="dark">
+              {header}
+            </Badge>
+          )}
+          <Badge bg={'secondary'} className="ml-1">
             <AnimatedNumber
               value={data?.sum}
               formatValue={value => roundTo(value)}
             />
           </Badge>
           <Badge
-            variant={getVariant(data?.net, 'success', 'secondary', 'danger')}
+            bg={getVariant(data?.net, 'success', 'secondary', 'danger')}
             className="ml-1"
           >
             <AnimatedNumber
@@ -54,7 +60,7 @@ const PriceDayChgRow = ({
             />
           </Badge>
           <Badge
-            variant={getVariant(data?.pcnt, 'success', 'secondary', 'danger')}
+            bg={getVariant(data?.pcnt, 'success', 'secondary', 'danger')}
             className="ml-1"
           >
             <AnimatedNumber
@@ -71,7 +77,7 @@ const PriceDayChgRow = ({
               renderOnCDing={CooldownBadge}
             />
           )}
-        </Row>
+        </div>
       )}
     </Fragment>
   )
@@ -79,11 +85,7 @@ const PriceDayChgRow = ({
 
 const RefreshBadge = ({ handleClick }) => {
   return (
-    <Badge
-      className="ml-1 cursor"
-      variant="warning"
-      onClick={() => handleClick()}
-    >
+    <Badge className="ml-1 cursor" bg="warning" onClick={() => handleClick()}>
       {'Refresh'}
     </Badge>
   )

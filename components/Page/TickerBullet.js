@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 
 import Badge from 'react-bootstrap/Badge'
+import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { BsFillXCircleFill } from 'react-icons/bs'
 
@@ -12,9 +13,9 @@ function TickerBullet({ tickers, removeItem }) {
           ?.split(',')
           .filter(x => x !== '')
           .map((item, index) => (
-            <Fragment key={`${item}${index}`}>
+            <Col key={`${item}${index}`} xs="auto">
               <h6>
-                <Badge pill variant="success" className="ml-1">
+                <Badge pill bg="success" className="ml-1">
                   {`${item}`}
                   <BsFillXCircleFill
                     onClick={() => {
@@ -24,7 +25,7 @@ function TickerBullet({ tickers, removeItem }) {
                   />
                 </Badge>
               </h6>
-            </Fragment>
+            </Col>
           ))}
       </Row>
     </Fragment>

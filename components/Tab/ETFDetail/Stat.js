@@ -22,7 +22,7 @@ export default function Stat({ inputETFTicker }) {
             <HeaderBadge
               headerTag={'h5'}
               title={'Forecast'}
-              badgeProps={{ variant: 'dark' }}
+              badgeProps={{ bg: 'dark' }}
             />
           </Row>
           <ForecastInfo inputTickers={ticker} />
@@ -30,7 +30,7 @@ export default function Stat({ inputETFTicker }) {
             <HeaderBadge
               headerTag={'h5'}
               title={'Price%'}
-              badgeProps={{ variant: 'dark' }}
+              badgeProps={{ bg: 'dark' }}
             />
           </Row>
           <PriceChange inputTickers={ticker} />

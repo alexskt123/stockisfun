@@ -38,7 +38,7 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
 
   const getValueBadge = (variant, value) => {
     return (
-      <Badge variant={variant} className="ml-2">
+      <Badge bg={variant} text="dark" className="ml-2">
         {value}
       </Badge>
     )
@@ -80,7 +80,7 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
                       <HeaderBadge
                         headerTag={'h6'}
                         title={data.label}
-                        badgeProps={{ variant: 'dark', className: 'ml-1' }}
+                        badgeProps={{ bg: 'dark', className: 'ml-1' }}
                       />
                       <h6>{getFormattedValue(data.format, data.value)}</h6>
                     </Fragment>

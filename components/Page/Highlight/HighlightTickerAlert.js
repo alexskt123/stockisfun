@@ -48,7 +48,7 @@ const HighlightTickerAlert = ({ valid }) => {
           }}
         >
           <strong>{'Current Search:'}</strong>
-          <Badge className="ml-2" variant="info">
+          <Badge className="ml-2" bg="info">
             {ticker}
           </Badge>
           <IconContext.Provider value={{ color: 'red' }}>

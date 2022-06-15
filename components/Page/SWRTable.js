@@ -137,7 +137,7 @@ export default function SWRTable({ requests, options }) {
           <HeaderBadge
             headerTag={'h5'}
             title={`Last Update: ${timestamp}`}
-            badgeProps={{ variant: 'info' }}
+            badgeProps={{ bg: 'info' }}
           />
           <h5>
             <Button
@@ -176,7 +176,7 @@ export default function SWRTable({ requests, options }) {
                 <HeaderBadge
                   headerTag={'h5'}
                   title={item.label}
-                  badgeProps={{ variant: 'light' }}
+                  badgeProps={{ bg: 'light', text: 'dark' }}
                 />
               </th>
             ))}
@@ -270,6 +270,9 @@ function getCellColor(property, value, darkMode) {
 }
 
 function getFormattedValue(format, value, className) {
+  const randVar = randVariant(value)
+  const indVar = indicatorVariant(value)
+
   return format === '%' ? (
     <AnimatedNumber
       value={value}
@@ -287,7 +290,8 @@ function getFormattedValue(format, value, className) {
     <Badge
       className={className}
       style={{ ['minWidth']: '3rem' }}
-      variant={randVariant(value)}
+      bg={randVar}
+      text={randVar === 'light' ? 'dark' : null}
     >
       {value}
     </Badge>
@@ -295,7 +299,8 @@ function getFormattedValue(format, value, className) {
     <Badge
       className={className}
       style={{ ['minWidth']: '3rem' }}
-      variant={indicatorVariant(value)}
+      bg={indVar}
+      text={indVar === 'light' ? 'dark' : null}
     >
       {value}
     </Badge>

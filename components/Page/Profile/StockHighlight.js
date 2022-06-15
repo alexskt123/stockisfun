@@ -25,7 +25,7 @@ const StockHighlight = ({ boughtListData }) => {
       <HeaderBadge
         headerTag={'h5'}
         title={'Stock Revenue/Net Income Highlight'}
-        badgeProps={{ variant: 'dark' }}
+        badgeProps={{ bg: 'dark' }}
       />
       <CompareSWR
         inputTickers={stockList}
@@ -37,7 +37,7 @@ const StockHighlight = ({ boughtListData }) => {
       <HeaderBadge
         headerTag={'h5'}
         title={'Stock Forecast'}
-        badgeProps={{ variant: 'dark', className: 'mt-4' }}
+        badgeProps={{ bg: 'dark', className: 'mt-4' }}
       />
       <CompareSWR
         inputTickers={stockList}

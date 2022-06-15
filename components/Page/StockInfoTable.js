@@ -100,7 +100,7 @@ function StockInfoTable({
                 <HeaderBadge
                   headerTag={'h5'}
                   title={item}
-                  badgeProps={{ variant: 'light' }}
+                  badgeProps={{ bg: 'light' }}
                 />
               </th>
             ))}

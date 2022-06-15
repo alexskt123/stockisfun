@@ -1,13 +1,13 @@
 import { Fragment } from 'react'
 
-import CardDeck from 'react-bootstrap/CardDeck'
+import CardGroup from 'react-bootstrap/CardGroup'
 
 import QuoteCard from '@/components/Parts/QuoteCard'
 import TradingView from '@/components/Parts/TradingView'
 
 const TradingViewDeck = ({ inputTickers }) => {
   return (
-    <CardDeck>
+    <CardGroup>
       {inputTickers?.map((ticker, idx) => {
         return (
           <Fragment key={idx}>
@@ -28,7 +28,7 @@ const TradingViewDeck = ({ inputTickers }) => {
           </Fragment>
         )
       })}
-    </CardDeck>
+    </CardGroup>
   )
 }
 

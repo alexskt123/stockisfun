@@ -2,7 +2,6 @@ import { Fragment, useState } from 'react'
 
 import { useRouter } from 'next/router'
 import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
 
 import CustomContainer from '@/components/Layout/CustomContainer'
 import SearchAccordion from '@/components/Page/SearchAccordion'
@@ -106,7 +105,7 @@ export default function WatchList() {
               removeItem={removeItem}
             />
           </SearchAccordion>
-          <Row
+          <div
             className="ml-1 mt-3"
             style={{ display: 'flex', alignItems: 'center' }}
           >
@@ -125,7 +124,7 @@ export default function WatchList() {
             {curTickers.length > 0 && (
               <HappyShare inputStyle={{ color: 'blue', size: '25px' }} />
             )}
-          </Row>
+          </div>
           <CompareSWR
             inputTickers={curTickers}
             url={'/api/page/getWatchList'}

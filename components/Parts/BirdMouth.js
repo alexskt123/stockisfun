@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import CardDeck from 'react-bootstrap/CardDeck'
+import CardGroup from 'react-bootstrap/CardGroup'
 
 import BirdMouthItem from './BirdMouthItem'
 import { priceInfo } from '@/config/birdmouth'
@@ -9,7 +9,7 @@ import { birdMouthOptions } from '@/config/price'
 function BirdMouth({ input, tools, className }) {
   return (
     <Fragment>
-      <CardDeck className={className}>
+      <CardGroup className={className}>
         {input?.map((item, idx) => {
           return (
             <Fragment key={idx}>
@@ -22,7 +22,7 @@ function BirdMouth({ input, tools, className }) {
             </Fragment>
           )
         })}
-      </CardDeck>
+      </CardGroup>
     </Fragment>
   )
 }

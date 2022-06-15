@@ -28,7 +28,7 @@ export default function ETFPrice({ inputETFTicker }) {
             className="mt-2"
             style={{ display: 'flex', alignItems: 'flex-end' }}
           >
-            <Badge className="ml-1" variant={'light'}>
+            <Badge className="ml-1" bg={'light'}>
               {'Add/Remove:'}
             </Badge>
             <AddDelStock inputTicker={inputETFTicker} handleList="etfList" />
@@ -37,7 +37,7 @@ export default function ETFPrice({ inputETFTicker }) {
             className="mt-1"
             style={{ display: 'flex', alignItems: 'flex-end' }}
           >
-            <Badge className="ml-1" variant={'light'}>
+            <Badge className="ml-1" bg={'light'}>
               {'Share to your friends!'}
             </Badge>
             <HappyShare />

@@ -129,7 +129,7 @@ export default function EmailSubscriptionCard({
               <HeaderBadge
                 headerTag={'h5'}
                 title={inputData.name}
-                badgeProps={{ variant: 'secondary' }}
+                badgeProps={{ bg: 'secondary' }}
               />
             </div>
           </Card.Header>
@@ -141,7 +141,7 @@ export default function EmailSubscriptionCard({
                 return (
                   <Fragment key={idx}>
                     <Form.Label>
-                      <Badge variant="dark">{curInput.label}</Badge>
+                      <Badge bg="dark">{curInput.label}</Badge>
                     </Form.Label>
                     <Form.Control
                       className="w-100"

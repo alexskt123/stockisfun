@@ -155,7 +155,7 @@ function PriceInfo({
             className="ml-1"
           >
             <Badge
-              variant={showRS ? 'danger' : 'success'}
+              bg={showRS ? 'danger' : 'success'}
               className={'cursor mr-2'}
               onClick={() => setShowRS(!showRS)}
             >

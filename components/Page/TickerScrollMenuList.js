@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 
+import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 import TickerScrollMenu from './TickerScrollMenu'
@@ -11,12 +12,14 @@ const TickerScrollMenuList = ({ tickerList }) => {
       {tickerList.map((item, idx) => {
         return (
           <Fragment key={idx}>
-            <Row className="justify-content-center">
-              <HeaderBadge
-                headerTag={'h6'}
-                title={item.name}
-                badgeProps={{ variant: 'dark', style: { minWidth: '9rem' } }}
-              />
+            <Row className="justify-content-md-center">
+              <Col md="auto">
+                <HeaderBadge
+                  headerTag={'h6'}
+                  title={item.name}
+                  badgeProps={{ bg: 'dark', style: { minWidth: '9rem' } }}
+                />
+              </Col>
             </Row>
             <TickerScrollMenu
               inputList={item.inputList}

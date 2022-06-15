@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect } from 'react'
 
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
-import CardDeck from 'react-bootstrap/CardDeck'
+import CardGroup from 'react-bootstrap/CardGroup'
 import Row from 'react-bootstrap/Row'
 import { Doughnut } from 'react-chartjs-2'
 import { BsEye } from 'react-icons/bs'
@@ -66,7 +66,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
         <LoadingSkeletonTable />
       ) : settings?.tableData?.length > 0 ? (
         <Fragment>
-          <CardDeck className="mt-3">
+          <CardGroup className="mt-3">
             <QuoteCard
               header={'Chart'}
               inputTicker={inputETFTicker}
@@ -76,12 +76,12 @@ export default function Holdings({ inputETFTicker, cellClick }) {
               <HeaderBadge
                 headerTag={'h5'}
                 title={'No. of Holdings: '}
-                badgeProps={{ variant: 'light' }}
+                badgeProps={{ bg: 'light' }}
               />
               <HeaderBadge
                 headerTag={'h5'}
                 title={settings?.noOfHoldings}
-                badgeProps={{ variant: 'dark' }}
+                badgeProps={{ bg: 'dark' }}
               />
               <Doughnut data={settings?.pieData} />
             </QuoteCard>
@@ -154,7 +154,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
                 cellClick={cellClick}
               />
             </QuoteCard>
-          </CardDeck>
+          </CardGroup>
         </Fragment>
       ) : (
         <ValidTickerAlert />

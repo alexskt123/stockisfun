@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState, useMemo } from 'react'
 
-import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -48,12 +47,14 @@ function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
 
   return (
     <Fragment>
-      <Row className="justify-content-center">
-        <HeaderBadge
-          headerTag={'h6'}
-          title={'Live Watch'}
-          badgeProps={{ variant: 'dark', style: { minWidth: '9rem' } }}
-        />
+      <Row className="justify-content-md-center">
+        <Col md="auto">
+          <HeaderBadge
+            headerTag={'h6'}
+            title={'Live Watch'}
+            badgeProps={{ bg: 'dark', style: { minWidth: '9rem' } }}
+          />
+        </Col>
       </Row>
       <CustomScrollMenu data={list} ChildComponent={Item} onSelect={onSelect} />
     </Fragment>
@@ -79,7 +80,7 @@ export const Item = ({ label }) => {
           paddingTop: '0.2rem'
         }}
       >
-        <Badge>{label}</Badge>
+        {label}
       </Button>
     </Col>
   )

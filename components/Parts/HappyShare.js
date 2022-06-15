@@ -62,15 +62,17 @@ export default function HappyShare({ inputStyle }) {
 
   return (
     <Fragment>
-      <Badge className="cursor">
+      <span className="cursor">
         <IconContext.Provider value={{ ...newStyle }}>
           <BiShareAlt onClick={() => handleClick()} />
         </IconContext.Provider>
-      </Badge>
+      </span>
       <Modal centered size="sm" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            <Badge variant="light">{'Share to your friends!'}</Badge>
+            <Badge bg="light" text="dark">
+              {'Share to your friends!'}
+            </Badge>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
