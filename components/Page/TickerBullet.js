@@ -15,13 +15,13 @@ function TickerBullet({ tickers, removeItem }) {
           .map((item, index) => (
             <Col key={`${item}${index}`} xs="auto">
               <h6>
-                <Badge pill bg="success" className="ml-1">
+                <Badge pill bg="success" className="ms-1">
                   {`${item}`}
                   <BsFillXCircleFill
                     onClick={() => {
                       removeItem(item)
                     }}
-                    className="ml-1 mb-1"
+                    className="ms-1 mb-1"
                   />
                 </Badge>
               </h6>

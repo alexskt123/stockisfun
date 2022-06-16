@@ -18,7 +18,7 @@ export default function Stat({ inputETFTicker }) {
     <Fragment>
       {inputETFTicker ? (
         <Fragment>
-          <Row className="ml-1">
+          <Row className="ms-1">
             <HeaderBadge
               headerTag={'h5'}
               title={'Forecast'}
@@ -26,7 +26,7 @@ export default function Stat({ inputETFTicker }) {
             />
           </Row>
           <ForecastInfo inputTickers={ticker} />
-          <Row className="ml-1">
+          <Row className="ms-1">
             <HeaderBadge
               headerTag={'h5'}
               title={'Price%'}

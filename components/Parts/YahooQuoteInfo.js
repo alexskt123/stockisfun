@@ -38,7 +38,7 @@ function YahooQuoteInfo({ data, displayQuoteFields }) {
 
   const getValueBadge = (variant, value) => {
     return (
-      <Badge bg={variant} text="dark" className="ml-2">
+      <Badge bg={variant} text="dark" className="ms-2">
         {value}
       </Badge>
     )

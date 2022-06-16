@@ -16,7 +16,7 @@ const CustNavDropdownItems = ({ NavDropDown }) => {
           .map((cat, catIdx) => {
             return (
               <Fragment key={`${cat}${catIdx}`}>
-                <Badge bg="dark" className="ml-1">
+                <Badge bg="dark" className="ms-1">
                   {cat}
                 </Badge>
                 <NavDropdown.Divider />

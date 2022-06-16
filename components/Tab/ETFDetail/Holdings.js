@@ -105,7 +105,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
                   size="sm"
                   disabled={!allowCheck}
                   target="_blank"
-                  className="ml-2"
+                  className="ms-2"
                   href={settings?.priceHref}
                   variant="dark"
                 >
@@ -115,7 +115,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
                   size="sm"
                   disabled={!allowCheck}
                   target="_blank"
-                  className="ml-2"
+                  className="ms-2"
                   href={settings?.forecastHref}
                   variant="outline-dark"
                 >
@@ -125,7 +125,7 @@ export default function Holdings({ inputETFTicker, cellClick }) {
                   size="sm"
                   disabled={!allowCheck}
                   target="_blank"
-                  className="ml-2"
+                  className="ms-2"
                   href={settings?.watchlistHref}
                   variant="outline-success"
                 >

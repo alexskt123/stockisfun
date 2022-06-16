@@ -106,12 +106,12 @@ export default function WatchList() {
             />
           </SearchAccordion>
           <div
-            className="ml-1 mt-3"
+            className="ms-1 mt-3"
             style={{ display: 'flex', alignItems: 'center' }}
           >
             {user && (
               <Button
-                className="ml-2"
+                className="ms-2"
                 onClick={() => {
                   setShowUpdate(true)
                 }}

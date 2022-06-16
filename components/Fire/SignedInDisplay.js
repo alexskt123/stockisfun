@@ -15,7 +15,7 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
   return (
     <Fragment>
       <div className="container" style={{ minWidth: '18rem' }}>
-        <div style={{ width: 'inherit' }} className="ml-1">
+        <div style={{ width: 'inherit' }} className="ms-1">
           <FaUserCircle />
           <Badge bg="light" text="dark">
             {user.displayName}
@@ -27,7 +27,7 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
             display: 'flex',
             alignItems: 'center'
           }}
-          className="ml-1"
+          className="ms-1"
         >
           <HiOutlineMail />
           <Badge bg="light" text="dark">{`${user.email}`}</Badge>
@@ -38,13 +38,13 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
         <Row style={{ width: 'inherit' }}>
           <Col>
             <GrUserAdmin />
-            <Badge className="ml-1" bg="light" text="dark">
+            <Badge className="ms-1" bg="light" text="dark">
               <Link href={'/admin'}>{'Settings'}</Link>
             </Badge>
           </Col>
           <Col>
             <RiProfileLine />
-            <Badge className="ml-1" bg="light" text="dark">
+            <Badge className="ms-1" bg="light" text="dark">
               <Link href={'/profile'}>{'Profile'}</Link>
             </Badge>
           </Col>
@@ -55,7 +55,7 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
         <Row>
           <Col>
             <CgViewList />
-            <Badge className="ml-1" bg="light" text="dark">
+            <Badge className="ms-1" bg="light" text="dark">
               <Link
                 href={`/watchlist?tickers=${userData?.watchList.join(',')}`}
               >
@@ -69,7 +69,7 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
       <div className="container">
         <p style={{ width: 'inherit' }}>
           <FaList />
-          <Badge className="ml-1" bg="light" text="dark">
+          <Badge className="ms-1" bg="light" text="dark">
             {'Stock List'}
           </Badge>
         </p>
@@ -77,7 +77,7 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
           {userData?.stockList.map((item, idx) => {
             return (
               <Col key={`${item}${idx}`} xs={3} sm={3} md={3} lg={4}>
-                <Badge className="ml-1" key={idx} bg="light" text="dark">
+                <Badge className="ms-1" key={idx} bg="light" text="dark">
                   <Link href={`/stockinfo?ticker=${item}&type=detail`}>
                     {item}
                   </Link>
@@ -91,7 +91,7 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
       <div className="container">
         <p style={{ width: 'inherit' }}>
           <RiFundsBoxLine />
-          <Badge className="ml-1" bg="light" text="dark">
+          <Badge className="ms-1" bg="light" text="dark">
             {'ETF List'}
           </Badge>
         </p>
@@ -99,7 +99,7 @@ const SignedInDisplay = ({ user, userData, setShowSignOut }) => {
           {userData?.etfList.map((item, idx) => {
             return (
               <Col key={`${item}${idx}`} xs={3} sm={3} md={3} lg={4}>
-                <Badge className="ml-1" key={idx} bg="light" text="dark">
+                <Badge className="ms-1" key={idx} bg="light" text="dark">
                   <Link href={`/stockinfo?ticker=${item}&type=detail`}>
                     {item}
                   </Link>

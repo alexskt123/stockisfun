@@ -46,7 +46,7 @@ function TickerInput({
           <Fragment>
             <div
               style={{ display: 'inline-flex', alignItems: 'baseline' }}
-              className="ml-1"
+              className="ms-1"
             >
               <FormOptions
                 formOptionSettings={priceChangeDateRangeSelectAttr}

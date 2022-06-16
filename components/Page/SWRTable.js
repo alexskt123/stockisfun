@@ -141,7 +141,7 @@ export default function SWRTable({ requests, options }) {
           />
           <h5>
             <Button
-              className="ml-1"
+              className="ms-1"
               size="sm"
               variant="warning"
               style={{ display: 'flex', alignItems: 'center' }}

@@ -16,10 +16,10 @@ export default function FormulaCard({ content }) {
           </div>
         </Card.Header>
         <Card.Body style={{ padding: '0.2rem' }}>
-          <div className="ml-3">{<MathComponent tex={content.formula} />}</div>
+          <div className="ms-3">{<MathComponent tex={content.formula} />}</div>
           {content.remarks.map((item, idx) => {
             return (
-              <div className="ml-3 mt-1" key={idx}>
+              <div className="ms-3 mt-1" key={idx}>
                 <Badge bg="light" text="dark">
                   {item}
                 </Badge>

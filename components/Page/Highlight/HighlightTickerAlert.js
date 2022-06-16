@@ -48,13 +48,13 @@ const HighlightTickerAlert = ({ valid }) => {
           }}
         >
           <strong>{'Current Search:'}</strong>
-          <Badge className="ml-2" bg="info">
+          <Badge className="ms-2" bg="info">
             {ticker}
           </Badge>
           <IconContext.Provider value={{ color: 'red' }}>
             <MdCancel
               onClick={() => cancelCurrentSearch()}
-              className="ml-1 cursor"
+              className="ms-1 cursor"
             />
           </IconContext.Provider>
           {valid && <HappyShare />}

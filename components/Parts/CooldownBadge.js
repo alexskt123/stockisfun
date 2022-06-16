@@ -4,7 +4,7 @@ import { convertToPrice } from '@/lib/commonFunction'
 
 const CooldownBadge = ({ total }) => {
   return (
-    <Badge className="ml-1" bg="secondary">
+    <Badge className="ms-1" bg="secondary">
       {`Wait ${convertToPrice(total / 1000)} second(s)`}
     </Badge>
   )

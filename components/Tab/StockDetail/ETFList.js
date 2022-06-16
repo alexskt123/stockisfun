@@ -50,7 +50,7 @@ function ETFList({ inputTicker }) {
     <LoadingSkeletonTable />
   ) : data?.result ? (
     <Fragment>
-      <Row className="ml-1 mt-3">
+      <Row className="ms-1 mt-3">
         <Col xs="auto">
           <HeaderBadge
             headerTag={'h5'}

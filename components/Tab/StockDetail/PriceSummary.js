@@ -40,7 +40,7 @@ const PriceSummary = ({ inputTicker }) => {
         return (
           <Row
             key={idx}
-            className="ml-1 mt-1"
+            className="ms-1 mt-1"
             style={{ display: 'flex', alignItems: 'end' }}
           >
             {row.map((item, idx) => {

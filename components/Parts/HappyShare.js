@@ -95,7 +95,7 @@ export default function HappyShare({ inputStyle }) {
 function withShareButton(ButtonComponent, IconComponent) {
   return function ShareButtonComponent({ url, ...props }) {
     return (
-      <ButtonComponent className="ml-1" url={url}>
+      <ButtonComponent className="ms-1" url={url}>
         <IconComponent {...props} />
       </ButtonComponent>
     )

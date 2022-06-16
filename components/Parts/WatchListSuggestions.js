@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState, useMemo } from 'react'
 
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
+import Stack from 'react-bootstrap/Stack'
 
 import CustomScrollMenu from './CustomScrollMenu'
 import HeaderBadge from './HeaderBadge'
@@ -47,15 +47,17 @@ function WatchListSuggestions({ user, userData, onClickWatchListButton }) {
 
   return (
     <Fragment>
-      <Row className="justify-content-md-center">
-        <Col md="auto">
-          <HeaderBadge
-            headerTag={'h6'}
-            title={'Live Watch'}
-            badgeProps={{ bg: 'dark', style: { minWidth: '9rem' } }}
-          />
-        </Col>
-      </Row>
+      <Stack
+        direction="horizontal"
+        className="mt-1 justify-content-center"
+        gap={1}
+      >
+        <HeaderBadge
+          headerTag={'h6'}
+          title={'Live Watch'}
+          badgeProps={{ bg: 'dark', style: { minWidth: '9rem' } }}
+        />
+      </Stack>
       <CustomScrollMenu data={list} ChildComponent={Item} onSelect={onSelect} />
     </Fragment>
   )
@@ -69,7 +71,7 @@ export const Item = ({ label }) => {
   }, [])
 
   return (
-    <Col>
+    <Col className="ms-2">
       <Button
         size="sm"
         className="w-100 my-2"

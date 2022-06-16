@@ -43,7 +43,7 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
                 className: 'global-class-name'
               }}
             >
-              <ArrowCircle className="ml-1" />
+              <ArrowCircle className="ms-1" />
             </IconContext.Provider>
           </b>
         </div>
@@ -71,7 +71,7 @@ export default function TickerCard({ Name, Price, Percentage, Change }) {
           <Col>
             <Badge
               bg={getVariant(Percentage, 'success', 'secondary', 'danger')}
-              className="ml-1"
+              className="ms-1"
             >
               <AnimatedNumber
                 value={Percentage}
