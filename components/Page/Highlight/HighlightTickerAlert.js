@@ -44,7 +44,8 @@ const HighlightTickerAlert = ({ valid }) => {
             backgroundColor: '#f5f5f5',
             padding: '.3rem .3rem',
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginTop: '10px'
           }}
         >
           <strong>{'Current Search:'}</strong>

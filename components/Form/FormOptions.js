@@ -16,7 +16,7 @@ const FormOptions = ({ formOptionSettings, value, handleChange, label }) => {
           />
         </Form.Label>
       )}
-      <Form.Control
+      <Form.Select
         {...formOptionSettings.formControl}
         value={value}
         custom
@@ -29,7 +29,7 @@ const FormOptions = ({ formOptionSettings, value, handleChange, label }) => {
             </option>
           )
         })}
-      </Form.Control>
+      </Form.Select>
     </Fragment>
   )
 }
