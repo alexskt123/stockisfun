@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import Row from 'react-bootstrap/Row'
+import Stack from 'react-bootstrap/Stack'
 
 import TickerScrollMenu from './TickerScrollMenu'
 import HeaderBadge from '@/components/Parts/HeaderBadge'
@@ -11,13 +11,17 @@ const TickerScrollMenuList = ({ tickerList }) => {
       {tickerList.map((item, idx) => {
         return (
           <Fragment key={idx}>
-            <Row className="justify-content-center">
+            <Stack
+              direction="horizontal"
+              className="mt-1 justify-content-center"
+              gap={1}
+            >
               <HeaderBadge
                 headerTag={'h6'}
                 title={item.name}
-                badgeProps={{ variant: 'dark', style: { minWidth: '9rem' } }}
+                badgeProps={{ bg: 'dark', style: { minWidth: '9rem' } }}
               />
-            </Row>
+            </Stack>
             <TickerScrollMenu
               inputList={item.inputList}
               setSelectedTicker={item.selectScrollMenuItem}

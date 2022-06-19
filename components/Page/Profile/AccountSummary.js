@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import CardDeck from 'react-bootstrap/CardDeck'
+import CardGroup from 'react-bootstrap/CardGroup'
 
 import ProfilePieChart from '@/components/Parts/ProfilePieChart'
 import { pieOptions } from '@/config/profile'
@@ -70,7 +70,7 @@ const AccountSummary = ({ boughtListData }) => {
 
   return (
     <Fragment>
-      <CardDeck>
+      <CardGroup>
         <ProfilePieChart
           header={'Individual Stock'}
           inputList={stockPie}
@@ -92,7 +92,7 @@ const AccountSummary = ({ boughtListData }) => {
           data={'sum'}
           pieOptions={pieOptions}
         />
-      </CardDeck>
+      </CardGroup>
     </Fragment>
   )
 }

@@ -129,7 +129,7 @@ export default function EmailSubscriptionCard({
               <HeaderBadge
                 headerTag={'h5'}
                 title={inputData.name}
-                badgeProps={{ variant: 'secondary' }}
+                badgeProps={{ bg: 'secondary' }}
               />
             </div>
           </Card.Header>
@@ -141,7 +141,7 @@ export default function EmailSubscriptionCard({
                 return (
                   <Fragment key={idx}>
                     <Form.Label>
-                      <Badge variant="dark">{curInput.label}</Badge>
+                      <Badge bg="dark">{curInput.label}</Badge>
                     </Form.Label>
                     <Form.Control
                       className="w-100"
@@ -155,7 +155,7 @@ export default function EmailSubscriptionCard({
             </Form.Group>
             <Badge
               className="cursor"
-              variant={(inputData?.subscribe && 'danger') || 'success'}
+              bg={(inputData?.subscribe && 'danger') || 'success'}
               onClick={() => onSubscribe()}
             >
               {(inputData?.subscribe && 'UnSubscribe') || 'Subscribe'}
@@ -176,11 +176,7 @@ export default function EmailSubscriptionCard({
 
 const RefreshBadge = ({ handleClick }) => {
   return (
-    <Badge
-      className="cursor mx-2"
-      variant={'warning'}
-      onClick={() => handleClick()}
-    >
+    <Badge className="cursor mx-2" bg={'warning'} onClick={() => handleClick()}>
       {'Test'}
     </Badge>
   )

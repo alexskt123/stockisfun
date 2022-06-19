@@ -136,7 +136,7 @@ function PriceInfo({
           )}
           <div
             style={{ display: 'inline-flex', alignItems: 'baseline' }}
-            className="ml-1"
+            className="ms-1"
           >
             <FormOptions
               formOptionSettings={dateRangeSelectAttr}
@@ -152,10 +152,10 @@ function PriceInfo({
           </div>
           <div
             style={{ display: 'inline-flex', alignItems: 'baseline' }}
-            className="ml-1"
+            className="ms-1"
           >
             <Badge
-              variant={showRS ? 'danger' : 'success'}
+              bg={showRS ? 'danger' : 'success'}
               className={'cursor mr-2'}
               onClick={() => setShowRS(!showRS)}
             >

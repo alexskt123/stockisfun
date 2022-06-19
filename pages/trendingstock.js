@@ -14,7 +14,7 @@ export default function TrendingStock({ trendTickers }) {
           <HeaderBadge
             headerTag={'h5'}
             title={'Top 20 Trending Stocks'}
-            badgeProps={{ variant: 'light' }}
+            badgeProps={{ bg: 'light', text: 'dark' }}
           />
           <CompareSWR
             inputTickers={trendTickers}

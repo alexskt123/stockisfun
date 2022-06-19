@@ -18,19 +18,19 @@ export default function Stat({ inputETFTicker }) {
     <Fragment>
       {inputETFTicker ? (
         <Fragment>
-          <Row className="ml-1">
+          <Row className="ms-1">
             <HeaderBadge
               headerTag={'h5'}
               title={'Forecast'}
-              badgeProps={{ variant: 'dark' }}
+              badgeProps={{ bg: 'dark' }}
             />
           </Row>
           <ForecastInfo inputTickers={ticker} />
-          <Row className="ml-1">
+          <Row className="ms-1">
             <HeaderBadge
               headerTag={'h5'}
               title={'Price%'}
-              badgeProps={{ variant: 'dark' }}
+              badgeProps={{ bg: 'dark' }}
             />
           </Row>
           <PriceChange inputTickers={ticker} />

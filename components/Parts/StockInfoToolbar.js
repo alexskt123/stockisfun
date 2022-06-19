@@ -13,7 +13,7 @@ function StockInfoToolbar({ tools, inputTicker }) {
             style={{ color: 'black' }}
             target="_blank"
             href={href}
-            className="ml-1"
+            className="ms-1"
             key={idx}
             rel="noreferrer"
           >

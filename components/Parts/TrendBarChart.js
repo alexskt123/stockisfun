@@ -25,7 +25,7 @@ const TrendBarChart = ({ input }) => {
         <Form.Group>
           <div
             style={{ display: 'inline-flex', alignItems: 'baseline' }}
-            className="ml-1 mt-2"
+            className="ms-1 mt-2"
           >
             <FormOptions
               formOptionSettings={trendChangeDateRangeSelectAttr}

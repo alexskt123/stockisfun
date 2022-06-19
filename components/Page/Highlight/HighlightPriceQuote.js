@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import CardDeck from 'react-bootstrap/CardDeck'
+import CardGroup from 'react-bootstrap/CardGroup'
 
 import { highlightHeaders } from '@/config/highlight'
 
@@ -8,7 +8,7 @@ const HighlightPriceQuote = ({ ticker, data }) => {
   return (
     <Fragment>
       {data?.valid && (
-        <CardDeck>
+        <CardGroup>
           {highlightHeaders?.map((header, idx) => (
             <Fragment key={idx}>
               <header.component
@@ -19,7 +19,7 @@ const HighlightPriceQuote = ({ ticker, data }) => {
               ></header.component>
             </Fragment>
           ))}
-        </CardDeck>
+        </CardGroup>
       )}
     </Fragment>
   )

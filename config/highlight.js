@@ -178,13 +178,13 @@ export const searchBadges = [
   {
     type: 'quote',
     query: { type: 'quote' },
-    variant: ['danger', 'warning'],
+    bg: ['danger', 'warning'],
     label: ['Hide Price/Quote', 'Price/Quote']
   },
   {
     type: 'detail',
     query: { type: 'detail' },
-    variant: ['danger', 'success'],
+    bg: ['danger', 'success'],
     label: ['Hide Details', 'Details']
   }
 ]

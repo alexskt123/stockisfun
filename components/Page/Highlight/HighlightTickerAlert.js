@@ -44,17 +44,18 @@ const HighlightTickerAlert = ({ valid }) => {
             backgroundColor: '#f5f5f5',
             padding: '.3rem .3rem',
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginTop: '10px'
           }}
         >
           <strong>{'Current Search:'}</strong>
-          <Badge className="ml-2" variant="info">
+          <Badge className="ms-2" bg="info">
             {ticker}
           </Badge>
           <IconContext.Provider value={{ color: 'red' }}>
             <MdCancel
               onClick={() => cancelCurrentSearch()}
-              className="ml-1 cursor"
+              className="ms-1 cursor"
             />
           </IconContext.Provider>
           {valid && <HappyShare />}

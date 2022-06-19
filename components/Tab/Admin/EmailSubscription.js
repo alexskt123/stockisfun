@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import CardDeck from 'react-bootstrap/CardDeck'
+import CardGroup from 'react-bootstrap/CardGroup'
 
 import EmailSubscriptionCard from '@/components/Parts/EmailSubscriptionCard'
 import { emailConfig } from '@/config/admin'
@@ -8,7 +8,7 @@ import { emailConfig } from '@/config/admin'
 export const EmailSubscription = ({ user, userData }) => {
   return (
     <Fragment>
-      <CardDeck>
+      <CardGroup>
         {emailConfig.map((item, idx) => {
           return (
             <EmailSubscriptionCard
@@ -19,7 +19,7 @@ export const EmailSubscription = ({ user, userData }) => {
             />
           )
         })}
-      </CardDeck>
+      </CardGroup>
     </Fragment>
   )
 }

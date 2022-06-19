@@ -7,7 +7,7 @@ const SignedOutDisplay = ({ handleShow }) => {
   return (
     <Fragment>
       <Dropdown.Item onClick={handleShow}>
-        <Badge variant="success">{'Sign In'}</Badge>
+        <Badge bg="success">{'Sign In'}</Badge>
       </Dropdown.Item>
     </Fragment>
   )
