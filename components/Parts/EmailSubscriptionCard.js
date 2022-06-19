@@ -155,7 +155,7 @@ export default function EmailSubscriptionCard({
             </Form.Group>
             <Badge
               className="cursor"
-              variant={(inputData?.subscribe && 'danger') || 'success'}
+              bg={(inputData?.subscribe && 'danger') || 'success'}
               onClick={() => onSubscribe()}
             >
               {(inputData?.subscribe && 'UnSubscribe') || 'Subscribe'}
@@ -176,11 +176,7 @@ export default function EmailSubscriptionCard({
 
 const RefreshBadge = ({ handleClick }) => {
   return (
-    <Badge
-      className="cursor mx-2"
-      variant={'warning'}
-      onClick={() => handleClick()}
-    >
+    <Badge className="cursor mx-2" bg={'warning'} onClick={() => handleClick()}>
       {'Test'}
     </Badge>
   )
