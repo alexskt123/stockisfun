@@ -24,7 +24,7 @@ const AppContent = () => {
                     display: 'flex',
                     alignItems: 'center'
                   }}
-                  variant="dark"
+                  bg="dark"
                 >
                   {item.icon}
                   {`${item.label}`}
