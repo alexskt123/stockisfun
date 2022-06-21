@@ -41,7 +41,7 @@ const EarningsModal = ({ ticker, resetTicker }) => {
       <Modal size="xl" centered show={show} onHide={handleClose}>
         <Modal.Header closeButton style={{ backgroundColor }}>
           <Modal.Title>
-            <Badge variant="dark">{`Earnings History - ${ticker}`}</Badge>
+            <Badge bg="dark">{`Earnings History - ${ticker}`}</Badge>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ backgroundColor }}>

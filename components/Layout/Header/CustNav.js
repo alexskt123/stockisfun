@@ -6,7 +6,7 @@ import { NavDropDown, NavItems } from '@/config/settings'
 
 const CustNav = () => {
   return (
-    <Nav className="mr-auto">
+    <Nav className="me-auto">
       <CustNavDropdownItems NavDropDown={NavDropDown} />
       <CustNavItems NavItems={NavItems} />
     </Nav>

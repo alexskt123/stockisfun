@@ -29,7 +29,7 @@ function Header() {
         <Link href={'/highlight'} passHref>
           <Navbar.Brand style={{ display: 'flex', alignItems: 'center' }}>
             <Image alt="Logo" {...iconConfig} />
-            <Badge variant="dark">{'Stock is Fun'}</Badge>
+            <Badge bg="dark">{'Stock is Fun'}</Badge>
           </Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

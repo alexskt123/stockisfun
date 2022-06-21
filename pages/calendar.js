@@ -16,6 +16,7 @@ import { useUserCalendarEvents } from '@/lib/hooks/calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 const localizer = momentLocalizer(moment)
+LoadingOverlay.propTypes = undefined
 
 export default function BigCalendar() {
   const [ticker, setTicker] = useState(null)
@@ -47,7 +48,7 @@ export default function BigCalendar() {
               {user && userData && (
                 <div
                   style={{ display: 'inline-flex', alignItems: 'baseline' }}
-                  className="ml-1"
+                  className="ms-1"
                 >
                   <FormOptions
                     formOptionSettings={userListSelectAttr}

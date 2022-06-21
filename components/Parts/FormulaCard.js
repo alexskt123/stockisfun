@@ -3,7 +3,6 @@ import { Fragment } from 'react'
 import { MathComponent } from 'mathjax-react'
 import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'
-import Row from 'react-bootstrap/Row'
 
 export default function FormulaCard({ content }) {
   return (
@@ -17,12 +16,14 @@ export default function FormulaCard({ content }) {
           </div>
         </Card.Header>
         <Card.Body style={{ padding: '0.2rem' }}>
-          <Row className="ml-3">{<MathComponent tex={content.formula} />}</Row>
+          <div className="ms-3">{<MathComponent tex={content.formula} />}</div>
           {content.remarks.map((item, idx) => {
             return (
-              <Row className="ml-3 mt-1" key={idx}>
-                <Badge variant="light">{item}</Badge>
-              </Row>
+              <div className="ms-3 mt-1" key={idx}>
+                <Badge bg="light" text="dark">
+                  {item}
+                </Badge>
+              </div>
             )
           })}
         </Card.Body>

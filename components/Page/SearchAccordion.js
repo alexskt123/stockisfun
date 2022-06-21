@@ -31,9 +31,7 @@ export default function SearchAccordion({ children, inputTicker }) {
         <AccordionItem uuid={'StockDetail'} dangerouslySetExpanded={expanded}>
           <AccordionItemHeading>
             <AccordionItemButton>
-              <Badge variant="dark">
-                {inputTicker || 'Click here to Search!'}
-              </Badge>
+              <Badge bg="dark">{inputTicker || 'Click here to Search!'}</Badge>
             </AccordionItemButton>
           </AccordionItemHeading>
           <AccordionItemPanel>

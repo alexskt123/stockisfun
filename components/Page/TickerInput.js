@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import Stack from 'react-bootstrap/Stack'
 
 import FormOptions from '@/components/Form/FormOptions'
 import {
@@ -46,7 +47,7 @@ function TickerInput({
           <Fragment>
             <div
               style={{ display: 'inline-flex', alignItems: 'baseline' }}
-              className="ml-1"
+              className="ms-1"
             >
               <FormOptions
                 formOptionSettings={priceChangeDateRangeSelectAttr}
@@ -57,7 +58,7 @@ function TickerInput({
             </div>
           </Fragment>
         )}
-        <div>
+        <Stack direction="horizontal" gap={2}>
           <Button {...buttonSettings.Go.attr} disabled={clicked}>
             {buttonSettings.Go.label}
           </Button>
@@ -93,7 +94,7 @@ function TickerInput({
               }}
             />
           )}
-        </div>
+        </Stack>
       </Form>
     </Fragment>
   )

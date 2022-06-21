@@ -66,7 +66,7 @@ export default function QuoteCard({
                   <HeaderBadge
                     headerTag={'h5'}
                     title={header}
-                    badgeProps={{ variant: 'secondary' }}
+                    badgeProps={{ bg: 'secondary' }}
                   />
                 )}
                 {!noClose && (

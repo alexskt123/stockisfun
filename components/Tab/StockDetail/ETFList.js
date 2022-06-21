@@ -1,5 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 
+import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 import LoadingSkeletonTable from '@/components/Loading/LoadingSkeletonTable'
@@ -49,17 +50,21 @@ function ETFList({ inputTicker }) {
     <LoadingSkeletonTable />
   ) : data?.result ? (
     <Fragment>
-      <Row className="ml-1 mt-3">
-        <HeaderBadge
-          headerTag={'h5'}
-          title={'No. of ETF Count: '}
-          badgeProps={{ variant: 'dark' }}
-        />
-        <HeaderBadge
-          headerTag={'h5'}
-          title={settings.etfCount}
-          badgeProps={{ variant: 'light', className: 'ml-2' }}
-        />
+      <Row className="ms-1 mt-3">
+        <Col xs="auto">
+          <HeaderBadge
+            headerTag={'h5'}
+            title={'No. of ETF Count: '}
+            badgeProps={{ bg: 'dark' }}
+          />
+        </Col>
+        <Col xs="auto">
+          <HeaderBadge
+            headerTag={'h5'}
+            title={settings.etfCount}
+            badgeProps={{ bg: 'light', text: 'dark', className: 'ml-2' }}
+          />
+        </Col>
       </Row>
       <StockInfoTable
         tableSize="sm"

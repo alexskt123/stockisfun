@@ -44,7 +44,7 @@ export const General = ({ userData }) => {
               <HeaderBadge
                 headerTag={'h5'}
                 title={item.badge.title}
-                badgeProps={{ variant: 'dark' }}
+                badgeProps={{ bg: 'dark' }}
               />
             </Form.Label>
             <Form.Control
