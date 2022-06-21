@@ -1,7 +1,13 @@
 import Price from './Price'
 import QuoteCard from './QuoteCard'
 
-const BirdMouthItem = ({ birdMouthOptions, priceInfo, item, tools }) => {
+const BirdMouthItem = ({
+  birdMouthOptions,
+  priceInfo,
+  item,
+  tools,
+  rsTicker
+}) => {
   return (
     <QuoteCard
       tools={tools}
@@ -19,6 +25,7 @@ const BirdMouthItem = ({ birdMouthOptions, priceInfo, item, tools }) => {
         options={birdMouthOptions}
         displayQuoteFields={priceInfo}
         inputShowRS={true}
+        rsTicker={rsTicker}
       />
     </QuoteCard>
   )

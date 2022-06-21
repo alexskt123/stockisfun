@@ -7,7 +7,14 @@ import { rsDays } from '@/config/rs'
 import { calRelativeStrength } from '@/lib/commonFunction'
 import { useStaticSWR } from '@/lib/request'
 
-function RelativeStrength({ ticker, datePrice, inputDays }) {
+function RelativeStrength({
+  ticker,
+  rsTicker: inputRSTicker,
+  datePrice,
+  inputDays
+}) {
+  const rsTicker = inputRSTicker || 'SPY'
+
   const [chartData, setChartData] = useState({ datasets: [] })
 
   const calRS = (inputDays, tickerData, spxData) => {
@@ -42,8 +49,8 @@ function RelativeStrength({ ticker, datePrice, inputDays }) {
   }
 
   const spxPrice = useStaticSWR(
-    'SPY',
-    `/api/yahoo/getHistoryPrice?ticker=SPY&days=${
+    rsTicker,
+    `/api/yahoo/getHistoryPrice?ticker=${rsTicker}&days=${
       parseInt(inputDays) + rsDays
     }&isBus=true`
   )

@@ -34,6 +34,16 @@ export const NavDropDown = [
     category: 'All'
   },
   {
+    href: '/compare/birdmouth?rsTicker=2800.HK',
+    label: 'BirdMouth (HSI)',
+    category: 'All'
+  },
+  {
+    href: '/compare/birdmouth?rsTicker=000001.SS',
+    label: 'BirdMouth (SSE)',
+    category: 'All'
+  },
+  {
     href: '/compare/tradingview',
     label: 'TradingView',
     category: 'All'
