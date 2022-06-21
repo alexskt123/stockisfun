@@ -65,7 +65,16 @@ export const TickerSession = ({ type, params, curType }) => {
   }
 
   const clearItems = () => {
-    router.push(`/compare/${type}`)
+    const addParams = Object.keys(router.query)
+      .filter(x => x !== 'tickers' && x !== 'type')
+      .reduce((acc, cur, idx) => {
+        return `${acc}${
+          idx === 0
+            ? `?${cur}=${router.query[cur]}`
+            : `&${cur}=${router.query[cur]}`
+        }`
+      }, '')
+    router.push(`/compare/${type}${addParams}`)
   }
 
   const removeItem = value => {
